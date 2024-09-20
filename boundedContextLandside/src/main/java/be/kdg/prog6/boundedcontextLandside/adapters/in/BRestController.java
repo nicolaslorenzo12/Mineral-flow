@@ -1,4 +1,4 @@
-package be.kdg.prog6.boundedcontextB.adapters.in;
+package be.kdg.prog6.boundedcontextLandside.adapters.in;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
