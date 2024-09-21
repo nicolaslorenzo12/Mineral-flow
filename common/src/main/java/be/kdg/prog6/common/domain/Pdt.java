@@ -5,7 +5,7 @@ import java.util.UUID;
 
 public class Pdt {
 
-    private LocalDateTime dateOfLoad;
+    private LocalDateTime timeOfLoad;
     private int wareHouseNumber;
     private int dockNumber;
     private final Uom uom = Uom.T;

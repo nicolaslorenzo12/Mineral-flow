@@ -12,6 +12,7 @@ public class ShippingOrder {
     private LocalDateTime actualDepartureTime;
     private LocalDateTime inspectionTime;
     private boolean signedByInspector;
+    private ShipStatus shipStatus;
     private ShippingOrderUUID shippingOrderUUID;
 
     public record ShippingOrderUUID(UUID uuid){
