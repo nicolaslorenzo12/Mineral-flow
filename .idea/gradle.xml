@@ -13,7 +13,6 @@
             <option value="$PROJECT_DIR$/application" />
             <option value="$PROJECT_DIR$/boundedContextInvoice" />
             <option value="$PROJECT_DIR$/boundedContextLandside" />
-            <option value="$PROJECT_DIR$/boundedContextLandside/boundedContextWaterside" />
             <option value="$PROJECT_DIR$/boundedContextWarehouse" />
             <option value="$PROJECT_DIR$/boundedContextWaterside" />
             <option value="$PROJECT_DIR$/buildSrc" />

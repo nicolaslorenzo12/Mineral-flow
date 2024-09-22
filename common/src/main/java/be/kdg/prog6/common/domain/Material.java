@@ -13,4 +13,31 @@ public class Material {
 
     }
 
+    public Material(MaterialType materialType, String description, int storagePricePerTonPerDay, int pricePerTon, MaterialUUID materialUUID) {
+        this.materialType = materialType;
+        this.description = description;
+        this.storagePricePerTonPerDay = storagePricePerTonPerDay;
+        this.pricePerTon = pricePerTon;
+        this.materialUUID = materialUUID;
+    }
+
+    public MaterialType getMaterialType() {
+        return materialType;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public int getStoragePricePerTonPerDay() {
+        return storagePricePerTonPerDay;
+    }
+
+    public int getPricePerTon() {
+        return pricePerTon;
+    }
+
+    public MaterialUUID getMaterialUUID() {
+        return materialUUID;
+    }
 }

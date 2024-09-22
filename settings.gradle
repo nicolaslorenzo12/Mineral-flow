@@ -4,8 +4,6 @@ include 'application'
 include 'common'
 include 'boundedContextWarehouse'
 include 'boundedContextLandside'
-include 'boundedContextLandside:boundedContextWaterside'
-findProject(':boundedContextLandside:boundedContextWaterside')?.name = 'boundedContextWaterside'
 include 'boundedContextWaterside'
 include 'boundedContextInvoice'
 
