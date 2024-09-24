@@ -19,8 +19,8 @@ public class WarehouseController {
     }
 
     @PostMapping("/amount/{amount}/material/{uuid}/warehouseNumber/{warehouseNumber}")
-    public void addMaterial(@PathVariable int amount, @PathVariable Material.MaterialUUID materialUUID, @PathVariable int warehouseNumber){
+    public void addMaterial(@PathVariable int amount, @PathVariable UUID uuid, @PathVariable int warehouseNumber){
 
-        addMaterialUseCase.addMaterial(new AddMaterialCommand(amount, materialUUID, warehouseNumber));
+        addMaterialUseCase.addMaterial(new AddMaterialCommand(amount, new Material.MaterialUUID(uuid), warehouseNumber));
     }
 }
