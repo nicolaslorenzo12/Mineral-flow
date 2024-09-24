@@ -14,14 +14,14 @@ public class PurchaseOrder {
     private Buyer.CustomerUUID buyerUuid;
     private String vesselNumber;
     private PurchaseOrderUUID purchaseOrderUUID;
-    List<OrderLine.OrderLineUUID> orderLineUUIDS;
+    List<OrderLine> orderLineUUIDS;
 
     public record PurchaseOrderUUID(UUID uuid){
 
     }
 
     public PurchaseOrder(LocalDateTime date, Seller.CustomerUUID sellerUuid, Buyer.CustomerUUID buyerUuid, String vesselNumber,
-                         PurchaseOrderUUID purchaseOrderUUID, List<OrderLine.OrderLineUUID> orderLineUUIDS) {
+                         PurchaseOrderUUID purchaseOrderUUID, List<OrderLine> orderLineUUIDS) {
         this.date = date;
         this.sellerUuid = sellerUuid;
         this.buyerUuid = buyerUuid;
@@ -50,7 +50,7 @@ public class PurchaseOrder {
         return purchaseOrderUUID;
     }
 
-    public List<OrderLine.OrderLineUUID> getOrderLineUUIDS() {
+    public List<OrderLine> getOrderLineUUIDS() {
         return orderLineUUIDS;
     }
 }

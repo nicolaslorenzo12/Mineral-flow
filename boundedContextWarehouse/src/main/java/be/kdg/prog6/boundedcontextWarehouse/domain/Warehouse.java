@@ -4,43 +4,33 @@ import be.kdg.prog6.common.domain.Material;
 import be.kdg.prog6.common.domain.Seller;
 import be.kdg.prog6.common.domain.Uom;
 
+import java.util.UUID;
+
 public class Warehouse {
 
+    private int wareHouseNumber;
     private Seller.CustomerUUID sellerUUID;
     private Material.MaterialUUID materialUUID;
-    private int usedCapacity;
     private final Uom uom = Uom.T;
-    private final int maxCapacity = 500000;
-    private int wareHouseId;
+    private WarehouseActivityWindow warehouseActivityWindow;
 
-    public Warehouse(Seller.CustomerUUID sellerUUID, Material.MaterialUUID materialUUID, int usedCapacity, int wareHouseId) {
+    public Warehouse(int wareHouseNumber, Seller.CustomerUUID sellerUUID, Material.MaterialUUID materialUUID, WarehouseActivityWindow warehouseWindow) {
+        this.wareHouseNumber = wareHouseNumber;
         this.sellerUUID = sellerUUID;
         this.materialUUID = materialUUID;
-        this.usedCapacity = usedCapacity;
-        this.wareHouseId = wareHouseId;
+        this.warehouseActivityWindow = warehouseWindow;
+    }
+//    public WarehouseActivity receiveMaterial(int amountOfTons, UUID sellerUUID, int warehouseNumber, WarehouseAction warehouseAction,
+//                                             UUID materialUUId){
+//        warehouseActivityWindow.addWarehouseActivity(w);
+//        return warehouseActivity;
+//    }
+
+    public int getWareHouseNumber() {
+        return wareHouseNumber;
     }
 
-    public Seller.CustomerUUID getSellerUUID() {
-        return sellerUUID;
-    }
-
-    public Material.MaterialUUID getMaterialUUID() {
-        return materialUUID;
-    }
-
-    public int getUsedCapacity() {
-        return usedCapacity;
-    }
-
-    public Uom getUom() {
-        return uom;
-    }
-
-    public int getMaxCapacity() {
-        return maxCapacity;
-    }
-
-    public int getWareHouseId() {
-        return wareHouseId;
+    public WarehouseActivity addWarehouseActivity(int amountOfTons, int warehouseNumber, Material.MaterialUUID materialUUID){
+        return warehouseActivityWindow.addWarehouseActivity(amountOfTons, warehouseNumber, materialUUID);
     }
 }

@@ -13,7 +13,7 @@ public class ShippingOrder {
     private LocalDateTime actualArrivalTime;
     private LocalDateTime actualDepartureTime;
     private ShipStatus shipStatus;
-    List<OrderLine.OrderLineUUID> shipmentLineUUIDS;
+    List<OrderLine> shipmentLines;
     private ShippingOrderUUID shippingOrderUUID;
 
     public record ShippingOrderUUID(UUID uuid){
@@ -21,13 +21,13 @@ public class ShippingOrder {
     }
 
     public ShippingOrder(PurchaseOrder.PurchaseOrderUUID purchaseOrderUUID, String vesselNumber, LocalDateTime estimatedArrivalTime,
-                         LocalDateTime estimatedDepartureTime, ShipStatus shipStatus, List<OrderLine.OrderLineUUID> shipmentLineUUIDS, ShippingOrderUUID shippingOrderUUID) {
+                         LocalDateTime estimatedDepartureTime, ShipStatus shipStatus, List<OrderLine> shipmentLines, ShippingOrderUUID shippingOrderUUID) {
         this.purchaseOrderUUID = purchaseOrderUUID;
         this.vesselNumber = vesselNumber;
         this.estimatedArrivalTime = estimatedArrivalTime;
         this.estimatedDepartureTime = estimatedDepartureTime;
         this.shipStatus = shipStatus;
-        this.shipmentLineUUIDS = shipmentLineUUIDS;
+        this.shipmentLines = shipmentLines;
         this.shippingOrderUUID = shippingOrderUUID;
     }
 
@@ -59,8 +59,8 @@ public class ShippingOrder {
         return shipStatus;
     }
 
-    public List<OrderLine.OrderLineUUID> getShipmentLineUUIDS() {
-        return shipmentLineUUIDS;
+    public List<OrderLine> getShipmentLineUUIDS() {
+        return shipmentLines;
     }
 
     public ShippingOrderUUID getShippingOrderUUID() {

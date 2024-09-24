@@ -9,4 +9,7 @@ dependencies {
     implementation project(':boundedContextLandside')
     implementation project(':boundedContextWaterside')
     implementation project(':boundedContextInvoice')
+    implementation 'org.projectlombok:lombok:1.18.22'
+    implementation 'org.projectlombok:lombok:1.18.22'
+    implementation 'mysql:mysql-connector-java:8.0.33'
 }
