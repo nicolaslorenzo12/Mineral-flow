@@ -27,7 +27,7 @@ public class DefaultAddMaterialUseCase implements AddMaterialUseCase {
 
          WarehouseActivity warehouseActivity= warehouse.addWarehouseActivity(addMaterialCommand.amount(), addMaterialCommand.warehouseNumber(), addMaterialCommand.materialUUID());
 
-         System.out.println("This amount of tons were added" + warehouseActivity.amountOfTons());
+         System.out.println("This amount of tons were added " + warehouseActivity.amountOfTons());
 
     }
 }

@@ -2,14 +2,13 @@ package be.kdg.prog6.boundedcontextWarehouse.adapters.out.db;
 
 import be.kdg.prog6.boundedcontextWarehouse.domain.WarehouseAction;
 import jakarta.persistence.*;
-import lombok.Getter;
 import org.hibernate.annotations.JdbcTypeCode;
 
 import java.sql.Types;
 import java.util.UUID;
 
 @Entity
-public class WarehouseJpaActivity {
+public class WarehouseJpaActivityEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @JdbcTypeCode(Types.VARCHAR)
@@ -27,6 +26,24 @@ public class WarehouseJpaActivity {
 
     @JdbcTypeCode(Types.VARCHAR)
     private UUID materialUUID;
+
+    @ManyToOne
+    @JoinColumn(name = "warehouseNumber", referencedColumnName = "warehouseNumber", insertable = false, updatable = false)
+    private WarehouseJpaEntity warehouse;
+
+
+    public WarehouseJpaActivityEntity(UUID uuid, UUID sellerUUID, int warehouseNumber, int amountOfTons, WarehouseAction warehouseAction, UUID materialUUID) {
+        this.uuid = uuid;
+        this.sellerUUID = sellerUUID;
+        this.warehouseNumber = warehouseNumber;
+        this.amountOfTons = amountOfTons;
+        this.warehouseAction = warehouseAction;
+        this.materialUUID = materialUUID;
+    }
+
+    public WarehouseJpaActivityEntity() {
+
+    }
 
     public UUID getUuid() {
         return uuid;

@@ -4,7 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface WarehouseActivityRepository extends JpaRepository<WarehouseJpaActivity, Integer> {
+public interface WarehouseActivityRepository extends JpaRepository<WarehouseJpaActivityEntity, Integer> {
 
-    List<WarehouseJpaActivity> findByWarehouseNumber(int warehouseNumber);
+    List<WarehouseJpaActivityEntity> findByWarehouseNumber(int warehouseNumber);
 }
