@@ -25,21 +25,17 @@ public class DefaultAddMaterialUseCase implements AddMaterialUseCase {
     public void addOrDispatchMaterial(AddMaterialCommand addMaterialCommand) {
 
         final int warehouseNumber = addMaterialCommand.warehouseNumber();
-        final Warehouse warehouse = loadWarehouseIfFoundOtherwiseThrowException(warehouseNumber);
+        final Warehouse warehouse = loadWarehousePort.loadWarehouseByWarehouseNumber(warehouseNumber)
+                .orElseThrow(() -> new RuntimeException("Warehouse not found"));
+
         WarehouseActivity warehouseActivity = buildWarehouseActivityAndAddActivityToWarehouse(warehouse, addMaterialCommand);
         updateWarehousePort.warehouseActivityCreated(warehouse, warehouseActivity);
         warehouse.calculateCurrentStock();
     }
-
     private WarehouseActivity buildWarehouseActivityAndAddActivityToWarehouse(Warehouse warehouse, AddMaterialCommand addMaterialCommand){
 
         return warehouse.addWarehouseActivity(addMaterialCommand.amountOfTons(),
                 addMaterialCommand.warehouseNumber(),
                 addMaterialCommand.action());
-    }
-
-    private Warehouse loadWarehouseIfFoundOtherwiseThrowException(int warehouseNumber){
-        return loadWarehousePort.loadWarehouseByWarehouseNumber(warehouseNumber)
-                .orElseThrow(() -> new RuntimeException("Warehouse not found"));
     }
 }

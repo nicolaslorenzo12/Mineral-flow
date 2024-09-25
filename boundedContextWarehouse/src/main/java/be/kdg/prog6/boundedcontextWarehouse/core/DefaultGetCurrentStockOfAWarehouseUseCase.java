@@ -14,19 +14,13 @@ public class DefaultGetCurrentStockOfAWarehouseUseCase implements GetCurrentStoc
     public DefaultGetCurrentStockOfAWarehouseUseCase(LoadWarehousePort loadWarehousePort) {
         this.loadWarehousePort = loadWarehousePort;
     }
-
-
     @Override
     public int getCurrentStockOfAWarehouse(GetCurrentStockOfAWarehouseCommand getCurrentStockOfAWarehouseCommand) {
 
         final int warehouseNumber = getCurrentStockOfAWarehouseCommand.warehouseNumber();
-        final Warehouse warehouse = loadWarehouseIfFoundOtherwiseThrowException(warehouseNumber);
-        return warehouse.calculateCurrentStock();
-    }
-
-
-    private Warehouse loadWarehouseIfFoundOtherwiseThrowException(int warehouseNumber){
-        return loadWarehousePort.loadWarehouseByWarehouseNumber(warehouseNumber)
+        final Warehouse warehouse = loadWarehousePort.loadWarehouseByWarehouseNumber(warehouseNumber)
                 .orElseThrow(() -> new RuntimeException("Warehouse not found"));
+
+        return warehouse.calculateCurrentStock();
     }
 }
