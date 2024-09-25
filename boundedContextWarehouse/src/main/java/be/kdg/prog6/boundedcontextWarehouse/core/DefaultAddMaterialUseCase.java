@@ -22,7 +22,7 @@ public class DefaultAddMaterialUseCase implements AddMaterialUseCase {
 
     @Override
     @Transactional
-    public void addMaterial(AddMaterialCommand addMaterialCommand) {
+    public void addOrDispatchMaterial(AddMaterialCommand addMaterialCommand) {
 
         final int warehouseNumber = addMaterialCommand.warehouseNumber();
         final Warehouse warehouse = loadWarehouseIfFoundOtherwiseThrowException(warehouseNumber);
@@ -33,8 +33,6 @@ public class DefaultAddMaterialUseCase implements AddMaterialUseCase {
     private WarehouseActivity buildWarehouseActivityAndAddActivityToWarehouse(Warehouse warehouse, AddMaterialCommand addMaterialCommand){
 
         return warehouse.addWarehouseActivity(addMaterialCommand.amountOfTons(),
-                addMaterialCommand.sellerId(),
-                addMaterialCommand.materialUUID(),
                 addMaterialCommand.warehouseNumber(),
                 addMaterialCommand.action());
     }

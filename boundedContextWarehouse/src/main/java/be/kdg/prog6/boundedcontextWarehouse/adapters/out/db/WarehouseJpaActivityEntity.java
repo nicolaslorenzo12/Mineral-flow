@@ -15,9 +15,6 @@ public class WarehouseJpaActivityEntity {
     @JdbcTypeCode(Types.VARCHAR)
     private UUID uuid;
 
-    @JdbcTypeCode(Types.VARCHAR)
-    private UUID sellerUUID;
-
     private LocalDateTime time;
 
     private int warehouseNumber;
@@ -26,35 +23,27 @@ public class WarehouseJpaActivityEntity {
 
     @Enumerated(EnumType.STRING)
     private WarehouseAction warehouseAction;
-
-    @JdbcTypeCode(Types.VARCHAR)
-    private UUID materialUUID;
-
     @ManyToOne
     @JoinColumn(name = "warehouseNumber", referencedColumnName = "warehouseNumber", insertable = false, updatable = false)
     private WarehouseJpaEntity warehouseJpaEntity;
 
 
-    public WarehouseJpaActivityEntity(UUID uuid, UUID sellerUUID, int warehouseNumber, int amountOfTons,
-                                      WarehouseAction warehouseAction, UUID materialUUID, LocalDateTime time) {
+    public WarehouseJpaActivityEntity(UUID uuid, LocalDateTime time, int warehouseNumber, int amountOfTons, WarehouseAction warehouseAction) {
         this.uuid = uuid;
-        this.sellerUUID = sellerUUID;
+        this.time = time;
         this.warehouseNumber = warehouseNumber;
         this.amountOfTons = amountOfTons;
         this.warehouseAction = warehouseAction;
-        this.materialUUID = materialUUID;
-        this.time = time;
     }
 
-    public WarehouseJpaActivityEntity(UUID sellerUUID, int warehouseNumber, int amountOfTons, WarehouseAction warehouseAction, UUID materialUUID,
-                                      LocalDateTime time, WarehouseJpaEntity warehouseJpaEntity) {
-        this.sellerUUID = sellerUUID;
+    public WarehouseJpaActivityEntity(UUID uuid, LocalDateTime time, int warehouseNumber, int amountOfTons, WarehouseAction warehouseAction,
+                                      WarehouseJpaEntity warehouseJpaEntity) {
+        this.uuid = uuid;
+        this.time = time;
         this.warehouseNumber = warehouseNumber;
         this.amountOfTons = amountOfTons;
         this.warehouseAction = warehouseAction;
-        this.materialUUID = materialUUID;
         this.warehouseJpaEntity = warehouseJpaEntity;
-        this.time = time;
     }
 
     public WarehouseJpaActivityEntity() {
@@ -64,35 +53,18 @@ public class WarehouseJpaActivityEntity {
     public UUID getUuid() {
         return uuid;
     }
-
-    public UUID getSellerUUID() {
-        return sellerUUID;
-    }
-
     public int getWarehouseNumber() {
         return warehouseNumber;
     }
-
     public int getAmountOfTons() {
         return amountOfTons;
     }
-
     public WarehouseAction getWarehouseAction() {
         return warehouseAction;
     }
-
-    public UUID getMaterialUUID() {
-        return materialUUID;
-    }
-
     public void setUuid(UUID uuid) {
         this.uuid = uuid;
     }
-
-    public void setSellerUUID(UUID sellerUUID) {
-        this.sellerUUID = sellerUUID;
-    }
-
     public void setWarehouseNumber(int warehouseNumber) {
         this.warehouseNumber = warehouseNumber;
     }
@@ -100,27 +72,18 @@ public class WarehouseJpaActivityEntity {
     public void setAmountOfTons(int amountOfTons) {
         this.amountOfTons = amountOfTons;
     }
-
     public void setWarehouseAction(WarehouseAction warehouseAction) {
         this.warehouseAction = warehouseAction;
     }
-
-    public void setMaterialUUID(UUID materialUUID) {
-        this.materialUUID = materialUUID;
-    }
-
     public void setWarehouseJpaEntity(WarehouseJpaEntity warehouse) {
         this.warehouseJpaEntity = warehouse;
     }
-
     public LocalDateTime getTime() {
         return time;
     }
-
     public void setTime(LocalDateTime time) {
         this.time = time;
     }
-
     public WarehouseJpaEntity getWarehouseJpaEntity() {
         return warehouseJpaEntity;
     }

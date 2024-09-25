@@ -53,13 +53,10 @@ public class WarehouseDBAdapter implements LoadWarehousePort, UpdateWarehousePor
 
         for(WarehouseJpaActivityEntity warehouseJpaActivity :  warehouseJpaActivityList){
             warehouse.addWarehouseActivity(warehouseJpaActivity.getAmountOfTons(),
-                    new Seller.CustomerUUID(warehouseJpaActivity.getSellerUUID()),
-                    new Material.MaterialUUID(warehouseJpaActivity.getMaterialUUID()),
                     warehouseJpaActivity.getWarehouseNumber(),
                     warehouseJpaActivity.getWarehouseAction());
         }
     }
-
     @Override
     public void warehouseActivityCreated(Warehouse warehouse, WarehouseActivity warehouseActivity) {
         final int warehouseNumber = warehouse.getWareHouseNumber();
@@ -76,11 +73,9 @@ public class WarehouseDBAdapter implements LoadWarehousePort, UpdateWarehousePor
                                                                     final WarehouseActivity warehouseActivity) {
 
         final WarehouseJpaActivityEntity warehouseJpaActivityEntity = new WarehouseJpaActivityEntity();
-        warehouseJpaActivityEntity.setSellerUUID(warehouseActivity.sellerId().uuid());
-        warehouseJpaActivityEntity.setWarehouseNumber(warehouseActivity.warehouseNumber());
         warehouseJpaActivityEntity.setAmountOfTons(warehouseActivity.amountOfTons());
+        warehouseJpaActivityEntity.setWarehouseNumber(warehouseActivity.warehouseNumber());
         warehouseJpaActivityEntity.setWarehouseAction(warehouseActivity.action());
-        warehouseJpaActivityEntity.setMaterialUUID(warehouseActivity.materialUUID().uuid());
         warehouseJpaActivityEntity.setTime(LocalDateTime.now());
         warehouseJpaActivityEntity.setWarehouseJpaEntity(warehouseJpaEntity);
         return warehouseJpaActivityEntity;
