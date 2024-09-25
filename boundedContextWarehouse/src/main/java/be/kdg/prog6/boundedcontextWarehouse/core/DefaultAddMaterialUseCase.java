@@ -1,7 +1,6 @@
 package be.kdg.prog6.boundedcontextWarehouse.core;
 
 import be.kdg.prog6.boundedcontextWarehouse.domain.Warehouse;
-import be.kdg.prog6.boundedcontextWarehouse.domain.WarehouseAction;
 import be.kdg.prog6.boundedcontextWarehouse.domain.WarehouseActivity;
 import be.kdg.prog6.boundedcontextWarehouse.ports.in.AddMaterialCommand;
 import be.kdg.prog6.boundedcontextWarehouse.ports.in.AddMaterialUseCase;
@@ -27,11 +26,11 @@ public class DefaultAddMaterialUseCase implements AddMaterialUseCase {
 
         final int warehouseNumber = addMaterialCommand.warehouseNumber();
         final Warehouse warehouse = loadWarehouseIfFoundOtherwiseThrowException(warehouseNumber);
-        WarehouseActivity warehouseActivity = buildWarehouseActivity(warehouse, addMaterialCommand);
+        WarehouseActivity warehouseActivity = buildWarehouseActivityAndAddActivityToWarehouse(warehouse, addMaterialCommand);
         updateWarehousePort.warehouseActivityCreated(warehouse, warehouseActivity);
     }
 
-    private WarehouseActivity buildWarehouseActivity(Warehouse warehouse, AddMaterialCommand addMaterialCommand){
+    private WarehouseActivity buildWarehouseActivityAndAddActivityToWarehouse(Warehouse warehouse, AddMaterialCommand addMaterialCommand){
 
         return warehouse.addWarehouseActivity(addMaterialCommand.amountOfTons(),
                 addMaterialCommand.sellerId(),

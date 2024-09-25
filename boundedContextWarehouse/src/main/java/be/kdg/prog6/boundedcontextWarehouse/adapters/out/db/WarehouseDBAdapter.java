@@ -74,6 +74,7 @@ public class WarehouseDBAdapter implements LoadWarehousePort, UpdateWarehousePor
 
     private WarehouseJpaActivityEntity toWarehouseJpaActivityEntity(final WarehouseJpaEntity warehouseJpaEntity,
                                                                     final WarehouseActivity warehouseActivity) {
+
         final WarehouseJpaActivityEntity warehouseJpaActivityEntity = new WarehouseJpaActivityEntity();
         warehouseJpaActivityEntity.setSellerUUID(warehouseActivity.sellerId().uuid());
         warehouseJpaActivityEntity.setWarehouseNumber(warehouseActivity.warehouseNumber());
