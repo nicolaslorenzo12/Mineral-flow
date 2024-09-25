@@ -28,6 +28,7 @@ public class DefaultAddMaterialUseCase implements AddMaterialUseCase {
         final Warehouse warehouse = loadWarehouseIfFoundOtherwiseThrowException(warehouseNumber);
         WarehouseActivity warehouseActivity = buildWarehouseActivityAndAddActivityToWarehouse(warehouse, addMaterialCommand);
         updateWarehousePort.warehouseActivityCreated(warehouse, warehouseActivity);
+        warehouse.calculateCurrentStock();
     }
 
     private WarehouseActivity buildWarehouseActivityAndAddActivityToWarehouse(Warehouse warehouse, AddMaterialCommand addMaterialCommand){

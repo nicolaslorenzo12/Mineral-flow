@@ -30,4 +30,10 @@ public class Warehouse {
     public WarehouseActivity addWarehouseActivity(int amountOfTons, int warehouseNumber, WarehouseAction action){
         return warehouseActivityWindow.addWarehouseActivity(amountOfTons, warehouseNumber, action);
     }
+
+    public int calculateCurrentStock(){
+        int currentStock = warehouseActivityWindow.calculateCurrentStock();
+        System.out.println("The current stock of warehouse number " + wareHouseNumber + " is " + currentStock + uom);
+        return currentStock;
+    }
 }

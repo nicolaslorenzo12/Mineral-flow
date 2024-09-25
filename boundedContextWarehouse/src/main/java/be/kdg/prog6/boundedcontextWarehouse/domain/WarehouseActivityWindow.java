@@ -1,9 +1,5 @@
 package be.kdg.prog6.boundedcontextWarehouse.domain;
 
-import be.kdg.prog6.common.domain.Material;
-import be.kdg.prog6.common.domain.Seller;
-
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,12 +11,22 @@ public class WarehouseActivityWindow {
     public WarehouseActivityWindow(int warehouseNumber) {
         this.warehouseNumber = warehouseNumber;
     }
-
-
     public WarehouseActivity addWarehouseActivity(int amountOfTons, int warehouseNumber, WarehouseAction action){
 
         WarehouseActivity warehouseActivity = new WarehouseActivity(amountOfTons, warehouseNumber, action);
         warehouseActivityList.add(warehouseActivity);
         return warehouseActivity;
+    }
+
+    public int calculateCurrentStock() {
+        int totalTons = 0;
+        for (WarehouseActivity activity : warehouseActivityList) {
+            if (activity.action() == WarehouseAction.RECEIVE) {
+                totalTons += activity.amountOfTons();
+            } else if (activity.action() == WarehouseAction.DISPATCH) {
+                totalTons -= activity.amountOfTons();
+            }
+        }
+        return totalTons;
     }
 }
