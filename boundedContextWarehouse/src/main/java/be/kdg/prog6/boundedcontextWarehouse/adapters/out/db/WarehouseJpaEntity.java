@@ -11,18 +11,19 @@ import java.util.UUID;
 public class WarehouseJpaEntity {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int warehouseNumber;
     @JdbcTypeCode(Types.VARCHAR)
     private UUID sellerUUID;
     @JdbcTypeCode(Types.VARCHAR)
     private UUID materialUUID;
 
-    @OneToMany(mappedBy = "warehouseNumber", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "warehouseJpaEntity", cascade = CascadeType.ALL)
     private List<WarehouseJpaActivityEntity> activities;
 
 
-    public WarehouseJpaEntity(int wareHouseNumber, UUID sellerUUID, UUID materialUUID) {
-        this.warehouseNumber = wareHouseNumber;
+    public WarehouseJpaEntity(int warehouseNumber, UUID sellerUUID, UUID materialUUID) {
+        this.warehouseNumber = warehouseNumber;
         this.sellerUUID = sellerUUID;
         this.materialUUID = materialUUID;
     }
@@ -61,5 +62,9 @@ public class WarehouseJpaEntity {
 
     public void setActivities(List<WarehouseJpaActivityEntity> activities) {
         this.activities = activities;
+    }
+
+    public void addActivity(WarehouseJpaActivityEntity warehouseJpaActivityEntity){
+        activities.add(warehouseJpaActivityEntity);
     }
 }

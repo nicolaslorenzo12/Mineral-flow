@@ -29,7 +29,7 @@ public class WarehouseJpaActivityEntity {
 
     @ManyToOne
     @JoinColumn(name = "warehouseNumber", referencedColumnName = "warehouseNumber", insertable = false, updatable = false)
-    private WarehouseJpaEntity warehouse;
+    private WarehouseJpaEntity warehouseJpaEntity;
 
 
     public WarehouseJpaActivityEntity(UUID uuid, UUID sellerUUID, int warehouseNumber, int amountOfTons, WarehouseAction warehouseAction, UUID materialUUID) {
@@ -39,6 +39,16 @@ public class WarehouseJpaActivityEntity {
         this.amountOfTons = amountOfTons;
         this.warehouseAction = warehouseAction;
         this.materialUUID = materialUUID;
+    }
+
+    public WarehouseJpaActivityEntity(UUID sellerUUID, int warehouseNumber, int amountOfTons, WarehouseAction warehouseAction, UUID materialUUID,
+                                      WarehouseJpaEntity warehouseJpaEntity) {
+        this.sellerUUID = sellerUUID;
+        this.warehouseNumber = warehouseNumber;
+        this.amountOfTons = amountOfTons;
+        this.warehouseAction = warehouseAction;
+        this.materialUUID = materialUUID;
+        this.warehouseJpaEntity = warehouseJpaEntity;
     }
 
     public WarehouseJpaActivityEntity() {
@@ -67,5 +77,33 @@ public class WarehouseJpaActivityEntity {
 
     public UUID getMaterialUUID() {
         return materialUUID;
+    }
+
+    public void setUuid(UUID uuid) {
+        this.uuid = uuid;
+    }
+
+    public void setSellerUUID(UUID sellerUUID) {
+        this.sellerUUID = sellerUUID;
+    }
+
+    public void setWarehouseNumber(int warehouseNumber) {
+        this.warehouseNumber = warehouseNumber;
+    }
+
+    public void setAmountOfTons(int amountOfTons) {
+        this.amountOfTons = amountOfTons;
+    }
+
+    public void setWarehouseAction(WarehouseAction warehouseAction) {
+        this.warehouseAction = warehouseAction;
+    }
+
+    public void setMaterialUUID(UUID materialUUID) {
+        this.materialUUID = materialUUID;
+    }
+
+    public void setWarehouseJpaEntity(WarehouseJpaEntity warehouse) {
+        this.warehouseJpaEntity = warehouse;
     }
 }

@@ -5,6 +5,7 @@ import be.kdg.prog6.boundedcontextWarehouse.domain.WarehouseActivity;
 import be.kdg.prog6.boundedcontextWarehouse.ports.in.AddMaterialCommand;
 import be.kdg.prog6.boundedcontextWarehouse.ports.in.AddMaterialUseCase;
 import be.kdg.prog6.boundedcontextWarehouse.ports.out.LoadWarehousePort;
+import be.kdg.prog6.boundedcontextWarehouse.ports.out.UpdateWarehousePort;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
@@ -12,9 +13,11 @@ import org.springframework.stereotype.Service;
 public class DefaultAddMaterialUseCase implements AddMaterialUseCase {
 
     private final LoadWarehousePort loadWarehousePort;
+    private final UpdateWarehousePort updateWarehousePort;
 
-    public DefaultAddMaterialUseCase(LoadWarehousePort loadWarehousePort) {
+    public DefaultAddMaterialUseCase(LoadWarehousePort loadWarehousePort, UpdateWarehousePort updateWarehousePort) {
         this.loadWarehousePort = loadWarehousePort;
+        this.updateWarehousePort = updateWarehousePort;
     }
 
     @Override
@@ -25,10 +28,10 @@ public class DefaultAddMaterialUseCase implements AddMaterialUseCase {
         final Warehouse warehouse = loadWarehousePort.loadWarehouseByWarehouseNumber(warehouseNumber)
                 .orElseThrow(() -> new RuntimeException("Warehouse not found"));
 
-         WarehouseActivity warehouseActivity= warehouse.addWarehouseActivity(addMaterialCommand.amount(), addMaterialCommand.warehouseNumber(), addMaterialCommand.materialUUID());
+         WarehouseActivity warehouseActivity= warehouse.addWarehouseActivity(addMaterialCommand.amountOfTons(), addMaterialCommand.sellerId(),
+                 addMaterialCommand.materialUUID(), addMaterialCommand.warehouseNumber());
 
          System.out.println("This amount of tons were added " + warehouseActivity.amountOfTons());
-
+         updateWarehousePort.warehouseActivityCreated(warehouse, warehouseActivity);
     }
 }
-

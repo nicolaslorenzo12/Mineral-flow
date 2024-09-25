@@ -31,7 +31,7 @@ public class Warehouse {
         return wareHouseNumber;
     }
 
-    public WarehouseActivity addWarehouseActivity(int amountOfTons, int warehouseNumber, Material.MaterialUUID materialUUID){
-        return warehouseActivityWindow.addWarehouseActivity(amountOfTons, warehouseNumber, materialUUID);
+    public WarehouseActivity addWarehouseActivity(int amountOfTons, Seller.CustomerUUID sellerId, Material.MaterialUUID materialUUID , int warehouseNumber){
+        return warehouseActivityWindow.addWarehouseActivity(amountOfTons, sellerId, materialUUID, warehouseNumber);
     }
 }
