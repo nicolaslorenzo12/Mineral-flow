@@ -7,7 +7,7 @@ import be.kdg.prog6.common.domain.Seller;
 import java.time.LocalDateTime;
 
 public record WarehouseActivity(int amountOfTons, Seller.CustomerUUID sellerId, Material.MaterialUUID materialUUID ,
-                                int warehouseNumber) {
+                                int warehouseNumber, WarehouseAction action) {
     @Override
     public int amountOfTons() {
         return amountOfTons;
@@ -26,5 +26,10 @@ public record WarehouseActivity(int amountOfTons, Seller.CustomerUUID sellerId, 
     @Override
     public int warehouseNumber() {
         return warehouseNumber;
+    }
+
+    @Override
+    public WarehouseAction action() {
+        return action;
     }
 }

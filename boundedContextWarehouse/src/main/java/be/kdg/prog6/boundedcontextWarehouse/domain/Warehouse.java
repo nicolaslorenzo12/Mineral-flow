@@ -23,19 +23,12 @@ public class Warehouse {
         this.warehouseActivityWindow = warehouseActivityWindow;
     }
 
-    //    public WarehouseActivity receiveMaterial(int amountOfTons, UUID sellerUUID, int warehouseNumber, WarehouseAction warehouseAction,
-//                                             UUID materialUUId){
-//        warehouseActivityWindow.addWarehouseActivity(w);
-//        return warehouseActivity;
-//    }
-
     public int getWareHouseNumber() {
         return wareHouseNumber;
     }
 
-    public WarehouseActivity addWarehouseActivity(int amountOfTons, Seller.CustomerUUID sellerId,
-                                                  Material.MaterialUUID materialUUID ,
-                                                  int warehouseNumber){
-        return warehouseActivityWindow.addWarehouseActivity(amountOfTons, sellerId, materialUUID, warehouseNumber);
+    public WarehouseActivity addWarehouseActivity(int amountOfTons, Seller.CustomerUUID sellerId, Material.MaterialUUID materialUUID ,
+                                                  int warehouseNumber, WarehouseAction action){
+        return warehouseActivityWindow.addWarehouseActivity(amountOfTons, sellerId, materialUUID, warehouseNumber, action);
     }
 }

@@ -45,7 +45,8 @@ public class WarehouseDBAdapter implements LoadWarehousePort, UpdateWarehousePor
 
         for(WarehouseJpaActivityEntity warehouseJpaActivity :  warehouseJpaActivityList){
             warehouse.addWarehouseActivity(warehouseJpaActivity.getAmountOfTons(), new Seller.CustomerUUID(warehouseJpaActivity.getSellerUUID()),
-                    new Material.MaterialUUID(warehouseJpaActivity.getMaterialUUID()),warehouseJpaActivity.getWarehouseNumber());
+                    new Material.MaterialUUID(warehouseJpaActivity.getMaterialUUID()),warehouseJpaActivity.getWarehouseNumber(),
+                    warehouseJpaActivity.getWarehouseAction());
         }
 
         return Optional.of(warehouse);
@@ -65,7 +66,7 @@ public class WarehouseDBAdapter implements LoadWarehousePort, UpdateWarehousePor
         warehouseJpaActivityEntity.setSellerUUID(warehouseActivity.sellerId().uuid());
         warehouseJpaActivityEntity.setWarehouseNumber(warehouseActivity.warehouseNumber());
         warehouseJpaActivityEntity.setAmountOfTons(warehouseActivity.amountOfTons());
-        warehouseJpaActivityEntity.setWarehouseAction(WarehouseAction.RECEIVE);
+        warehouseJpaActivityEntity.setWarehouseAction(warehouseActivity.action());
         warehouseJpaActivityEntity.setMaterialUUID(warehouseActivity.materialUUID().uuid());
         warehouseJpaActivityEntity.setTime(LocalDateTime.now());
         warehouseJpaActivityEntity.setWarehouseJpaEntity(warehouseJpaEntity);

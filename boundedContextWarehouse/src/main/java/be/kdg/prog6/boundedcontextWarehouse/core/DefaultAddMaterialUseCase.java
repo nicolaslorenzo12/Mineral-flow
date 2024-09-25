@@ -29,7 +29,7 @@ public class DefaultAddMaterialUseCase implements AddMaterialUseCase {
                 .orElseThrow(() -> new RuntimeException("Warehouse not found"));
 
          WarehouseActivity warehouseActivity= warehouse.addWarehouseActivity(addMaterialCommand.amountOfTons(), addMaterialCommand.sellerId(),
-                 addMaterialCommand.materialUUID(), addMaterialCommand.warehouseNumber());
+                 addMaterialCommand.materialUUID(), addMaterialCommand.warehouseNumber(), addMaterialCommand.action());
 
          System.out.println("This amount of tons were added " + warehouseActivity.amountOfTons());
          updateWarehousePort.warehouseActivityCreated(warehouse, warehouseActivity);

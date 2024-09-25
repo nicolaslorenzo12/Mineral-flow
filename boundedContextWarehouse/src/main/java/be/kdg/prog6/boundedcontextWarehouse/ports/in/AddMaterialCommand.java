@@ -7,7 +7,7 @@ import be.kdg.prog6.common.domain.Seller;
 import java.time.LocalDateTime;
 
 public record AddMaterialCommand(int amountOfTons, Seller.CustomerUUID sellerId, Material.MaterialUUID materialUUID ,
-                                 int warehouseNumber) {
+                                 int warehouseNumber, WarehouseAction action) {
 
 }
 

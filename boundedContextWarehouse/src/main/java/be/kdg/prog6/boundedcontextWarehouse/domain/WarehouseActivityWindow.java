@@ -9,11 +9,10 @@ public class WarehouseActivityWindow {
 
     private final List<WarehouseActivity> warehouseActivityList = new ArrayList();
 
-    public WarehouseActivity addWarehouseActivity(int amountOfTons, Seller.CustomerUUID sellerId,
-                                                  Material.MaterialUUID materialUUID ,
-                                                  int warehouseNumber){
+    public WarehouseActivity addWarehouseActivity(int amountOfTons, Seller.CustomerUUID sellerId, Material.MaterialUUID materialUUID ,
+                                                  int warehouseNumber, WarehouseAction action){
 
-        WarehouseActivity warehouseActivity = new WarehouseActivity(amountOfTons, sellerId, materialUUID, warehouseNumber);
+        WarehouseActivity warehouseActivity = new WarehouseActivity(amountOfTons, sellerId, materialUUID, warehouseNumber, action);
         warehouseActivityList.add(warehouseActivity);
         return warehouseActivity;
     }
