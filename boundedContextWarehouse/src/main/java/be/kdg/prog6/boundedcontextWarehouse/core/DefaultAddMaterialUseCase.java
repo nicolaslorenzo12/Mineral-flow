@@ -1,6 +1,7 @@
 package be.kdg.prog6.boundedcontextWarehouse.core;
 
 import be.kdg.prog6.boundedcontextWarehouse.domain.Warehouse;
+import be.kdg.prog6.boundedcontextWarehouse.domain.WarehouseAction;
 import be.kdg.prog6.boundedcontextWarehouse.domain.WarehouseActivity;
 import be.kdg.prog6.boundedcontextWarehouse.ports.in.AddMaterialCommand;
 import be.kdg.prog6.boundedcontextWarehouse.ports.in.AddMaterialUseCase;
@@ -25,13 +26,22 @@ public class DefaultAddMaterialUseCase implements AddMaterialUseCase {
     public void addMaterial(AddMaterialCommand addMaterialCommand) {
 
         final int warehouseNumber = addMaterialCommand.warehouseNumber();
-        final Warehouse warehouse = loadWarehousePort.loadWarehouseByWarehouseNumber(warehouseNumber)
+        final Warehouse warehouse = loadWarehouseIfFoundOtherwiseThrowException(warehouseNumber);
+        WarehouseActivity warehouseActivity = buildWarehouseActivity(warehouse, addMaterialCommand);
+        updateWarehousePort.warehouseActivityCreated(warehouse, warehouseActivity);
+    }
+
+    private WarehouseActivity buildWarehouseActivity(Warehouse warehouse, AddMaterialCommand addMaterialCommand){
+
+        return warehouse.addWarehouseActivity(addMaterialCommand.amountOfTons(),
+                addMaterialCommand.sellerId(),
+                addMaterialCommand.materialUUID(),
+                addMaterialCommand.warehouseNumber(),
+                addMaterialCommand.action());
+    }
+
+    private Warehouse loadWarehouseIfFoundOtherwiseThrowException(int warehouseNumber){
+        return loadWarehousePort.loadWarehouseByWarehouseNumber(warehouseNumber)
                 .orElseThrow(() -> new RuntimeException("Warehouse not found"));
-
-         WarehouseActivity warehouseActivity= warehouse.addWarehouseActivity(addMaterialCommand.amountOfTons(), addMaterialCommand.sellerId(),
-                 addMaterialCommand.materialUUID(), addMaterialCommand.warehouseNumber(), addMaterialCommand.action());
-
-         System.out.println("This amount of tons were added " + warehouseActivity.amountOfTons());
-         updateWarehousePort.warehouseActivityCreated(warehouse, warehouseActivity);
     }
 }

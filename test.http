@@ -2,5 +2,13 @@ POST http://localhost:8090/api/amount/80/seller/123e4567-e89b-12d3-a456-42661417
 
 ###
 
-POST http://localhost:8090/api/amount/20/seller/123e4567-e89b-12d3-a456-426614174000/material/123e4567-e89b-12d3-a456-426614174001/warehouse/5/action/DISPATCH
+POST http://localhost:8090/api/amount/200/seller/321e4567-e89b-12d3-a456-426614174000/material/321e4567-e89b-12d3-a456-426614174001/warehouse/6/action/RECEIVE
+
+###
+
+POST http://localhost:8090/api/amount/70/seller/321e4567-e89b-12d3-a456-426614174000/material/321e4567-e89b-12d3-a456-426614174001/warehouse/6/action/DISPATCH
+
+###
+
+POST http://localhost:8090/api/amount/35/seller/123e4567-e89b-12d3-a456-426614174000/material/123e4567-e89b-12d3-a456-426614174001/warehouse/5/action/DISPATCH
 
