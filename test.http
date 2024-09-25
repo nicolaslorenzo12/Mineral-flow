@@ -10,4 +10,8 @@ POST http://localhost:8090/api/amountOfTons/25/warehouse/6/action/DISPATCH
 
 ###
 
-POST http://localhost:8090/api/amountOfTons/30/warehouse/5/action/DISPATCH
+POST http://localhost:8090/api/amountOfTons/20/warehouse/5/action/DISPATCH
+
+####
+
+GET http://localhost:8090/api/current-stock/warehouse/5
