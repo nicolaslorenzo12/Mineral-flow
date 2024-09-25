@@ -1,1 +1,1 @@
-POST http://localhost:8090/api/amount/30/seller/123e4567-e89b-12d3-a456-426614174000/material/123e4567-e89b-12d3-a456-426614174001/warehouse/5
+POST http://localhost:8090/api/amount/50/seller/123e4567-e89b-12d3-a456-426614174000/material/123e4567-e89b-12d3-a456-426614174001/warehouse/5

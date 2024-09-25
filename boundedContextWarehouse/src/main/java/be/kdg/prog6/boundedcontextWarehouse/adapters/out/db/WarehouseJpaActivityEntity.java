@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import org.hibernate.annotations.JdbcTypeCode;
 
 import java.sql.Types;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
@@ -16,6 +17,8 @@ public class WarehouseJpaActivityEntity {
 
     @JdbcTypeCode(Types.VARCHAR)
     private UUID sellerUUID;
+
+    private LocalDateTime time;
 
     private int warehouseNumber;
 
@@ -32,23 +35,26 @@ public class WarehouseJpaActivityEntity {
     private WarehouseJpaEntity warehouseJpaEntity;
 
 
-    public WarehouseJpaActivityEntity(UUID uuid, UUID sellerUUID, int warehouseNumber, int amountOfTons, WarehouseAction warehouseAction, UUID materialUUID) {
+    public WarehouseJpaActivityEntity(UUID uuid, UUID sellerUUID, int warehouseNumber, int amountOfTons,
+                                      WarehouseAction warehouseAction, UUID materialUUID, LocalDateTime time) {
         this.uuid = uuid;
         this.sellerUUID = sellerUUID;
         this.warehouseNumber = warehouseNumber;
         this.amountOfTons = amountOfTons;
         this.warehouseAction = warehouseAction;
         this.materialUUID = materialUUID;
+        this.time = time;
     }
 
     public WarehouseJpaActivityEntity(UUID sellerUUID, int warehouseNumber, int amountOfTons, WarehouseAction warehouseAction, UUID materialUUID,
-                                      WarehouseJpaEntity warehouseJpaEntity) {
+                                      LocalDateTime time, WarehouseJpaEntity warehouseJpaEntity) {
         this.sellerUUID = sellerUUID;
         this.warehouseNumber = warehouseNumber;
         this.amountOfTons = amountOfTons;
         this.warehouseAction = warehouseAction;
         this.materialUUID = materialUUID;
         this.warehouseJpaEntity = warehouseJpaEntity;
+        this.time = time;
     }
 
     public WarehouseJpaActivityEntity() {
@@ -105,5 +111,17 @@ public class WarehouseJpaActivityEntity {
 
     public void setWarehouseJpaEntity(WarehouseJpaEntity warehouse) {
         this.warehouseJpaEntity = warehouse;
+    }
+
+    public LocalDateTime getTime() {
+        return time;
+    }
+
+    public void setTime(LocalDateTime time) {
+        this.time = time;
+    }
+
+    public WarehouseJpaEntity getWarehouseJpaEntity() {
+        return warehouseJpaEntity;
     }
 }

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @RestController
@@ -21,7 +22,8 @@ public class WarehouseController {
 
     @PostMapping("/amount/{amount}/seller/{sellerUuid}/material/{materialUuid}/warehouse/{warehouseNumber}")
     public void addMaterial(@PathVariable("amount") int amountOfTons, @PathVariable("sellerUuid") UUID sellerUuid,
-                            @PathVariable("materialUuid") UUID materialUuid, @PathVariable("warehouseNumber") int warehouseNumber){
+                            @PathVariable("materialUuid") UUID materialUuid,
+                            @PathVariable("warehouseNumber") int warehouseNumber){
 
         addMaterialUseCase.addMaterial(new AddMaterialCommand(amountOfTons, new Seller.CustomerUUID(sellerUuid), new Material.MaterialUUID(materialUuid),
                 warehouseNumber));

@@ -10,6 +10,7 @@ import be.kdg.prog6.common.domain.Material;
 import be.kdg.prog6.common.domain.Seller;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -66,6 +67,7 @@ public class WarehouseDBAdapter implements LoadWarehousePort, UpdateWarehousePor
         warehouseJpaActivityEntity.setAmountOfTons(warehouseActivity.amountOfTons());
         warehouseJpaActivityEntity.setWarehouseAction(WarehouseAction.RECEIVE);
         warehouseJpaActivityEntity.setMaterialUUID(warehouseActivity.materialUUID().uuid());
+        warehouseJpaActivityEntity.setTime(LocalDateTime.now());
         warehouseJpaActivityEntity.setWarehouseJpaEntity(warehouseJpaEntity);
         return warehouseJpaActivityEntity;
     }

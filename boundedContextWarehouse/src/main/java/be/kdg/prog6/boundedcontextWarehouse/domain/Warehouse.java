@@ -5,6 +5,8 @@ import be.kdg.prog6.common.domain.Material;
 import be.kdg.prog6.common.domain.Seller;
 import be.kdg.prog6.common.domain.Uom;
 
+import java.time.LocalDateTime;
+
 public class Warehouse {
 
     private int wareHouseNumber;
@@ -31,7 +33,9 @@ public class Warehouse {
         return wareHouseNumber;
     }
 
-    public WarehouseActivity addWarehouseActivity(int amountOfTons, Seller.CustomerUUID sellerId, Material.MaterialUUID materialUUID , int warehouseNumber){
+    public WarehouseActivity addWarehouseActivity(int amountOfTons, Seller.CustomerUUID sellerId,
+                                                  Material.MaterialUUID materialUUID ,
+                                                  int warehouseNumber){
         return warehouseActivityWindow.addWarehouseActivity(amountOfTons, sellerId, materialUUID, warehouseNumber);
     }
 }
