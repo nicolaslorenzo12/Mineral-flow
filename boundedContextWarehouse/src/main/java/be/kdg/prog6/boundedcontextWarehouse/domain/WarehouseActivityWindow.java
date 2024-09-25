@@ -9,7 +9,13 @@ import java.util.List;
 
 public class WarehouseActivityWindow {
 
+    private final int warehouseNumber;
     private final List<WarehouseActivity> warehouseActivityList = new ArrayList();
+
+    public WarehouseActivityWindow(int warehouseNumber) {
+        this.warehouseNumber = warehouseNumber;
+    }
+
 
     public WarehouseActivity addWarehouseActivity(int amountOfTons, int warehouseNumber, WarehouseAction action){
 
