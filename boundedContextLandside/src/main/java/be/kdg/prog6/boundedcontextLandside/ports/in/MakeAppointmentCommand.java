@@ -6,6 +6,5 @@ import be.kdg.prog6.common.domain.Seller;
 
 import java.time.LocalDateTime;
 
-public record MakeAppointmentCommand(Seller.CustomerUUID sellerUUID, MaterialType materialType, int licensePlateNumberOfTruck,
-                                     int gateNumber, LocalDateTime appointmentTime) {
+public record MakeAppointmentCommand(Seller.CustomerUUID sellerUUID, MaterialType materialType, String licensePlateNumber, LocalDateTime appointmentTime) {
 }

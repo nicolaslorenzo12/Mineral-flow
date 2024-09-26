@@ -23,13 +23,12 @@ public class AppointmentController {
     }
 
 
-    @PostMapping("material-truck-appointment/seller/{sellerUuid}/material/{materialType}/licensePlateNumbe/{licensePlateNumberOfTruck}/gate/{gateNumber}/appointment/{appointmentTime}")
+    @PostMapping("material-truck-appointment/seller/{sellerUuid}/material/{materialType}/licensePlateNumbe/{licensePlateNumberOfTruck}/appointment/{appointmentTime}")
     public ResponseEntity<String> makeAppointment(@PathVariable UUID sellerUuid, @PathVariable MaterialType materialType,
-                                                  @PathVariable int licensePlateNumberOfTruck, @PathVariable int gateNumber,
-                                                  @PathVariable LocalDateTime appointmentTime)
+                                                  @PathVariable String licensePlateNumberOfTruck, @PathVariable LocalDateTime appointmentTime)
     {
         makeAppointmentUseCase.makeAppointment(new MakeAppointmentCommand(new Seller.CustomerUUID(sellerUuid), materialType,
-                licensePlateNumberOfTruck, gateNumber, appointmentTime));
+                licensePlateNumberOfTruck, appointmentTime));
 
         return ResponseEntity.ok("The appointment was made successfully.");
 

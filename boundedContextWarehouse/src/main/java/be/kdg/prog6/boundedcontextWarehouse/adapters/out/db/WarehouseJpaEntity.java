@@ -2,9 +2,6 @@ package be.kdg.prog6.boundedcontextWarehouse.adapters.out.db;
 
 import be.kdg.prog6.common.domain.MaterialType;
 import jakarta.persistence.*;
-import org.hibernate.annotations.JdbcTypeCode;
-
-import java.sql.Types;
 import java.util.List;
 import java.util.UUID;
 

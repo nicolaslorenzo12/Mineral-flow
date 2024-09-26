@@ -16,6 +16,11 @@ public class Material {
         this.pricePerTon = pricePerTon;
     }
 
+    public Material(MaterialType materialType, String description) {
+        this.materialType = materialType;
+        this.description = description;
+    }
+
     public MaterialType getMaterialType() {
         return materialType;
     }

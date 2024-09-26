@@ -19,3 +19,8 @@ GET http://localhost:8090/api/current-stock/warehouse/5
 ###
 
 GET http://localhost:8090/api/current-stock/warehouse/6
+
+###
+
+POST http://localhost:8090/api/material-truck-appointment/seller/123e4567-e89b-12d3-a456-426614174000/material/GP/licensePlateNumbe/AB-123-CD/appointment/2024-10-01T10:30:00
+

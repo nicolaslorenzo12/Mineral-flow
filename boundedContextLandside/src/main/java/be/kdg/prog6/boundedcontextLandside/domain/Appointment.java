@@ -10,7 +10,7 @@ public class Appointment {
     private final int gateNumber;
     private final LocalDateTime appointmentTime;
     private final MaterialType materialType;
-    private final int licensePlateNumberOfTruck;
+    private final String licensePlateNumberOfTruck;
     private TruckStatus status;
     private int warehouseNumber;
     private LocalDateTime arrivalTime;
@@ -23,7 +23,7 @@ public class Appointment {
     }
 
     public Appointment( final AppointmentUUID appointmentUUID,Seller.CustomerUUID sellerUUID, int gateNumber,
-                       LocalDateTime appointmentTime, MaterialType materialType, int licensePlateNumberOfTruck, TruckStatus status)
+                       LocalDateTime appointmentTime, MaterialType materialType, String licensePlateNumberOfTruck, TruckStatus status)
     {
         this.appointmentUUID = appointmentUUID;
         this.sellerUUID = sellerUUID;
@@ -45,7 +45,7 @@ public class Appointment {
     public LocalDateTime getAppointmentTime() {
         return appointmentTime;
     }
-    public int getLicensePlateNumberOfTruck() {
+    public String getLicensePlateNumberOfTruck() {
         return licensePlateNumberOfTruck;
     }
 
@@ -103,5 +103,18 @@ public class Appointment {
 
     public MaterialType getMaterialType() {
         return materialType;
+    }
+
+    @Override
+    public String toString() {
+        return "Appointment{" +
+                "sellerUUID=" + sellerUUID +
+                ", gateNumber=" + gateNumber +
+                ", appointmentTime=" + appointmentTime +
+                ", materialType=" + materialType +
+                ", licensePlateNumberOfTruck=" + licensePlateNumberOfTruck +
+                ", status=" + status +
+                ", appointmentUUID=" + appointmentUUID +
+                '}';
     }
 }
