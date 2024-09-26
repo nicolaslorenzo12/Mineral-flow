@@ -19,8 +19,7 @@ public class WarehouseController {
 
     private final AddMaterialUseCase addMaterialUseCase;
     private final GetCurrentStockOfAWarehouseUseCase getCurrentStockOfAWarehouseUseCase;
-    public WarehouseController(AddMaterialUseCase addMaterialUseCase,
-                               GetCurrentStockOfAWarehouseUseCase getCurrentStockOfAWarehouseUseCase) {
+    public WarehouseController(AddMaterialUseCase addMaterialUseCase, GetCurrentStockOfAWarehouseUseCase getCurrentStockOfAWarehouseUseCase) {
         this.addMaterialUseCase = addMaterialUseCase;
         this.getCurrentStockOfAWarehouseUseCase = getCurrentStockOfAWarehouseUseCase;
     }

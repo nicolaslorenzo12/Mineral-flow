@@ -1,4 +1,5 @@
 package be.kdg.prog6.boundedcontextLandside.domain;
+import be.kdg.prog6.common.domain.Customer;
 import be.kdg.prog6.common.domain.Material;
 import be.kdg.prog6.common.domain.Pdt;
 import be.kdg.prog6.common.domain.Seller;
@@ -8,23 +9,103 @@ import java.util.UUID;
 
 public class Appointment {
 
-    private Seller.CustomerUUID sellerUUID;
-    private int gateNumber;
+    private final Seller.CustomerUUID sellerUUID;
+    private final int gateNumber;
     private final LocalDateTime appointmentTime;
-    private Material.MaterialUUID materialUUID;
-    private Truck.TruckUUID truckUUID;
+    private final Material.MaterialUUID materialUUID;
+    private final int licensePlateNumberOfTruck;
     private TruckStatus status;
-    private final LocalDateTime arrivalTime;
-    private final LocalDateTime departureTime;
-    private AppointmentUUID appointmentUUID;
+    private int warehouseNumber;
+    private LocalDateTime arrivalTime;
+    private LocalDateTime departureTime;
+    private double initialWeight;
+    private double finalWeight;
+    private final AppointmentUUID appointmentUUID;
+    public record AppointmentUUID(UUID uuid) {
 
-    public Appointment(LocalDateTime appointmentTime, LocalDateTime arrivalTime, LocalDateTime departureTime) {
+    }
+
+    public Appointment( final AppointmentUUID appointmentUUID,Seller.CustomerUUID sellerUUID, int gateNumber,
+                       LocalDateTime appointmentTime, Material.MaterialUUID materialUUID, int licensePlateNumberOfTruck, TruckStatus status)
+    {
+        this.appointmentUUID = appointmentUUID;
+        this.sellerUUID = sellerUUID;
+        this.gateNumber = gateNumber;
         this.appointmentTime = appointmentTime;
+        this.materialUUID = materialUUID;
+        this.licensePlateNumberOfTruck = licensePlateNumberOfTruck;
+        this.status = status;
+    }
+
+    public Seller.CustomerUUID getSellerUUID() {
+        return sellerUUID;
+    }
+
+    public int getGateNumber() {
+        return gateNumber;
+    }
+
+    public LocalDateTime getAppointmentTime() {
+        return appointmentTime;
+    }
+
+    public Material.MaterialUUID getMaterialUUID() {
+        return materialUUID;
+    }
+
+    public int getLicensePlateNumberOfTruck() {
+        return licensePlateNumberOfTruck;
+    }
+
+    public TruckStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(TruckStatus status) {
+        this.status = status;
+    }
+
+    public LocalDateTime getArrivalTime() {
+        return arrivalTime;
+    }
+
+    public void setArrivalTime(LocalDateTime arrivalTime) {
         this.arrivalTime = arrivalTime;
+    }
+
+    public LocalDateTime getDepartureTime() {
+        return departureTime;
+    }
+
+    public void setDepartureTime(LocalDateTime departureTime) {
         this.departureTime = departureTime;
     }
 
-    public record AppointmentUUID(UUID uuid) {
+    public double getInitialWeight() {
+        return initialWeight;
+    }
 
+    public void setInitialWeight(double initialWeight) {
+        this.initialWeight = initialWeight;
+    }
+
+    public double getFinalWeight() {
+        return finalWeight;
+    }
+
+    public void setFinalWeight(double finalWeight) {
+        this.finalWeight = finalWeight;
+    }
+
+    public AppointmentUUID getAppointmentUUID() {
+        return appointmentUUID;
+    }
+
+    public int getWarehouseNumber() {
+        return warehouseNumber;
+    }
+
+    public void setWarehouseNumber(int warehouseNumber) {
+        this.warehouseNumber = warehouseNumber;
     }
 }

@@ -4,23 +4,13 @@ import java.util.UUID;
 
 public class Truck {
 
-    private String licenseNumber;
-    private TruckUUID truckUUID;
+    private final String licenseNumber;
 
-    public record TruckUUID(UUID uuid){
-
-    }
-
-    public Truck(String licenseNumber, TruckUUID truckUUID) {
+    public Truck(String licenseNumber) {
         this.licenseNumber = licenseNumber;
-        this.truckUUID = truckUUID;
     }
 
     public String getLicenseNumber() {
         return licenseNumber;
-    }
-
-    public TruckUUID getTruckUUID() {
-        return truckUUID;
     }
 }

@@ -15,12 +15,15 @@ public class WarehouseJpaActivityEntity {
     @JdbcTypeCode(Types.VARCHAR)
     private UUID uuid;
 
+    @Column(nullable = false)
     private LocalDateTime time;
 
+    @Column(nullable = false)
     private int warehouseNumber;
-
+    @Column(nullable = false)
     private int amountOfTons;
 
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private WarehouseAction warehouseAction;
     @ManyToOne

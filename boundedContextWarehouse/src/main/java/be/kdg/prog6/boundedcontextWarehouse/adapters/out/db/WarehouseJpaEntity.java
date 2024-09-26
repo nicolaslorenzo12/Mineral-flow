@@ -14,8 +14,10 @@ public class WarehouseJpaEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int warehouseNumber;
     @JdbcTypeCode(Types.VARCHAR)
+    @Column(nullable = false)
     private UUID sellerUUID;
     @JdbcTypeCode(Types.VARCHAR)
+    @Column(nullable = false)
     private UUID materialUUID;
 
     @OneToMany(mappedBy = "warehouseJpaEntity", cascade = CascadeType.ALL)

@@ -6,9 +6,14 @@ import java.util.UUID;
 
 public class DailyCalendar {
 
-    public LocalDate day;
+    public final LocalDate day;
     List<Appointment> appointment;
-    private DailyCalendarUUID dailyCalendarUUID;
+    private final DailyCalendarUUID dailyCalendarUUID;
+    public DailyCalendar(DailyCalendarUUID dailyCalendarUUID, LocalDate day) {
+        this.dailyCalendarUUID = dailyCalendarUUID;
+        this.day = day;
+    }
+
     public record DailyCalendarUUID(UUID uuid){
 
     }

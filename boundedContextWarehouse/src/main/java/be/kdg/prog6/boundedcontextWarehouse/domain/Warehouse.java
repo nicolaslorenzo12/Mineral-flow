@@ -1,6 +1,5 @@
 package be.kdg.prog6.boundedcontextWarehouse.domain;
 
-import be.kdg.prog6.common.domain.Customer;
 import be.kdg.prog6.common.domain.Material;
 import be.kdg.prog6.common.domain.Seller;
 import be.kdg.prog6.common.domain.Uom;
