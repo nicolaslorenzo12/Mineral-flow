@@ -9,7 +9,6 @@ public class Invoice {
 
     public Seller.CustomerUUID sellerUuid;
     private final Uom uom = Uom.T;
-    private Material.MaterialUUID materialUUID;
     private double amount;
     private LocalDate invoiceDate;
     public InvoiceUUID invoiceUUID;

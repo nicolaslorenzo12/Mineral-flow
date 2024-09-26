@@ -8,17 +8,12 @@ public class Material {
     private String description;
     private int storagePricePerTonPerDay;
     private int pricePerTon;
-    private MaterialUUID materialUUID;
-    public record MaterialUUID(UUID uuid){
 
-    }
-
-    public Material(MaterialType materialType, String description, int storagePricePerTonPerDay, int pricePerTon, MaterialUUID materialUUID) {
+    public Material(MaterialType materialType, String description, int storagePricePerTonPerDay, int pricePerTon) {
         this.materialType = materialType;
         this.description = description;
         this.storagePricePerTonPerDay = storagePricePerTonPerDay;
         this.pricePerTon = pricePerTon;
-        this.materialUUID = materialUUID;
     }
 
     public MaterialType getMaterialType() {
@@ -37,7 +32,4 @@ public class Material {
         return pricePerTon;
     }
 
-    public MaterialUUID getMaterialUUID() {
-        return materialUUID;
-    }
 }

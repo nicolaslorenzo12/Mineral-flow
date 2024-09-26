@@ -1,5 +1,6 @@
 package be.kdg.prog6.boundedcontextWarehouse.adapters.out.db;
 
+import be.kdg.prog6.common.domain.MaterialType;
 import jakarta.persistence.*;
 import org.hibernate.annotations.JdbcTypeCode;
 
@@ -13,21 +14,22 @@ public class WarehouseJpaEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int warehouseNumber;
-    @JdbcTypeCode(Types.VARCHAR)
+
     @Column(nullable = false)
     private UUID sellerUUID;
-    @JdbcTypeCode(Types.VARCHAR)
+
     @Column(nullable = false)
-    private UUID materialUUID;
+    @Enumerated(EnumType.STRING)
+    private MaterialType materialType;
 
     @OneToMany(mappedBy = "warehouseJpaEntity", cascade = CascadeType.ALL)
     private List<WarehouseJpaActivityEntity> activities;
 
 
-    public WarehouseJpaEntity(int warehouseNumber, UUID sellerUUID, UUID materialUUID) {
+    public WarehouseJpaEntity(int warehouseNumber, UUID sellerUUID, MaterialType materialType) {
         this.warehouseNumber = warehouseNumber;
         this.sellerUUID = sellerUUID;
-        this.materialUUID = materialUUID;
+        this.materialType = materialType;
     }
 
     public WarehouseJpaEntity() {
@@ -50,14 +52,6 @@ public class WarehouseJpaEntity {
         this.sellerUUID = sellerUUID;
     }
 
-    public UUID getMaterialUUID() {
-        return materialUUID;
-    }
-
-    public void setMaterialUUID(UUID materialUUID) {
-        this.materialUUID = materialUUID;
-    }
-
     public List<WarehouseJpaActivityEntity> getActivities() {
         return activities;
     }
@@ -68,5 +62,13 @@ public class WarehouseJpaEntity {
 
     public void addActivity(WarehouseJpaActivityEntity warehouseJpaActivityEntity){
         activities.add(warehouseJpaActivityEntity);
+    }
+
+    public MaterialType getMaterialType() {
+        return materialType;
+    }
+
+    public void setMaterialType(MaterialType materialType) {
+        this.materialType = materialType;
     }
 }

@@ -8,17 +8,14 @@ import java.util.UUID;
 public class MaterialJpaEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private UUID materialUUID;
-
     @Column(nullable = false)
     private MaterialType materialType;
 
     @Column(nullable = false)
     private String description;
 
-    public MaterialJpaEntity(UUID materialUUID, MaterialType materialType, String description) {
-        this.materialUUID = materialUUID;
+    public MaterialJpaEntity(MaterialType materialType, String description) {
+
         this.materialType = materialType;
         this.description = description;
     }
@@ -26,15 +23,6 @@ public class MaterialJpaEntity {
     public MaterialJpaEntity() {
 
     }
-
-    public UUID getMaterialUUID() {
-        return materialUUID;
-    }
-
-    public void setMaterialUUID(UUID materialUUID) {
-        this.materialUUID = materialUUID;
-    }
-
     public MaterialType getMaterialType() {
         return materialType;
     }

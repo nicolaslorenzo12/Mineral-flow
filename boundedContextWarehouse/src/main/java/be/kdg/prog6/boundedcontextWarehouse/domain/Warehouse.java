@@ -1,25 +1,23 @@
 package be.kdg.prog6.boundedcontextWarehouse.domain;
 
-import be.kdg.prog6.common.domain.Material;
+import be.kdg.prog6.common.domain.MaterialType;
 import be.kdg.prog6.common.domain.Seller;
 import be.kdg.prog6.common.domain.Uom;
 import be.kdg.prog6.common.exception.InsufficientStockException;
 
-import java.time.LocalDateTime;
-
 public class Warehouse {
 
-    private int wareHouseNumber;
-    private Seller.CustomerUUID sellerUUID;
-    private Material.MaterialUUID materialUUID;
+    private final int wareHouseNumber;
+    private final Seller.CustomerUUID sellerUUID;
+    private final MaterialType materialType;
     private final Uom uom = Uom.T;
-    private WarehouseActivityWindow warehouseActivityWindow;
+    private final WarehouseActivityWindow warehouseActivityWindow;
     private final int maximumCapacity = 500000;
 
-    public Warehouse(int wareHouseNumber, Seller.CustomerUUID sellerUUID, Material.MaterialUUID materialUUID, WarehouseActivityWindow warehouseActivityWindow) {
+    public Warehouse(int wareHouseNumber, Seller.CustomerUUID sellerUUID, MaterialType materialType,final WarehouseActivityWindow warehouseActivityWindow) {
         this.wareHouseNumber = wareHouseNumber;
         this.sellerUUID = sellerUUID;
-        this.materialUUID = materialUUID;
+        this.materialType = materialType;
         this.warehouseActivityWindow = warehouseActivityWindow;
     }
 
@@ -29,7 +27,7 @@ public class Warehouse {
 
     public WarehouseActivity addWarehouseActivity(int amountOfTons, int warehouseNumber, WarehouseAction action){
 
-        int currentStock = warehouseActivityWindow.calculateCurrentStock();
+        int currentStock = calculateCurrentStock();
 
         if(action == WarehouseAction.DISPATCH && amountOfTons > currentStock){
             throw new InsufficientStockException("Not enough stock to dispatch " + amountOfTons + " tons.");
@@ -40,8 +38,6 @@ public class Warehouse {
     public int calculateCurrentStock(){
 
         //Delete the current stock printing at some point
-        int currentStock = warehouseActivityWindow.calculateCurrentStock();
-        System.out.println("The current stock of warehouse number " + wareHouseNumber + " is " + currentStock + uom);
-        return currentStock;
+        return warehouseActivityWindow.calculateCurrentStock();
     }
 }

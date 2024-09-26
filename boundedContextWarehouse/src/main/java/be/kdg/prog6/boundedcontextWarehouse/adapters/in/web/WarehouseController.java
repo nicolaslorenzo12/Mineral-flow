@@ -24,7 +24,7 @@ public class WarehouseController {
         this.getCurrentStockOfAWarehouseUseCase = getCurrentStockOfAWarehouseUseCase;
     }
     @PostMapping("/amountOfTons/{amountOfTons}/warehouse/{warehouseNumber}/action/{action}")
-    public ResponseEntity<String> addOrDispatchMaterial(@PathVariable("amountOfTons") int amountOfTons,
+    public ResponseEntity<String> receiveOrDispatchMaterial(@PathVariable("amountOfTons") int amountOfTons,
                                       @PathVariable("warehouseNumber") int warehouseNumber,
                                       @PathVariable("action") WarehouseAction action)
     {

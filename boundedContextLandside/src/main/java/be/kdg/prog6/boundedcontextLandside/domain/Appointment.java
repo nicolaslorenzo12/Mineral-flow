@@ -1,8 +1,5 @@
 package be.kdg.prog6.boundedcontextLandside.domain;
-import be.kdg.prog6.common.domain.Customer;
-import be.kdg.prog6.common.domain.Material;
-import be.kdg.prog6.common.domain.Pdt;
-import be.kdg.prog6.common.domain.Seller;
+import be.kdg.prog6.common.domain.*;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -12,7 +9,7 @@ public class Appointment {
     private final Seller.CustomerUUID sellerUUID;
     private final int gateNumber;
     private final LocalDateTime appointmentTime;
-    private final Material.MaterialUUID materialUUID;
+    private final MaterialType materialType;
     private final int licensePlateNumberOfTruck;
     private TruckStatus status;
     private int warehouseNumber;
@@ -26,13 +23,13 @@ public class Appointment {
     }
 
     public Appointment( final AppointmentUUID appointmentUUID,Seller.CustomerUUID sellerUUID, int gateNumber,
-                       LocalDateTime appointmentTime, Material.MaterialUUID materialUUID, int licensePlateNumberOfTruck, TruckStatus status)
+                       LocalDateTime appointmentTime, MaterialType materialType, int licensePlateNumberOfTruck, TruckStatus status)
     {
         this.appointmentUUID = appointmentUUID;
         this.sellerUUID = sellerUUID;
         this.gateNumber = gateNumber;
         this.appointmentTime = appointmentTime;
-        this.materialUUID = materialUUID;
+        this.materialType = materialType;
         this.licensePlateNumberOfTruck = licensePlateNumberOfTruck;
         this.status = status;
     }
@@ -48,11 +45,6 @@ public class Appointment {
     public LocalDateTime getAppointmentTime() {
         return appointmentTime;
     }
-
-    public Material.MaterialUUID getMaterialUUID() {
-        return materialUUID;
-    }
-
     public int getLicensePlateNumberOfTruck() {
         return licensePlateNumberOfTruck;
     }
@@ -107,5 +99,9 @@ public class Appointment {
 
     public void setWarehouseNumber(int warehouseNumber) {
         this.warehouseNumber = warehouseNumber;
+    }
+
+    public MaterialType getMaterialType() {
+        return materialType;
     }
 }

@@ -44,8 +44,7 @@ public class WarehouseDBAdapter implements LoadWarehousePort, UpdateWarehousePor
 
     private Warehouse buildWarehouseObject(Optional<WarehouseJpaEntity> warehouseJpaEntity, int warehouseNumber){
         return new Warehouse(warehouseNumber, new Seller.CustomerUUID(warehouseJpaEntity.get().getSellerUUID()),
-                new Material.MaterialUUID(warehouseJpaEntity.get().getMaterialUUID()),
-                new WarehouseActivityWindow(warehouseNumber));
+                warehouseJpaEntity.get().getMaterialType(), new WarehouseActivityWindow(warehouseNumber));
     }
 
     private void addWarehouseActivitiesToWarehouseObject(List<WarehouseJpaActivityEntity> warehouseJpaActivityList,

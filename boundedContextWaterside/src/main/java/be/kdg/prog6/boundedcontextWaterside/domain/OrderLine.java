@@ -1,12 +1,13 @@
 package be.kdg.prog6.boundedcontextWaterside.domain;
 
 import be.kdg.prog6.common.domain.Material;
+import be.kdg.prog6.common.domain.MaterialType;
 import be.kdg.prog6.common.domain.Uom;
 import java.util.UUID;
 
 public class OrderLine {
 
-    private Material.MaterialUUID materialUUID;
+    private MaterialType materialType;
     private int quantity;
     private Uom uom;
     private OrderLineUUID lineUUID;
@@ -15,15 +16,15 @@ public class OrderLine {
 
     }
 
-    public OrderLine(Material.MaterialUUID materialUUID, int quantity, Uom uom, OrderLineUUID lineUUID) {
-        this.materialUUID = materialUUID;
+    public OrderLine(MaterialType materialType , int quantity, Uom uom, OrderLineUUID lineUUID) {
+        this.materialType = materialType;
         this.quantity = quantity;
         this.uom = uom;
         this.lineUUID = lineUUID;
     }
 
-    public Material.MaterialUUID getMaterialUUID() {
-        return materialUUID;
+    public MaterialType getMaterialType() {
+        return materialType;
     }
 
     public int getQuantity() {
