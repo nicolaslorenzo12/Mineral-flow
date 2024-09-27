@@ -8,21 +8,21 @@ public class Warehouse {
     private final Seller.CustomerUUID sellerUUID;
     private MaterialType materialType;
     private final int maximumCapacity = 500000;
-    private int utilizationCapacity;
-    private double utilizationPercentage;
+    private int currentStockStorage;
+    private double currentStockPercentage;
 
     public Warehouse(int wareHouseNumber, Seller.CustomerUUID sellerUUID, MaterialType materialType, int utilizationCapacity, double utilizationPercentage) {
         this.wareHouseNumber = wareHouseNumber;
         this.sellerUUID = sellerUUID;
         this.materialType = materialType;
-        this.utilizationCapacity = utilizationCapacity;
-        this.utilizationPercentage = utilizationPercentage;
+        this.currentStockStorage = utilizationCapacity;
+        this.currentStockPercentage = utilizationPercentage;
     }
 
     public Warehouse(int wareHouseNumber, Seller.CustomerUUID sellerUUID, int utilizationCapacity) {
         this.wareHouseNumber = wareHouseNumber;
         this.sellerUUID = sellerUUID;
-        this.utilizationCapacity = utilizationCapacity;
+        this.currentStockStorage = utilizationCapacity;
     }
 
     public int getWareHouseNumber() {
@@ -45,27 +45,28 @@ public class Warehouse {
         return maximumCapacity;
     }
 
-    public int getUtilizationCapacity() {
-        return utilizationCapacity;
+    public int getCurrentStockStorage() {
+        return currentStockStorage;
     }
 
-    public void setUtilizationCapacity(int utilizationCapacity) {
-        this.utilizationCapacity = utilizationCapacity;
+    public void setCurrentStockStorage(int currentStockStorage) {
+        this.currentStockStorage = currentStockStorage;
     }
 
-    public double getUtilizationPercentage() {
-        return utilizationPercentage;
+    public double getCurrentStockPercentage() {
+        return this.currentStockPercentage = (double) this.currentStockStorage / this.maximumCapacity * 100;
     }
 
-    public void setUtilizationPercentage(double utilizationPercentage) {
-        this.utilizationPercentage = utilizationPercentage;
+    public void setCurrentStockPercentage(double currentStockPercentage) {
+        this.currentStockPercentage = currentStockPercentage;
     }
 
     public void modifyStock(final int amountOfTons, final WarehouseAction warehouseAction){
 
         switch (warehouseAction){
-            case RECEIVE -> setUtilizationCapacity(this.utilizationCapacity + amountOfTons);
-            case DISPATCH -> setUtilizationCapacity(this.utilizationCapacity - amountOfTons);
+            case RECEIVE -> setCurrentStockStorage(this.currentStockStorage + amountOfTons);
+            case DISPATCH -> setCurrentStockStorage(this.currentStockStorage - amountOfTons);
         }
     }
+
 }

@@ -23,7 +23,7 @@ public class WarehouseDBAdapter implements LoadOrCreateWarehousePort, UpdateWare
 
         int warehouseNumber = warehouse.getWareHouseNumber();
         warehouseRepository.findByWareHouseNumber(warehouseNumber).ifPresent(warehouseJpaEntity -> {
-            warehouseJpaEntity.setUtilizationCapacity(warehouse.getUtilizationCapacity());
+            warehouseJpaEntity.setUtilizationCapacity(warehouse.getCurrentStockStorage());
             warehouseRepository.save(warehouseJpaEntity);
         });
     }
@@ -34,7 +34,17 @@ public class WarehouseDBAdapter implements LoadOrCreateWarehousePort, UpdateWare
         final WarehouseJpaEntity warehouseJpaEntity = warehouseRepository.findByWareHouseNumber(warehouseNumber).
                 orElseGet(() -> createNewWarehouse(warehouseNumber, sellerUuid, materialType));
 
-        return new Warehouse(warehouseNumber, new Seller.CustomerUUID(warehouseJpaEntity.getSellerUUID()) ,warehouseJpaEntity.getUtilizationCapacity());
+        return new Warehouse(warehouseNumber, new Seller.CustomerUUID(warehouseJpaEntity.getSellerUUID()) ,
+                warehouseJpaEntity.getUtilizationCapacity());
+    }
+
+    @Override
+    public Warehouse loadWarehouseBySellerUUIDAndMaterialType(UUID sellerUuid, MaterialType materialType) {
+        final WarehouseJpaEntity warehouseJpaEntity = warehouseRepository.
+                findBySellerUUIDAndMaterialType(sellerUuid, materialType).orElseThrow();
+
+        return new Warehouse(warehouseJpaEntity.getWareHouseNumber(), new Seller.CustomerUUID(warehouseJpaEntity.getSellerUUID()),
+                warehouseJpaEntity.getUtilizationCapacity());
     }
 
     private WarehouseJpaEntity createNewWarehouse(final int warehouseNumber, UUID sellerUuid, MaterialType materialType){

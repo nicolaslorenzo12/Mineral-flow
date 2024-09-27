@@ -2,9 +2,11 @@ package be.kdg.prog6.boundedcontextLandside.core;
 
 import be.kdg.prog6.boundedcontextLandside.domain.Appointment;
 import be.kdg.prog6.boundedcontextLandside.domain.TruckStatus;
+import be.kdg.prog6.boundedcontextLandside.domain.Warehouse;
 import be.kdg.prog6.boundedcontextLandside.ports.in.MakeAppointmentCommand;
 import be.kdg.prog6.boundedcontextLandside.ports.in.MakeAppointmentUseCase;
 import be.kdg.prog6.boundedcontextLandside.ports.out.LoadMaterialPort;
+import be.kdg.prog6.boundedcontextLandside.ports.out.LoadOrCreateWarehousePort;
 import be.kdg.prog6.boundedcontextLandside.ports.out.LoadSellerPort;
 import be.kdg.prog6.common.domain.Material;
 import be.kdg.prog6.common.domain.MaterialType;
@@ -18,10 +20,12 @@ public class DefaultMakeAppointmentUseCase implements MakeAppointmentUseCase {
 
     private final LoadSellerPort loadSellerPort;
     private final LoadMaterialPort loadMaterialPort;
+    private final LoadOrCreateWarehousePort loadOrCreateWarehousePort;
 
-    public DefaultMakeAppointmentUseCase(LoadSellerPort loadSellerPort, LoadMaterialPort loadMaterialPort) {
+    public DefaultMakeAppointmentUseCase(LoadSellerPort loadSellerPort, LoadMaterialPort loadMaterialPort, LoadOrCreateWarehousePort loadOrCreateWarehousePort) {
         this.loadSellerPort = loadSellerPort;
         this.loadMaterialPort = loadMaterialPort;
+        this.loadOrCreateWarehousePort = loadOrCreateWarehousePort;
     }
 
     @Override
@@ -34,6 +38,9 @@ public class DefaultMakeAppointmentUseCase implements MakeAppointmentUseCase {
         final Seller seller = loadSellerPort.loadSellerByUUID(sellerUUID).orElseThrow(() -> new RuntimeException("Seller not found"));
         final Material material = loadMaterialPort.loadMaterialByMaterialType(materialType).orElseThrow(() -> new RuntimeException("Material not found"));
         int gateNumber = (int)(Math.random() * 10) + 1;
+
+        final Warehouse warehouse = loadOrCreateWarehousePort.loadWarehouseBySellerUUIDAndMaterialType(seller.getCustomerUUID().uuid(), material.getMaterialType());
+        System.out.println(warehouse.getCurrentStockPercentage());
 
         Appointment appointment = new Appointment(new Appointment.AppointmentUUID(UUID.randomUUID()),seller.getCustomerUUID(), gateNumber,
                 makeAppointmentCommand.appointmentTime(), material.getMaterialType(), makeAppointmentCommand.licensePlateNumber(), TruckStatus.NOTARRIVED );

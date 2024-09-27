@@ -1,4 +1,4 @@
-POST http://localhost:8090/api/amountOfTons/300/warehouse/5/action/RECEIVE
+POST http://localhost:8090/api/amountOfTons/500000/warehouse/5/action/RECEIVE
 
 ###
 
@@ -10,7 +10,7 @@ POST http://localhost:8090/api/amountOfTons/155/warehouse/6/action/DISPATCH
 
 ###
 
-POST http://localhost:8090/api/amountOfTons/200/warehouse/5/action/DISPATCH
+POST http://localhost:8090/api/amountOfTons/100000/warehouse/5/action/DISPATCH
 
 ###
 
