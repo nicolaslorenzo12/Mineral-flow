@@ -18,6 +18,7 @@ public class WarehouseActivityCreatedListener {
     @RabbitListener(queues = "warehouse.activity_created")
     public void activityCreated(final ActivityCreatedEvent activityCreatedEvent){
 
-        warehouseUtilizationProjector.projectStockChange(activityCreatedEvent.amountOfTons(), activityCreatedEvent.warehouseNumber(), activityCreatedEvent.warehouseAction(), activityCreatedEvent.sellerUuid());
+        warehouseUtilizationProjector.projectStockChange(activityCreatedEvent.amountOfTons(), activityCreatedEvent.warehouseNumber(),
+                activityCreatedEvent.warehouseAction(), activityCreatedEvent.sellerUuid(), activityCreatedEvent.materialType());
     }
 }

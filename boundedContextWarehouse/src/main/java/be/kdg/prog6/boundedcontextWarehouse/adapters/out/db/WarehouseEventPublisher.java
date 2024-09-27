@@ -23,7 +23,7 @@ public class WarehouseEventPublisher implements UpdateWarehousePort {
         final String routingKey = "warehouse. " + warehouseNumber + " .activity_created";
         final String exchangeName = "warehouseExchange";
         final ActivityCreatedEvent body = new ActivityCreatedEvent(warehouseActivity.amountOfTons(), warehouseNumber, warehouseActivity.action(),
-                warehouse.getSellerUUID());
+                warehouse.getSellerUUID(), warehouse.getMaterialType());
 
         rabbitTemplate.convertAndSend(exchangeName, routingKey, body);
     }

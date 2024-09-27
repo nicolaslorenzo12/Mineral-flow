@@ -7,7 +7,7 @@ public class Warehouse {
 
     private final int wareHouseNumber;
     private final Seller.CustomerUUID sellerUUID;
-    private final MaterialType materialType;
+    private MaterialType materialType;
     private final Uom uom = Uom.T;
     private final WarehouseActivityWindow warehouseActivityWindow;
     private final int maximumCapacity = 500000;
@@ -41,5 +41,9 @@ public class Warehouse {
 
     public Seller.CustomerUUID getSellerUUID() {
         return sellerUUID;
+    }
+
+    public MaterialType getMaterialType() {
+        return materialType;
     }
 }

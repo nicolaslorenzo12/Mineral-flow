@@ -3,6 +3,7 @@ package be.kdg.prog6.boundedcontextLandside.adapters.out.db;
 import be.kdg.prog6.boundedcontextLandside.domain.Warehouse;
 import be.kdg.prog6.boundedcontextLandside.ports.out.LoadOrCreateWarehousePort;
 import be.kdg.prog6.boundedcontextLandside.ports.out.UpdateWarehousePort;
+import be.kdg.prog6.common.domain.MaterialType;
 import be.kdg.prog6.common.domain.Seller;
 import org.springframework.stereotype.Component;
 
@@ -28,19 +29,20 @@ public class WarehouseDBAdapter implements LoadOrCreateWarehousePort, UpdateWare
     }
 
     @Override
-    public Warehouse loadOrCreateWarehouseByWarehouseNumber(int warehouseNumber, UUID sellerUuid) {
+    public Warehouse loadOrCreateWarehouseByWarehouseNumber(int warehouseNumber, UUID sellerUuid, MaterialType materialType) {
 
         final WarehouseJpaEntity warehouseJpaEntity = warehouseRepository.findByWareHouseNumber(warehouseNumber).
-                orElseGet(() -> createNewWarehouse(warehouseNumber, sellerUuid));
+                orElseGet(() -> createNewWarehouse(warehouseNumber, sellerUuid, materialType));
 
         return new Warehouse(warehouseNumber, new Seller.CustomerUUID(warehouseJpaEntity.getSellerUUID()) ,warehouseJpaEntity.getUtilizationCapacity());
     }
 
-    private WarehouseJpaEntity createNewWarehouse(final int warehouseNumber, UUID sellerUuid){
+    private WarehouseJpaEntity createNewWarehouse(final int warehouseNumber, UUID sellerUuid, MaterialType materialType){
 
         final WarehouseJpaEntity newWarehouse = new WarehouseJpaEntity();
         newWarehouse.setWareHouseNumber(warehouseNumber);
         newWarehouse.setSellerUUID(sellerUuid);
+        newWarehouse.setMaterialType(materialType);
         warehouseRepository.save(newWarehouse);
         return newWarehouse;
     }
