@@ -1,9 +1,6 @@
 package be.kdg.prog6.boundedcontextLandside.domain;
 
-import be.kdg.prog6.common.domain.Customer;
-import be.kdg.prog6.common.domain.Material;
-import be.kdg.prog6.common.domain.MaterialType;
-import be.kdg.prog6.common.domain.Seller;
+import be.kdg.prog6.common.domain.*;
 
 public class Warehouse {
 
@@ -20,6 +17,12 @@ public class Warehouse {
         this.materialType = materialType;
         this.utilizationCapacity = utilizationCapacity;
         this.utilizationPercentage = utilizationPercentage;
+    }
+
+    public Warehouse(int wareHouseNumber, Seller.CustomerUUID sellerUUID, int utilizationCapacity) {
+        this.wareHouseNumber = wareHouseNumber;
+        this.sellerUUID = sellerUUID;
+        this.utilizationCapacity = utilizationCapacity;
     }
 
     public int getWareHouseNumber() {
@@ -56,5 +59,13 @@ public class Warehouse {
 
     public void setUtilizationPercentage(double utilizationPercentage) {
         this.utilizationPercentage = utilizationPercentage;
+    }
+
+    public void modifyStock(final int amountOfTons, final WarehouseAction warehouseAction){
+
+        switch (warehouseAction){
+            case RECEIVE -> setUtilizationCapacity(this.utilizationCapacity + amountOfTons);
+            case DISPATCH -> setUtilizationCapacity(this.utilizationCapacity - amountOfTons);
+        }
     }
 }

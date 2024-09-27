@@ -1,8 +1,6 @@
 package be.kdg.prog6.boundedcontextWarehouse.domain;
 
-import be.kdg.prog6.common.domain.MaterialType;
-import be.kdg.prog6.common.domain.Seller;
-import be.kdg.prog6.common.domain.Uom;
+import be.kdg.prog6.common.domain.*;
 import be.kdg.prog6.common.exception.InsufficientStockException;
 
 public class Warehouse {
@@ -39,5 +37,9 @@ public class Warehouse {
 
         //Delete the current stock printing at some point
         return warehouseActivityWindow.calculateCurrentStock();
+    }
+
+    public Seller.CustomerUUID getSellerUUID() {
+        return sellerUUID;
     }
 }

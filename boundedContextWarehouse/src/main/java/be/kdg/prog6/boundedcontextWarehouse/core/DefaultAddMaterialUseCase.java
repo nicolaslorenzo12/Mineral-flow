@@ -9,13 +9,15 @@ import be.kdg.prog6.boundedcontextWarehouse.ports.out.UpdateWarehousePort;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class DefaultAddMaterialUseCase implements AddMaterialUseCase {
 
     private final LoadWarehousePort loadWarehousePort;
-    private final UpdateWarehousePort updateWarehousePort;
+    private final List<UpdateWarehousePort> updateWarehousePort;
 
-    public DefaultAddMaterialUseCase(LoadWarehousePort loadWarehousePort, UpdateWarehousePort updateWarehousePort) {
+    public DefaultAddMaterialUseCase(LoadWarehousePort loadWarehousePort, final List<UpdateWarehousePort> updateWarehousePort) {
         this.loadWarehousePort = loadWarehousePort;
         this.updateWarehousePort = updateWarehousePort;
     }
@@ -29,7 +31,7 @@ public class DefaultAddMaterialUseCase implements AddMaterialUseCase {
                 .orElseThrow(() -> new RuntimeException("Warehouse not found"));
 
         WarehouseActivity warehouseActivity = buildWarehouseActivityAndAddActivityToWarehouse(warehouse, addMaterialCommand);
-        updateWarehousePort.warehouseActivityCreated(warehouse, warehouseActivity);
+        updateWarehousePort.forEach(port -> port.warehouseCreateActivity(warehouse, warehouseActivity));
         warehouse.calculateCurrentStock();
     }
     private WarehouseActivity buildWarehouseActivityAndAddActivityToWarehouse(Warehouse warehouse, AddMaterialCommand addMaterialCommand){

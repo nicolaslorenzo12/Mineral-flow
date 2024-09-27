@@ -1,7 +1,6 @@
 package be.kdg.prog6.boundedcontextWarehouse.adapters.in.web;
 
-import be.kdg.prog6.boundedcontextWarehouse.domain.Warehouse;
-import be.kdg.prog6.boundedcontextWarehouse.domain.WarehouseAction;
+import be.kdg.prog6.common.domain.WarehouseAction;
 import be.kdg.prog6.boundedcontextWarehouse.ports.in.AddMaterialCommand;
 import be.kdg.prog6.boundedcontextWarehouse.ports.in.AddMaterialUseCase;
 import be.kdg.prog6.boundedcontextWarehouse.ports.in.GetCurrentStockOfAWarehouseCommand;

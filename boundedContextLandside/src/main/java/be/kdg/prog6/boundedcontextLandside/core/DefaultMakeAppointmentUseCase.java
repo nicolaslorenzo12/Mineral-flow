@@ -38,7 +38,7 @@ public class DefaultMakeAppointmentUseCase implements MakeAppointmentUseCase {
         Appointment appointment = new Appointment(new Appointment.AppointmentUUID(UUID.randomUUID()),seller.getCustomerUUID(), gateNumber,
                 makeAppointmentCommand.appointmentTime(), material.getMaterialType(), makeAppointmentCommand.licensePlateNumber(), TruckStatus.NOTARRIVED );
 
-        System.out.println(appointment.toString());
+        System.out.println(appointment);
 
     }
 }

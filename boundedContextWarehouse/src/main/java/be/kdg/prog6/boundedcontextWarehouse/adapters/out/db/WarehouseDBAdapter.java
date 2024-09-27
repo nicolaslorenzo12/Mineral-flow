@@ -57,7 +57,7 @@ public class WarehouseDBAdapter implements LoadWarehousePort, UpdateWarehousePor
         }
     }
     @Override
-    public void warehouseActivityCreated(Warehouse warehouse, WarehouseActivity warehouseActivity) {
+    public void warehouseCreateActivity(Warehouse warehouse, WarehouseActivity warehouseActivity) {
         final int warehouseNumber = warehouse.getWareHouseNumber();
         final WarehouseJpaEntity warehouseJpaEntity = warehouseRepository.
                 findByWarehouseNumber(warehouseNumber).orElseThrow();

@@ -1,5 +1,7 @@
 package be.kdg.prog6.boundedcontextWarehouse.domain;
 
+import be.kdg.prog6.common.domain.WarehouseAction;
+
 import java.util.ArrayList;
 import java.util.List;
 

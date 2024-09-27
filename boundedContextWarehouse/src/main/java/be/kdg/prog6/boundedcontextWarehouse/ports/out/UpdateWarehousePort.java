@@ -5,5 +5,5 @@ import be.kdg.prog6.boundedcontextWarehouse.domain.WarehouseActivity;
 
 public interface UpdateWarehousePort {
 
-    void warehouseActivityCreated(Warehouse warehouse, WarehouseActivity warehouseActivity);
+    void warehouseCreateActivity(Warehouse warehouse, WarehouseActivity warehouseActivity);
 }
