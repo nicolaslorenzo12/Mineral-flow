@@ -23,7 +23,7 @@ public class Appointment {
     }
 
     public Appointment( final AppointmentUUID appointmentUUID,Seller.CustomerUUID sellerUUID, int gateNumber,
-                       LocalDateTime appointmentTime, MaterialType materialType, String licensePlateNumberOfTruck, TruckStatus status)
+                       LocalDateTime appointmentTime, MaterialType materialType, String licensePlateNumberOfTruck, TruckStatus status, int warehouseNumber)
     {
         this.appointmentUUID = appointmentUUID;
         this.sellerUUID = sellerUUID;
@@ -32,6 +32,19 @@ public class Appointment {
         this.materialType = materialType;
         this.licensePlateNumberOfTruck = licensePlateNumberOfTruck;
         this.status = status;
+        this.warehouseNumber = warehouseNumber;
+    }
+
+    public Appointment(final AppointmentUUID appointmentUUID, Seller.CustomerUUID sellerUUID, int gateNumber,
+                        LocalDateTime appointmentTime, MaterialType materialType, String licensePlateNumberOfTruck, int warehouseNumber)
+    {
+        this.appointmentUUID = appointmentUUID;
+        this.sellerUUID = sellerUUID;
+        this.gateNumber = gateNumber;
+        this.appointmentTime = appointmentTime;
+        this.materialType = materialType;
+        this.licensePlateNumberOfTruck = licensePlateNumberOfTruck;
+        this.warehouseNumber = warehouseNumber;
     }
 
     public Seller.CustomerUUID getSellerUUID() {

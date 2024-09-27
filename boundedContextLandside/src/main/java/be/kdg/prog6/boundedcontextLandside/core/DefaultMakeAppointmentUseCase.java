@@ -5,6 +5,7 @@ import be.kdg.prog6.boundedcontextLandside.domain.TruckStatus;
 import be.kdg.prog6.boundedcontextLandside.domain.Warehouse;
 import be.kdg.prog6.boundedcontextLandside.ports.in.MakeAppointmentCommand;
 import be.kdg.prog6.boundedcontextLandside.ports.in.MakeAppointmentUseCase;
+import be.kdg.prog6.boundedcontextLandside.ports.out.LoadAndCreateAppointmentPort;
 import be.kdg.prog6.boundedcontextLandside.ports.out.LoadMaterialPort;
 import be.kdg.prog6.boundedcontextLandside.ports.out.LoadOrCreateWarehousePort;
 import be.kdg.prog6.boundedcontextLandside.ports.out.LoadSellerPort;
@@ -21,11 +22,13 @@ public class DefaultMakeAppointmentUseCase implements MakeAppointmentUseCase {
     private final LoadSellerPort loadSellerPort;
     private final LoadMaterialPort loadMaterialPort;
     private final LoadOrCreateWarehousePort loadOrCreateWarehousePort;
+    private final LoadAndCreateAppointmentPort loadAndCreateAppointmentPort;
 
-    public DefaultMakeAppointmentUseCase(LoadSellerPort loadSellerPort, LoadMaterialPort loadMaterialPort, LoadOrCreateWarehousePort loadOrCreateWarehousePort) {
+    public DefaultMakeAppointmentUseCase(LoadSellerPort loadSellerPort, LoadMaterialPort loadMaterialPort, LoadOrCreateWarehousePort loadOrCreateWarehousePort, LoadAndCreateAppointmentPort loadAndCreateAppointmentPort) {
         this.loadSellerPort = loadSellerPort;
         this.loadMaterialPort = loadMaterialPort;
         this.loadOrCreateWarehousePort = loadOrCreateWarehousePort;
+        this.loadAndCreateAppointmentPort = loadAndCreateAppointmentPort;
     }
 
     @Override
@@ -40,11 +43,14 @@ public class DefaultMakeAppointmentUseCase implements MakeAppointmentUseCase {
         int gateNumber = (int)(Math.random() * 10) + 1;
 
         final Warehouse warehouse = loadOrCreateWarehousePort.loadWarehouseBySellerUUIDAndMaterialType(seller.getCustomerUUID().uuid(), material.getMaterialType());
-        System.out.println(warehouse.getCurrentStockPercentage());
+        System.out.println(warehouse.getCurrentStockPercentage() + "%");
 
-        Appointment appointment = new Appointment(new Appointment.AppointmentUUID(UUID.randomUUID()),seller.getCustomerUUID(), gateNumber,
-                makeAppointmentCommand.appointmentTime(), material.getMaterialType(), makeAppointmentCommand.licensePlateNumber(), TruckStatus.NOTARRIVED );
+        Appointment appointment = new Appointment(new Appointment.AppointmentUUID(UUID.randomUUID()),
+                seller.getCustomerUUID(), gateNumber, makeAppointmentCommand.appointmentTime(),
+                material.getMaterialType(), makeAppointmentCommand.licensePlateNumber(), TruckStatus.NOTARRIVED,
+                warehouse.getWareHouseNumber());
 
+        loadAndCreateAppointmentPort.createAppointment(appointment);
         System.out.println(appointment);
 
     }

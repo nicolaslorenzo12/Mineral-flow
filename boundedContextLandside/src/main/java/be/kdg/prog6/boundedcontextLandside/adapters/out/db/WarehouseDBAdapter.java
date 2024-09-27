@@ -27,7 +27,6 @@ public class WarehouseDBAdapter implements LoadOrCreateWarehousePort, UpdateWare
             warehouseRepository.save(warehouseJpaEntity);
         });
     }
-
     @Override
     public Warehouse loadOrCreateWarehouseByWarehouseNumber(int warehouseNumber, UUID sellerUuid, MaterialType materialType) {
 
@@ -37,7 +36,6 @@ public class WarehouseDBAdapter implements LoadOrCreateWarehousePort, UpdateWare
         return new Warehouse(warehouseNumber, new Seller.CustomerUUID(warehouseJpaEntity.getSellerUUID()) ,
                 warehouseJpaEntity.getUtilizationCapacity());
     }
-
     @Override
     public Warehouse loadWarehouseBySellerUUIDAndMaterialType(UUID sellerUuid, MaterialType materialType) {
         final WarehouseJpaEntity warehouseJpaEntity = warehouseRepository.
@@ -46,7 +44,6 @@ public class WarehouseDBAdapter implements LoadOrCreateWarehousePort, UpdateWare
         return new Warehouse(warehouseJpaEntity.getWareHouseNumber(), new Seller.CustomerUUID(warehouseJpaEntity.getSellerUUID()),
                 warehouseJpaEntity.getUtilizationCapacity());
     }
-
     private WarehouseJpaEntity createNewWarehouse(final int warehouseNumber, UUID sellerUuid, MaterialType materialType){
 
         final WarehouseJpaEntity newWarehouse = new WarehouseJpaEntity();
