@@ -1,16 +1,24 @@
 package be.kdg.prog6.boundedcontextLandside.adapters.out.db;
 
 import be.kdg.prog6.boundedcontextLandside.domain.Appointment;
+import be.kdg.prog6.boundedcontextLandside.domain.DailyCalendar;
 import be.kdg.prog6.boundedcontextLandside.ports.out.LoadAndCreateAppointmentPort;
 import be.kdg.prog6.common.domain.Seller;
+import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Component;
+
+import java.time.LocalDate;
+import java.util.UUID;
+
 @Component
 public class AppointmentDBAdapter implements LoadAndCreateAppointmentPort {
 
     private final AppointmentRepository appointmentRepository;
+    private final DailyCalendarRepository dailyCalendarRepository;
 
-    public AppointmentDBAdapter(AppointmentRepository appointmentRepository) {
+    public AppointmentDBAdapter(AppointmentRepository appointmentRepository, DailyCalendarRepository dailyCalendarRepository) {
         this.appointmentRepository = appointmentRepository;
+        this.dailyCalendarRepository = dailyCalendarRepository;
     }
 
     @Override
@@ -24,9 +32,19 @@ public class AppointmentDBAdapter implements LoadAndCreateAppointmentPort {
     @Override
     public void createAppointment(Appointment appointment) {
 
-        appointmentRepository.save(new AppointmentJpaEntity(appointment.getAppointmentUUID().uuid(), appointment.getSellerUUID().uuid(), appointment.getGateNumber(),
-                appointment.getAppointmentTime(), appointment.getMaterialType(), appointment.getLicensePlateNumberOfTruck(), appointment.getStatus(),
-                appointment.getWarehouseNumber()));
+//        final String licensePlateNumberOfTruck = appointment.getLicensePlateNumberOfTruck();
+//        final AppointmentJpaEntity appointmentJpaEntity = appointmentRepository.findAppointmentJpaEntityByLicensePlateNumberOfTruck(licensePlateNumberOfTruck).orElseThrow();
+
+        LocalDate localDate = appointment.getAppointmentTime().toLocalDate();
+        DailyCalendarJpaEntity dailyCalendarJpaEntity = dailyCalendarRepository.findDailyCalendarJpaEntityByDay(localDate).
+                orElseThrow();
+
+        final AppointmentJpaEntity appointmentJpaEntity = new AppointmentJpaEntity(appointment.getAppointmentUUID().uuid(), appointment.getSellerUUID().uuid(), appointment.getGateNumber(),
+                appointment.getAppointmentTime(),appointment.getMaterialType(), appointment.getLicensePlateNumberOfTruck(), appointment.getStatus(),
+                appointment.getWarehouseNumber(), dailyCalendarJpaEntity);
+
+        dailyCalendarJpaEntity.getAppointments().add(appointmentJpaEntity);
+        dailyCalendarRepository.save(dailyCalendarJpaEntity);
     }
 
     private Appointment buildAppointmentObject(AppointmentJpaEntity appointmentJpaEntity){

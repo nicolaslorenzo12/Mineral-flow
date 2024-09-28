@@ -1,0 +1,42 @@
+package be.kdg.prog6.boundedcontextLandside.adapters.out.db;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+
+import java.time.LocalDate;
+import java.util.List;
+
+@Entity
+public class DailyCalendarJpaEntity {
+
+    @Id
+    private LocalDate day;
+    @OneToMany(mappedBy = "dailyCalendarJpaEntity", cascade = CascadeType.ALL)
+    private List<AppointmentJpaEntity> appointments;
+
+    public DailyCalendarJpaEntity(LocalDate day) {
+        this.day = day;
+    }
+
+    public DailyCalendarJpaEntity() {
+
+    }
+
+    public LocalDate getDay() {
+        return day;
+    }
+
+    public void setDay(LocalDate day) {
+        this.day = day;
+    }
+
+    public List<AppointmentJpaEntity> getAppointments() {
+        return appointments;
+    }
+
+    public void setAppointments(List<AppointmentJpaEntity> appointments) {
+        this.appointments = appointments;
+    }
+}

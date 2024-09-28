@@ -1,6 +1,7 @@
 package be.kdg.prog6.boundedcontextLandside.domain;
 import be.kdg.prog6.common.domain.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 

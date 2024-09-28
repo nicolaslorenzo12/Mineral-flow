@@ -3,6 +3,8 @@ package be.kdg.prog6.boundedcontextLandside.adapters.out.db;
 import be.kdg.prog6.boundedcontextLandside.domain.TruckStatus;
 import be.kdg.prog6.common.domain.MaterialType;
 import jakarta.persistence.*;
+
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -14,19 +16,6 @@ public class AppointmentJpaEntity {
     private UUID sellerUuid;
     @Column(nullable = false)
     private int gateNumber;
-
-    public AppointmentJpaEntity(UUID appointmentUUID, UUID sellerUuid, int gateNumber, LocalDateTime appointmentTime, MaterialType materialType,
-                                String licensePlateNumberOfTruck, TruckStatus status, int warehouseNumber) {
-        this.appointmentUUID = appointmentUUID;
-        this.sellerUuid = sellerUuid;
-        this.gateNumber = gateNumber;
-        this.appointmentTime = appointmentTime;
-        this.materialType = materialType;
-        this.licensePlateNumberOfTruck = licensePlateNumberOfTruck;
-        this.status = status;
-        this.warehouseNumber = warehouseNumber;
-    }
-
     @Column(nullable = false)
     private LocalDateTime appointmentTime;
     @Column(nullable = false)
@@ -47,7 +36,23 @@ public class AppointmentJpaEntity {
     private double initialWeight;
     @Column(nullable = true)
     private double finalWeight;
+    @ManyToOne
+    @JoinColumn(name = "day", referencedColumnName = "day", nullable = false)
+    private DailyCalendarJpaEntity dailyCalendarJpaEntity;
 
+
+    public AppointmentJpaEntity(UUID appointmentUUID, UUID sellerUuid, int gateNumber, LocalDateTime appointmentTime, MaterialType materialType,
+                                String licensePlateNumberOfTruck, TruckStatus status, int warehouseNumber, DailyCalendarJpaEntity dailyCalendarJpaEntity) {
+        this.appointmentUUID = appointmentUUID;
+        this.sellerUuid = sellerUuid;
+        this.gateNumber = gateNumber;
+        this.appointmentTime = appointmentTime;
+        this.materialType = materialType;
+        this.licensePlateNumberOfTruck = licensePlateNumberOfTruck;
+        this.status = status;
+        this.warehouseNumber = warehouseNumber;
+        this.dailyCalendarJpaEntity = dailyCalendarJpaEntity;
+    }
     public AppointmentJpaEntity() {
 
     }
@@ -147,5 +152,15 @@ public class AppointmentJpaEntity {
     public void setFinalWeight(double finalWeight) {
         this.finalWeight = finalWeight;
     }
+
+    public DailyCalendarJpaEntity getDailyCalendarJpaEntity() {
+        return dailyCalendarJpaEntity;
+    }
+
+    public void setDailyCalendarJpaEntity(DailyCalendarJpaEntity dailyCalendarJpaEntity) {
+        this.dailyCalendarJpaEntity = dailyCalendarJpaEntity;
+    }
+
+
 }
 
