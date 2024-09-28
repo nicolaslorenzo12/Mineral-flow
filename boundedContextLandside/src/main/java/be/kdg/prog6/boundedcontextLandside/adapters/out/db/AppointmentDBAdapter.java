@@ -35,12 +35,14 @@ public class AppointmentDBAdapter implements LoadAndCreateAppointmentPort {
     public Optional<List<Appointment>> loadAppointmentsByDailyCalendarJpaEntity(DailyCalendarJpaEntity dailyCalendarJpaEntity) {
         List<AppointmentJpaEntity> appointmentJpaEntityList = appointmentRepository.findAppointmentJpaEntityByDailyCalendarJpaEntity(dailyCalendarJpaEntity).orElseThrow();
         List<Appointment> appointments = new ArrayList<>();
-        appointmentJpaEntityList.forEach(appointmentJpaEntity -> appointments.add(new Appointment(new Appointment.AppointmentUUID(appointmentJpaEntity.getAppointmentUUID()),
-                new Customer.CustomerUUID(appointmentJpaEntity.getSellerUuid()), appointmentJpaEntity.getDailyCalendarJpaEntity().getDay(), appointmentJpaEntity.getGateNumber(),
-                appointmentJpaEntity.getAppointmentTime(), appointmentJpaEntity.getMaterialType(), appointmentJpaEntity.getLicensePlateNumberOfTruck(),
-                appointmentJpaEntity.getStatus(), appointmentJpaEntity.getWarehouseNumber())));
+//        appointmentJpaEntityList.forEach(appointmentJpaEntity -> appointments.add(new Appointment(new Appointment.AppointmentUUID(appointmentJpaEntity.getAppointmentUUID()),
+//                new Customer.CustomerUUID(appointmentJpaEntity.getSellerUuid()), appointmentJpaEntity.getDailyCalendarJpaEntity().getDay(), appointmentJpaEntity.getGateNumber(),
+//                appointmentJpaEntity.getAppointmentTime(), appointmentJpaEntity.getMaterialType(), appointmentJpaEntity.getLicensePlateNumberOfTruck(),
+//                appointmentJpaEntity.getStatus(), appointmentJpaEntity.getWarehouseNumber())));
 
-        return Optional.of(appointments);
+//        toAppointment()
+
+        return Optional.of(toAppointment(dailyCalendarJpaEntity, appointmentJpaEntityList, appointments));
     }
 
 
@@ -52,18 +54,18 @@ public class AppointmentDBAdapter implements LoadAndCreateAppointmentPort {
         return appointments;
     }
     @Override
-    public void createAppointment(Appointment appointment) {
+    public void createAppointment(Appointment appointment, DailyCalendarJpaEntity dailyCalendarJpaEntity) {
 
         //Remember to check if the calendar exists and if not create it.
-        LocalDate localDate = appointment.getAppointmentTime().toLocalDate();
-        DailyCalendarJpaEntity dailyCalendarJpaEntity = dailyCalendarRepository.findDailyCalendarJpaEntityByDay(localDate).
-                orElseThrow();
+//        LocalDate localDate = appointment.getAppointmentTime().toLocalDate();
+//        DailyCalendarJpaEntity dailyCalendarJpaEntity = dailyCalendarRepository.findDailyCalendarJpaEntityByDay(localDate).
+//                orElseThrow();
 
         final AppointmentJpaEntity appointmentJpaEntity = new AppointmentJpaEntity(appointment.getAppointmentUUID().uuid(), appointment.getSellerUUID().uuid(), appointment.getGateNumber(),
                 appointment.getAppointmentTime(),appointment.getMaterialType(), appointment.getLicensePlateNumberOfTruck(), appointment.getStatus(),
                 appointment.getWarehouseNumber(), dailyCalendarJpaEntity);
 
-        dailyCalendarJpaEntity.getAppointments().add(appointmentJpaEntity);
+        dailyCalendarJpaEntity.addAppointment(appointmentJpaEntity);
         dailyCalendarRepository.save(dailyCalendarJpaEntity);
     }
 

@@ -16,5 +16,5 @@ public interface LoadAndCreateAppointmentPort {
 
     Optional<Appointment> loadAppointmentByLicensePlateNumberOfTruck(String licensePlateNumberOfTruck);
     Optional<List<Appointment>> loadAppointmentsByDailyCalendarJpaEntity(DailyCalendarJpaEntity dailyCalendarJpaEntity);
-    void createAppointment(Appointment appointment);
+    void createAppointment(Appointment appointment, DailyCalendarJpaEntity dailyCalendarJpaEntity);
 }

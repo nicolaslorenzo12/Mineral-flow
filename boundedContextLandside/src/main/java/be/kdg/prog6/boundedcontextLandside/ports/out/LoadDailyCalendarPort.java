@@ -7,5 +7,5 @@ import java.util.Optional;
 
 public interface LoadDailyCalendarPort {
 
-    Optional<DailyCalendar> loadDailyCalendarByDay(LocalDate localDate);
+    DailyCalendar loadOrCreateDailyCalendarByDay(LocalDate localDate);
 }

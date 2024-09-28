@@ -5,7 +5,6 @@ import be.kdg.prog6.boundedcontextWarehouse.domain.WarehouseActivity;
 import be.kdg.prog6.boundedcontextWarehouse.domain.WarehouseActivityWindow;
 import be.kdg.prog6.boundedcontextWarehouse.ports.out.LoadWarehousePort;
 import be.kdg.prog6.boundedcontextWarehouse.ports.out.UpdateWarehousePort;
-import be.kdg.prog6.common.domain.Material;
 import be.kdg.prog6.common.domain.Seller;
 import org.springframework.stereotype.Component;
 

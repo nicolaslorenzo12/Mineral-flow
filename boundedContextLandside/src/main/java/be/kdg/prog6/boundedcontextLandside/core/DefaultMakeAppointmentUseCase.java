@@ -56,7 +56,7 @@ public class DefaultMakeAppointmentUseCase implements MakeAppointmentUseCase {
         int gateNumber = generateRandomGateNumber();
 
         Appointment appointment = buildAppointmentObject(seller, gateNumber, makeAppointmentCommand, material, warehouse, dailyCalendar.getDay());
-        loadAndCreateAppointmentPort.createAppointment(appointment);
+        loadAndCreateAppointmentPort.createAppointment(appointment, new DailyCalendarJpaEntity(dailyCalendar.getDay()));
     }
 
     private Appointment buildAppointmentObject(Seller seller, int gateNumber, MakeAppointmentCommand makeAppointmentCommand, Material material, Warehouse warehouse, LocalDate day){
@@ -83,7 +83,7 @@ public class DefaultMakeAppointmentUseCase implements MakeAppointmentUseCase {
     }
 
     private DailyCalendar findDailyCalenderByDay(LocalDate day){
-        return loadDailyCalendarPort.loadDailyCalendarByDay(day).orElseThrow(() -> new RuntimeException("Calendar not found"));
+        return loadDailyCalendarPort.loadOrCreateDailyCalendarByDay(day);
     }
 
     private Warehouse findWarehouseForSellerAndMaterial(Seller seller, Material material) {
@@ -96,7 +96,7 @@ public class DefaultMakeAppointmentUseCase implements MakeAppointmentUseCase {
     private void checkIfAnAppointmentsPerHourReachedExceptionIsFound(List<Appointment> appointments){
 
         if(appointments.size() == 40){
-            throw new AppointmentsPerHourReachedException("The limist of 40 appointments per hour has been reached");
+            throw new AppointmentsPerHourReachedException("The limit of 40 appointments per hour has been reached");
         }
     }
     private List<Appointment> findAppointmentsByDay(LocalDate day){
