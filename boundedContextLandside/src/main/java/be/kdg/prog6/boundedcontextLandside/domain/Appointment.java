@@ -8,6 +8,7 @@ import java.util.UUID;
 public class Appointment {
 
     private final Seller.CustomerUUID sellerUUID;
+    private final LocalDate localDate;
     private final int gateNumber;
     private final LocalDateTime appointmentTime;
     private final MaterialType materialType;
@@ -23,11 +24,12 @@ public class Appointment {
 
     }
 
-    public Appointment( final AppointmentUUID appointmentUUID,Seller.CustomerUUID sellerUUID, int gateNumber,
+    public Appointment(final AppointmentUUID appointmentUUID, Seller.CustomerUUID sellerUUID, LocalDate localDate, int gateNumber,
                        LocalDateTime appointmentTime, MaterialType materialType, String licensePlateNumberOfTruck, TruckStatus status, int warehouseNumber)
     {
         this.appointmentUUID = appointmentUUID;
         this.sellerUUID = sellerUUID;
+        this.localDate = localDate;
         this.gateNumber = gateNumber;
         this.appointmentTime = appointmentTime;
         this.materialType = materialType;
@@ -36,11 +38,12 @@ public class Appointment {
         this.warehouseNumber = warehouseNumber;
     }
 
-    public Appointment(final AppointmentUUID appointmentUUID, Seller.CustomerUUID sellerUUID, int gateNumber,
-                        LocalDateTime appointmentTime, MaterialType materialType, String licensePlateNumberOfTruck, int warehouseNumber)
+    public Appointment(final AppointmentUUID appointmentUUID, Seller.CustomerUUID sellerUUID, LocalDate localDate, int gateNumber,
+                       LocalDateTime appointmentTime, MaterialType materialType, String licensePlateNumberOfTruck, int warehouseNumber)
     {
         this.appointmentUUID = appointmentUUID;
         this.sellerUUID = sellerUUID;
+        this.localDate = localDate;
         this.gateNumber = gateNumber;
         this.appointmentTime = appointmentTime;
         this.materialType = materialType;

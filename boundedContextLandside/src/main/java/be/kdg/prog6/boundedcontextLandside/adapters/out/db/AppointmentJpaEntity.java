@@ -9,6 +9,9 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
+@Table(name = "appointment", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"licensePlateNumberOfTruck", "appointmentTime"})
+})
 public class AppointmentJpaEntity {
     @Id
     private UUID appointmentUUID;

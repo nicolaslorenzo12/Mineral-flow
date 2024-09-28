@@ -13,6 +13,11 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());  // HTTP 409 Conflict
     }
 
+    @ExceptionHandler(AppointmentsPerHourReachedException.class)
+    public ResponseEntity<String> handleAppointmentsPerHourReached(WarehouseCapacityExceededException ex) {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());  // HTTP 409 Conflict
+    }
+
     @ExceptionHandler(InsufficientStockException.class)
     public ResponseEntity<String> handleInsufficientStock(InsufficientStockException ex){
         return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
