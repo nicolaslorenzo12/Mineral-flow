@@ -10,4 +10,9 @@ import java.util.UUID;
 
 public interface AppointmentRepository extends JpaRepository<AppointmentJpaEntity, UUID> {
     Optional<AppointmentJpaEntity> findAppointmentJpaEntityByLicensePlateNumberOfTruck(String licensePlateNumberOfTruck);
-    Optional<List<AppointmentJpaEntity>> findAppointmentJpaEntityByAppointmentTime(LocalDateTime appointmentTime);}
+    Optional<List<AppointmentJpaEntity>> findAppointmentJpaEntityByAppointmentTime(LocalDateTime appointmentTime);
+
+    Optional<AppointmentJpaEntity> findAppointmentJpaEntityByAppointmentUUID(UUID appointmentUuid);
+}
+
+

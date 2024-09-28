@@ -167,6 +167,12 @@ public class AppointmentJpaEntity {
         this.dailyCalendarJpaEntity = dailyCalendarJpaEntity;
     }
 
+    public LocalDate getDay() {
+        return day;
+    }
 
+    public void setDay(LocalDate day) {
+        this.day = day;
+    }
 }
 

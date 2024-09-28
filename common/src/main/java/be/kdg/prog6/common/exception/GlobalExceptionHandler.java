@@ -14,7 +14,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(AppointmentsPerHourReachedException.class)
-    public ResponseEntity<String> handleAppointmentsPerHourReached(WarehouseCapacityExceededException ex) {
+    public ResponseEntity<String> handleAppointmentsPerHourReached(AppointmentsPerHourReachedException ex) {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());  // HTTP 409 Conflict
     }
 
@@ -27,5 +27,15 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<String> handleGeneralException(Exception ex) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An unexpected error occurred.");
+    }
+
+    @ExceptionHandler(TruckArrivingToAppointmentAtAnIncorrectTimeException.class)
+    public ResponseEntity<String> handleTruckArrivingToAppointmentAtAnIncorrectTime(TruckArrivingToAppointmentAtAnIncorrectTimeException ex){
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
+    }
+
+    @ExceptionHandler(TruckArrivedWrongDateException.class)
+    public ResponseEntity<String> handleTruckArrivedWrongDate(TruckArrivedWrongDateException ex){
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
     }
 }

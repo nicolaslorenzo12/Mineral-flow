@@ -1,7 +1,11 @@
 package be.kdg.prog6.boundedcontextLandside.adapters.out.db;
 
 import be.kdg.prog6.boundedcontextLandside.domain.Appointment;
+import be.kdg.prog6.boundedcontextLandside.domain.TruckStatus;
+import be.kdg.prog6.boundedcontextLandside.domain.Warehouse;
 import be.kdg.prog6.boundedcontextLandside.ports.out.LoadAndCreateAppointmentPort;
+import be.kdg.prog6.boundedcontextLandside.ports.out.UpdateAppointmentPort;
+import be.kdg.prog6.boundedcontextLandside.ports.out.UpdateWarehousePort;
 import be.kdg.prog6.common.domain.Customer;
 import be.kdg.prog6.common.domain.Seller;
 import org.springframework.stereotype.Component;
@@ -11,10 +15,11 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Component
-public class AppointmentDBAdapter implements LoadAndCreateAppointmentPort {
+public class AppointmentDBAdapter implements LoadAndCreateAppointmentPort, UpdateAppointmentPort {
 
     private final AppointmentRepository appointmentRepository;
     private final DailyCalendarRepository dailyCalendarRepository;
@@ -65,5 +70,15 @@ public class AppointmentDBAdapter implements LoadAndCreateAppointmentPort {
         return new Appointment(new Appointment.AppointmentUUID(appointmentJpaEntity.getAppointmentUUID()), new Seller.CustomerUUID(appointmentJpaEntity.getSellerUuid()),
                 appointmentJpaEntity.getDailyCalendarJpaEntity().getDay(), appointmentJpaEntity.getGateNumber(), appointmentJpaEntity.getAppointmentTime(), appointmentJpaEntity.getMaterialType(),
                 appointmentJpaEntity.getLicensePlateNumberOfTruck(), appointmentJpaEntity.getWarehouseNumber());
+    }
+
+    @Override
+    public void updateAppointmentTruckStatus(Appointment appointment, TruckStatus truckStatus) {
+
+        final AppointmentJpaEntity appointmentJpaEntity = appointmentRepository.findAppointmentJpaEntityByAppointmentUUID(appointment.getAppointmentUUID().uuid()).
+                orElseThrow(() -> new RuntimeException("No appointment found"));
+
+        appointmentJpaEntity.setStatus(truckStatus);
+        appointmentRepository.save(appointmentJpaEntity);
     }
 }
