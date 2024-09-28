@@ -39,15 +39,14 @@ public class DefaultMakeAppointmentUseCase implements MakeAppointmentUseCase {
         final UUID sellerUUID = makeAppointmentCommand.sellerUUID().uuid();
         final MaterialType materialType = makeAppointmentCommand.materialType();
 
-        final Seller seller = loadSellerPort.loadSellerByUUID(sellerUUID)
-                .orElseThrow(() -> new RuntimeException("Seller not found"));
-        final Material material = loadMaterialPort.loadMaterialByMaterialType(materialType)
-                .orElseThrow(() -> new RuntimeException("Material not found"));
-        int gateNumber = (int)(Math.random() * 10) + 1;
+        final Seller seller = findSellerByUUID(sellerUUID);
+        final Material material = findMaterialByType(materialType);
+        final Warehouse warehouse = findWarehouseForSellerAndMaterial(seller, material);
 
-        final Warehouse warehouse = loadOrCreateWarehousePort.loadWarehouseBySellerUUIDAndMaterialType(seller.getCustomerUUID().uuid(), material.getMaterialType());
         double currentStockPercentage = warehouse.getCurrentStockPercentage();
         checkIfAWarehouseCapacityExceededExceptionIsFound(currentStockPercentage);
+
+        int gateNumber = generateRandomGateNumber();
 
         Appointment appointment = buildAppointmentObject(seller, gateNumber, makeAppointmentCommand, material, warehouse);
         loadAndCreateAppointmentPort.createAppointment(appointment);
@@ -65,5 +64,23 @@ public class DefaultMakeAppointmentUseCase implements MakeAppointmentUseCase {
         if(currentStockPercentage >= 80.00) {
             throw new WarehouseCapacityExceededException("Warehouse is at or above 80% capacity. Cannot schedule an appointment.");
         }
+    }
+    private Seller findSellerByUUID(UUID sellerUUID) {
+        return loadSellerPort.loadSellerByUUID(sellerUUID)
+                .orElseThrow(() -> new RuntimeException("Seller not found"));
+    }
+    private Material findMaterialByType(MaterialType materialType) {
+        return loadMaterialPort.loadMaterialByMaterialType(materialType)
+                .orElseThrow(() -> new RuntimeException("Material not found"));
+    }
+    private Warehouse findWarehouseForSellerAndMaterial(Seller seller, Material material) {
+        return loadOrCreateWarehousePort.loadWarehouseBySellerUUIDAndMaterialType(
+                seller.getCustomerUUID().uuid(),
+                material.getMaterialType()
+        );
+
+    }
+    private int generateRandomGateNumber () {
+        return (int) (Math.random() * 10) + 1;
     }
 }
