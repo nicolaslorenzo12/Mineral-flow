@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Component
 public class AppointmentDBAdapter implements LoadAndCreateAppointmentPort {
@@ -32,19 +33,20 @@ public class AppointmentDBAdapter implements LoadAndCreateAppointmentPort {
     }
 
     @Override
-    public Optional<List<Appointment>> loadAppointmentsByDailyCalendarJpaEntity(DailyCalendarJpaEntity dailyCalendarJpaEntity) {
+    public Optional<List<Appointment>> loadAppointmentsByDailyCalendarJpaEntityAndTime(DailyCalendarJpaEntity dailyCalendarJpaEntity, LocalDateTime localDateTime) {
         List<AppointmentJpaEntity> appointmentJpaEntityList = appointmentRepository.findAppointmentJpaEntityByDailyCalendarJpaEntity(dailyCalendarJpaEntity).orElseThrow();
+
+        List<AppointmentJpaEntity> filteredAppointmentsJPaEntityList = appointmentJpaEntityList.stream()
+                .filter(appointment -> isSameHour(appointment.getAppointmentTime(), localDateTime)).toList();
+
         List<Appointment> appointments = new ArrayList<>();
-//        appointmentJpaEntityList.forEach(appointmentJpaEntity -> appointments.add(new Appointment(new Appointment.AppointmentUUID(appointmentJpaEntity.getAppointmentUUID()),
-//                new Customer.CustomerUUID(appointmentJpaEntity.getSellerUuid()), appointmentJpaEntity.getDailyCalendarJpaEntity().getDay(), appointmentJpaEntity.getGateNumber(),
-//                appointmentJpaEntity.getAppointmentTime(), appointmentJpaEntity.getMaterialType(), appointmentJpaEntity.getLicensePlateNumberOfTruck(),
-//                appointmentJpaEntity.getStatus(), appointmentJpaEntity.getWarehouseNumber())));
 
-//        toAppointment()
-
-        return Optional.of(toAppointment(dailyCalendarJpaEntity, appointmentJpaEntityList, appointments));
+        return Optional.of(toAppointment(dailyCalendarJpaEntity, filteredAppointmentsJPaEntityList, appointments));
     }
 
+    private boolean isSameHour(LocalDateTime appointmentTime, LocalDateTime now) {
+        return appointmentTime.getHour() == now.getHour();
+    }
 
     private List<Appointment> toAppointment(DailyCalendarJpaEntity dailyCalendarJpaEntity, List<AppointmentJpaEntity> appointmentJpaEntityList, List<Appointment> appointments){
         appointmentJpaEntityList.forEach(appointmentJpaEntity -> appointments.add(new Appointment(new Appointment.AppointmentUUID(appointmentJpaEntity.getAppointmentUUID()),
@@ -55,11 +57,6 @@ public class AppointmentDBAdapter implements LoadAndCreateAppointmentPort {
     }
     @Override
     public void createAppointment(Appointment appointment, DailyCalendarJpaEntity dailyCalendarJpaEntity) {
-
-        //Remember to check if the calendar exists and if not create it.
-//        LocalDate localDate = appointment.getAppointmentTime().toLocalDate();
-//        DailyCalendarJpaEntity dailyCalendarJpaEntity = dailyCalendarRepository.findDailyCalendarJpaEntityByDay(localDate).
-//                orElseThrow();
 
         final AppointmentJpaEntity appointmentJpaEntity = new AppointmentJpaEntity(appointment.getAppointmentUUID().uuid(), appointment.getSellerUUID().uuid(), appointment.getGateNumber(),
                 appointment.getAppointmentTime(),appointment.getMaterialType(), appointment.getLicensePlateNumberOfTruck(), appointment.getStatus(),

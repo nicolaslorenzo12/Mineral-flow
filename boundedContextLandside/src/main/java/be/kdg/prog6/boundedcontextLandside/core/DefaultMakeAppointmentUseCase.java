@@ -17,6 +17,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -48,7 +49,7 @@ public class DefaultMakeAppointmentUseCase implements MakeAppointmentUseCase {
         final Material material = findMaterialByType(materialType);
         final Warehouse warehouse = findWarehouseForSellerAndMaterial(seller, material);
         final DailyCalendar dailyCalendar = findDailyCalenderByDay(makeAppointmentCommand.appointmentTime().toLocalDate());
-        final List<Appointment> appointments = findAppointmentsByDay(makeAppointmentCommand.appointmentTime().toLocalDate());
+        final List<Appointment> appointments = findAppointmentsByDayAndTime(makeAppointmentCommand.appointmentTime().toLocalDate(), makeAppointmentCommand.appointmentTime());
 
         double currentStockPercentage = warehouse.getCurrentStockPercentage();
         checkIfAWarehouseCapacityExceededExceptionIsFound(currentStockPercentage);
@@ -99,8 +100,8 @@ public class DefaultMakeAppointmentUseCase implements MakeAppointmentUseCase {
             throw new AppointmentsPerHourReachedException("The limit of 40 appointments per hour has been reached");
         }
     }
-    private List<Appointment> findAppointmentsByDay(LocalDate day){
-        return loadAndCreateAppointmentPort.loadAppointmentsByDailyCalendarJpaEntity(new DailyCalendarJpaEntity(day)).orElseThrow(() -> new RuntimeException("Calendar not found"));
+    private List<Appointment> findAppointmentsByDayAndTime(LocalDate day, LocalDateTime localDateTime){
+        return loadAndCreateAppointmentPort.loadAppointmentsByDailyCalendarJpaEntityAndTime(new DailyCalendarJpaEntity(day), localDateTime).orElseThrow(() -> new RuntimeException("Calendar not found"));
     }
     private int generateRandomGateNumber () {
         return (int) (Math.random() * 10) + 1;
