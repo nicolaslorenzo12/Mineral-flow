@@ -43,11 +43,15 @@ public class DefaultMakeAppointmentUseCase implements MakeAppointmentUseCase {
         int gateNumber = (int)(Math.random() * 10) + 1;
 
         final Warehouse warehouse = loadOrCreateWarehousePort.loadWarehouseBySellerUUIDAndMaterialType(seller.getCustomerUUID().uuid(), material.getMaterialType());
-        System.out.println(warehouse.getCurrentStockPercentage() + "%");
+        double currentStockPercentage = warehouse.getCurrentStockPercentage();
 
-        Appointment appointment = buildAppointmentObject(seller, gateNumber, makeAppointmentCommand, material, warehouse);
-
-        loadAndCreateAppointmentPort.createAppointment(appointment);
+        if(currentStockPercentage < 80.00){
+            Appointment appointment = buildAppointmentObject(seller, gateNumber, makeAppointmentCommand, material, warehouse);
+            loadAndCreateAppointmentPort.createAppointment(appointment);
+        }
+        else{
+            System.out.println("There is currently no extra space for your delivery");
+        }
 
     }
 
