@@ -4,8 +4,8 @@ import java.util.UUID;
 
 public class Customer {
 
-    private CustomerUUID customerUUID;
-    private String name;
+    private final CustomerUUID customerUUID;
+    private final String name;
     private Address address;
 
     public record CustomerUUID(UUID uuid){

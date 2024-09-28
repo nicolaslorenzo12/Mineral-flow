@@ -12,7 +12,6 @@ import java.util.Optional;
 public class MaterialDBAdapter implements LoadMaterialPort {
 
     private final MaterialRepository materialRepository;
-
     public MaterialDBAdapter(MaterialRepository materialRepository) {
         this.materialRepository = materialRepository;
     }

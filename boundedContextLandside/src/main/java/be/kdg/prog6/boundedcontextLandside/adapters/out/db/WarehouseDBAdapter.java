@@ -11,7 +11,6 @@ import java.util.UUID;
 
 @Component("landsideDatabaseAdapter")
 public class WarehouseDBAdapter implements LoadOrCreateWarehousePort, UpdateWarehousePort {
-
     private final WarehouseRepository warehouseRepository;
 
     public WarehouseDBAdapter(WarehouseRepository warehouseRepository) {
@@ -34,7 +33,7 @@ public class WarehouseDBAdapter implements LoadOrCreateWarehousePort, UpdateWare
                 orElseGet(() -> createNewWarehouse(warehouseNumber, sellerUuid, materialType));
 
         return new Warehouse(warehouseNumber, new Seller.CustomerUUID(warehouseJpaEntity.getSellerUUID()) ,
-                warehouseJpaEntity.getUtilizationCapacity());
+                warehouseJpaEntity.getUtilizationCapacity(), materialType);
     }
     @Override
     public Warehouse loadWarehouseBySellerUUIDAndMaterialType(UUID sellerUuid, MaterialType materialType) {
@@ -42,7 +41,7 @@ public class WarehouseDBAdapter implements LoadOrCreateWarehousePort, UpdateWare
                 findBySellerUUIDAndMaterialType(sellerUuid, materialType).orElseThrow();
 
         return new Warehouse(warehouseJpaEntity.getWareHouseNumber(), new Seller.CustomerUUID(warehouseJpaEntity.getSellerUUID()),
-                warehouseJpaEntity.getUtilizationCapacity());
+                warehouseJpaEntity.getUtilizationCapacity(), materialType);
     }
     private WarehouseJpaEntity createNewWarehouse(final int warehouseNumber, UUID sellerUuid, MaterialType materialType){
 

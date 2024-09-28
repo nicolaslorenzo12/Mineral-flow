@@ -8,7 +8,6 @@ import be.kdg.prog6.boundedcontextWarehouse.ports.out.LoadWarehousePort;
 import be.kdg.prog6.boundedcontextWarehouse.ports.out.UpdateWarehousePort;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
 @Service

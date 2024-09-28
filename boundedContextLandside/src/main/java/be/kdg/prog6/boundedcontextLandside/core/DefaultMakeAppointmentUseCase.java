@@ -18,13 +18,13 @@ import java.util.UUID;
 
 @Service
 public class DefaultMakeAppointmentUseCase implements MakeAppointmentUseCase {
-
     private final LoadSellerPort loadSellerPort;
     private final LoadMaterialPort loadMaterialPort;
     private final LoadOrCreateWarehousePort loadOrCreateWarehousePort;
     private final LoadAndCreateAppointmentPort loadAndCreateAppointmentPort;
 
-    public DefaultMakeAppointmentUseCase(LoadSellerPort loadSellerPort, LoadMaterialPort loadMaterialPort, LoadOrCreateWarehousePort loadOrCreateWarehousePort, LoadAndCreateAppointmentPort loadAndCreateAppointmentPort) {
+    public DefaultMakeAppointmentUseCase(LoadSellerPort loadSellerPort, LoadMaterialPort loadMaterialPort, LoadOrCreateWarehousePort loadOrCreateWarehousePort,
+                                         LoadAndCreateAppointmentPort loadAndCreateAppointmentPort) {
         this.loadSellerPort = loadSellerPort;
         this.loadMaterialPort = loadMaterialPort;
         this.loadOrCreateWarehousePort = loadOrCreateWarehousePort;
@@ -45,13 +45,17 @@ public class DefaultMakeAppointmentUseCase implements MakeAppointmentUseCase {
         final Warehouse warehouse = loadOrCreateWarehousePort.loadWarehouseBySellerUUIDAndMaterialType(seller.getCustomerUUID().uuid(), material.getMaterialType());
         System.out.println(warehouse.getCurrentStockPercentage() + "%");
 
-        Appointment appointment = new Appointment(new Appointment.AppointmentUUID(UUID.randomUUID()),
+        Appointment appointment = buildAppointmentObject(seller, gateNumber, makeAppointmentCommand, material, warehouse);
+
+        loadAndCreateAppointmentPort.createAppointment(appointment);
+
+    }
+
+    private Appointment buildAppointmentObject(Seller seller, int gateNumber, MakeAppointmentCommand makeAppointmentCommand, Material material, Warehouse warehouse){
+
+        return new Appointment(new Appointment.AppointmentUUID(UUID.randomUUID()),
                 seller.getCustomerUUID(), gateNumber, makeAppointmentCommand.appointmentTime(),
                 material.getMaterialType(), makeAppointmentCommand.licensePlateNumber(), TruckStatus.NOTARRIVED,
                 warehouse.getWareHouseNumber());
-
-        loadAndCreateAppointmentPort.createAppointment(appointment);
-        System.out.println(appointment);
-
     }
 }

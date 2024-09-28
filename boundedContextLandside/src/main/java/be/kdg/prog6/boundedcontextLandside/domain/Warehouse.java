@@ -6,7 +6,7 @@ public class Warehouse {
 
     private final int wareHouseNumber;
     private final Seller.CustomerUUID sellerUUID;
-    private MaterialType materialType;
+    private final MaterialType materialType;
     private final int maximumCapacity = 500000;
     private int currentStockStorage;
     private double currentStockPercentage;
@@ -19,10 +19,11 @@ public class Warehouse {
         this.currentStockPercentage = utilizationPercentage;
     }
 
-    public Warehouse(int wareHouseNumber, Seller.CustomerUUID sellerUUID, int utilizationCapacity) {
+    public Warehouse(int wareHouseNumber, Seller.CustomerUUID sellerUUID, int utilizationCapacity, MaterialType materialType) {
         this.wareHouseNumber = wareHouseNumber;
         this.sellerUUID = sellerUUID;
         this.currentStockStorage = utilizationCapacity;
+        this.materialType = materialType;
     }
 
     public int getWareHouseNumber() {
@@ -35,10 +36,6 @@ public class Warehouse {
 
     public MaterialType getMaterialType() {
         return materialType;
-    }
-
-    public void setMaterialType(MaterialType materialType) {
-        this.materialType = materialType;
     }
 
     public int getMaximumCapacity() {

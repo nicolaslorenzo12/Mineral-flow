@@ -6,6 +6,5 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface AppointmentRepository extends JpaRepository<AppointmentJpaEntity, UUID> {
-
     Optional<AppointmentJpaEntity> findAppointmentJpaEntityByLicensePlateNumberOfTruck(String licensePlateNumberOfTruck);
 }
