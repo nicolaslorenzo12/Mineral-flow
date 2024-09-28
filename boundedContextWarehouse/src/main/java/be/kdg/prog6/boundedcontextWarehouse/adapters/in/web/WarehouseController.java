@@ -27,15 +27,8 @@ public class WarehouseController {
                                       @PathVariable("warehouseNumber") int warehouseNumber,
                                       @PathVariable("action") WarehouseAction action)
     {
-        try {
             addMaterialUseCase.addOrDispatchMaterial(new AddMaterialCommand(amountOfTons, warehouseNumber, action));
             return ResponseEntity.ok("Material action processed successfully.");
-
-        } catch(InsufficientStockException e){
-
-            return ResponseEntity.status(HttpStatus.CONFLICT)
-                    .body("Error: " + e.getMessage() + ". Please request a smaller amount or check stock availability.");
-        }
     }
 
     @GetMapping("current-stock/warehouse/{warehouseNumber}")
