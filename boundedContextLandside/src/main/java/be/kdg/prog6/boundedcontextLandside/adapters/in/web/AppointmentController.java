@@ -18,7 +18,6 @@ import java.util.UUID;
 public class AppointmentController {
 
     private final MakeAppointmentUseCase makeAppointmentUseCase;
-
     public AppointmentController(MakeAppointmentUseCase makeAppointmentUseCase) {
         this.makeAppointmentUseCase = makeAppointmentUseCase;
     }

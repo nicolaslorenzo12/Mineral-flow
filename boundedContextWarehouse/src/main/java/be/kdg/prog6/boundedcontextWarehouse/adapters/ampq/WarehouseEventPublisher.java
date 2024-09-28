@@ -1,4 +1,4 @@
-package be.kdg.prog6.boundedcontextWarehouse.adapters.out.db;
+package be.kdg.prog6.boundedcontextWarehouse.adapters.ampq;
 
 import be.kdg.prog6.boundedcontextWarehouse.domain.Warehouse;
 import be.kdg.prog6.boundedcontextWarehouse.domain.WarehouseActivity;
