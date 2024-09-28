@@ -33,22 +33,16 @@ public class AppointmentDBAdapter implements LoadAndCreateAppointmentPort {
     }
 
     @Override
-    public Optional<List<Appointment>> loadAppointmentsByDailyCalendarJpaEntityAndTime(DailyCalendarJpaEntity dailyCalendarJpaEntity, LocalDateTime localDateTime) {
-        List<AppointmentJpaEntity> appointmentJpaEntityList = appointmentRepository.findAppointmentJpaEntityByDailyCalendarJpaEntity(dailyCalendarJpaEntity).orElseThrow();
+    public Optional<List<Appointment>> loadAppointmentsByAppointmentTime(LocalDateTime appointmentTime) {
 
-        List<AppointmentJpaEntity> filteredAppointmentsJPaEntityList = appointmentJpaEntityList.stream()
-                .filter(appointment -> isSameHour(appointment.getAppointmentTime(), localDateTime)).toList();
+        List<AppointmentJpaEntity> appointmentJpaEntityList = appointmentRepository.findAppointmentJpaEntityByAppointmentTime(appointmentTime).
+                orElseThrow(() -> new RuntimeException("No appointments found"));
 
         List<Appointment> appointments = new ArrayList<>();
-
-        return Optional.of(toAppointment(dailyCalendarJpaEntity, filteredAppointmentsJPaEntityList, appointments));
+        return Optional.of(toAppointment(appointmentJpaEntityList, appointments));
     }
 
-    private boolean isSameHour(LocalDateTime appointmentTime, LocalDateTime now) {
-        return appointmentTime.getHour() == now.getHour();
-    }
-
-    private List<Appointment> toAppointment(DailyCalendarJpaEntity dailyCalendarJpaEntity, List<AppointmentJpaEntity> appointmentJpaEntityList, List<Appointment> appointments){
+    private List<Appointment> toAppointment(List<AppointmentJpaEntity> appointmentJpaEntityList, List<Appointment> appointments){
         appointmentJpaEntityList.forEach(appointmentJpaEntity -> appointments.add(new Appointment(new Appointment.AppointmentUUID(appointmentJpaEntity.getAppointmentUUID()),
                 new Customer.CustomerUUID(appointmentJpaEntity.getSellerUuid()), appointmentJpaEntity.getDailyCalendarJpaEntity().getDay(), appointmentJpaEntity.getGateNumber(),
                 appointmentJpaEntity.getAppointmentTime(), appointmentJpaEntity.getMaterialType(), appointmentJpaEntity.getLicensePlateNumberOfTruck(),
@@ -60,7 +54,7 @@ public class AppointmentDBAdapter implements LoadAndCreateAppointmentPort {
 
         final AppointmentJpaEntity appointmentJpaEntity = new AppointmentJpaEntity(appointment.getAppointmentUUID().uuid(), appointment.getSellerUUID().uuid(), appointment.getGateNumber(),
                 appointment.getAppointmentTime(),appointment.getMaterialType(), appointment.getLicensePlateNumberOfTruck(), appointment.getStatus(),
-                appointment.getWarehouseNumber(), dailyCalendarJpaEntity);
+                appointment.getWarehouseNumber(), appointment.getAppointmentTime().toLocalDate());
 
         dailyCalendarJpaEntity.addAppointment(appointmentJpaEntity);
         dailyCalendarRepository.save(dailyCalendarJpaEntity);

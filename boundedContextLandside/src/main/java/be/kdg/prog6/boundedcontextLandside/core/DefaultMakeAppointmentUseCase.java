@@ -49,7 +49,7 @@ public class DefaultMakeAppointmentUseCase implements MakeAppointmentUseCase {
         final Material material = findMaterialByType(materialType);
         final Warehouse warehouse = findWarehouseForSellerAndMaterial(seller, material);
         final DailyCalendar dailyCalendar = findDailyCalenderByDay(makeAppointmentCommand.appointmentTime().toLocalDate());
-        final List<Appointment> appointments = findAppointmentsByDayAndTime(makeAppointmentCommand.appointmentTime().toLocalDate(), makeAppointmentCommand.appointmentTime());
+        final List<Appointment> appointments = findAppointmentsByAppointmentTime(makeAppointmentCommand.appointmentTime());
 
         double currentStockPercentage = warehouse.getCurrentStockPercentage();
         checkIfAWarehouseCapacityExceededExceptionIsFound(currentStockPercentage);
@@ -100,8 +100,9 @@ public class DefaultMakeAppointmentUseCase implements MakeAppointmentUseCase {
             throw new AppointmentsPerHourReachedException("The limit of 40 appointments per hour has been reached");
         }
     }
-    private List<Appointment> findAppointmentsByDayAndTime(LocalDate day, LocalDateTime localDateTime){
-        return loadAndCreateAppointmentPort.loadAppointmentsByDailyCalendarJpaEntityAndTime(new DailyCalendarJpaEntity(day), localDateTime).orElseThrow(() -> new RuntimeException("Calendar not found"));
+    private List<Appointment> findAppointmentsByAppointmentTime(LocalDateTime appointmentTime){
+        return loadAndCreateAppointmentPort.loadAppointmentsByAppointmentTime(appointmentTime)
+                .orElseThrow(() -> new RuntimeException("No appointments found"));
     }
     private int generateRandomGateNumber () {
         return (int) (Math.random() * 10) + 1;

@@ -10,6 +10,6 @@ import java.util.Optional;
 public interface LoadAndCreateAppointmentPort {
 
     Optional<Appointment> loadAppointmentByLicensePlateNumberOfTruck(String licensePlateNumberOfTruck);
-    Optional<List<Appointment>> loadAppointmentsByDailyCalendarJpaEntityAndTime(DailyCalendarJpaEntity dailyCalendarJpaEntity, LocalDateTime localDateTime);
+    Optional<List<Appointment>> loadAppointmentsByAppointmentTime(LocalDateTime appointmentTime);
     void createAppointment(Appointment appointment, DailyCalendarJpaEntity dailyCalendarJpaEntity);
 }

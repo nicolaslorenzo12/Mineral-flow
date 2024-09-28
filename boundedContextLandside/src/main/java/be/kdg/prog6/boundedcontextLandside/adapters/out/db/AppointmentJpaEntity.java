@@ -15,6 +15,9 @@ import java.util.UUID;
 public class AppointmentJpaEntity {
     @Id
     private UUID appointmentUUID;
+
+    @Column(nullable = false)
+    private LocalDate day;
     @Column(nullable = false)
     private UUID sellerUuid;
     @Column(nullable = false)
@@ -31,21 +34,21 @@ public class AppointmentJpaEntity {
     private TruckStatus status;
     @Column(nullable = false)
     private int warehouseNumber;
-    @Column(nullable = true)
+    @Column()
     private LocalDateTime arrivalTime;
-    @Column(nullable = true)
+    @Column()
     private LocalDateTime departureTime;
-    @Column(nullable = true)
+    @Column()
     private double initialWeight;
-    @Column(nullable = true)
+    @Column()
     private double finalWeight;
     @ManyToOne
-    @JoinColumn(name = "day", referencedColumnName = "day", nullable = false)
+    @JoinColumn(name = "day", referencedColumnName = "day", insertable = false, updatable = false)
     private DailyCalendarJpaEntity dailyCalendarJpaEntity;
 
 
     public AppointmentJpaEntity(UUID appointmentUUID, UUID sellerUuid, int gateNumber, LocalDateTime appointmentTime, MaterialType materialType,
-                                String licensePlateNumberOfTruck, TruckStatus status, int warehouseNumber, DailyCalendarJpaEntity dailyCalendarJpaEntity) {
+                                String licensePlateNumberOfTruck, TruckStatus status, int warehouseNumber, LocalDate day) {
         this.appointmentUUID = appointmentUUID;
         this.sellerUuid = sellerUuid;
         this.gateNumber = gateNumber;
@@ -54,7 +57,7 @@ public class AppointmentJpaEntity {
         this.licensePlateNumberOfTruck = licensePlateNumberOfTruck;
         this.status = status;
         this.warehouseNumber = warehouseNumber;
-        this.dailyCalendarJpaEntity = dailyCalendarJpaEntity;
+        this.day = day;
     }
     public AppointmentJpaEntity() {
 
