@@ -12,6 +12,7 @@ import be.kdg.prog6.boundedcontextLandside.ports.out.LoadSellerPort;
 import be.kdg.prog6.common.domain.Material;
 import be.kdg.prog6.common.domain.MaterialType;
 import be.kdg.prog6.common.domain.Seller;
+import be.kdg.prog6.common.exception.WarehouseCapacityExceededException;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 import java.util.UUID;
@@ -38,20 +39,21 @@ public class DefaultMakeAppointmentUseCase implements MakeAppointmentUseCase {
         final UUID sellerUUID = makeAppointmentCommand.sellerUUID().uuid();
         final MaterialType materialType = makeAppointmentCommand.materialType();
 
-        final Seller seller = loadSellerPort.loadSellerByUUID(sellerUUID).orElseThrow(() -> new RuntimeException("Seller not found"));
-        final Material material = loadMaterialPort.loadMaterialByMaterialType(materialType).orElseThrow(() -> new RuntimeException("Material not found"));
+        final Seller seller = loadSellerPort.loadSellerByUUID(sellerUUID)
+                .orElseThrow(() -> new RuntimeException("Seller not found"));
+        final Material material = loadMaterialPort.loadMaterialByMaterialType(materialType)
+                .orElseThrow(() -> new RuntimeException("Material not found"));
         int gateNumber = (int)(Math.random() * 10) + 1;
 
         final Warehouse warehouse = loadOrCreateWarehousePort.loadWarehouseBySellerUUIDAndMaterialType(seller.getCustomerUUID().uuid(), material.getMaterialType());
         double currentStockPercentage = warehouse.getCurrentStockPercentage();
 
-        if(currentStockPercentage < 80.00){
-            Appointment appointment = buildAppointmentObject(seller, gateNumber, makeAppointmentCommand, material, warehouse);
-            loadAndCreateAppointmentPort.createAppointment(appointment);
+        if(currentStockPercentage >= 80.00) {
+            throw new WarehouseCapacityExceededException("Warehouse is at or above 80% capacity. Cannot schedule an appointment.");
         }
-        else{
-            System.out.println("There is currently no extra space for your delivery");
-        }
+
+        Appointment appointment = buildAppointmentObject(seller, gateNumber, makeAppointmentCommand, material, warehouse);
+        loadAndCreateAppointmentPort.createAppointment(appointment);
 
     }
 
