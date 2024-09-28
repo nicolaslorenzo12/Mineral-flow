@@ -47,14 +47,10 @@ public class DefaultMakeAppointmentUseCase implements MakeAppointmentUseCase {
 
         final Warehouse warehouse = loadOrCreateWarehousePort.loadWarehouseBySellerUUIDAndMaterialType(seller.getCustomerUUID().uuid(), material.getMaterialType());
         double currentStockPercentage = warehouse.getCurrentStockPercentage();
-
-        if(currentStockPercentage >= 80.00) {
-            throw new WarehouseCapacityExceededException("Warehouse is at or above 80% capacity. Cannot schedule an appointment.");
-        }
+        checkIfAWarehouseCapacityExceededExceptionIsFound(currentStockPercentage);
 
         Appointment appointment = buildAppointmentObject(seller, gateNumber, makeAppointmentCommand, material, warehouse);
         loadAndCreateAppointmentPort.createAppointment(appointment);
-
     }
 
     private Appointment buildAppointmentObject(Seller seller, int gateNumber, MakeAppointmentCommand makeAppointmentCommand, Material material, Warehouse warehouse){
@@ -63,5 +59,11 @@ public class DefaultMakeAppointmentUseCase implements MakeAppointmentUseCase {
                 seller.getCustomerUUID(), gateNumber, makeAppointmentCommand.appointmentTime(),
                 material.getMaterialType(), makeAppointmentCommand.licensePlateNumber(), TruckStatus.NOTARRIVED,
                 warehouse.getWareHouseNumber());
+    }
+
+    private void checkIfAWarehouseCapacityExceededExceptionIsFound(double currentStockPercentage){
+        if(currentStockPercentage >= 80.00) {
+            throw new WarehouseCapacityExceededException("Warehouse is at or above 80% capacity. Cannot schedule an appointment.");
+        }
     }
 }
