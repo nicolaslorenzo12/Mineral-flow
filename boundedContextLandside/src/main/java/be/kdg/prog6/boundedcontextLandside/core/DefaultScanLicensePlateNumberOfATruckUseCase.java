@@ -7,7 +7,6 @@ import be.kdg.prog6.boundedcontextLandside.ports.in.ScanLicensePlateNumberOfATru
 import be.kdg.prog6.boundedcontextLandside.ports.out.LoadAndCreateAppointmentPort;
 import be.kdg.prog6.boundedcontextLandside.ports.out.UpdateAppointmentPort;
 import be.kdg.prog6.common.exception.ObjectNotFoundException;
-import be.kdg.prog6.common.exception.ThisTruckStatusWasAlreadyCheckedException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -31,10 +30,10 @@ public class DefaultScanLicensePlateNumberOfATruckUseCase implements ScanLicense
 
         Appointment appointment = loadAndCreateAppointmentPort.loadAppointmentByLicensePlateNumberOfTruckAndAppointmentTimeAndDay
                         (scanLicensePlateNumberCommand.licensePlateNumber(), roundedTime, roundedTime.toLocalDate())
-                .orElseThrow(() -> new ObjectNotFoundException("This truck does not have an appointment today at this time"));
+                .orElseThrow(() ->
+                        new ObjectNotFoundException("This truck does not have an appointment today at this time"));
 
-        appointment.checkIfTruckHasAlreadyGottenThisStatus(appointment, TruckStatus.ARRIVED.getCode());
-
-        updateAppointmentPort.updateAppointmentTruckStatus(appointment, TruckStatus.ARRIVED);
+        appointment.checkIfTruckHasAlreadyGottenThisStatus(TruckStatus.ARRIVED.getCode());
+        updateAppointmentPort.updateAppointmentTruckStatus(appointment.getAppointmentUUID(), TruckStatus.ARRIVED);
     }
 }

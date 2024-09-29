@@ -5,5 +5,6 @@ import be.kdg.prog6.boundedcontextLandside.domain.TruckStatus;
 
 public interface UpdateAppointmentPort {
 
-    void updateAppointmentTruckStatus(Appointment appointment, TruckStatus truckStatus);
+    void updateAppointmentTruckStatus(Appointment.AppointmentUUID appointmentUUIDj, TruckStatus truckStatus);
+    void updateAppointmentInitialOrFinalWeight(Appointment.AppointmentUUID appointmentUUID, int weight, int weighingCount);
 }

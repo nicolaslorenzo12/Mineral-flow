@@ -35,6 +35,7 @@ public class AppointmentDBAdapter implements LoadAndCreateAppointmentPort, Updat
                 .map(this::buildAppointmentObject);
     }
 
+
     private Appointment buildAppointmentObject(AppointmentJpaEntity appointmentJpaEntity) {
         return new Appointment(
                 new Appointment.AppointmentUUID(appointmentJpaEntity.getAppointmentUUID()),
@@ -83,13 +84,54 @@ public class AppointmentDBAdapter implements LoadAndCreateAppointmentPort, Updat
         dailyCalendarRepository.save(dailyCalendarJpaEntity);
     }
 
+    private Appointment toAppointment(AppointmentJpaEntity appointmentJpaEntity) {
+        return new Appointment(
+                new Appointment.AppointmentUUID(appointmentJpaEntity.getAppointmentUUID()),
+                new Customer.CustomerUUID(appointmentJpaEntity.getSellerUuid()),
+                appointmentJpaEntity.getDailyCalendarJpaEntity().getDay(),
+                appointmentJpaEntity.getGateNumber(),
+                appointmentJpaEntity.getAppointmentTime(),
+                appointmentJpaEntity.getMaterialType(),
+                appointmentJpaEntity.getLicensePlateNumberOfTruck(),
+                appointmentJpaEntity.getTruckStatus(),
+                appointmentJpaEntity.getWarehouseNumber()
+        );
+    }
+
+
     @Override
-    public void updateAppointmentTruckStatus(Appointment appointment, TruckStatus truckStatus) {
+    public AppointmentJpaEntity loadAppointmentJpaEntityByAppointmentUUID(Appointment.AppointmentUUID appointmentUUID) {
+        return appointmentRepository.findAppointmentJpaEntityByAppointmentUUID(appointmentUUID.uuid())
+                .orElseThrow(() -> new ObjectNotFoundException("No appoinment found"));
+    }
 
-        final AppointmentJpaEntity appointmentJpaEntity = appointmentRepository.findAppointmentJpaEntityByAppointmentUUID(appointment.getAppointmentUUID().uuid()).
-                orElseThrow(() -> new RuntimeException("No appointment found"));
+    @Override
+    public Appointment loadAppointmentByAppointmentUUID(Appointment.AppointmentUUID appointmentUUID) {
+        return toAppointment(loadAppointmentJpaEntityByAppointmentUUID(appointmentUUID));
+    }
 
+    @Override
+    public void updateAppointmentTruckStatus(Appointment.AppointmentUUID appointmentUUID, TruckStatus truckStatus) {
+
+        final AppointmentJpaEntity appointmentJpaEntity = loadAppointmentJpaEntityByAppointmentUUID(appointmentUUID);
         appointmentJpaEntity.setStatus(truckStatus);
         appointmentRepository.save(appointmentJpaEntity);
+    }
+
+    @Override
+    public void updateAppointmentInitialOrFinalWeight(Appointment.AppointmentUUID appointmentUUID, int weight, int weighingCount) {
+        final AppointmentJpaEntity appointmentJpaEntity = loadAppointmentJpaEntityByAppointmentUUID(appointmentUUID);
+
+        updateWeight(appointmentJpaEntity, weight, weighingCount);
+
+        appointmentRepository.save(appointmentJpaEntity);
+    }
+
+    private void updateWeight(AppointmentJpaEntity appointmentJpaEntity, int weight, int weighingCount) {
+        if (weighingCount == 1) {
+            appointmentJpaEntity.setInitialWeight(weight);
+        } else {
+            appointmentJpaEntity.setFinalWeight(weight);
+        }
     }
 }

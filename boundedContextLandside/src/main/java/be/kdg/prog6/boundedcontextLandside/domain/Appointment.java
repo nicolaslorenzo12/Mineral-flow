@@ -136,9 +136,9 @@ public class Appointment {
                 '}';
     }
 
-    public void checkIfTruckHasAlreadyGottenThisStatus(Appointment appointment, int statusCode){
+    public void checkIfTruckHasAlreadyGottenThisStatus(int statusCode){
 
-        if(appointment.getTruckStatus().getCode() >= statusCode){
+        if(getTruckStatus().getCode() >= statusCode){
 
             switch (statusCode){
                 case 2 -> throw new ThisTruckStatusWasAlreadyCheckedException("This truck has already arrived to its appointment in this hour");

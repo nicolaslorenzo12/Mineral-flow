@@ -8,11 +8,14 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 public interface LoadAndCreateAppointmentPort {
 
     Optional<Appointment> loadAppointmentByLicensePlateNumberOfTruckAndAppointmentTimeAndDay(String licensePlateNumberOfTruck, LocalDateTime appointmentTime, LocalDate day);
     Optional<List<Appointment>> loadAppointmentsByAppointmentTime(LocalDateTime appointmentTime);
     void createAppointment(Appointment appointment, DailyCalendarJpaEntity dailyCalendarJpaEntity);
+
+    AppointmentJpaEntity loadAppointmentJpaEntityByAppointmentUUID(Appointment.AppointmentUUID appointmentUUID);
+
+    Appointment loadAppointmentByAppointmentUUID(Appointment.AppointmentUUID appointmentUUID);
 }
