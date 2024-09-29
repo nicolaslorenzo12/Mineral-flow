@@ -23,9 +23,13 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
     }
 
-
     @ExceptionHandler(ObjectNotFoundException.class)
     public ResponseEntity<String> handleObjectNotFound(ObjectNotFoundException ex){
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
+    }
+
+    @ExceptionHandler(ThisTruckStatusWasAlreadyCheckedException.class)
+    public ResponseEntity<String> handleThisTruckStatusWasAlreadyChecked(ThisTruckStatusWasAlreadyCheckedException ex){
         return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
     }
 
