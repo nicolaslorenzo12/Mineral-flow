@@ -7,7 +7,6 @@ import be.kdg.prog6.boundedcontextLandside.ports.out.UpdateAppointmentPort;
 import be.kdg.prog6.common.domain.Customer;
 import be.kdg.prog6.common.domain.Seller;
 import be.kdg.prog6.common.exception.ObjectNotFoundException;
-import be.kdg.prog6.common.exception.ThisTruckStatusWasAlreadyCheckedException;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
@@ -33,19 +32,7 @@ public class AppointmentDBAdapter implements LoadAndCreateAppointmentPort, Updat
                 findAppointmentJpaEntityByLicensePlateNumberOfTruckAndAppointmentTimeAndDay(licensePlateNumberOfTruck, localDateTime, day).
          orElseThrow(() -> new ObjectNotFoundException("This truck does not have an appointment at this time of the day"));
 
-        checkIfTruckHasAlreadyGottenThisStatus(appointmentJpaEntity, TruckStatus.ARRIVED.getCode());
         return Optional.of(buildAppointmentObject(appointmentJpaEntity));
-    }
-
-    private void checkIfTruckHasAlreadyGottenThisStatus(AppointmentJpaEntity appointmentJpaEntity, int statusCode){
-
-        if(appointmentJpaEntity.getTruckStatus().getCode() >= statusCode){
-
-            switch (statusCode){
-                case 2 -> throw new ThisTruckStatusWasAlreadyCheckedException("This truck has already arrived to its appointment in this hour");
-                case 3 -> throw new ThisTruckStatusWasAlreadyCheckedException("This truck was already weighted for first time");
-            }
-        }
     }
 
     @Override
@@ -69,7 +56,7 @@ public class AppointmentDBAdapter implements LoadAndCreateAppointmentPort, Updat
     public void createAppointment(Appointment appointment, DailyCalendarJpaEntity dailyCalendarJpaEntity) {
 
         final AppointmentJpaEntity appointmentJpaEntity = new AppointmentJpaEntity(appointment.getAppointmentUUID().uuid(), appointment.getSellerUUID().uuid(), appointment.getGateNumber(),
-                appointment.getAppointmentTime(),appointment.getMaterialType(), appointment.getLicensePlateNumberOfTruck(), appointment.getStatus(),
+                appointment.getAppointmentTime(),appointment.getMaterialType(), appointment.getLicensePlateNumberOfTruck(), appointment.getTruckStatus(),
                 appointment.getWarehouseNumber(), appointment.getAppointmentTime().toLocalDate());
 
         dailyCalendarJpaEntity.addAppointment(appointmentJpaEntity);
@@ -80,7 +67,7 @@ public class AppointmentDBAdapter implements LoadAndCreateAppointmentPort, Updat
 
         return new Appointment(new Appointment.AppointmentUUID(appointmentJpaEntity.getAppointmentUUID()), new Seller.CustomerUUID(appointmentJpaEntity.getSellerUuid()),
                 appointmentJpaEntity.getDailyCalendarJpaEntity().getDay(), appointmentJpaEntity.getGateNumber(), appointmentJpaEntity.getAppointmentTime(), appointmentJpaEntity.getMaterialType(),
-                appointmentJpaEntity.getLicensePlateNumberOfTruck(), appointmentJpaEntity.getWarehouseNumber());
+                appointmentJpaEntity.getLicensePlateNumberOfTruck(),appointmentJpaEntity.getTruckStatus() ,appointmentJpaEntity.getWarehouseNumber());
     }
 
     @Override

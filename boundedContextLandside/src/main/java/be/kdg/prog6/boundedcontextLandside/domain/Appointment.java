@@ -66,7 +66,7 @@ public class Appointment {
         return licensePlateNumberOfTruck;
     }
 
-    public TruckStatus getStatus() {
+    public TruckStatus getTruckStatus() {
         return status;
     }
 
