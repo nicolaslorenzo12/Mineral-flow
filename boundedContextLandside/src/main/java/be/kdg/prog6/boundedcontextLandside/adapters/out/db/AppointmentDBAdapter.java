@@ -6,6 +6,7 @@ import be.kdg.prog6.boundedcontextLandside.ports.out.LoadAndCreateAppointmentPor
 import be.kdg.prog6.boundedcontextLandside.ports.out.UpdateAppointmentPort;
 import be.kdg.prog6.common.domain.Customer;
 import be.kdg.prog6.common.domain.Seller;
+import be.kdg.prog6.common.exception.ObjectNotFoundException;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
@@ -29,7 +30,7 @@ public class AppointmentDBAdapter implements LoadAndCreateAppointmentPort, Updat
     public Optional<Appointment> loadAppointmentByLicensePlateNumberOfTruckAndAppointmentTimeAndDay(String licensePlateNumberOfTruck, LocalDateTime localDateTime, LocalDate day) {
         final AppointmentJpaEntity appointmentJpaEntity = appointmentRepository.
                 findAppointmentJpaEntityByLicensePlateNumberOfTruckAndAppointmentTimeAndDay(licensePlateNumberOfTruck, localDateTime, day).
-         orElseThrow(() -> new RuntimeException("Appointment not found"));
+         orElseThrow(() -> new ObjectNotFoundException("This truck does not have an appointment at this time of the day"));
 
         return Optional.of(buildAppointmentObject(appointmentJpaEntity));
     }
