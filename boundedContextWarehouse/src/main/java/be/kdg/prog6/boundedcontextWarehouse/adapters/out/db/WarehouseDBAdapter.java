@@ -37,7 +37,6 @@ public class WarehouseDBAdapter implements LoadWarehousePort, UpdateWarehousePor
         List<WarehouseJpaActivityEntity> warehouseJpaActivityList = null;
         warehouseJpaActivityList = warehouseActivityRepository.findByWarehouseNumber(warehouseNumber);
         addWarehouseActivitiesToWarehouseObject(warehouseJpaActivityList, warehouse);
-
         return Optional.of(warehouse);
     }
 

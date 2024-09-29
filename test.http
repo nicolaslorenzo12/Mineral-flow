@@ -22,7 +22,7 @@ GET http://localhost:8090/api/current-stock/warehouse/6
 
 ###
 
-POST http://localhost:8090/api/material-truck-appointment/seller/123e4567-e89b-12d3-a456-426614174000/material/GP/licensePlateNumbe/ABC123/appointment/2024-09-29T15:00:00
+POST http://localhost:8090/api/material-truck-appointment/seller/123e4567-e89b-12d3-a456-426614174000/material/GP/licensePlateNumbe/ABC123/appointment/2024-09-29T16:00:00
 
 ###
 
@@ -34,6 +34,6 @@ POST http://localhost:8090/api/appointment/truck/ABC123/check
 
 ###
 
-POST http://localhost:8090/api/appointment/9343d487-a3f1-4d58-b8e5-1fc4073cacf5/weight/1
+POST http://localhost:8090/api/appointment/2bd052d1-561f-43c8-b32b-36367e3fc8d0/weight/1
 
 

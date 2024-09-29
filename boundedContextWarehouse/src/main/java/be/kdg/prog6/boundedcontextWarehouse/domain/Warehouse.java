@@ -35,7 +35,6 @@ public class Warehouse {
 
     public int calculateCurrentStock(){
 
-        //Delete the current stock printing at some point
         return warehouseActivityWindow.calculateCurrentStock();
     }
 

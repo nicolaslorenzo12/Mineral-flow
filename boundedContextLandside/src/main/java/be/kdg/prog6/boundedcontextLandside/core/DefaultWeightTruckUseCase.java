@@ -22,30 +22,67 @@ public class DefaultWeightTruckUseCase implements WeightTruckUseCase {
         this.updateAppointmentPort = updateAppointmentPort;
     }
 
+//    @Override
+//    public void weightTruck(WeightTruckCommand weightTruckCommand) {
+//
+//        Appointment appointment = loadAndCreateAppointmentPort.loadAppointmentJpaEntityByAppointmentUUID(weightTruckCommand.uuid())
+//                .orElseThrow(() -> new ObjectNotFoundException("The appointment was not found"));
+//        Random random = new Random();
+//
+//        int randomWeight = random.nextInt(21) + 10;
+//
+//        if(weightTruckCommand.weighingCount() == 1){
+//            appointment.checkIfTruckHasAlreadyGottenThisStatus(TruckStatus.WEIGHTINGFIRSTTIME.getCode());
+//        }
+//        else{
+//            appointment.checkIfTruckHasAlreadyGottenThisStatus(TruckStatus.WEIGHTINGLASTTIME.getCode());
+//        }
+//        updateAppointmentPort.updateAppointmentInitialOrFinalWeight(appointment.getAppointmentUUID(), randomWeight, weightTruckCommand.weighingCount());
+//
+//        if(weightTruckCommand.weighingCount() == 1){
+//            updateAppointmentPort.updateAppointmentTruckStatus(appointment.getAppointmentUUID(), TruckStatus.WEIGHTINGFIRSTTIME);
+//        }
+//        else{
+//            appointment.checkIfTruckHasAlreadyGottenThisStatus(TruckStatus.WEIGHTINGLASTTIME.getCode());
+//        }
+//        updateAppointmentPort.updateAppointmentTruckStatus(appointment.getAppointmentUUID(), TruckStatus.WEIGHTINGLASTTIME);
+//
+//    }
+
     @Override
     public void weightTruck(WeightTruckCommand weightTruckCommand) {
 
-        Appointment appointment = loadAndCreateAppointmentPort.loadAppointmentJpaEntityByAppointmentUUID(weightTruckCommand.uuid())
+        Appointment appointment = loadAndCreateAppointmentPort
+                .loadAppointmentJpaEntityByAppointmentUUID(weightTruckCommand.uuid())
                 .orElseThrow(() -> new ObjectNotFoundException("The appointment was not found"));
+
+        int randomWeight = generateRandomWeight();
+
+        processWeighing(appointment, weightTruckCommand.weighingCount(), randomWeight);
+        updateAppointmentStatus(appointment, weightTruckCommand.weighingCount());
+    }
+
+    private int generateRandomWeight() {
         Random random = new Random();
+        return random.nextInt(21) + 10;
+    }
 
-        int randomWeight = random.nextInt(21) + 10;
-
-        if(weightTruckCommand.weighingCount() == 1){
+    private void processWeighing(Appointment appointment, int weighingCount, int weight) {
+        if (weighingCount == 1) {
             appointment.checkIfTruckHasAlreadyGottenThisStatus(TruckStatus.WEIGHTINGFIRSTTIME.getCode());
         }
-        else{
+        else {
             appointment.checkIfTruckHasAlreadyGottenThisStatus(TruckStatus.WEIGHTINGLASTTIME.getCode());
         }
-        updateAppointmentPort.updateAppointmentInitialOrFinalWeight(appointment.getAppointmentUUID(), randomWeight, weightTruckCommand.weighingCount());
 
-        if(weightTruckCommand.weighingCount() == 1){
+        updateAppointmentPort.updateAppointmentInitialOrFinalWeight(appointment.getAppointmentUUID(), weight, weighingCount);
+    }
+
+    private void updateAppointmentStatus(Appointment appointment, int weighingCount) {
+        if (weighingCount == 1) {
             updateAppointmentPort.updateAppointmentTruckStatus(appointment.getAppointmentUUID(), TruckStatus.WEIGHTINGFIRSTTIME);
+        } else {
+            updateAppointmentPort.updateAppointmentTruckStatus(appointment.getAppointmentUUID(), TruckStatus.WEIGHTINGLASTTIME);
         }
-        else{
-            appointment.checkIfTruckHasAlreadyGottenThisStatus(TruckStatus.WEIGHTINGLASTTIME.getCode());
-        }
-        updateAppointmentPort.updateAppointmentTruckStatus(appointment.getAppointmentUUID(), TruckStatus.WEIGHTINGLASTTIME);
-
     }
 }
