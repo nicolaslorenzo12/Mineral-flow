@@ -15,7 +15,6 @@ import java.util.UUID;
 public class AppointmentJpaEntity {
     @Id
     private UUID appointmentUUID;
-
     @Column(nullable = false)
     private LocalDate day;
     @Column(nullable = false)
@@ -111,7 +110,7 @@ public class AppointmentJpaEntity {
         this.licensePlateNumberOfTruck = licensePlateNumberOfTruck;
     }
 
-    public TruckStatus getStatus() {
+    public TruckStatus getTruckStatus() {
         return status;
     }
 

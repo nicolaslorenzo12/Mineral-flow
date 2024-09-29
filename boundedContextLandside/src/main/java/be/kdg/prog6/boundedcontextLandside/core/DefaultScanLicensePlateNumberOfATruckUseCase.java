@@ -6,12 +6,9 @@ import be.kdg.prog6.boundedcontextLandside.ports.in.ScanLicensePlateNumberOfATru
 import be.kdg.prog6.boundedcontextLandside.ports.in.ScanLicensePlateNumberOfATruckUseCase;
 import be.kdg.prog6.boundedcontextLandside.ports.out.LoadAndCreateAppointmentPort;
 import be.kdg.prog6.boundedcontextLandside.ports.out.UpdateAppointmentPort;
-import be.kdg.prog6.common.exception.TruckArrivedWrongDateException;
-import be.kdg.prog6.common.exception.TruckArrivingToAppointmentAtAnIncorrectTimeException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 
 @Service
 public class DefaultScanLicensePlateNumberOfATruckUseCase implements ScanLicensePlateNumberOfATruckUseCase {
@@ -27,28 +24,14 @@ public class DefaultScanLicensePlateNumberOfATruckUseCase implements ScanLicense
     @Override
     public void scanLicensePlateNumber(ScanLicensePlateNumberOfATruckCommand scanLicensePlateNumberCommand) {
 
-        Appointment appointment = loadAndCreateAppointmentPort.loadAppointmentByLicensePlateNumberOfTruck(scanLicensePlateNumberCommand.licensePlateNumber())
-                .orElseThrow(() -> new RuntimeException("Appointment was not found"));
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime roundedTime = now.withMinute(0).withSecond(0).withNano(0);
 
-        checkIfTruckArrivalInCorrectTimeRange(appointment.getAppointmentTime());
+        Appointment appointment = loadAndCreateAppointmentPort.loadAppointmentByLicensePlateNumberOfTruckAndAppointmentTimeAndDay
+                        (scanLicensePlateNumberCommand.licensePlateNumber(), roundedTime, roundedTime.toLocalDate())
+                .orElseThrow(() -> new RuntimeException("This truck does not have an appointment today at this time"));
 
         updateAppointmentPort.updateAppointmentTruckStatus(appointment, TruckStatus.ARRIVED);
     }
 
-    public void checkIfTruckArrivalInCorrectTimeRange(LocalDateTime appointmentTime) {
-
-        LocalDateTime now = LocalDateTime.now();
-        LocalDateTime oneHourAfter = appointmentTime.plus(1, ChronoUnit.HOURS);
-
-        if(!appointmentTime.toLocalDate().equals(LocalDateTime.now().toLocalDate())){
-            throw new TruckArrivedWrongDateException("Truck does not have an appointment today");
-        }
-        else if (now.isBefore(appointmentTime)) {
-            throw new TruckArrivingToAppointmentAtAnIncorrectTimeException("Truck has arrived too early. It must wait until the scheduled time.");
-        }
-        else if (now.isAfter(oneHourAfter)) {
-            throw new TruckArrivingToAppointmentAtAnIncorrectTimeException("Truck has arrived too late for the appointment.");
-        }
-
-    }
 }

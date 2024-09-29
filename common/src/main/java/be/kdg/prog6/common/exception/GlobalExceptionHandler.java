@@ -28,14 +28,4 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> handleGeneralException(Exception ex) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An unexpected error occurred.");
     }
-
-    @ExceptionHandler(TruckArrivingToAppointmentAtAnIncorrectTimeException.class)
-    public ResponseEntity<String> handleTruckArrivingToAppointmentAtAnIncorrectTime(TruckArrivingToAppointmentAtAnIncorrectTimeException ex){
-        return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
-    }
-
-    @ExceptionHandler(TruckArrivedWrongDateException.class)
-    public ResponseEntity<String> handleTruckArrivedWrongDate(TruckArrivedWrongDateException ex){
-        return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
-    }
 }

@@ -2,10 +2,8 @@ package be.kdg.prog6.boundedcontextLandside.adapters.out.db;
 
 import be.kdg.prog6.boundedcontextLandside.domain.Appointment;
 import be.kdg.prog6.boundedcontextLandside.domain.TruckStatus;
-import be.kdg.prog6.boundedcontextLandside.domain.Warehouse;
 import be.kdg.prog6.boundedcontextLandside.ports.out.LoadAndCreateAppointmentPort;
 import be.kdg.prog6.boundedcontextLandside.ports.out.UpdateAppointmentPort;
-import be.kdg.prog6.boundedcontextLandside.ports.out.UpdateWarehousePort;
 import be.kdg.prog6.common.domain.Customer;
 import be.kdg.prog6.common.domain.Seller;
 import org.springframework.stereotype.Component;
@@ -15,8 +13,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Component
 public class AppointmentDBAdapter implements LoadAndCreateAppointmentPort, UpdateAppointmentPort {
@@ -30,8 +26,9 @@ public class AppointmentDBAdapter implements LoadAndCreateAppointmentPort, Updat
     }
 
     @Override
-    public Optional<Appointment> loadAppointmentByLicensePlateNumberOfTruck(String licensePlateNumberOfTruck) {
-        final AppointmentJpaEntity appointmentJpaEntity = appointmentRepository.findAppointmentJpaEntityByLicensePlateNumberOfTruck(licensePlateNumberOfTruck).
+    public Optional<Appointment> loadAppointmentByLicensePlateNumberOfTruckAndAppointmentTimeAndDay(String licensePlateNumberOfTruck, LocalDateTime localDateTime, LocalDate day) {
+        final AppointmentJpaEntity appointmentJpaEntity = appointmentRepository.
+                findAppointmentJpaEntityByLicensePlateNumberOfTruckAndAppointmentTimeAndDay(licensePlateNumberOfTruck, localDateTime, day).
          orElseThrow(() -> new RuntimeException("Appointment not found"));
 
         return Optional.of(buildAppointmentObject(appointmentJpaEntity));
@@ -51,7 +48,7 @@ public class AppointmentDBAdapter implements LoadAndCreateAppointmentPort, Updat
         appointmentJpaEntityList.forEach(appointmentJpaEntity -> appointments.add(new Appointment(new Appointment.AppointmentUUID(appointmentJpaEntity.getAppointmentUUID()),
                 new Customer.CustomerUUID(appointmentJpaEntity.getSellerUuid()), appointmentJpaEntity.getDailyCalendarJpaEntity().getDay(), appointmentJpaEntity.getGateNumber(),
                 appointmentJpaEntity.getAppointmentTime(), appointmentJpaEntity.getMaterialType(), appointmentJpaEntity.getLicensePlateNumberOfTruck(),
-                appointmentJpaEntity.getStatus(), appointmentJpaEntity.getWarehouseNumber())));
+                appointmentJpaEntity.getTruckStatus(), appointmentJpaEntity.getWarehouseNumber())));
         return appointments;
     }
     @Override
