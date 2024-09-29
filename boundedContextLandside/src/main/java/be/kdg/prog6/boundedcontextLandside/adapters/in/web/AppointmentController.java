@@ -46,6 +46,6 @@ public class AppointmentController {
     public ResponseEntity<String> weightTruckDuringAppointment(@PathVariable UUID appointmentUuid, @PathVariable int weighingCount){
 
         weightTruckUseCase.weightTruck(new WeightTruckCommand(new Appointment.AppointmentUUID(appointmentUuid), weighingCount));
-        return ResponseEntity.ok("The truck was successfully weighted for " + weighingCount + " time");
+        return ResponseEntity.ok("The truck was successfully weighted, it has been weighted " + weighingCount + " time");
     }
 }
