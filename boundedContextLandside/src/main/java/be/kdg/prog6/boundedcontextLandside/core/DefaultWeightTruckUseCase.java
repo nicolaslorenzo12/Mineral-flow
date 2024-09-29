@@ -1,6 +1,5 @@
 package be.kdg.prog6.boundedcontextLandside.core;
 
-import be.kdg.prog6.boundedcontextLandside.adapters.out.db.AppointmentJpaEntity;
 import be.kdg.prog6.boundedcontextLandside.domain.Appointment;
 import be.kdg.prog6.boundedcontextLandside.domain.TruckStatus;
 import be.kdg.prog6.boundedcontextLandside.ports.in.WeightTruckCommand;

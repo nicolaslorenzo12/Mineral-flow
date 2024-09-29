@@ -138,12 +138,10 @@ public class Appointment {
 
     public void checkIfTruckHasAlreadyGottenThisStatus(int statusCode){
 
-        if(getTruckStatus().getCode() >= statusCode){
+        int currentStatusCode = getTruckStatus().getCode();
 
-            switch (statusCode){
-                case 2 -> throw new ThisTruckStatusWasAlreadyCheckedException("This truck has already arrived to its appointment in this hour");
-                case 3 -> throw new ThisTruckStatusWasAlreadyCheckedException("This truck was already weighted for first time");
-            }
-        }
+        if (statusCode - currentStatusCode != 1) {
+            throw new ThisTruckStatusWasAlreadyCheckedException("The truck's status transitions must follow the correct order. Please ensure all necessary processes have been completed before moving to the next status.");
+      }
     }
 }
