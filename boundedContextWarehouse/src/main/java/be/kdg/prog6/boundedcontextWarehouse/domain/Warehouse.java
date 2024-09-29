@@ -1,7 +1,8 @@
 package be.kdg.prog6.boundedcontextWarehouse.domain;
 
 import be.kdg.prog6.common.domain.*;
-import be.kdg.prog6.common.exception.InsufficientStockException;
+import be.kdg.prog6.common.exception.CustomException;
+import org.springframework.http.HttpStatus;
 
 public class Warehouse {
 
@@ -23,12 +24,22 @@ public class Warehouse {
         return wareHouseNumber;
     }
 
+    public WarehouseActivity recreateWarehouseActivity(int amountOfTons, int warehouseNumber, WarehouseAction action){
+
+//        int currentStock = calculateCurrentStock();
+//
+//        if(action == WarehouseAction.DISPATCH && amountOfTons > currentStock){
+//            throw new CustomException(HttpStatus.CONFLICT, "Not enough stock to dispatch " + amountOfTons + " tons.");
+//        }
+        return warehouseActivityWindow.addWarehouseActivity(amountOfTons, warehouseNumber, action);
+    }
+
     public WarehouseActivity addWarehouseActivity(int amountOfTons, int warehouseNumber, WarehouseAction action){
 
         int currentStock = calculateCurrentStock();
 
         if(action == WarehouseAction.DISPATCH && amountOfTons > currentStock){
-            throw new InsufficientStockException("Not enough stock to dispatch " + amountOfTons + " tons.");
+            throw new CustomException(HttpStatus.CONFLICT, "Not enough stock to dispatch " + amountOfTons + " tons.");
         }
         return warehouseActivityWindow.addWarehouseActivity(amountOfTons, warehouseNumber, action);
     }

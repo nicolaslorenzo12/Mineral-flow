@@ -5,8 +5,6 @@ import be.kdg.prog6.boundedcontextWarehouse.ports.in.AddMaterialCommand;
 import be.kdg.prog6.boundedcontextWarehouse.ports.in.AddMaterialUseCase;
 import be.kdg.prog6.boundedcontextWarehouse.ports.in.GetCurrentStockOfAWarehouseCommand;
 import be.kdg.prog6.boundedcontextWarehouse.ports.in.GetCurrentStockOfAWarehouseUseCase;
-import be.kdg.prog6.common.exception.InsufficientStockException;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

@@ -49,7 +49,7 @@ public class WarehouseDBAdapter implements LoadWarehousePort, UpdateWarehousePor
                                                               Warehouse warehouse){
 
         for(WarehouseJpaActivityEntity warehouseJpaActivity :  warehouseJpaActivityList){
-            warehouse.addWarehouseActivity(warehouseJpaActivity.getAmountOfTons(),
+            warehouse.recreateWarehouseActivity(warehouseJpaActivity.getAmountOfTons(),
                     warehouseJpaActivity.getWarehouseNumber(),
                     warehouseJpaActivity.getWarehouseAction());
         }

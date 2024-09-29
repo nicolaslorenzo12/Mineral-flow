@@ -1,6 +1,7 @@
 package be.kdg.prog6.boundedcontextLandside.domain;
 import be.kdg.prog6.common.domain.*;
-import be.kdg.prog6.common.exception.ThisTruckStatusWasAlreadyCheckedException;
+import be.kdg.prog6.common.exception.CustomException;
+import org.springframework.http.HttpStatus;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -141,7 +142,7 @@ public class Appointment {
         int currentStatusCode = getTruckStatus().getCode();
 
         if (statusCode - currentStatusCode != 1) {
-            throw new ThisTruckStatusWasAlreadyCheckedException("The truck's status transitions must follow the correct order. Please ensure all necessary processes have been completed before moving to the next status.");
+            throw new CustomException(HttpStatus.CONFLICT, "The truck's status transitions must follow the correct order. Please ensure all necessary processes have been completed before moving to the next status.");
       }
     }
 }

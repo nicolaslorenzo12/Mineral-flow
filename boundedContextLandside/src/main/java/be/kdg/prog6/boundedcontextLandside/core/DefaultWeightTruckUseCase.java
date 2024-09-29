@@ -6,7 +6,9 @@ import be.kdg.prog6.boundedcontextLandside.ports.in.WeightTruckCommand;
 import be.kdg.prog6.boundedcontextLandside.ports.in.WeightTruckUseCase;
 import be.kdg.prog6.boundedcontextLandside.ports.out.LoadAndCreateAppointmentPort;
 import be.kdg.prog6.boundedcontextLandside.ports.out.UpdateAppointmentPort;
-import be.kdg.prog6.common.exception.ObjectNotFoundException;
+import be.kdg.prog6.common.exception.CustomException;
+import org.hibernate.ObjectNotFoundException;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.Random;
@@ -27,7 +29,7 @@ public class DefaultWeightTruckUseCase implements WeightTruckUseCase {
 
         Appointment appointment = loadAndCreateAppointmentPort
                 .loadAppointmentJpaEntityByAppointmentUUID(weightTruckCommand.uuid())
-                .orElseThrow(() -> new ObjectNotFoundException("The appointment was not found"));
+                .orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND,"The appointment was not found"));
 
         int randomWeight = generateRandomWeight();
 

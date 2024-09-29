@@ -11,9 +11,9 @@ import be.kdg.prog6.boundedcontextLandside.ports.out.*;
 import be.kdg.prog6.common.domain.Material;
 import be.kdg.prog6.common.domain.MaterialType;
 import be.kdg.prog6.common.domain.Seller;
-import be.kdg.prog6.common.exception.AppointmentsPerHourReachedException;
-import be.kdg.prog6.common.exception.WarehouseCapacityExceededException;
+import be.kdg.prog6.common.exception.CustomException;
 import jakarta.transaction.Transactional;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -70,17 +70,17 @@ public class DefaultMakeAppointmentUseCase implements MakeAppointmentUseCase {
 
     private void checkIfAWarehouseCapacityExceededExceptionIsFound(double currentStockPercentage){
         if(currentStockPercentage >= 80.00) {
-            throw new WarehouseCapacityExceededException("Warehouse is at or above 80% capacity. Cannot schedule an appointment.");
+            throw new CustomException(HttpStatus.CONFLICT, "Warehouse is at or above 80% capacity. Cannot schedule an appointment.");
         }
     }
 
     private Seller findSellerByUUID(UUID sellerUUID) {
         return loadSellerPort.loadSellerByUUID(sellerUUID)
-                .orElseThrow(() -> new RuntimeException("Seller not found"));
+                .orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND, "Seller not found"));
     }
     private Material findMaterialByType(MaterialType materialType) {
         return loadMaterialPort.loadMaterialByMaterialType(materialType)
-                .orElseThrow(() -> new RuntimeException("Material not found"));
+                .orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND, "Material not found"));
     }
 
     private DailyCalendar findDailyCalenderByDay(LocalDate day){
@@ -97,12 +97,12 @@ public class DefaultMakeAppointmentUseCase implements MakeAppointmentUseCase {
     private void checkIfAnAppointmentsPerHourReachedExceptionIsFound(List<Appointment> appointments){
 
         if(appointments.size() == 40){
-            throw new AppointmentsPerHourReachedException("The limit of 40 appointments per hour has been reached");
+            throw new CustomException(HttpStatus.CONFLICT, "The limit of 40 appointments per hour has been reached");
         }
     }
     private List<Appointment> findAppointmentsByAppointmentTime(LocalDateTime appointmentTime){
         return loadAndCreateAppointmentPort.loadAppointmentsByAppointmentTime(appointmentTime)
-                .orElseThrow(() -> new RuntimeException("No appointments found"));
+                .orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND, "No appointments found"));
     }
     private int generateRandomGateNumber () {
         return (int) (Math.random() * 10) + 1;

@@ -8,29 +8,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(WarehouseCapacityExceededException.class)
-    public ResponseEntity<String> handleWarehouseCapacityExceeded(WarehouseCapacityExceededException ex) {
-        return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
-    }
-
-    @ExceptionHandler(AppointmentsPerHourReachedException.class)
-    public ResponseEntity<String> handleAppointmentsPerHourReached(AppointmentsPerHourReachedException ex) {
-        return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
-    }
-
-    @ExceptionHandler(InsufficientStockException.class)
-    public ResponseEntity<String> handleInsufficientStock(InsufficientStockException ex){
-        return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
-    }
-
-    @ExceptionHandler(ObjectNotFoundException.class)
-    public ResponseEntity<String> handleObjectNotFound(ObjectNotFoundException ex){
-        return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
-    }
-
-    @ExceptionHandler(ThisTruckStatusWasAlreadyCheckedException.class)
-    public ResponseEntity<String> handleThisTruckStatusWasAlreadyChecked(ThisTruckStatusWasAlreadyCheckedException ex){
-        return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
+    @ExceptionHandler(CustomException.class)
+    public ResponseEntity<String> handleCustomException(CustomException ex) {
+        return ResponseEntity.status(ex.getStatus()).body(ex.getMessage());
     }
 
     @ExceptionHandler(Exception.class)
