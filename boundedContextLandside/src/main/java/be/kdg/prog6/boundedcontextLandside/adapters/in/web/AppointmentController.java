@@ -18,10 +18,12 @@ public class AppointmentController {
     private final MakeAppointmentUseCase makeAppointmentUseCase;
     private final ScanLicensePlateNumberOfATruckUseCase scanLicensePlateNumberOfATruckUseCase;
     private final WeightTruckUseCase weightTruckUseCase;
-    public AppointmentController(MakeAppointmentUseCase makeAppointmentUseCase, ScanLicensePlateNumberOfATruckUseCase scanLicensePlateNumberOfATruckUseCase, WeightTruckUseCase weightTruckUseCase) {
+    private final DeliverMaterialUseCase deliverMaterialUseCase;
+    public AppointmentController(MakeAppointmentUseCase makeAppointmentUseCase, ScanLicensePlateNumberOfATruckUseCase scanLicensePlateNumberOfATruckUseCase, WeightTruckUseCase weightTruckUseCase, DeliverMaterialUseCase deliverMaterialUseCase) {
         this.makeAppointmentUseCase = makeAppointmentUseCase;
         this.scanLicensePlateNumberOfATruckUseCase = scanLicensePlateNumberOfATruckUseCase;
         this.weightTruckUseCase = weightTruckUseCase;
+        this.deliverMaterialUseCase = deliverMaterialUseCase;
     }
 
 
@@ -47,5 +49,11 @@ public class AppointmentController {
 
         weightTruckUseCase.weightTruck(new WeightTruckCommand(new Appointment.AppointmentUUID(appointmentUuid), weighingCount));
         return ResponseEntity.ok("The truck was successfully weighted, it has been weighted " + weighingCount + " time");
+    }
+
+    @PostMapping("appointment/{appointmentUuid}/loadMaterial")
+    public ResponseEntity<String> loadMaterial(@PathVariable UUID appointmentUuid){
+        deliverMaterialUseCase.deliverMaterial(new DeliverMaterialCommand(new Appointment.AppointmentUUID(appointmentUuid)));
+        return ResponseEntity.ok("The truck has successfully delivered the material");
     }
 }

@@ -24,14 +24,8 @@ public class Warehouse {
         return wareHouseNumber;
     }
 
-    public WarehouseActivity recreateWarehouseActivity(int amountOfTons, int warehouseNumber, WarehouseAction action){
-
-//        int currentStock = calculateCurrentStock();
-//
-//        if(action == WarehouseAction.DISPATCH && amountOfTons > currentStock){
-//            throw new CustomException(HttpStatus.CONFLICT, "Not enough stock to dispatch " + amountOfTons + " tons.");
-//        }
-        return warehouseActivityWindow.addWarehouseActivity(amountOfTons, warehouseNumber, action);
+    public void recreateWarehouseActivity(int amountOfTons, int warehouseNumber, WarehouseAction action){
+        warehouseActivityWindow.addWarehouseActivity(amountOfTons, warehouseNumber, action);
     }
 
     public WarehouseActivity addWarehouseActivity(int amountOfTons, int warehouseNumber, WarehouseAction action){

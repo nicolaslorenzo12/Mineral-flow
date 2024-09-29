@@ -5,8 +5,7 @@ public enum TruckStatus {
     NOTARRIVED(1),
     ARRIVED(2),
     WEIGHTINGFIRSTTIME(3),
-
-    LOADING(4),
+    RECEIVE_MATERIAL(4),
     WEIGHTINGLASTTIME(5),
     LEFT(6);
     private final int code;
