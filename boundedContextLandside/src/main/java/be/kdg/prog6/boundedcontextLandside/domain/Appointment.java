@@ -1,5 +1,6 @@
 package be.kdg.prog6.boundedcontextLandside.domain;
 import be.kdg.prog6.common.domain.*;
+import be.kdg.prog6.common.exception.ThisTruckStatusWasAlreadyCheckedException;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -133,5 +134,16 @@ public class Appointment {
                 ", status=" + status +
                 ", appointmentUUID=" + appointmentUUID +
                 '}';
+    }
+
+    public void checkIfTruckHasAlreadyGottenThisStatus(Appointment appointment, int statusCode){
+
+        if(appointment.getTruckStatus().getCode() >= statusCode){
+
+            switch (statusCode){
+                case 2 -> throw new ThisTruckStatusWasAlreadyCheckedException("This truck has already arrived to its appointment in this hour");
+                case 3 -> throw new ThisTruckStatusWasAlreadyCheckedException("This truck was already weighted for first time");
+            }
+        }
     }
 }

@@ -6,6 +6,7 @@ import be.kdg.prog6.boundedcontextLandside.ports.in.ScanLicensePlateNumberOfATru
 import be.kdg.prog6.boundedcontextLandside.ports.in.ScanLicensePlateNumberOfATruckUseCase;
 import be.kdg.prog6.boundedcontextLandside.ports.out.LoadAndCreateAppointmentPort;
 import be.kdg.prog6.boundedcontextLandside.ports.out.UpdateAppointmentPort;
+import be.kdg.prog6.common.exception.ObjectNotFoundException;
 import be.kdg.prog6.common.exception.ThisTruckStatusWasAlreadyCheckedException;
 import org.springframework.stereotype.Service;
 
@@ -30,22 +31,10 @@ public class DefaultScanLicensePlateNumberOfATruckUseCase implements ScanLicense
 
         Appointment appointment = loadAndCreateAppointmentPort.loadAppointmentByLicensePlateNumberOfTruckAndAppointmentTimeAndDay
                         (scanLicensePlateNumberCommand.licensePlateNumber(), roundedTime, roundedTime.toLocalDate())
-                .orElseThrow(() -> new RuntimeException("This truck does not have an appointment today at this time"));
+                .orElseThrow(() -> new ObjectNotFoundException("This truck does not have an appointment today at this time"));
 
-        checkIfTruckHasAlreadyGottenThisStatus(appointment, TruckStatus.ARRIVED.getCode());
+        appointment.checkIfTruckHasAlreadyGottenThisStatus(appointment, TruckStatus.ARRIVED.getCode());
 
         updateAppointmentPort.updateAppointmentTruckStatus(appointment, TruckStatus.ARRIVED);
     }
-
-    private void checkIfTruckHasAlreadyGottenThisStatus(Appointment appointment, int statusCode){
-
-        if(appointment.getTruckStatus().getCode() >= statusCode){
-
-            switch (statusCode){
-                case 2 -> throw new ThisTruckStatusWasAlreadyCheckedException("This truck has already arrived to its appointment in this hour");
-                case 3 -> throw new ThisTruckStatusWasAlreadyCheckedException("This truck was already weighted for first time");
-            }
-        }
-    }
-
 }

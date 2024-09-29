@@ -19,15 +19,6 @@ public class DailyCalendarDBAdapter implements LoadDailyCalendarPort {
     @Override
     public DailyCalendar loadOrCreateDailyCalendarByDay(LocalDate localDate) {
 
-//        Optional<DailyCalendarJpaEntity> dailyCalendarJpaEntity = dailyCalendarRepository.findDailyCalendarJpaEntityByDay(localDate);
-//
-//        if(dailyCalendarJpaEntity.isEmpty()){
-//            return Optional.empty();
-//        }
-//
-//        DailyCalendar dailyCalendar = new DailyCalendar(dailyCalendarJpaEntity.get().getDay());
-//        return Optional.of(dailyCalendar);
-
         final DailyCalendarJpaEntity dailyCalendarJpaEntity = dailyCalendarRepository.findDailyCalendarJpaEntityByDay(localDate).
                 orElseGet(() -> createNewDailyCalendar(localDate));
 

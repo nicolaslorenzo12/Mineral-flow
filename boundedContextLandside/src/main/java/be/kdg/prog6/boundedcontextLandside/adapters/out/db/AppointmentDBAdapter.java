@@ -27,12 +27,26 @@ public class AppointmentDBAdapter implements LoadAndCreateAppointmentPort, Updat
     }
 
     @Override
-    public Optional<Appointment> loadAppointmentByLicensePlateNumberOfTruckAndAppointmentTimeAndDay(String licensePlateNumberOfTruck, LocalDateTime localDateTime, LocalDate day) {
-        final AppointmentJpaEntity appointmentJpaEntity = appointmentRepository.
-                findAppointmentJpaEntityByLicensePlateNumberOfTruckAndAppointmentTimeAndDay(licensePlateNumberOfTruck, localDateTime, day).
-         orElseThrow(() -> new ObjectNotFoundException("This truck does not have an appointment at this time of the day"));
+    public Optional<Appointment> loadAppointmentByLicensePlateNumberOfTruckAndAppointmentTimeAndDay(
+            String licensePlateNumberOfTruck, LocalDateTime localDateTime, LocalDate day) {
 
-        return Optional.of(buildAppointmentObject(appointmentJpaEntity));
+        return appointmentRepository
+                .findAppointmentJpaEntityByLicensePlateNumberOfTruckAndAppointmentTimeAndDay(licensePlateNumberOfTruck, localDateTime, day)
+                .map(this::buildAppointmentObject);
+    }
+
+    private Appointment buildAppointmentObject(AppointmentJpaEntity appointmentJpaEntity) {
+        return new Appointment(
+                new Appointment.AppointmentUUID(appointmentJpaEntity.getAppointmentUUID()),
+                new Seller.CustomerUUID(appointmentJpaEntity.getSellerUuid()),
+                appointmentJpaEntity.getDailyCalendarJpaEntity().getDay(),
+                appointmentJpaEntity.getGateNumber(),
+                appointmentJpaEntity.getAppointmentTime(),
+                appointmentJpaEntity.getMaterialType(),
+                appointmentJpaEntity.getLicensePlateNumberOfTruck(),
+                appointmentJpaEntity.getTruckStatus(),
+                appointmentJpaEntity.getWarehouseNumber()
+        );
     }
 
     @Override
@@ -61,13 +75,6 @@ public class AppointmentDBAdapter implements LoadAndCreateAppointmentPort, Updat
 
         dailyCalendarJpaEntity.addAppointment(appointmentJpaEntity);
         dailyCalendarRepository.save(dailyCalendarJpaEntity);
-    }
-
-    private Appointment buildAppointmentObject(AppointmentJpaEntity appointmentJpaEntity){
-
-        return new Appointment(new Appointment.AppointmentUUID(appointmentJpaEntity.getAppointmentUUID()), new Seller.CustomerUUID(appointmentJpaEntity.getSellerUuid()),
-                appointmentJpaEntity.getDailyCalendarJpaEntity().getDay(), appointmentJpaEntity.getGateNumber(), appointmentJpaEntity.getAppointmentTime(), appointmentJpaEntity.getMaterialType(),
-                appointmentJpaEntity.getLicensePlateNumberOfTruck(),appointmentJpaEntity.getTruckStatus() ,appointmentJpaEntity.getWarehouseNumber());
     }
 
     @Override
