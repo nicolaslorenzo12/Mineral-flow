@@ -51,21 +51,27 @@ public class AppointmentDBAdapter implements LoadAndCreateAppointmentPort, Updat
 
     @Override
     public Optional<List<Appointment>> loadAppointmentsByAppointmentTime(LocalDateTime appointmentTime) {
+        Optional<List<AppointmentJpaEntity>> optionalAppointmentJpaEntities = appointmentRepository.findAppointmentJpaEntityByAppointmentTime(appointmentTime);
 
-        List<AppointmentJpaEntity> appointmentJpaEntityList = appointmentRepository.findAppointmentJpaEntityByAppointmentTime(appointmentTime).
-                orElseThrow(() -> new RuntimeException("No appointments found"));
-
-        List<Appointment> appointments = new ArrayList<>();
-        return Optional.of(toAppointment(appointmentJpaEntityList, appointments));
+        return optionalAppointmentJpaEntities.map(this::toAppointment);
     }
 
-    private List<Appointment> toAppointment(List<AppointmentJpaEntity> appointmentJpaEntityList, List<Appointment> appointments){
-        appointmentJpaEntityList.forEach(appointmentJpaEntity -> appointments.add(new Appointment(new Appointment.AppointmentUUID(appointmentJpaEntity.getAppointmentUUID()),
-                new Customer.CustomerUUID(appointmentJpaEntity.getSellerUuid()), appointmentJpaEntity.getDailyCalendarJpaEntity().getDay(), appointmentJpaEntity.getGateNumber(),
-                appointmentJpaEntity.getAppointmentTime(), appointmentJpaEntity.getMaterialType(), appointmentJpaEntity.getLicensePlateNumberOfTruck(),
-                appointmentJpaEntity.getTruckStatus(), appointmentJpaEntity.getWarehouseNumber())));
+    private List<Appointment> toAppointment(List<AppointmentJpaEntity> appointmentJpaEntityList) {
+        List<Appointment> appointments = new ArrayList<>();
+        appointmentJpaEntityList.forEach(appointmentJpaEntity -> appointments.add(new Appointment(
+                new Appointment.AppointmentUUID(appointmentJpaEntity.getAppointmentUUID()),
+                new Customer.CustomerUUID(appointmentJpaEntity.getSellerUuid()),
+                appointmentJpaEntity.getDailyCalendarJpaEntity().getDay(),
+                appointmentJpaEntity.getGateNumber(),
+                appointmentJpaEntity.getAppointmentTime(),
+                appointmentJpaEntity.getMaterialType(),
+                appointmentJpaEntity.getLicensePlateNumberOfTruck(),
+                appointmentJpaEntity.getTruckStatus(),
+                appointmentJpaEntity.getWarehouseNumber()
+        )));
         return appointments;
     }
+
     @Override
     public void createAppointment(Appointment appointment, DailyCalendarJpaEntity dailyCalendarJpaEntity) {
 
