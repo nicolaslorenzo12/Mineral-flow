@@ -13,12 +13,12 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 
 @Service
-public class DefaultScanLicensePlateNumberOfATruckUseCase implements ScanLicensePlateNumberWhenArrivingUseCase {
+public class DefaultScanLicensePlateNumberWhenArrivingUseCase implements ScanLicensePlateNumberWhenArrivingUseCase {
 
     private final LoadAndCreateAppointmentPort loadAndCreateAppointmentPort;
     private final UpdateAppointmentPort updateAppointmentPort;
 
-    public DefaultScanLicensePlateNumberOfATruckUseCase(LoadAndCreateAppointmentPort loadAndCreateAppointmentPort, UpdateAppointmentPort updateAppointmentPort) {
+    public DefaultScanLicensePlateNumberWhenArrivingUseCase(LoadAndCreateAppointmentPort loadAndCreateAppointmentPort, UpdateAppointmentPort updateAppointmentPort) {
         this.loadAndCreateAppointmentPort = loadAndCreateAppointmentPort;
         this.updateAppointmentPort = updateAppointmentPort;
     }
@@ -35,6 +35,7 @@ public class DefaultScanLicensePlateNumberOfATruckUseCase implements ScanLicense
                         new CustomException(HttpStatus.NOT_FOUND, "This truck does not have an appointment today at this time"));
 
         appointment.checkIfTruckHasAlreadyGottenThisStatus(TruckStatus.ARRIVED.getCode());
+        updateAppointmentPort.updateAppointmentArrivalOrDepartureTime(appointment.getAppointmentUUID(), TruckStatus.ARRIVED);
         updateAppointmentPort.updateAppointmentTruckStatus(appointment.getAppointmentUUID(), TruckStatus.ARRIVED);
     }
 }

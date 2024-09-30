@@ -7,4 +7,5 @@ public interface UpdateAppointmentPort {
 
     void updateAppointmentTruckStatus(Appointment.AppointmentUUID appointmentUUIDj, TruckStatus truckStatus);
     void updateAppointmentInitialOrFinalWeight(Appointment.AppointmentUUID appointmentUUID, int weight, int weighingCount);
+    void updateAppointmentArrivalOrDepartureTime(Appointment.AppointmentUUID appointmentUUID, TruckStatus truckStatus);
 }

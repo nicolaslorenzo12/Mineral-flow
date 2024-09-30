@@ -88,11 +88,29 @@ public class AppointmentDBAdapter implements LoadAndCreateAppointmentPort, Updat
         });
     }
 
+    @Override
+    public void updateAppointmentArrivalOrDepartureTime(Appointment.AppointmentUUID appointmentUUID, TruckStatus truckStatus) {
+            appointmentRepository.findAppointmentJpaEntityByAppointmentUUID(appointmentUUID.uuid()).ifPresent(appointmentJpaEntity -> {
+            updateArrivalOrDepartureTime(appointmentJpaEntity, truckStatus);
+            appointmentRepository.save(appointmentJpaEntity);
+        });
+    }
+
     private void updateWeight(AppointmentJpaEntity appointmentJpaEntity, int weight, int weighingCount) {
         if (weighingCount == 1) {
             appointmentJpaEntity.setInitialWeight(weight);
         } else {
             appointmentJpaEntity.setFinalWeight(weight);
+        }
+    }
+
+    private void updateArrivalOrDepartureTime(AppointmentJpaEntity appointmentJpaEntity, TruckStatus truckStatus){
+
+        if(truckStatus.equals(TruckStatus.ARRIVED)){
+            appointmentJpaEntity.setArrivalTime(LocalDateTime.now());
+        }
+        else{
+            appointmentJpaEntity.setDepartureTime(LocalDateTime.now());
         }
     }
 }

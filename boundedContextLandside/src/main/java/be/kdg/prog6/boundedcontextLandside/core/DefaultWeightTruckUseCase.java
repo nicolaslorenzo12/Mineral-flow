@@ -45,6 +45,7 @@ public class DefaultWeightTruckUseCase implements WeightTruckUseCase {
             Appointment appointmentWithFinalWeight = loadAppointment(weightTruckCommand);
             updateWarehousePort.addAmountOfTonsToWarehouseInWarehouseContext(appointmentWithFinalWeight.getNetWeight(),
                     appointmentWithFinalWeight.getWarehouseNumber());
+            updateAppointmentPort.updateAppointmentArrivalOrDepartureTime(weightTruckCommand.uuid(), TruckStatus.LEFT);
         }
     }
 
