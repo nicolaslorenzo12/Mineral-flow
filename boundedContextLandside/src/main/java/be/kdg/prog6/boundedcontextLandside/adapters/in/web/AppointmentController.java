@@ -16,10 +16,10 @@ import java.util.UUID;
 public class AppointmentController {
 
     private final MakeAppointmentUseCase makeAppointmentUseCase;
-    private final ScanLicensePlateNumberOfATruckUseCase scanLicensePlateNumberOfATruckUseCase;
+    private final ScanLicensePlateNumberWhenArrivingUseCase scanLicensePlateNumberOfATruckUseCase;
     private final WeightTruckUseCase weightTruckUseCase;
     private final DeliverMaterialUseCase deliverMaterialUseCase;
-    public AppointmentController(MakeAppointmentUseCase makeAppointmentUseCase, ScanLicensePlateNumberOfATruckUseCase scanLicensePlateNumberOfATruckUseCase, WeightTruckUseCase weightTruckUseCase, DeliverMaterialUseCase deliverMaterialUseCase) {
+    public AppointmentController(MakeAppointmentUseCase makeAppointmentUseCase, ScanLicensePlateNumberWhenArrivingUseCase scanLicensePlateNumberOfATruckUseCase, WeightTruckUseCase weightTruckUseCase, DeliverMaterialUseCase deliverMaterialUseCase) {
         this.makeAppointmentUseCase = makeAppointmentUseCase;
         this.scanLicensePlateNumberOfATruckUseCase = scanLicensePlateNumberOfATruckUseCase;
         this.weightTruckUseCase = weightTruckUseCase;
@@ -40,7 +40,7 @@ public class AppointmentController {
     @PostMapping("appointment/truck/{licensePlateNumber}/check")
     public ResponseEntity<String> scanTruckForAppointment(@PathVariable String licensePlateNumber){
 
-        scanLicensePlateNumberOfATruckUseCase.scanLicensePlateNumber(new ScanLicensePlateNumberOfATruckCommand(licensePlateNumber));
+        scanLicensePlateNumberOfATruckUseCase.scanLicensePlateNumber(new ScanLicensePlateNumberWhenArrivingCommand(licensePlateNumber));
         return ResponseEntity.ok("The truck is arriving at an acceptable time");
     }
 

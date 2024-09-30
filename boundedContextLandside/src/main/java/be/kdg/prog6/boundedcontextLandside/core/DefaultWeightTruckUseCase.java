@@ -73,7 +73,7 @@ public class DefaultWeightTruckUseCase implements WeightTruckUseCase {
         if (weighingCount == 1) {
             updateAppointmentPort.updateAppointmentTruckStatus(appointment.getAppointmentUUID(), TruckStatus.WEIGHTINGFIRSTTIME);
         } else {
-            updateAppointmentPort.updateAppointmentTruckStatus(appointment.getAppointmentUUID(), TruckStatus.WEIGHTINGLASTTIME);
+            updateAppointmentPort.updateAppointmentTruckStatus(appointment.getAppointmentUUID(), TruckStatus.LEFT);
         }
     }
 

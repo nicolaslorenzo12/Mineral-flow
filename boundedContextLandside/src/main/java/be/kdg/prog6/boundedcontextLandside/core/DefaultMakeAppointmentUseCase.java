@@ -51,7 +51,7 @@ public class DefaultMakeAppointmentUseCase implements MakeAppointmentUseCase {
         final Warehouse warehouse = findWarehouseForSellerAndMaterial(seller, material);
         final DailyCalendar dailyCalendar = findDailyCalenderByDay(makeAppointmentCommand.appointmentTime().toLocalDate());
         final List<Appointment> appointmentsOfTheDay = dailyCalendar.getAppointments();
-        final List<Appointment> appointmentsOfCurrentHour = findAppointmentsByAppointmentTime(appointmentsOfTheDay, makeAppointmentCommand.appointmentTime());
+        final List<Appointment> appointmentsOfCurrentHour = filterAppointmentsByAppointmentTime(appointmentsOfTheDay, makeAppointmentCommand.appointmentTime());
         double currentStockPercentage = warehouse.getCurrentStockPercentage();
         checkIfAWarehouseCapacityExceededExceptionIsFound(currentStockPercentage);
         checkIfAnAppointmentsPerHourReachedExceptionIsFound(appointmentsOfCurrentHour);
@@ -101,10 +101,9 @@ public class DefaultMakeAppointmentUseCase implements MakeAppointmentUseCase {
             throw new CustomException(HttpStatus.CONFLICT, "The limit of 40 appointments per hour has been reached");
         }
     }
-    private List<Appointment> findAppointmentsByAppointmentTime(List<Appointment> appointments, LocalDateTime appointmentTime){
+    private List<Appointment> filterAppointmentsByAppointmentTime(List<Appointment> appointments, LocalDateTime appointmentTime){
         int targetHour = appointmentTime.getHour();
 
-        // Filter appointments where the hour matches the target hour
         return appointments.stream()
                 .filter(appointment -> appointment.getAppointmentTime().getHour() == targetHour)
                 .collect(Collectors.toList());
