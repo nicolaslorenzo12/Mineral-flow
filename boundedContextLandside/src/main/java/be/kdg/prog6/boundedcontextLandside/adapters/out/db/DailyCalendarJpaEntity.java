@@ -1,10 +1,7 @@
 package be.kdg.prog6.boundedcontextLandside.adapters.out.db;
 
 import be.kdg.prog6.boundedcontextLandside.domain.Appointment;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -24,7 +21,7 @@ public class DailyCalendarJpaEntity {
     }
 
     public DailyCalendarJpaEntity() {
-
+        this.appointments = new ArrayList<>();
     }
 
     public LocalDate getDay() {

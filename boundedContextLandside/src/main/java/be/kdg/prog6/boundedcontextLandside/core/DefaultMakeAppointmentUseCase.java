@@ -20,6 +20,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class DefaultMakeAppointmentUseCase implements MakeAppointmentUseCase {
@@ -49,11 +50,11 @@ public class DefaultMakeAppointmentUseCase implements MakeAppointmentUseCase {
         final Material material = findMaterialByType(materialType);
         final Warehouse warehouse = findWarehouseForSellerAndMaterial(seller, material);
         final DailyCalendar dailyCalendar = findDailyCalenderByDay(makeAppointmentCommand.appointmentTime().toLocalDate());
-        final List<Appointment> appointments = findAppointmentsByAppointmentTime(makeAppointmentCommand.appointmentTime());
-
+        final List<Appointment> appointmentsOfTheDay = dailyCalendar.getAppointments();
+        final List<Appointment> appointmentsOfCurrentHour = findAppointmentsByAppointmentTime(appointmentsOfTheDay, makeAppointmentCommand.appointmentTime());
         double currentStockPercentage = warehouse.getCurrentStockPercentage();
         checkIfAWarehouseCapacityExceededExceptionIsFound(currentStockPercentage);
-        checkIfAnAppointmentsPerHourReachedExceptionIsFound(appointments);
+        checkIfAnAppointmentsPerHourReachedExceptionIsFound(appointmentsOfCurrentHour);
         int gateNumber = generateRandomGateNumber();
 
         Appointment appointment = buildAppointmentObject(seller, gateNumber, makeAppointmentCommand, material, warehouse, dailyCalendar.getDay());
@@ -100,9 +101,13 @@ public class DefaultMakeAppointmentUseCase implements MakeAppointmentUseCase {
             throw new CustomException(HttpStatus.CONFLICT, "The limit of 40 appointments per hour has been reached");
         }
     }
-    private List<Appointment> findAppointmentsByAppointmentTime(LocalDateTime appointmentTime){
-        return loadAndCreateAppointmentPort.loadAppointmentsByAppointmentTime(appointmentTime)
-                .orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND, "No appointments found"));
+    private List<Appointment> findAppointmentsByAppointmentTime(List<Appointment> appointments, LocalDateTime appointmentTime){
+        int targetHour = appointmentTime.getHour();
+
+        // Filter appointments where the hour matches the target hour
+        return appointments.stream()
+                .filter(appointment -> appointment.getAppointmentTime().getHour() == targetHour)
+                .collect(Collectors.toList());
     }
     private int generateRandomGateNumber () {
         return (int) (Math.random() * 10) + 1;
