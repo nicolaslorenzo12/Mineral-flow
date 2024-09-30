@@ -35,10 +35,16 @@ public class DefaultWeightTruckUseCase implements WeightTruckUseCase {
 
         processWeighing(appointment, weightTruckCommand.weighingCount(), randomWeight);
         updateAppointmentStatus(appointment, weightTruckCommand.weighingCount());
+        calculateNetWeightIfTruckWeightedForLastTime(weightTruckCommand);
+    }
+
+    private void calculateNetWeightIfTruckWeightedForLastTime(WeightTruckCommand weightTruckCommand){
 
         if(weightTruckCommand.weighingCount() == 2){
-            Appointment appointment1 = loadAppointment(weightTruckCommand);
-            updateWarehousePort.addAmountOfTonsOfMaterialToWarehouse(appointment1.getNetWeight(), appointment1.getWarehouseNumber());
+            //Reload so I can get the object with the final weight
+            Appointment appointmentWithFinalWeight = loadAppointment(weightTruckCommand);
+            updateWarehousePort.addAmountOfTonsToWarehouseInWarehouseContext(appointmentWithFinalWeight.getNetWeight(),
+                    appointmentWithFinalWeight.getWarehouseNumber());
         }
     }
 

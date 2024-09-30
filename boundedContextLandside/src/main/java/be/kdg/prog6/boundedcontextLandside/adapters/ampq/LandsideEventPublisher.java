@@ -16,7 +16,7 @@ public class LandsideEventPublisher implements UpdateWarehousePort {
 
 
     @Override
-    public void addAmountOfTonsOfMaterialToWarehouse(int amountOfTons, int warehouseNumber) {
+    public void addAmountOfTonsToWarehouseInWarehouseContext(int amountOfTons, int warehouseNumber) {
         final String routingKey = "landside. " + warehouseNumber + " .material_added";
         final String exchangeName = "landsideExchange";
         final MaterialAddedEvent body = new MaterialAddedEvent(amountOfTons, warehouseNumber);
