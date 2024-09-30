@@ -38,16 +38,16 @@ public class AppointmentJpaEntity {
     @Column()
     private LocalDateTime departureTime;
     @Column()
-    private double initialWeight;
+    private int initialWeight;
     @Column()
-    private double finalWeight;
+    private int finalWeight;
     @ManyToOne
     @JoinColumn(name = "day", referencedColumnName = "day", insertable = false, updatable = false)
     private DailyCalendarJpaEntity dailyCalendarJpaEntity;
 
 
     public AppointmentJpaEntity(UUID appointmentUUID, UUID sellerUuid, int gateNumber, LocalDateTime appointmentTime, MaterialType materialType,
-                                String licensePlateNumberOfTruck, TruckStatus status, int warehouseNumber, LocalDate day) {
+                                String licensePlateNumberOfTruck, TruckStatus status, int warehouseNumber, LocalDate day, int initialWeight, int finalWeight) {
         this.appointmentUUID = appointmentUUID;
         this.sellerUuid = sellerUuid;
         this.gateNumber = gateNumber;
@@ -57,6 +57,8 @@ public class AppointmentJpaEntity {
         this.status = status;
         this.warehouseNumber = warehouseNumber;
         this.day = day;
+        this.initialWeight = initialWeight;
+        this.finalWeight = finalWeight;
     }
     public AppointmentJpaEntity() {
 
@@ -142,19 +144,19 @@ public class AppointmentJpaEntity {
         this.departureTime = departureTime;
     }
 
-    public double getInitialWeight() {
+    public int getInitialWeight() {
         return initialWeight;
     }
 
-    public void setInitialWeight(double initialWeight) {
+    public void setInitialWeight(int initialWeight) {
         this.initialWeight = initialWeight;
     }
 
-    public double getFinalWeight() {
+    public int getFinalWeight() {
         return finalWeight;
     }
 
-    public void setFinalWeight(double finalWeight) {
+    public void setFinalWeight(int finalWeight) {
         this.finalWeight = finalWeight;
     }
 

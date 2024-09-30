@@ -19,10 +19,17 @@ public class RabbitMQTopology {
         return new Queue("warehouse.activity_created", false);
     }
 
+    @Bean
+    Queue materialAddedToWarehouseQueue(){return new Queue("landside.material_added", false);}
+
     // Define a topic exchange for the warehouse context
     @Bean
     TopicExchange warehouseExchange() {
         return new TopicExchange("warehouseExchange");
+    }
+    @Bean
+    TopicExchange landsideExchange() {
+        return new TopicExchange("landsideExchange");
     }
 
     // Bind the warehouse activity created queue to the warehouse exchange with the appropriate routing key
@@ -36,6 +43,18 @@ public class RabbitMQTopology {
                 .to(warehouseExchange)
                 .with("warehouse.#.activity_created"); // Use wildcard to capture all warehouse activity created events
     }
+
+    @Bean
+    Binding bindLandsideExchangeToMaterialAddedToWarehouseQueue(
+            Queue materialAddedToWarehouseQueue,
+            TopicExchange landsideExchange
+    ) {
+        return BindingBuilder
+                .bind(materialAddedToWarehouseQueue)
+                .to(landsideExchange)
+                .with("landside.#.material_added"); // Use wildcard to capture all warehouse activity created events
+    }
+
 
     // Configure the RabbitTemplate with a ConnectionFactory
     @Bean

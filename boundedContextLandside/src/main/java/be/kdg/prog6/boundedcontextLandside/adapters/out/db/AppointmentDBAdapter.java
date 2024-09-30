@@ -45,7 +45,9 @@ public class AppointmentDBAdapter implements LoadAndCreateAppointmentPort, Updat
                 appointmentJpaEntity.getMaterialType(),
                 appointmentJpaEntity.getLicensePlateNumberOfTruck(),
                 appointmentJpaEntity.getTruckStatus(),
-                appointmentJpaEntity.getWarehouseNumber()
+                appointmentJpaEntity.getWarehouseNumber(),
+                appointmentJpaEntity.getInitialWeight(),
+                appointmentJpaEntity.getFinalWeight()
         );
     }
 
@@ -68,7 +70,9 @@ public class AppointmentDBAdapter implements LoadAndCreateAppointmentPort, Updat
                 appointmentJpaEntity.getMaterialType(),
                 appointmentJpaEntity.getLicensePlateNumberOfTruck(),
                 appointmentJpaEntity.getTruckStatus(),
-                appointmentJpaEntity.getWarehouseNumber()
+                appointmentJpaEntity.getWarehouseNumber(),
+                appointmentJpaEntity.getInitialWeight(),
+                appointmentJpaEntity.getFinalWeight()
         )));
         return appointments;
     }
@@ -78,7 +82,7 @@ public class AppointmentDBAdapter implements LoadAndCreateAppointmentPort, Updat
 
         final AppointmentJpaEntity appointmentJpaEntity = new AppointmentJpaEntity(appointment.getAppointmentUUID().uuid(), appointment.getSellerUUID().uuid(), appointment.getGateNumber(),
                 appointment.getAppointmentTime(),appointment.getMaterialType(), appointment.getLicensePlateNumberOfTruck(), appointment.getTruckStatus(),
-                appointment.getWarehouseNumber(), appointment.getAppointmentTime().toLocalDate());
+                appointment.getWarehouseNumber(), appointment.getAppointmentTime().toLocalDate(), appointment.getInitialWeight(), appointment.getFinalWeight());
 
         dailyCalendarJpaEntity.addAppointment(appointmentJpaEntity);
         dailyCalendarRepository.save(dailyCalendarJpaEntity);

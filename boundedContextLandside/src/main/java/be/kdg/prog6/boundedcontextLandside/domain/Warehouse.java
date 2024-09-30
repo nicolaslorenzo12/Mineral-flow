@@ -58,12 +58,14 @@ public class Warehouse {
         this.currentStockPercentage = currentStockPercentage;
     }
 
-    public void modifyStock(final int amountOfTons, final WarehouseAction warehouseAction){
+    public int modifyStock(final int amountOfTons, final WarehouseAction warehouseAction){
 
         switch (warehouseAction){
             case RECEIVE -> setCurrentStockStorage(this.currentStockStorage + amountOfTons);
             case DISPATCH -> setCurrentStockStorage(this.currentStockStorage - amountOfTons);
         }
+
+        return getCurrentStockStorage();
     }
 
 }

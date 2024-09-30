@@ -6,11 +6,10 @@ import be.kdg.prog6.boundedcontextLandside.ports.in.WeightTruckCommand;
 import be.kdg.prog6.boundedcontextLandside.ports.in.WeightTruckUseCase;
 import be.kdg.prog6.boundedcontextLandside.ports.out.LoadAndCreateAppointmentPort;
 import be.kdg.prog6.boundedcontextLandside.ports.out.UpdateAppointmentPort;
+import be.kdg.prog6.boundedcontextLandside.ports.out.UpdateWarehousePort;
 import be.kdg.prog6.common.exception.CustomException;
-import org.hibernate.ObjectNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-
 import java.util.Random;
 
 @Service
@@ -19,22 +18,28 @@ public class DefaultWeightTruckUseCase implements WeightTruckUseCase {
     private final LoadAndCreateAppointmentPort loadAndCreateAppointmentPort;
     private final UpdateAppointmentPort updateAppointmentPort;
 
-    public DefaultWeightTruckUseCase(LoadAndCreateAppointmentPort loadAndCreateAppointmentPort, UpdateAppointmentPort updateAppointmentPort) {
+    private final UpdateWarehousePort updateWarehousePort;
+
+    public DefaultWeightTruckUseCase(LoadAndCreateAppointmentPort loadAndCreateAppointmentPort, UpdateAppointmentPort updateAppointmentPort, UpdateWarehousePort updateWarehousePort) {
         this.loadAndCreateAppointmentPort = loadAndCreateAppointmentPort;
         this.updateAppointmentPort = updateAppointmentPort;
+        this.updateWarehousePort = updateWarehousePort;
     }
 
     @Override
     public void weightTruck(WeightTruckCommand weightTruckCommand) {
 
-        Appointment appointment = loadAndCreateAppointmentPort
-                .loadAppointmentJpaEntityByAppointmentUUID(weightTruckCommand.uuid())
-                .orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND,"The appointment was not found"));
+        Appointment appointment = loadAppointment(weightTruckCommand);
 
         int randomWeight = generateRandomWeight();
 
         processWeighing(appointment, weightTruckCommand.weighingCount(), randomWeight);
         updateAppointmentStatus(appointment, weightTruckCommand.weighingCount());
+
+        if(weightTruckCommand.weighingCount() == 2){
+            Appointment appointment1 = loadAppointment(weightTruckCommand);
+            updateWarehousePort.addAmountOfTonsOfMaterialToWarehouse(appointment1.getNetWeight(), appointment1.getWarehouseNumber());
+        }
     }
 
     private int generateRandomWeight() {
@@ -59,5 +64,11 @@ public class DefaultWeightTruckUseCase implements WeightTruckUseCase {
         } else {
             updateAppointmentPort.updateAppointmentTruckStatus(appointment.getAppointmentUUID(), TruckStatus.WEIGHTINGLASTTIME);
         }
+    }
+
+    private Appointment loadAppointment(WeightTruckCommand weightTruckCommand){
+        return loadAndCreateAppointmentPort
+                .loadAppointmentJpaEntityByAppointmentUUID(weightTruckCommand.uuid())
+                .orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND,"The appointment was not found"));
     }
 }

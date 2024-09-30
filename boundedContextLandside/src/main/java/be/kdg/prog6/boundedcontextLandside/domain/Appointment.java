@@ -19,11 +19,28 @@ public class Appointment {
     private int warehouseNumber;
     private LocalDateTime arrivalTime;
     private LocalDateTime departureTime;
-    private double initialWeight;
-    private double finalWeight;
+    private int initialWeight;
+    private int finalWeight;
     private final AppointmentUUID appointmentUUID;
     public record AppointmentUUID(UUID uuid) {
 
+    }
+
+    public Appointment(final AppointmentUUID appointmentUUID, Seller.CustomerUUID sellerUUID, LocalDate localDate, int gateNumber,
+                       LocalDateTime appointmentTime, MaterialType materialType, String licensePlateNumberOfTruck, TruckStatus status, int warehouseNumber,
+                        int initialWeight, int finalWeight)
+    {
+        this.appointmentUUID = appointmentUUID;
+        this.sellerUUID = sellerUUID;
+        this.localDate = localDate;
+        this.gateNumber = gateNumber;
+        this.appointmentTime = appointmentTime;
+        this.materialType = materialType;
+        this.licensePlateNumberOfTruck = licensePlateNumberOfTruck;
+        this.status = status;
+        this.warehouseNumber = warehouseNumber;
+        this.initialWeight = initialWeight;
+        this.finalWeight = finalWeight;
     }
 
     public Appointment(final AppointmentUUID appointmentUUID, Seller.CustomerUUID sellerUUID, LocalDate localDate, int gateNumber,
@@ -92,19 +109,19 @@ public class Appointment {
         this.departureTime = departureTime;
     }
 
-    public double getInitialWeight() {
+    public int getInitialWeight() {
         return initialWeight;
     }
 
-    public void setInitialWeight(double initialWeight) {
+    public void setInitialWeight(int initialWeight) {
         this.initialWeight = initialWeight;
     }
 
-    public double getFinalWeight() {
+    public int getFinalWeight() {
         return finalWeight;
     }
 
-    public void setFinalWeight(double finalWeight) {
+    public void setFinalWeight(int finalWeight) {
         this.finalWeight = finalWeight;
     }
 
@@ -144,5 +161,9 @@ public class Appointment {
         if (statusCode - currentStatusCode != 1) {
             throw new CustomException(HttpStatus.CONFLICT, "The truck's status transitions must follow the correct order. Please ensure all necessary processes have been completed before moving to the next status.");
       }
+    }
+
+    public int getNetWeight(){
+        return initialWeight - finalWeight;
     }
 }

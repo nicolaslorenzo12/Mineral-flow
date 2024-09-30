@@ -28,6 +28,7 @@ public class DefaultDeliverMaterialUseCase implements DeliverMaterialUseCase {
                 .orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND, "Appointment was not found"));
 
         appointment.checkIfTruckHasAlreadyGottenThisStatus(TruckStatus.RECEIVE_MATERIAL.getCode());
+
         updateAppointmentPort.updateAppointmentTruckStatus(appointment.getAppointmentUUID(), TruckStatus.RECEIVE_MATERIAL);
     }
 }

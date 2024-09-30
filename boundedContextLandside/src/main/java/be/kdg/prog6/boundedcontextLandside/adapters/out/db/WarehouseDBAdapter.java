@@ -2,6 +2,7 @@ package be.kdg.prog6.boundedcontextLandside.adapters.out.db;
 
 import be.kdg.prog6.boundedcontextLandside.domain.Warehouse;
 import be.kdg.prog6.boundedcontextLandside.ports.out.LoadOrCreateWarehousePort;
+import be.kdg.prog6.boundedcontextLandside.ports.out.UpdateWarehouseCurrentStockPort;
 import be.kdg.prog6.boundedcontextLandside.ports.out.UpdateWarehousePort;
 import be.kdg.prog6.common.domain.MaterialType;
 import be.kdg.prog6.common.domain.Seller;
@@ -10,7 +11,7 @@ import org.springframework.stereotype.Component;
 import java.util.UUID;
 
 @Component("landsideDatabaseAdapter")
-public class WarehouseDBAdapter implements LoadOrCreateWarehousePort, UpdateWarehousePort {
+public class WarehouseDBAdapter implements LoadOrCreateWarehousePort, UpdateWarehouseCurrentStockPort {
     private final WarehouseRepository warehouseRepository;
 
     public WarehouseDBAdapter(WarehouseRepository warehouseRepository) {
@@ -18,11 +19,11 @@ public class WarehouseDBAdapter implements LoadOrCreateWarehousePort, UpdateWare
     }
 
     @Override
-    public void updateWarehouse(Warehouse warehouse) {
+    public void updateWarehouse(Warehouse warehouse, int currentStock) {
 
         int warehouseNumber = warehouse.getWareHouseNumber();
         warehouseRepository.findByWareHouseNumber(warehouseNumber).ifPresent(warehouseJpaEntity -> {
-            warehouseJpaEntity.setUtilizationCapacity(warehouse.getCurrentStockStorage());
+            warehouseJpaEntity.setUtilizationCapacity(currentStock);
             warehouseRepository.save(warehouseJpaEntity);
         });
     }
@@ -52,4 +53,5 @@ public class WarehouseDBAdapter implements LoadOrCreateWarehousePort, UpdateWare
         warehouseRepository.save(newWarehouse);
         return newWarehouse;
     }
+
 }

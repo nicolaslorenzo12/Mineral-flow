@@ -6,6 +6,7 @@ import be.kdg.prog6.boundedcontextWarehouse.ports.in.AddMaterialCommand;
 import be.kdg.prog6.boundedcontextWarehouse.ports.in.AddMaterialUseCase;
 import be.kdg.prog6.boundedcontextWarehouse.ports.out.LoadWarehousePort;
 import be.kdg.prog6.boundedcontextWarehouse.ports.out.UpdateWarehousePort;
+import be.kdg.prog6.common.domain.WarehouseAction;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -23,10 +24,10 @@ public class DefaultAddMaterialUseCase implements AddMaterialUseCase {
 
     @Override
     @Transactional
-    public void addOrDispatchMaterial(AddMaterialCommand addMaterialCommand) {
+    public void addOrDispatchMaterial(int amountOfTons, int warehouseNumber, WarehouseAction action) {
 
-        final Warehouse warehouse = findWarehouse(addMaterialCommand.warehouseNumber());
-        WarehouseActivity warehouseActivity = buildWarehouseActivityAndAddActivityToWarehouse(warehouse, addMaterialCommand);
+        final Warehouse warehouse = findWarehouse(warehouseNumber);
+        WarehouseActivity warehouseActivity = buildWarehouseActivityAndAddActivityToWarehouse(warehouse, amountOfTons, action);
         updateWarehousePort.forEach(port -> port.warehouseCreateActivity(warehouse, warehouseActivity));
     }
 
@@ -35,10 +36,10 @@ public class DefaultAddMaterialUseCase implements AddMaterialUseCase {
                 .orElseThrow(() -> new RuntimeException("Warehouse not found"));
     }
 
-    private WarehouseActivity buildWarehouseActivityAndAddActivityToWarehouse(Warehouse warehouse, AddMaterialCommand addMaterialCommand){
+    private WarehouseActivity buildWarehouseActivityAndAddActivityToWarehouse(Warehouse warehouse, int amountOfTons, WarehouseAction action){
 
-        return warehouse.addWarehouseActivity(addMaterialCommand.amountOfTons(),
-                addMaterialCommand.warehouseNumber(),
-                addMaterialCommand.action());
+        return warehouse.addWarehouseActivity(amountOfTons,
+                warehouse.getWareHouseNumber(),
+                action);
     }
 }
