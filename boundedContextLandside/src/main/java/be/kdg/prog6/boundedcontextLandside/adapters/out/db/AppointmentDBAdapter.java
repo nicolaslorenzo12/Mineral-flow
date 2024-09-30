@@ -52,32 +52,6 @@ public class AppointmentDBAdapter implements LoadAndCreateAppointmentPort, Updat
     }
 
     @Override
-    public Optional<List<Appointment>> loadAppointmentsByAppointmentTime(LocalDateTime appointmentTime) {
-        Optional<List<AppointmentJpaEntity>> optionalAppointmentJpaEntities = appointmentRepository.
-                findAppointmentJpaEntityByAppointmentTime(appointmentTime);
-
-        return optionalAppointmentJpaEntities.map(this::toAppointments);
-    }
-
-    private List<Appointment> toAppointments(List<AppointmentJpaEntity> appointmentJpaEntityList) {
-        List<Appointment> appointments = new ArrayList<>();
-        appointmentJpaEntityList.forEach(appointmentJpaEntity -> appointments.add(new Appointment(
-                new Appointment.AppointmentUUID(appointmentJpaEntity.getAppointmentUUID()),
-                new Customer.CustomerUUID(appointmentJpaEntity.getSellerUuid()),
-                appointmentJpaEntity.getDailyCalendarJpaEntity().getDay(),
-                appointmentJpaEntity.getGateNumber(),
-                appointmentJpaEntity.getAppointmentTime(),
-                appointmentJpaEntity.getMaterialType(),
-                appointmentJpaEntity.getLicensePlateNumberOfTruck(),
-                appointmentJpaEntity.getTruckStatus(),
-                appointmentJpaEntity.getWarehouseNumber(),
-                appointmentJpaEntity.getInitialWeight(),
-                appointmentJpaEntity.getFinalWeight()
-        )));
-        return appointments;
-    }
-
-    @Override
     public void createAppointment(Appointment appointment, DailyCalendarJpaEntity dailyCalendarJpaEntity) {
 
         final AppointmentJpaEntity appointmentJpaEntity = new AppointmentJpaEntity(appointment.getAppointmentUUID().uuid(), appointment.getSellerUUID().uuid(), appointment.getGateNumber(),
@@ -89,7 +63,7 @@ public class AppointmentDBAdapter implements LoadAndCreateAppointmentPort, Updat
     }
 
     @Override
-    public Optional<Appointment> loadAppointmentJpaEntityByAppointmentUUID(Appointment.AppointmentUUID appointmentUUID) {
+    public Optional<Appointment> loadAppointmentByAppointmentUUID(Appointment.AppointmentUUID appointmentUUID) {
 
         return appointmentRepository
                 .findAppointmentJpaEntityByAppointmentUUID(appointmentUUID.uuid())

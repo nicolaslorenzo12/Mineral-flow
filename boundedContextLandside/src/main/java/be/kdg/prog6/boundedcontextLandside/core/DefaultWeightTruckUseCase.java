@@ -31,7 +31,7 @@ public class DefaultWeightTruckUseCase implements WeightTruckUseCase {
 
         Appointment appointment = loadAppointment(weightTruckCommand);
 
-        int randomWeight = generateRandomWeight();
+        int randomWeight = generateRandomWeight(weightTruckCommand.weighingCount());
 
         processWeighing(appointment, weightTruckCommand.weighingCount(), randomWeight);
         updateAppointmentStatus(appointment, weightTruckCommand.weighingCount());
@@ -48,9 +48,14 @@ public class DefaultWeightTruckUseCase implements WeightTruckUseCase {
         }
     }
 
-    private int generateRandomWeight() {
+    private int generateRandomWeight(int weighingCount) {
         Random random = new Random();
-        return random.nextInt(21) + 10;
+        if(weighingCount == 1) {
+            return random.nextInt(21) + 10;
+        }
+        else{
+            return 10;
+        }
     }
 
     private void processWeighing(Appointment appointment, int weighingCount, int weight) {
@@ -74,7 +79,7 @@ public class DefaultWeightTruckUseCase implements WeightTruckUseCase {
 
     private Appointment loadAppointment(WeightTruckCommand weightTruckCommand){
         return loadAndCreateAppointmentPort
-                .loadAppointmentJpaEntityByAppointmentUUID(weightTruckCommand.uuid())
+                .loadAppointmentByAppointmentUUID(weightTruckCommand.uuid())
                 .orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND,"The appointment was not found"));
     }
 }

@@ -24,7 +24,7 @@ public class DefaultDeliverMaterialUseCase implements DeliverMaterialUseCase {
     @Override
     public void deliverMaterial(DeliverMaterialCommand loadMaterialCommand) {
 
-        final Appointment appointment = loadAndCreateAppointmentPort.loadAppointmentJpaEntityByAppointmentUUID(loadMaterialCommand.appointmentUUID())
+        final Appointment appointment = loadAndCreateAppointmentPort.loadAppointmentByAppointmentUUID(loadMaterialCommand.appointmentUUID())
                 .orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND, "Appointment was not found"));
 
         appointment.checkIfTruckHasAlreadyGottenThisStatus(TruckStatus.RECEIVE_MATERIAL.getCode());
