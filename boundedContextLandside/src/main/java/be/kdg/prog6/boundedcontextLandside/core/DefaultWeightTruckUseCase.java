@@ -1,11 +1,14 @@
 package be.kdg.prog6.boundedcontextLandside.core;
 
 import be.kdg.prog6.boundedcontextLandside.domain.Appointment;
+import be.kdg.prog6.boundedcontextLandside.domain.DailyCalendar;
 import be.kdg.prog6.boundedcontextLandside.domain.WeightingTime;
 import be.kdg.prog6.boundedcontextLandside.ports.in.WeightTruckCommand;
 import be.kdg.prog6.boundedcontextLandside.ports.in.WeightTruckUseCase;
 import be.kdg.prog6.boundedcontextLandside.ports.out.LoadAndCreateAppointmentPort;
+import be.kdg.prog6.boundedcontextLandside.ports.out.LoadDailyCalendarPort;
 import be.kdg.prog6.boundedcontextLandside.ports.out.UpdateAppointmentPort;
+import be.kdg.prog6.boundedcontextLandside.ports.out.UpdateDailyCalendarPort;
 import be.kdg.prog6.common.exception.CustomException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -18,12 +21,16 @@ import java.util.Random;
 public class DefaultWeightTruckUseCase implements WeightTruckUseCase {
 
     private final LoadAndCreateAppointmentPort loadAndCreateAppointmentPort;
+    private final LoadDailyCalendarPort loadDailyCalendarPort;
     private final List<UpdateAppointmentPort> updateAppointmentPorts;
+    private final List<UpdateDailyCalendarPort> updateDailyCalendarPorts;
 
     public DefaultWeightTruckUseCase(LoadAndCreateAppointmentPort loadAndCreateAppointmentPort,
-                                     List<UpdateAppointmentPort> updateAppointmentPorts) {
+                                     LoadDailyCalendarPort loadDailyCalendarPort, List<UpdateAppointmentPort> updateAppointmentPorts, List<UpdateDailyCalendarPort> updateDailyCalendarPorts) {
         this.loadAndCreateAppointmentPort = loadAndCreateAppointmentPort;
+        this.loadDailyCalendarPort = loadDailyCalendarPort;
         this.updateAppointmentPorts = updateAppointmentPorts;
+        this.updateDailyCalendarPorts = updateDailyCalendarPorts;
     }
 
     @Override
@@ -31,7 +38,7 @@ public class DefaultWeightTruckUseCase implements WeightTruckUseCase {
         Appointment appointment = loadAppointment(weightTruckCommand);
         int randomWeight = generateRandomWeight(weightTruckCommand.weightingTime());
         Appointment finalAppointment = appointment.proccessWeighting(weightTruckCommand.weightingTime(),randomWeight);
-        updateAppointmentPorts.forEach(updateAppointmentPort -> updateAppointmentPort.updateAppointment(finalAppointment, LocalDate.now()));
+        updateDailyCalendarPorts.forEach(updateAppointmentPort -> updateAppointmentPort.updateAppointment(finalAppointment, new DailyCalendar(LocalDate.now())));
     }
 
     private int generateRandomWeight(WeightingTime weightingTime) {
@@ -45,8 +52,11 @@ public class DefaultWeightTruckUseCase implements WeightTruckUseCase {
     }
 
     private Appointment loadAppointment(WeightTruckCommand weightTruckCommand){
-        return loadAndCreateAppointmentPort
-                .loadAppointmentByAppointmentUUID(weightTruckCommand.uuid())
+
+        return loadDailyCalendarPort.loadAppointmentByAppointmentUUID(new Appointment.AppointmentUUID(weightTruckCommand.uuid().uuid()), new DailyCalendar(LocalDate.now()))
                 .orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND,"The appointment was not found"));
+//        return loadAndCreateAppointmentPort
+//                .loadAppointmentByAppointmentUUID(weightTruckCommand.uuid())
+//                .orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND,"The appointment was not found"));
     }
 }

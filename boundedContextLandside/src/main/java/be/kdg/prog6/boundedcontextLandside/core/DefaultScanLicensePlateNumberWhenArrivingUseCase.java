@@ -1,11 +1,14 @@
 package be.kdg.prog6.boundedcontextLandside.core;
 
 import be.kdg.prog6.boundedcontextLandside.domain.Appointment;
+import be.kdg.prog6.boundedcontextLandside.domain.DailyCalendar;
 import be.kdg.prog6.boundedcontextLandside.domain.TruckStatus;
 import be.kdg.prog6.boundedcontextLandside.ports.in.ScanLicensePlateNumberWhenArrivingCommand;
 import be.kdg.prog6.boundedcontextLandside.ports.in.ScanLicensePlateNumberWhenArrivingUseCase;
 import be.kdg.prog6.boundedcontextLandside.ports.out.LoadAndCreateAppointmentPort;
+import be.kdg.prog6.boundedcontextLandside.ports.out.LoadDailyCalendarPort;
 import be.kdg.prog6.boundedcontextLandside.ports.out.UpdateAppointmentPort;
+import be.kdg.prog6.boundedcontextLandside.ports.out.UpdateDailyCalendarPort;
 import be.kdg.prog6.common.exception.CustomException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -19,10 +22,14 @@ public class DefaultScanLicensePlateNumberWhenArrivingUseCase implements ScanLic
 
     private final LoadAndCreateAppointmentPort loadAndCreateAppointmentPort;
     private final List<UpdateAppointmentPort> updateAppointmentPorts;
+    private final LoadDailyCalendarPort loadDailyCalendarPort;
+    private final List<UpdateDailyCalendarPort> updateDailyCalendarPorts;
 
-    public DefaultScanLicensePlateNumberWhenArrivingUseCase(LoadAndCreateAppointmentPort loadAndCreateAppointmentPort, List<UpdateAppointmentPort> updateAppointmentPorts) {
+    public DefaultScanLicensePlateNumberWhenArrivingUseCase(LoadAndCreateAppointmentPort loadAndCreateAppointmentPort, List<UpdateAppointmentPort> updateAppointmentPorts, LoadDailyCalendarPort loadDailyCalendarPort, List<UpdateDailyCalendarPort> updateDailyCalendarPorts) {
         this.loadAndCreateAppointmentPort = loadAndCreateAppointmentPort;
         this.updateAppointmentPorts = updateAppointmentPorts;
+        this.loadDailyCalendarPort = loadDailyCalendarPort;
+        this.updateDailyCalendarPorts = updateDailyCalendarPorts;
     }
 
     @Override
@@ -36,11 +43,11 @@ public class DefaultScanLicensePlateNumberWhenArrivingUseCase implements ScanLic
 
         appointment.checkIfTruckHasAlreadyGottenThisStatus(TruckStatus.ARRIVED);
         appointment.setArrivalTime(LocalDateTime.now());
-        updateAppointmentPorts.forEach(updateAppointmentPort -> updateAppointmentPort.updateAppointment(appointment, now.toLocalDate()));
+        updateDailyCalendarPorts.forEach(updateAppointmentPort -> updateAppointmentPort.updateAppointment(appointment, new DailyCalendar(now.toLocalDate())));
     }
 
     public Appointment findAppointmentByLicensePlateNumberOfTruckAndAppointmentTimeAndDay(String licensePlateNumber, LocalDateTime roundedTime, LocalDate day){
-        return loadAndCreateAppointmentPort.loadAppointmentByLicensePlateNumberOfTruckAndAppointmentTimeAndDay
+        return loadDailyCalendarPort.loadAppointmentByLicensePlateNumberOfTruckAndAppointmentTimeAndDay
                         (licensePlateNumber, roundedTime, roundedTime.toLocalDate())
                 .orElseThrow(() ->
                         new CustomException(HttpStatus.NOT_FOUND, "This truck does not have an appointment today at this time"));

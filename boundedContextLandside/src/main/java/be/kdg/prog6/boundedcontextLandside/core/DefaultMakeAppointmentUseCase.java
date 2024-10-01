@@ -54,7 +54,8 @@ public class DefaultMakeAppointmentUseCase implements MakeAppointmentUseCase {
         int gateNumber = generateRandomGateNumber();
 
         Appointment appointment = buildAppointmentObject(seller, gateNumber, makeAppointmentCommand, material, warehouse, dailyCalendar.getDay());
-        loadAndCreateAppointmentPort.createAppointment(appointment, new DailyCalendarJpaEntity(dailyCalendar.getDay()));
+        loadDailyCalendarPort.createAppointment(appointment, dailyCalendar);
+//        loadAndCreateAppointmentPort.createAppointment(appointment, dailyCalendar);
     }
 
     private Appointment buildAppointmentObject(Seller seller, int gateNumber, MakeAppointmentCommand makeAppointmentCommand, Material material, Warehouse warehouse, LocalDate day){

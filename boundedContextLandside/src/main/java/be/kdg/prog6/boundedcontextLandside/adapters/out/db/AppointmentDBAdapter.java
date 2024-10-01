@@ -1,6 +1,7 @@
 package be.kdg.prog6.boundedcontextLandside.adapters.out.db;
 
 import be.kdg.prog6.boundedcontextLandside.domain.Appointment;
+import be.kdg.prog6.boundedcontextLandside.domain.DailyCalendar;
 import be.kdg.prog6.boundedcontextLandside.domain.TruckStatus;
 import be.kdg.prog6.boundedcontextLandside.ports.out.LoadAndCreateAppointmentPort;
 import be.kdg.prog6.boundedcontextLandside.ports.out.UpdateAppointmentPort;
@@ -53,7 +54,9 @@ public class AppointmentDBAdapter implements LoadAndCreateAppointmentPort, Updat
     }
 
     @Override
-    public void createAppointment(Appointment appointment, DailyCalendarJpaEntity dailyCalendarJpaEntity) {
+    public void createAppointment(Appointment appointment, DailyCalendar dailyCalendar) {
+
+        DailyCalendarJpaEntity dailyCalendarJpaEntity = dailyCalendarRepository.findDailyCalendarJpaEntityByDay(dailyCalendar.getDay()).orElseThrow();
 
         final AppointmentJpaEntity appointmentJpaEntity = new AppointmentJpaEntity(appointment.getAppointmentUUID().uuid(), appointment.getSellerUUID().uuid(), appointment.getGateNumber(),
                 appointment.getAppointmentTime(),appointment.getMaterialType(), appointment.getLicensePlateNumberOfTruck(), appointment.getTruckStatus(),
