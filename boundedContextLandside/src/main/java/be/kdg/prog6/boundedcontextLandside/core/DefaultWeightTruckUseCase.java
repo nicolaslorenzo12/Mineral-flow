@@ -5,9 +5,7 @@ import be.kdg.prog6.boundedcontextLandside.domain.DailyCalendar;
 import be.kdg.prog6.boundedcontextLandside.domain.WeightingTime;
 import be.kdg.prog6.boundedcontextLandside.ports.in.WeightTruckCommand;
 import be.kdg.prog6.boundedcontextLandside.ports.in.WeightTruckUseCase;
-import be.kdg.prog6.boundedcontextLandside.ports.out.LoadAndCreateAppointmentPort;
 import be.kdg.prog6.boundedcontextLandside.ports.out.LoadDailyCalendarPort;
-import be.kdg.prog6.boundedcontextLandside.ports.out.UpdateAppointmentPort;
 import be.kdg.prog6.boundedcontextLandside.ports.out.UpdateDailyCalendarPort;
 import be.kdg.prog6.common.exception.CustomException;
 import org.springframework.http.HttpStatus;
@@ -19,17 +17,11 @@ import java.util.Random;
 
 @Service
 public class DefaultWeightTruckUseCase implements WeightTruckUseCase {
-
-    private final LoadAndCreateAppointmentPort loadAndCreateAppointmentPort;
     private final LoadDailyCalendarPort loadDailyCalendarPort;
-    private final List<UpdateAppointmentPort> updateAppointmentPorts;
     private final List<UpdateDailyCalendarPort> updateDailyCalendarPorts;
 
-    public DefaultWeightTruckUseCase(LoadAndCreateAppointmentPort loadAndCreateAppointmentPort,
-                                     LoadDailyCalendarPort loadDailyCalendarPort, List<UpdateAppointmentPort> updateAppointmentPorts, List<UpdateDailyCalendarPort> updateDailyCalendarPorts) {
-        this.loadAndCreateAppointmentPort = loadAndCreateAppointmentPort;
+    public DefaultWeightTruckUseCase(LoadDailyCalendarPort loadDailyCalendarPort, List<UpdateDailyCalendarPort> updateDailyCalendarPorts) {
         this.loadDailyCalendarPort = loadDailyCalendarPort;
-        this.updateAppointmentPorts = updateAppointmentPorts;
         this.updateDailyCalendarPorts = updateDailyCalendarPorts;
     }
 
@@ -55,8 +47,5 @@ public class DefaultWeightTruckUseCase implements WeightTruckUseCase {
 
         return loadDailyCalendarPort.loadAppointmentByAppointmentUUID(new Appointment.AppointmentUUID(weightTruckCommand.uuid().uuid()), new DailyCalendar(LocalDate.now()))
                 .orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND,"The appointment was not found"));
-//        return loadAndCreateAppointmentPort
-//                .loadAppointmentByAppointmentUUID(weightTruckCommand.uuid())
-//                .orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND,"The appointment was not found"));
     }
 }

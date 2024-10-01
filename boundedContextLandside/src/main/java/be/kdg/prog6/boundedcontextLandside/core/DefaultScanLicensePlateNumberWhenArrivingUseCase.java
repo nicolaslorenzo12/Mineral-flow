@@ -5,9 +5,7 @@ import be.kdg.prog6.boundedcontextLandside.domain.DailyCalendar;
 import be.kdg.prog6.boundedcontextLandside.domain.TruckStatus;
 import be.kdg.prog6.boundedcontextLandside.ports.in.ScanLicensePlateNumberWhenArrivingCommand;
 import be.kdg.prog6.boundedcontextLandside.ports.in.ScanLicensePlateNumberWhenArrivingUseCase;
-import be.kdg.prog6.boundedcontextLandside.ports.out.LoadAndCreateAppointmentPort;
 import be.kdg.prog6.boundedcontextLandside.ports.out.LoadDailyCalendarPort;
-import be.kdg.prog6.boundedcontextLandside.ports.out.UpdateAppointmentPort;
 import be.kdg.prog6.boundedcontextLandside.ports.out.UpdateDailyCalendarPort;
 import be.kdg.prog6.common.exception.CustomException;
 import org.springframework.http.HttpStatus;
@@ -19,15 +17,10 @@ import java.util.List;
 
 @Service
 public class DefaultScanLicensePlateNumberWhenArrivingUseCase implements ScanLicensePlateNumberWhenArrivingUseCase {
-
-    private final LoadAndCreateAppointmentPort loadAndCreateAppointmentPort;
-    private final List<UpdateAppointmentPort> updateAppointmentPorts;
     private final LoadDailyCalendarPort loadDailyCalendarPort;
     private final List<UpdateDailyCalendarPort> updateDailyCalendarPorts;
 
-    public DefaultScanLicensePlateNumberWhenArrivingUseCase(LoadAndCreateAppointmentPort loadAndCreateAppointmentPort, List<UpdateAppointmentPort> updateAppointmentPorts, LoadDailyCalendarPort loadDailyCalendarPort, List<UpdateDailyCalendarPort> updateDailyCalendarPorts) {
-        this.loadAndCreateAppointmentPort = loadAndCreateAppointmentPort;
-        this.updateAppointmentPorts = updateAppointmentPorts;
+    public DefaultScanLicensePlateNumberWhenArrivingUseCase(LoadDailyCalendarPort loadDailyCalendarPort, List<UpdateDailyCalendarPort> updateDailyCalendarPorts) {
         this.loadDailyCalendarPort = loadDailyCalendarPort;
         this.updateDailyCalendarPorts = updateDailyCalendarPorts;
     }

@@ -25,15 +25,13 @@ public class DefaultMakeAppointmentUseCase implements MakeAppointmentUseCase {
     private final LoadSellerPort loadSellerPort;
     private final LoadMaterialPort loadMaterialPort;
     private final LoadOrCreateWarehousePort loadOrCreateWarehousePort;
-    private final LoadAndCreateAppointmentPort loadAndCreateAppointmentPort;
     private final LoadDailyCalendarPort loadDailyCalendarPort;
 
-    public DefaultMakeAppointmentUseCase(LoadSellerPort loadSellerPort, LoadMaterialPort loadMaterialPort, LoadOrCreateWarehousePort loadOrCreateWarehousePort,
-                                         LoadAndCreateAppointmentPort loadAndCreateAppointmentPort, LoadDailyCalendarPort loadDailyCalendarPort) {
+    public DefaultMakeAppointmentUseCase(LoadSellerPort loadSellerPort, LoadMaterialPort loadMaterialPort,
+                                         LoadOrCreateWarehousePort loadOrCreateWarehousePort, LoadDailyCalendarPort loadDailyCalendarPort) {
         this.loadSellerPort = loadSellerPort;
         this.loadMaterialPort = loadMaterialPort;
         this.loadOrCreateWarehousePort = loadOrCreateWarehousePort;
-        this.loadAndCreateAppointmentPort = loadAndCreateAppointmentPort;
         this.loadDailyCalendarPort = loadDailyCalendarPort;
     }
 
@@ -55,7 +53,6 @@ public class DefaultMakeAppointmentUseCase implements MakeAppointmentUseCase {
 
         Appointment appointment = buildAppointmentObject(seller, gateNumber, makeAppointmentCommand, material, warehouse, dailyCalendar.getDay());
         loadDailyCalendarPort.createAppointment(appointment, dailyCalendar);
-//        loadAndCreateAppointmentPort.createAppointment(appointment, dailyCalendar);
     }
 
     private Appointment buildAppointmentObject(Seller seller, int gateNumber, MakeAppointmentCommand makeAppointmentCommand, Material material, Warehouse warehouse, LocalDate day){
