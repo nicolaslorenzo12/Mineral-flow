@@ -1,6 +1,5 @@
 package be.kdg.prog6.boundedcontextLandside.core;
 
-import be.kdg.prog6.boundedcontextLandside.adapters.out.db.DailyCalendarJpaEntity;
 import be.kdg.prog6.boundedcontextLandside.domain.Appointment;
 import be.kdg.prog6.boundedcontextLandside.domain.DailyCalendar;
 import be.kdg.prog6.boundedcontextLandside.domain.TruckStatus;
@@ -25,10 +24,10 @@ public class DefaultMakeAppointmentUseCase implements MakeAppointmentUseCase {
     private final LoadSellerPort loadSellerPort;
     private final LoadMaterialPort loadMaterialPort;
     private final LoadOrCreateWarehousePort loadOrCreateWarehousePort;
-    private final LoadDailyCalendarPort loadDailyCalendarPort;
+    private final LoadOrCreateDailyCalendarPort loadDailyCalendarPort;
 
     public DefaultMakeAppointmentUseCase(LoadSellerPort loadSellerPort, LoadMaterialPort loadMaterialPort,
-                                         LoadOrCreateWarehousePort loadOrCreateWarehousePort, LoadDailyCalendarPort loadDailyCalendarPort) {
+                                         LoadOrCreateWarehousePort loadOrCreateWarehousePort, LoadOrCreateDailyCalendarPort loadDailyCalendarPort) {
         this.loadSellerPort = loadSellerPort;
         this.loadMaterialPort = loadMaterialPort;
         this.loadOrCreateWarehousePort = loadOrCreateWarehousePort;

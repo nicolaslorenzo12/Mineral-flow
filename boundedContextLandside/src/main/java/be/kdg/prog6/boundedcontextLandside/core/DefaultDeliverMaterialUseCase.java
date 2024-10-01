@@ -5,7 +5,7 @@ import be.kdg.prog6.boundedcontextLandside.domain.DailyCalendar;
 import be.kdg.prog6.boundedcontextLandside.domain.TruckStatus;
 import be.kdg.prog6.boundedcontextLandside.ports.in.DeliverMaterialCommand;
 import be.kdg.prog6.boundedcontextLandside.ports.in.DeliverMaterialUseCase;
-import be.kdg.prog6.boundedcontextLandside.ports.out.LoadDailyCalendarPort;
+import be.kdg.prog6.boundedcontextLandside.ports.out.LoadOrCreateDailyCalendarPort;
 import be.kdg.prog6.boundedcontextLandside.ports.out.UpdateDailyCalendarPort;
 import be.kdg.prog6.common.exception.CustomException;
 import org.springframework.http.HttpStatus;
@@ -16,10 +16,10 @@ import java.util.List;
 
 @Service
 public class DefaultDeliverMaterialUseCase implements DeliverMaterialUseCase {
-    private final LoadDailyCalendarPort loadDailyCalendarPort;
+    private final LoadOrCreateDailyCalendarPort loadDailyCalendarPort;
     private final List<UpdateDailyCalendarPort> updateDailyCalendarPorts;
 
-    public DefaultDeliverMaterialUseCase(LoadDailyCalendarPort loadDailyCalendarPort, List<UpdateDailyCalendarPort> updateDailyCalendarPorts) {
+    public DefaultDeliverMaterialUseCase(LoadOrCreateDailyCalendarPort loadDailyCalendarPort, List<UpdateDailyCalendarPort> updateDailyCalendarPorts) {
         this.loadDailyCalendarPort = loadDailyCalendarPort;
         this.updateDailyCalendarPorts = updateDailyCalendarPorts;
     }

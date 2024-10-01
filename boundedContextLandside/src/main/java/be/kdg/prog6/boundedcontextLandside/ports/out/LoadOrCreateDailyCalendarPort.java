@@ -7,7 +7,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
-public interface LoadDailyCalendarPort {
+public interface LoadOrCreateDailyCalendarPort {
     DailyCalendar loadOrCreateDailyCalendarByDay(LocalDate localDate);
     void createAppointment(Appointment appointment,DailyCalendar dailyCalendar);
     Optional<Appointment> loadAppointmentByLicensePlateNumberOfTruckAndAppointmentTimeAndDay(String licensePlateNumberOfTruck, LocalDateTime localDateTime, LocalDate day);

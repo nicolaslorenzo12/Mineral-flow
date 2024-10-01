@@ -5,7 +5,7 @@ import be.kdg.prog6.boundedcontextLandside.domain.DailyCalendar;
 import be.kdg.prog6.boundedcontextLandside.domain.WeightingTime;
 import be.kdg.prog6.boundedcontextLandside.ports.in.WeightTruckCommand;
 import be.kdg.prog6.boundedcontextLandside.ports.in.WeightTruckUseCase;
-import be.kdg.prog6.boundedcontextLandside.ports.out.LoadDailyCalendarPort;
+import be.kdg.prog6.boundedcontextLandside.ports.out.LoadOrCreateDailyCalendarPort;
 import be.kdg.prog6.boundedcontextLandside.ports.out.UpdateDailyCalendarPort;
 import be.kdg.prog6.common.exception.CustomException;
 import org.springframework.http.HttpStatus;
@@ -17,10 +17,10 @@ import java.util.Random;
 
 @Service
 public class DefaultWeightTruckUseCase implements WeightTruckUseCase {
-    private final LoadDailyCalendarPort loadDailyCalendarPort;
+    private final LoadOrCreateDailyCalendarPort loadDailyCalendarPort;
     private final List<UpdateDailyCalendarPort> updateDailyCalendarPorts;
 
-    public DefaultWeightTruckUseCase(LoadDailyCalendarPort loadDailyCalendarPort, List<UpdateDailyCalendarPort> updateDailyCalendarPorts) {
+    public DefaultWeightTruckUseCase(LoadOrCreateDailyCalendarPort loadDailyCalendarPort, List<UpdateDailyCalendarPort> updateDailyCalendarPorts) {
         this.loadDailyCalendarPort = loadDailyCalendarPort;
         this.updateDailyCalendarPorts = updateDailyCalendarPorts;
     }

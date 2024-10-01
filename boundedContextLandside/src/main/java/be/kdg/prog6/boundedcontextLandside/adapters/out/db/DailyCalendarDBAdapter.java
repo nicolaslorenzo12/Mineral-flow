@@ -2,7 +2,7 @@ package be.kdg.prog6.boundedcontextLandside.adapters.out.db;
 
 import be.kdg.prog6.boundedcontextLandside.domain.Appointment;
 import be.kdg.prog6.boundedcontextLandside.domain.DailyCalendar;
-import be.kdg.prog6.boundedcontextLandside.ports.out.LoadDailyCalendarPort;
+import be.kdg.prog6.boundedcontextLandside.ports.out.LoadOrCreateDailyCalendarPort;
 import be.kdg.prog6.boundedcontextLandside.ports.out.UpdateDailyCalendarPort;
 import be.kdg.prog6.common.domain.Customer;
 import be.kdg.prog6.common.domain.Seller;
@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Component
-public class DailyCalendarDBAdapter implements LoadDailyCalendarPort, UpdateDailyCalendarPort {
+public class DailyCalendarDBAdapter implements LoadOrCreateDailyCalendarPort, UpdateDailyCalendarPort {
 
     private final DailyCalendarRepository dailyCalendarRepository;
 
@@ -59,8 +59,7 @@ public class DailyCalendarDBAdapter implements LoadDailyCalendarPort, UpdateDail
     @Override
     public Optional<Appointment> loadAppointmentByLicensePlateNumberOfTruckAndAppointmentTimeAndDay(String licensePlateNumberOfTruck, LocalDateTime localDateTime, LocalDate day) {
 
-        DailyCalendarJpaEntity dailyCalendarJpaEntity = dailyCalendarRepository.findDailyCalendarJpaEntityByDay(day).
-                orElseGet(() -> createNewDailyCalendar(day));
+        DailyCalendarJpaEntity dailyCalendarJpaEntity = findDailyCalendarJpaEntity(day);
 
         List<AppointmentJpaEntity> appointmentJpaEntityList = dailyCalendarJpaEntity.getAppointments();
 
@@ -103,8 +102,7 @@ public class DailyCalendarDBAdapter implements LoadDailyCalendarPort, UpdateDail
     @Override
     public Optional<Appointment> loadAppointmentByAppointmentUUID(Appointment.AppointmentUUID appointmentUUID, DailyCalendar dailyCalendar) {
 
-        DailyCalendarJpaEntity dailyCalendarJpaEntity = dailyCalendarRepository.findDailyCalendarJpaEntityByDay(dailyCalendar.getDay()).
-                orElseGet(() -> createNewDailyCalendar(dailyCalendar.getDay()));
+        DailyCalendarJpaEntity dailyCalendarJpaEntity = findDailyCalendarJpaEntity(dailyCalendar.getDay());
 
         AppointmentJpaEntity appointmentJpaEntity = dailyCalendarJpaEntity.getAppointments().stream()
                 .filter(appt -> appt.getAppointmentUUID().equals(appointmentUUID.uuid()))
@@ -115,10 +113,14 @@ public class DailyCalendarDBAdapter implements LoadDailyCalendarPort, UpdateDail
     @Override
     public DailyCalendar loadOrCreateDailyCalendarByDay(LocalDate localDate) {
 
-        final DailyCalendarJpaEntity dailyCalendarJpaEntity = dailyCalendarRepository.findDailyCalendarJpaEntityByDay(localDate).
-                orElseGet(() -> createNewDailyCalendar(localDate));
+        final DailyCalendarJpaEntity dailyCalendarJpaEntity = findDailyCalendarJpaEntity(localDate);
 
         return buildDailyCalendarObject(dailyCalendarJpaEntity);
+    }
+
+    private DailyCalendarJpaEntity findDailyCalendarJpaEntity(LocalDate localDate){
+        return dailyCalendarRepository.findDailyCalendarJpaEntityByDay(localDate).
+                orElseGet(() -> createNewDailyCalendar(localDate));
     }
 
     private DailyCalendarJpaEntity createNewDailyCalendar(LocalDate localDate){
@@ -131,8 +133,7 @@ public class DailyCalendarDBAdapter implements LoadDailyCalendarPort, UpdateDail
     @Override
     public void updateAppointment(Appointment appointment, DailyCalendar dailyCalendar) {
 
-        final DailyCalendarJpaEntity dailyCalendarJpaEntity = dailyCalendarRepository.findDailyCalendarJpaEntityByDay(dailyCalendar.getDay()).
-                orElseGet(() -> createNewDailyCalendar(dailyCalendar.getDay()));
+        final DailyCalendarJpaEntity dailyCalendarJpaEntity = findDailyCalendarJpaEntity(dailyCalendar.getDay());
 
         AppointmentJpaEntity appointmentJpaEntity = dailyCalendarJpaEntity.getAppointments().stream()
                 .filter(appt -> appt.getAppointmentUUID().equals(appointment.getAppointmentUUID().uuid()))
