@@ -29,8 +29,7 @@ public class DefaultWeightTruckUseCase implements WeightTruckUseCase {
     public void weightTruck(WeightTruckCommand weightTruckCommand) {
         Appointment appointment = loadAppointment(weightTruckCommand);
         int randomWeight = generateRandomWeight(weightTruckCommand.weighingCount());
-        appointment = appointment.proccessWeighting(weightTruckCommand.weighingCount(),randomWeight);
-        Appointment finalAppointment = appointment;
+        Appointment finalAppointment = appointment.proccessWeighting(weightTruckCommand.weighingCount(),randomWeight);
         updateAppointmentPorts.forEach(updateAppointmentPort -> updateAppointmentPort.updateAppointment(finalAppointment, LocalDate.now()));
     }
 

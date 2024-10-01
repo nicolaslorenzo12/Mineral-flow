@@ -20,7 +20,7 @@ public class WarehouseEventPublisher implements UpdateWarehousePort {
     public void warehouseCreateActivity(Warehouse warehouse, WarehouseActivity warehouseActivity) {
 
         final int warehouseNumber = warehouse.getWareHouseNumber();
-        final int currentStock = warehouse.calculateCurrentStock();
+        final int currentStock = warehouse.calculateAndGetCurrentStock();
         final String routingKey = "warehouse. " + warehouseNumber + " .activity_created";
         final String exchangeName = "warehouseExchange";
         final ActivityCreatedEvent body = new ActivityCreatedEvent(currentStock, warehouseNumber, warehouseActivity.action(),

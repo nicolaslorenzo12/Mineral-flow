@@ -30,7 +30,7 @@ public class Warehouse {
 
     public WarehouseActivity addWarehouseActivity(int amountOfTons, int warehouseNumber, WarehouseAction action){
 
-        int currentStock = calculateCurrentStock();
+        int currentStock = calculateAndGetCurrentStock();
 
         if(action == WarehouseAction.DISPATCH && amountOfTons > currentStock){
             throw new CustomException(HttpStatus.CONFLICT, "Not enough stock to dispatch " + amountOfTons + " tons.");
@@ -38,7 +38,7 @@ public class Warehouse {
         return warehouseActivityWindow.addWarehouseActivity(amountOfTons, warehouseNumber, action);
     }
 
-    public int calculateCurrentStock(){
+    public int calculateAndGetCurrentStock(){
 
         return warehouseActivityWindow.calculateCurrentStock();
     }

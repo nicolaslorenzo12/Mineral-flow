@@ -17,10 +17,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 public class DefaultMakeAppointmentUseCase implements MakeAppointmentUseCase {
@@ -45,14 +43,14 @@ public class DefaultMakeAppointmentUseCase implements MakeAppointmentUseCase {
 
         final UUID sellerUUID = makeAppointmentCommand.sellerUUID().uuid();
         final MaterialType materialType = makeAppointmentCommand.materialType();
-
         final Seller seller = findSellerByUUID(sellerUUID);
         final Material material = findMaterialByType(materialType);
         final Warehouse warehouse = findWarehouseForSellerAndMaterial(seller, material);
         final DailyCalendar dailyCalendar = findDailyCalenderByDay(makeAppointmentCommand.appointmentTime().toLocalDate());
+
         List<Appointment> appointments= dailyCalendar.filterAppointmentsByAppointmentTime(makeAppointmentCommand.appointmentTime());
         warehouse.checkIfMaximumStockPercentageExceeded();
-        dailyCalendar.checkIfAnAppointmentsPerHourReachedExceptionIsFound(appointments);
+        dailyCalendar.checkIfThereAreMoreThan40AppointmentsAndIfYesThrowException(appointments);
         int gateNumber = generateRandomGateNumber();
 
         Appointment appointment = buildAppointmentObject(seller, gateNumber, makeAppointmentCommand, material, warehouse, dailyCalendar.getDay());

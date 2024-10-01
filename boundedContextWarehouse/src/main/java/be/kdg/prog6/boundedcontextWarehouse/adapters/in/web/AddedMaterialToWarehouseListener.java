@@ -18,6 +18,7 @@ public class AddedMaterialToWarehouseListener {
     @RabbitListener(queues = "landside.material_added")
     public void activityCreated(final MaterialAddedEvent materialAddedEvent){
 
-        addMaterialUseCase.addOrDispatchMaterial(materialAddedEvent.initialWeight(), materialAddedEvent.finalWeight(), materialAddedEvent.warehouseNumber(), WarehouseAction.RECEIVE);
+        addMaterialUseCase.addOrDispatchMaterial(materialAddedEvent.initialWeight(), materialAddedEvent.finalWeight(),
+                materialAddedEvent.warehouseNumber(), WarehouseAction.RECEIVE);
     }
 }

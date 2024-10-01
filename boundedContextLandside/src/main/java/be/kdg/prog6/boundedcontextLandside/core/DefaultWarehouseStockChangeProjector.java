@@ -13,7 +13,6 @@ import java.util.List;
 @Service
 public class DefaultWarehouseStockChangeProjector implements WarehouseStockChangeProjector {
     private final UpdateWarehousePort updateWarehousePort;
-
     public DefaultWarehouseStockChangeProjector(UpdateWarehousePort updateWarehousePort) {
         this.updateWarehousePort = updateWarehousePort;
     }

@@ -6,6 +6,5 @@ import java.time.LocalDate;
 import java.util.Optional;
 
 public interface LoadDailyCalendarPort {
-
     DailyCalendar loadOrCreateDailyCalendarByDay(LocalDate localDate);
 }

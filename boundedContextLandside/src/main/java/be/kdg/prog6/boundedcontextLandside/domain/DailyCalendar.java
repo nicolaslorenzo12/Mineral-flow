@@ -32,7 +32,7 @@ public class DailyCalendar {
         return day;
     }
 
-    public void checkIfAnAppointmentsPerHourReachedExceptionIsFound(List<Appointment> appointmentsAtCertainHour){
+    public void checkIfThereAreMoreThan40AppointmentsAndIfYesThrowException(List<Appointment> appointmentsAtCertainHour){
         if(appointmentsAtCertainHour.size() == 40){
             throw new CustomException(HttpStatus.CONFLICT, "The limit of 40 appointments per hour has been reached");
         }

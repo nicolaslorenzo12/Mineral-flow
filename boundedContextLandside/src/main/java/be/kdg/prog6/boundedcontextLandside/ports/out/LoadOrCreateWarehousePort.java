@@ -8,8 +8,5 @@ import be.kdg.prog6.common.domain.Seller;
 import java.util.UUID;
 
 public interface LoadOrCreateWarehousePort {
-
-    Warehouse loadOrCreateWarehouseByWarehouseNumber(int warehouseNumber, UUID sellerUuid, MaterialType materialType);
-
     Warehouse loadWarehouseBySellerUUIDAndMaterialType(UUID sellerUuid, MaterialType materialType);
 }

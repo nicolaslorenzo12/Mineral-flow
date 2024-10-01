@@ -18,15 +18,6 @@ public class WarehouseDBAdapter implements LoadOrCreateWarehousePort, UpdateWare
     }
 
     @Override
-    public Warehouse loadOrCreateWarehouseByWarehouseNumber(int warehouseNumber, UUID sellerUuid, MaterialType materialType) {
-
-        final WarehouseJpaEntity warehouseJpaEntity = warehouseRepository.findByWareHouseNumber(warehouseNumber).
-                orElseGet(() -> createNewWarehouse(warehouseNumber, sellerUuid, materialType));
-
-        return new Warehouse(warehouseNumber, new Seller.CustomerUUID(warehouseJpaEntity.getSellerUUID()) ,
-                warehouseJpaEntity.getUtilizationCapacity(), materialType);
-    }
-    @Override
     public Warehouse loadWarehouseBySellerUUIDAndMaterialType(UUID sellerUuid, MaterialType materialType) {
         final WarehouseJpaEntity warehouseJpaEntity = warehouseRepository.
                 findBySellerUUIDAndMaterialType(sellerUuid, materialType).orElseThrow();
@@ -34,16 +25,6 @@ public class WarehouseDBAdapter implements LoadOrCreateWarehousePort, UpdateWare
         return new Warehouse(warehouseJpaEntity.getWareHouseNumber(), new Seller.CustomerUUID(warehouseJpaEntity.getSellerUUID()),
                 warehouseJpaEntity.getUtilizationCapacity(), materialType);
     }
-    private WarehouseJpaEntity createNewWarehouse(final int warehouseNumber, UUID sellerUuid, MaterialType materialType){
-
-        final WarehouseJpaEntity newWarehouse = new WarehouseJpaEntity();
-        newWarehouse.setWareHouseNumber(warehouseNumber);
-        newWarehouse.setSellerUUID(sellerUuid);
-        newWarehouse.setMaterialType(materialType);
-        warehouseRepository.save(newWarehouse);
-        return newWarehouse;
-    }
-
     @Override
     public void updateWarehouse(Warehouse warehouse) {
         warehouseRepository.save(new WarehouseJpaEntity(warehouse.getWareHouseNumber(), warehouse.getSellerUUID().uuid(), warehouse.getMaterialType(),

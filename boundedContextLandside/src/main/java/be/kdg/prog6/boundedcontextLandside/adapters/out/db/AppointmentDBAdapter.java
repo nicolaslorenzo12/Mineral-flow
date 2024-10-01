@@ -34,7 +34,6 @@ public class AppointmentDBAdapter implements LoadAndCreateAppointmentPort, Updat
                 .map(this::buildAppointmentObject);
     }
 
-
     private Appointment buildAppointmentObject(AppointmentJpaEntity appointmentJpaEntity) {
         return new Appointment(
                 new Appointment.AppointmentUUID(appointmentJpaEntity.getAppointmentUUID()),
@@ -71,7 +70,6 @@ public class AppointmentDBAdapter implements LoadAndCreateAppointmentPort, Updat
                 .findAppointmentJpaEntityByAppointmentUUID(appointmentUUID.uuid())
                 .map(this::buildAppointmentObject);
     }
-
 
     @Override
     public void updateAppointment(Appointment appointment, LocalDate day) {

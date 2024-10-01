@@ -7,10 +7,8 @@ import be.kdg.prog6.common.domain.Customer;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Component
 public class DailyCalendarDBAdapter implements LoadDailyCalendarPort {
@@ -21,7 +19,7 @@ public class DailyCalendarDBAdapter implements LoadDailyCalendarPort {
         this.dailyCalendarRepository = dailyCalendarRepository;
     }
 
-    private List<Appointment> toAppointments(List<AppointmentJpaEntity> appointmentJpaEntityList) {
+    private List<Appointment> buildAppointmentObjects(List<AppointmentJpaEntity> appointmentJpaEntityList) {
         List<Appointment> appointments = new ArrayList<>();
         appointmentJpaEntityList.forEach(appointmentJpaEntity -> appointments.add(new Appointment(
                 new Appointment.AppointmentUUID(appointmentJpaEntity.getAppointmentUUID()),
@@ -43,7 +41,7 @@ public class DailyCalendarDBAdapter implements LoadDailyCalendarPort {
 
         LocalDate day = dailyCalendarJpaEntity.getDay();
         List<AppointmentJpaEntity> appointmentJpaEntityList  = dailyCalendarJpaEntity.getAppointments();
-        List<Appointment> appointments =  toAppointments(appointmentJpaEntityList);
+        List<Appointment> appointments =  buildAppointmentObjects(appointmentJpaEntityList);
         return new DailyCalendar(day, appointments);
     }
     @Override
