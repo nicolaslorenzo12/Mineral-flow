@@ -50,11 +50,9 @@ public class DefaultMakeAppointmentUseCase implements MakeAppointmentUseCase {
         final Material material = findMaterialByType(materialType);
         final Warehouse warehouse = findWarehouseForSellerAndMaterial(seller, material);
         final DailyCalendar dailyCalendar = findDailyCalenderByDay(makeAppointmentCommand.appointmentTime().toLocalDate());
-        final List<Appointment> appointmentsOfTheDay = dailyCalendar.getAppointments();
-        final List<Appointment> appointmentsOfCurrentHour = filterAppointmentsByAppointmentTime(appointmentsOfTheDay, makeAppointmentCommand.appointmentTime());
-        double currentStockPercentage = warehouse.getCurrentStockPercentage();
-        checkIfAWarehouseCapacityExceededExceptionIsFound(currentStockPercentage);
-        checkIfAnAppointmentsPerHourReachedExceptionIsFound(appointmentsOfCurrentHour);
+        List<Appointment> appointments= dailyCalendar.filterAppointmentsByAppointmentTime(makeAppointmentCommand.appointmentTime());
+        warehouse.checkIfMaximumStockPercentageExceeded();
+        dailyCalendar.checkIfAnAppointmentsPerHourReachedExceptionIsFound(appointments);
         int gateNumber = generateRandomGateNumber();
 
         Appointment appointment = buildAppointmentObject(seller, gateNumber, makeAppointmentCommand, material, warehouse, dailyCalendar.getDay());
@@ -67,12 +65,6 @@ public class DefaultMakeAppointmentUseCase implements MakeAppointmentUseCase {
                 seller.getCustomerUUID(), day, gateNumber, makeAppointmentCommand.appointmentTime(),
                 material.getMaterialType(), makeAppointmentCommand.licensePlateNumber(), TruckStatus.NOTARRIVED,
                 warehouse.getWareHouseNumber());
-    }
-
-    private void checkIfAWarehouseCapacityExceededExceptionIsFound(double currentStockPercentage){
-        if(currentStockPercentage >= 80.00) {
-            throw new CustomException(HttpStatus.CONFLICT, "Warehouse is at or above 80% capacity. Cannot schedule an appointment.");
-        }
     }
 
     private Seller findSellerByUUID(UUID sellerUUID) {
@@ -93,20 +85,6 @@ public class DefaultMakeAppointmentUseCase implements MakeAppointmentUseCase {
                 seller.getCustomerUUID().uuid(),
                 material.getMaterialType()
         );
-    }
-
-    private void checkIfAnAppointmentsPerHourReachedExceptionIsFound(List<Appointment> appointments){
-
-        if(appointments.size() == 40){
-            throw new CustomException(HttpStatus.CONFLICT, "The limit of 40 appointments per hour has been reached");
-        }
-    }
-    private List<Appointment> filterAppointmentsByAppointmentTime(List<Appointment> appointments, LocalDateTime appointmentTime){
-        int targetHour = appointmentTime.getHour();
-
-        return appointments.stream()
-                .filter(appointment -> appointment.getAppointmentTime().getHour() == targetHour)
-                .collect(Collectors.toList());
     }
     private int generateRandomGateNumber () {
         return (int) (Math.random() * 10) + 1;

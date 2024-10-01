@@ -189,9 +189,8 @@ public class Appointment {
         return this;
     }
 
-    public Appointment updateAppointmentStatus(TruckStatus truckStatus) {
+    public void updateAppointmentStatus(TruckStatus truckStatus) {
        this.setStatus(truckStatus);
-        return this;
     }
 
     public int getNetWeight(){

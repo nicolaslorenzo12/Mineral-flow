@@ -20,9 +20,10 @@ public class WarehouseEventPublisher implements UpdateWarehousePort {
     public void warehouseCreateActivity(Warehouse warehouse, WarehouseActivity warehouseActivity) {
 
         final int warehouseNumber = warehouse.getWareHouseNumber();
+        final int currentStock = warehouse.calculateCurrentStock();
         final String routingKey = "warehouse. " + warehouseNumber + " .activity_created";
         final String exchangeName = "warehouseExchange";
-        final ActivityCreatedEvent body = new ActivityCreatedEvent(warehouseActivity.amountOfTons(), warehouseNumber, warehouseActivity.action(),
+        final ActivityCreatedEvent body = new ActivityCreatedEvent(currentStock, warehouseNumber, warehouseActivity.action(),
                 warehouse.getSellerUUID(), warehouse.getMaterialType());
 
         rabbitTemplate.convertAndSend(exchangeName, routingKey, body);

@@ -1,6 +1,8 @@
 package be.kdg.prog6.boundedcontextLandside.domain;
 
 import be.kdg.prog6.common.domain.*;
+import be.kdg.prog6.common.exception.CustomException;
+import org.springframework.http.HttpStatus;
 
 public class Warehouse {
 
@@ -9,14 +11,11 @@ public class Warehouse {
     private final MaterialType materialType;
     private final int maximumCapacity = 500000;
     private int currentStockStorage;
-    private double currentStockPercentage;
 
-    public Warehouse(int wareHouseNumber, Seller.CustomerUUID sellerUUID, MaterialType materialType, int utilizationCapacity, double utilizationPercentage) {
+    public Warehouse(int wareHouseNumber, Seller.CustomerUUID sellerUUID, MaterialType materialType, int utilizationCapacity) {
         this.wareHouseNumber = wareHouseNumber;
         this.sellerUUID = sellerUUID;
         this.materialType = materialType;
-        this.currentStockStorage = utilizationCapacity;
-        this.currentStockPercentage = utilizationPercentage;
     }
 
     public Warehouse(int wareHouseNumber, Seller.CustomerUUID sellerUUID, int utilizationCapacity, MaterialType materialType) {
@@ -50,14 +49,14 @@ public class Warehouse {
         this.currentStockStorage = currentStockStorage;
     }
 
-    public double getCurrentStockPercentage() {
-        return this.currentStockPercentage = (double) this.currentStockStorage / this.maximumCapacity * 100;
-    }
+    public void checkIfMaximumStockPercentageExceeded() {
 
-    public void setCurrentStockPercentage(double currentStockPercentage) {
-        this.currentStockPercentage = currentStockPercentage;
-    }
+        double currentStockPercentage = (double) this.currentStockStorage / this.maximumCapacity * 100;
 
+        if(currentStockPercentage >= 80){
+            throw new CustomException(HttpStatus.CONFLICT, "Warehouse is at or above 80% capacity. Cannot schedule an appointment.");
+        }
+    }
     public int modifyStock(final int amountOfTons, final WarehouseAction warehouseAction){
 
         switch (warehouseAction){

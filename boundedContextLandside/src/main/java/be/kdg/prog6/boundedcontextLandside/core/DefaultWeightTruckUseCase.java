@@ -17,7 +17,6 @@ import java.util.Random;
 public class DefaultWeightTruckUseCase implements WeightTruckUseCase {
 
     private final LoadAndCreateAppointmentPort loadAndCreateAppointmentPort;
-
     private final List<UpdateAppointmentPort> updateAppointmentPorts;
 
     public DefaultWeightTruckUseCase(LoadAndCreateAppointmentPort loadAndCreateAppointmentPort,

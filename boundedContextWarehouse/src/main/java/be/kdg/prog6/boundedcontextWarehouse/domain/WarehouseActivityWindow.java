@@ -19,7 +19,6 @@ public class WarehouseActivityWindow {
         warehouseActivityList.add(warehouseActivity);
         return warehouseActivity;
     }
-
     public int calculateCurrentStock() {
         int totalTons = 0;
         for (WarehouseActivity activity : warehouseActivityList) {
