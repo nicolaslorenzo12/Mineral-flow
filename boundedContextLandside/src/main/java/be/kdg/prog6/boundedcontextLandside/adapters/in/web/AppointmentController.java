@@ -1,6 +1,7 @@
 package be.kdg.prog6.boundedcontextLandside.adapters.in.web;
 
 import be.kdg.prog6.boundedcontextLandside.domain.Appointment;
+import be.kdg.prog6.boundedcontextLandside.domain.WeightingTime;
 import be.kdg.prog6.boundedcontextLandside.ports.in.*;
 import be.kdg.prog6.common.domain.MaterialType;
 import be.kdg.prog6.common.domain.Seller;
@@ -44,11 +45,11 @@ public class AppointmentController {
         return ResponseEntity.ok("The truck is arriving at an acceptable time");
     }
 
-    @PostMapping("appointment/{appointmentUuid}/weight/{weighingCount}")
-    public ResponseEntity<String> weightTruckDuringAppointment(@PathVariable UUID appointmentUuid, @PathVariable int weighingCount){
+    @PostMapping("appointment/{appointmentUuid}/weight/{weighingTime}")
+    public ResponseEntity<String> weightTruckDuringAppointment(@PathVariable UUID appointmentUuid, @PathVariable WeightingTime weighingTime){
 
-        weightTruckUseCase.weightTruck(new WeightTruckCommand(new Appointment.AppointmentUUID(appointmentUuid), weighingCount));
-        return ResponseEntity.ok("The truck was successfully weighted, it has been weighted " + weighingCount + " time");
+        weightTruckUseCase.weightTruck(new WeightTruckCommand(new Appointment.AppointmentUUID(appointmentUuid), weighingTime));
+        return ResponseEntity.ok("The truck was successfully weighted for " + weighingTime );
     }
 
     @PostMapping("appointment/{appointmentUuid}/loadMaterial")

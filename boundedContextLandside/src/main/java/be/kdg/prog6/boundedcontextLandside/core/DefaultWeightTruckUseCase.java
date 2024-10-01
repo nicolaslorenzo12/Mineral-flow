@@ -1,6 +1,7 @@
 package be.kdg.prog6.boundedcontextLandside.core;
 
 import be.kdg.prog6.boundedcontextLandside.domain.Appointment;
+import be.kdg.prog6.boundedcontextLandside.domain.WeightingTime;
 import be.kdg.prog6.boundedcontextLandside.ports.in.WeightTruckCommand;
 import be.kdg.prog6.boundedcontextLandside.ports.in.WeightTruckUseCase;
 import be.kdg.prog6.boundedcontextLandside.ports.out.LoadAndCreateAppointmentPort;
@@ -28,14 +29,14 @@ public class DefaultWeightTruckUseCase implements WeightTruckUseCase {
     @Override
     public void weightTruck(WeightTruckCommand weightTruckCommand) {
         Appointment appointment = loadAppointment(weightTruckCommand);
-        int randomWeight = generateRandomWeight(weightTruckCommand.weighingCount());
-        Appointment finalAppointment = appointment.proccessWeighting(weightTruckCommand.weighingCount(),randomWeight);
+        int randomWeight = generateRandomWeight(weightTruckCommand.weightingTime());
+        Appointment finalAppointment = appointment.proccessWeighting(weightTruckCommand.weightingTime(),randomWeight);
         updateAppointmentPorts.forEach(updateAppointmentPort -> updateAppointmentPort.updateAppointment(finalAppointment, LocalDate.now()));
     }
 
-    private int generateRandomWeight(int weighingCount) {
+    private int generateRandomWeight(WeightingTime weightingTime) {
         Random random = new Random();
-        if(weighingCount == 1) {
+        if(weightingTime.equals(WeightingTime.FIRST_TIME)) {
             return random.nextInt(21) + 10;
         }
         else{

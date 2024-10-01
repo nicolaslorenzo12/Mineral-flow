@@ -174,13 +174,14 @@ public class Appointment {
         updateAppointmentStatus(truckStatus);
     }
 
-    public Appointment proccessWeighting(int weighingCount, int weight){
-        if (weighingCount == 1) {
+    public Appointment proccessWeighting(WeightingTime weightingTime, int weight){
+        if (weightingTime.equals(WeightingTime.FIRST_TIME)) {
             checkIfTruckHasAlreadyGottenThisStatus(TruckStatus.WEIGHTINGFIRSTTIME);
             this.setInitialWeight(weight);
         }
         else {
             checkIfTruckHasAlreadyGottenThisStatus(TruckStatus.WEIGHTINGLASTTIME);
+            this.setStatus(TruckStatus.LEFT);
             this.setFinalWeight(weight);
             setDepartureTime(LocalDateTime.now());
 

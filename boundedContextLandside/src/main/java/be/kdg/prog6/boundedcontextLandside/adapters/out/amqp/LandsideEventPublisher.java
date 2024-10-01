@@ -19,7 +19,7 @@ public class LandsideEventPublisher implements UpdateAppointmentPort {
 
     @Override
     public void updateAppointment(Appointment appointment, LocalDate day) {
-        if (appointment.getTruckStatus().equals(TruckStatus.WEIGHTINGLASTTIME)) {
+        if (appointment.getTruckStatus().equals(TruckStatus.LEFT)) {
             final String routingKey = "landside. " + appointment.getWarehouseNumber() + " .material_added";
             final String exchangeName = "landsideExchange";
             final MaterialAddedEvent body = new MaterialAddedEvent(appointment.getInitialWeight(),appointment.getFinalWeight(), appointment.getWarehouseNumber());
