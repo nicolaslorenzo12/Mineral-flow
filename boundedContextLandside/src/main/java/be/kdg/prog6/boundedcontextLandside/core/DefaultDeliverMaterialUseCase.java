@@ -10,25 +10,27 @@ import be.kdg.prog6.common.exception.CustomException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.util.List;
+
 @Service
 public class DefaultDeliverMaterialUseCase implements DeliverMaterialUseCase {
 
     private final LoadAndCreateAppointmentPort loadAndCreateAppointmentPort;
-    private final UpdateAppointmentPort updateAppointmentPort;
+    private final List<UpdateAppointmentPort> updateAppointmentPorts;
 
-    public DefaultDeliverMaterialUseCase(LoadAndCreateAppointmentPort loadAndCreateAppointmentPort, UpdateAppointmentPort updateAppointmentPort) {
+    public DefaultDeliverMaterialUseCase(LoadAndCreateAppointmentPort loadAndCreateAppointmentPort, List<UpdateAppointmentPort> updateAppointmentPorts) {
         this.loadAndCreateAppointmentPort = loadAndCreateAppointmentPort;
-        this.updateAppointmentPort = updateAppointmentPort;
+        this.updateAppointmentPorts = updateAppointmentPorts;
     }
 
     @Override
     public void deliverMaterial(DeliverMaterialCommand loadMaterialCommand) {
 
-        final Appointment appointment = loadAndCreateAppointmentPort.loadAppointmentByAppointmentUUID(loadMaterialCommand.appointmentUUID())
+        Appointment appointment = loadAndCreateAppointmentPort.loadAppointmentByAppointmentUUID(loadMaterialCommand.appointmentUUID())
                 .orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND, "Appointment was not found"));
 
-        appointment.checkIfTruckHasAlreadyGottenThisStatus(TruckStatus.RECEIVE_MATERIAL.getCode());
-
-        updateAppointmentPort.updateAppointmentTruckStatus(appointment.getAppointmentUUID(), TruckStatus.RECEIVE_MATERIAL);
+        appointment.checkIfTruckHasAlreadyGottenThisStatus(TruckStatus.RECEIVE_MATERIAL);
+        updateAppointmentPorts.forEach(updateAppointmentPort -> updateAppointmentPort.updateAppointment(appointment, LocalDate.now()));
     }
 }

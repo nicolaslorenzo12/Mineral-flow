@@ -47,6 +47,24 @@ public class AppointmentJpaEntity {
 
 
     public AppointmentJpaEntity(UUID appointmentUUID, UUID sellerUuid, int gateNumber, LocalDateTime appointmentTime, MaterialType materialType,
+                                String licensePlateNumberOfTruck, TruckStatus status, int warehouseNumber, LocalDate day, int initialWeight, int finalWeight,
+                                LocalDateTime arrivalTime, LocalDateTime departureTime) {
+        this.appointmentUUID = appointmentUUID;
+        this.sellerUuid = sellerUuid;
+        this.gateNumber = gateNumber;
+        this.appointmentTime = appointmentTime;
+        this.materialType = materialType;
+        this.licensePlateNumberOfTruck = licensePlateNumberOfTruck;
+        this.status = status;
+        this.warehouseNumber = warehouseNumber;
+        this.day = day;
+        this.initialWeight = initialWeight;
+        this.finalWeight = finalWeight;
+        this.arrivalTime = arrivalTime;
+        this.departureTime = departureTime;
+    }
+
+    public AppointmentJpaEntity(UUID appointmentUUID, UUID sellerUuid, int gateNumber, LocalDateTime appointmentTime, MaterialType materialType,
                                 String licensePlateNumberOfTruck, TruckStatus status, int warehouseNumber, LocalDate day, int initialWeight, int finalWeight) {
         this.appointmentUUID = appointmentUUID;
         this.sellerUuid = sellerUuid;

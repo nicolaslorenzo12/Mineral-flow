@@ -4,5 +4,5 @@ import be.kdg.prog6.common.domain.WarehouseAction;
 
 public interface AddMaterialUseCase {
 
-    void addOrDispatchMaterial(int amountOfTons, int warehouseNumber, WarehouseAction actio);
+    void addOrDispatchMaterial(int intitalWeight, int finalWeight, int warehouseNumber, WarehouseAction actio);
 }

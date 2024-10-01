@@ -47,7 +47,9 @@ public class AppointmentDBAdapter implements LoadAndCreateAppointmentPort, Updat
                 appointmentJpaEntity.getTruckStatus(),
                 appointmentJpaEntity.getWarehouseNumber(),
                 appointmentJpaEntity.getInitialWeight(),
-                appointmentJpaEntity.getFinalWeight()
+                appointmentJpaEntity.getFinalWeight(),
+                appointmentJpaEntity.getArrivalTime(),
+                appointmentJpaEntity.getDepartureTime()
         );
     }
 
@@ -70,47 +72,13 @@ public class AppointmentDBAdapter implements LoadAndCreateAppointmentPort, Updat
                 .map(this::buildAppointmentObject);
     }
 
-    @Override
-    public void updateAppointmentTruckStatus(Appointment.AppointmentUUID appointmentUUID, TruckStatus truckStatus) {
-
-        appointmentRepository.findAppointmentJpaEntityByAppointmentUUID(appointmentUUID.uuid()).ifPresent(appointmentJpaEntity -> {
-            appointmentJpaEntity.setStatus(truckStatus);
-            appointmentRepository.save(appointmentJpaEntity);
-        });
-    }
 
     @Override
-    public void updateAppointmentInitialOrFinalWeight(Appointment.AppointmentUUID appointmentUUID, int weight, int weighingCount) {
-
-        appointmentRepository.findAppointmentJpaEntityByAppointmentUUID(appointmentUUID.uuid()).ifPresent(appointmentJpaEntity -> {
-            updateWeight(appointmentJpaEntity, weight, weighingCount);
-            appointmentRepository.save(appointmentJpaEntity);
-        });
+    public void updateAppointment(Appointment appointment, LocalDate day) {
+        appointmentRepository.save(new AppointmentJpaEntity(appointment.getAppointmentUUID().uuid(), appointment.getSellerUUID().uuid(),
+                appointment.getGateNumber(), appointment.getAppointmentTime(), appointment.getMaterialType(), appointment.getLicensePlateNumberOfTruck(),
+                appointment.getTruckStatus(), appointment.getWarehouseNumber(), day, appointment.getInitialWeight(), appointment.getFinalWeight(),
+                appointment.getArrivalTime(), appointment.getDepartureTime()));
     }
 
-    @Override
-    public void updateAppointmentArrivalOrDepartureTime(Appointment.AppointmentUUID appointmentUUID, TruckStatus truckStatus) {
-            appointmentRepository.findAppointmentJpaEntityByAppointmentUUID(appointmentUUID.uuid()).ifPresent(appointmentJpaEntity -> {
-            updateArrivalOrDepartureTime(appointmentJpaEntity, truckStatus);
-            appointmentRepository.save(appointmentJpaEntity);
-        });
-    }
-
-    private void updateWeight(AppointmentJpaEntity appointmentJpaEntity, int weight, int weighingCount) {
-        if (weighingCount == 1) {
-            appointmentJpaEntity.setInitialWeight(weight);
-        } else {
-            appointmentJpaEntity.setFinalWeight(weight);
-        }
-    }
-
-    private void updateArrivalOrDepartureTime(AppointmentJpaEntity appointmentJpaEntity, TruckStatus truckStatus){
-
-        if(truckStatus.equals(TruckStatus.ARRIVED)){
-            appointmentJpaEntity.setArrivalTime(LocalDateTime.now());
-        }
-        else{
-            appointmentJpaEntity.setDepartureTime(LocalDateTime.now());
-        }
-    }
 }

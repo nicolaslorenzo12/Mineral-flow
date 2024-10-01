@@ -5,6 +5,5 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface SellerRepository extends JpaRepository<SellerJpaEntity, UUID> {
-
     Optional<SellerJpaEntity> findBySellerUUID(UUID sellerUuid);
 }

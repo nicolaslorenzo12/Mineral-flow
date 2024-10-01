@@ -1,6 +1,5 @@
 package be.kdg.prog6.boundedcontextWarehouse.adapters.in.web;
 
-import be.kdg.prog6.boundedcontextWarehouse.ports.in.AddMaterialCommand;
 import be.kdg.prog6.boundedcontextWarehouse.ports.in.AddMaterialUseCase;
 import be.kdg.prog6.common.domain.WarehouseAction;
 import be.kdg.prog6.common.events.MaterialAddedEvent;
@@ -19,6 +18,6 @@ public class AddedMaterialToWarehouseListener {
     @RabbitListener(queues = "landside.material_added")
     public void activityCreated(final MaterialAddedEvent materialAddedEvent){
 
-        addMaterialUseCase.addOrDispatchMaterial(materialAddedEvent.amountOfTons(), materialAddedEvent.warehouseNumber(), WarehouseAction.RECEIVE);
+        addMaterialUseCase.addOrDispatchMaterial(materialAddedEvent.initialWeight(), materialAddedEvent.finalWeight(), materialAddedEvent.warehouseNumber(), WarehouseAction.RECEIVE);
     }
 }

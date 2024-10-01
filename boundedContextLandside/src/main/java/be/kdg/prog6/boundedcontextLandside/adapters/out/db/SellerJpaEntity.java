@@ -24,7 +24,6 @@ public class SellerJpaEntity {
     public SellerJpaEntity() {
 
     }
-
     public UUID getSellerUUID() {
         return sellerUUID;
     }

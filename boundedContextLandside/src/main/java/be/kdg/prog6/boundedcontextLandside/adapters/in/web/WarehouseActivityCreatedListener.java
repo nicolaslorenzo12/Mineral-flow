@@ -14,7 +14,6 @@ public class WarehouseActivityCreatedListener {
         this.warehouseUtilizationProjector = warehouseUtilizationProjector;
     }
 
-
     @RabbitListener(queues = "warehouse.activity_created")
     public void activityCreated(final ActivityCreatedEvent activityCreatedEvent){
 

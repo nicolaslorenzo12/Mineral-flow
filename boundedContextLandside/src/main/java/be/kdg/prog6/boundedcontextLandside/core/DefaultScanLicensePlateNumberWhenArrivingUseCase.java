@@ -11,16 +11,17 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class DefaultScanLicensePlateNumberWhenArrivingUseCase implements ScanLicensePlateNumberWhenArrivingUseCase {
 
     private final LoadAndCreateAppointmentPort loadAndCreateAppointmentPort;
-    private final UpdateAppointmentPort updateAppointmentPort;
+    private final List<UpdateAppointmentPort> updateAppointmentPorts;
 
-    public DefaultScanLicensePlateNumberWhenArrivingUseCase(LoadAndCreateAppointmentPort loadAndCreateAppointmentPort, UpdateAppointmentPort updateAppointmentPort) {
+    public DefaultScanLicensePlateNumberWhenArrivingUseCase(LoadAndCreateAppointmentPort loadAndCreateAppointmentPort, List<UpdateAppointmentPort> updateAppointmentPorts) {
         this.loadAndCreateAppointmentPort = loadAndCreateAppointmentPort;
-        this.updateAppointmentPort = updateAppointmentPort;
+        this.updateAppointmentPorts = updateAppointmentPorts;
     }
 
     @Override
@@ -34,8 +35,8 @@ public class DefaultScanLicensePlateNumberWhenArrivingUseCase implements ScanLic
                 .orElseThrow(() ->
                         new CustomException(HttpStatus.NOT_FOUND, "This truck does not have an appointment today at this time"));
 
-        appointment.checkIfTruckHasAlreadyGottenThisStatus(TruckStatus.ARRIVED.getCode());
-        updateAppointmentPort.updateAppointmentArrivalOrDepartureTime(appointment.getAppointmentUUID(), TruckStatus.ARRIVED);
-        updateAppointmentPort.updateAppointmentTruckStatus(appointment.getAppointmentUUID(), TruckStatus.ARRIVED);
+        appointment.checkIfTruckHasAlreadyGottenThisStatus(TruckStatus.ARRIVED);
+        appointment.setArrivalTime(LocalDateTime.now());
+        updateAppointmentPorts.forEach(updateAppointmentPort -> updateAppointmentPort.updateAppointment(appointment, now.toLocalDate()));
     }
 }

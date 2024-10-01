@@ -28,7 +28,27 @@ public class Appointment {
 
     public Appointment(final AppointmentUUID appointmentUUID, Seller.CustomerUUID sellerUUID, LocalDate localDate, int gateNumber,
                        LocalDateTime appointmentTime, MaterialType materialType, String licensePlateNumberOfTruck, TruckStatus status, int warehouseNumber,
-                        int initialWeight, int finalWeight)
+                        int initialWeight, int finalWeight, LocalDateTime arrivalTime, LocalDateTime departureTime)
+    {
+        this.appointmentUUID = appointmentUUID;
+        this.sellerUUID = sellerUUID;
+        this.localDate = localDate;
+        this.gateNumber = gateNumber;
+        this.appointmentTime = appointmentTime;
+        this.materialType = materialType;
+        this.licensePlateNumberOfTruck = licensePlateNumberOfTruck;
+        this.status = status;
+        this.warehouseNumber = warehouseNumber;
+        this.initialWeight = initialWeight;
+        this.finalWeight = finalWeight;
+        this.arrivalTime = arrivalTime;
+        this.departureTime = departureTime;
+    }
+
+
+    public Appointment(final AppointmentUUID appointmentUUID, Seller.CustomerUUID sellerUUID, LocalDate localDate, int gateNumber,
+                       LocalDateTime appointmentTime, MaterialType materialType, String licensePlateNumberOfTruck, TruckStatus status, int warehouseNumber,
+                       int initialWeight, int finalWeight)
     {
         this.appointmentUUID = appointmentUUID;
         this.sellerUUID = sellerUUID;
@@ -57,18 +77,7 @@ public class Appointment {
         this.warehouseNumber = warehouseNumber;
     }
 
-    public Appointment(final AppointmentUUID appointmentUUID, Seller.CustomerUUID sellerUUID, LocalDate localDate, int gateNumber,
-                       LocalDateTime appointmentTime, MaterialType materialType, String licensePlateNumberOfTruck, int warehouseNumber)
-    {
-        this.appointmentUUID = appointmentUUID;
-        this.sellerUUID = sellerUUID;
-        this.localDate = localDate;
-        this.gateNumber = gateNumber;
-        this.appointmentTime = appointmentTime;
-        this.materialType = materialType;
-        this.licensePlateNumberOfTruck = licensePlateNumberOfTruck;
-        this.warehouseNumber = warehouseNumber;
-    }
+
 
     public Seller.CustomerUUID getSellerUUID() {
         return sellerUUID;
@@ -154,13 +163,35 @@ public class Appointment {
                 '}';
     }
 
-    public void checkIfTruckHasAlreadyGottenThisStatus(int statusCode){
+    public void checkIfTruckHasAlreadyGottenThisStatus(TruckStatus truckStatus){
 
         int currentStatusCode = getTruckStatus().getCode();
 
-        if (statusCode - currentStatusCode != 1) {
+        if (truckStatus.getCode() - currentStatusCode != 1) {
             throw new CustomException(HttpStatus.CONFLICT, "The truck's status transitions must follow the correct order. Please ensure all necessary processes have been completed before moving to the next status.");
       }
+
+        updateAppointmentStatus(truckStatus);
+    }
+
+    public Appointment proccessWeighting(int weighingCount, int weight){
+        if (weighingCount == 1) {
+            checkIfTruckHasAlreadyGottenThisStatus(TruckStatus.WEIGHTINGFIRSTTIME);
+            this.setInitialWeight(weight);
+        }
+        else {
+            checkIfTruckHasAlreadyGottenThisStatus(TruckStatus.WEIGHTINGLASTTIME);
+            this.setFinalWeight(weight);
+            setDepartureTime(LocalDateTime.now());
+
+        }
+
+        return this;
+    }
+
+    public Appointment updateAppointmentStatus(TruckStatus truckStatus) {
+       this.setStatus(truckStatus);
+        return this;
     }
 
     public int getNetWeight(){

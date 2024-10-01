@@ -15,7 +15,6 @@ public class SellerDBAdapter implements LoadSellerPort {
     public SellerDBAdapter(SellerRepository sellerRepository) {
         this.sellerRepository = sellerRepository;
     }
-
     @Override
     public Optional<Seller> loadSellerByUUID(UUID uuid) {
         Optional<SellerJpaEntity> sellerJpaEntity = sellerRepository.findBySellerUUID(uuid);

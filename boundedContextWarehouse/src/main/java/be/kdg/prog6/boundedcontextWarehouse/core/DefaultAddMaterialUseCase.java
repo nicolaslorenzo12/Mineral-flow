@@ -24,10 +24,11 @@ public class DefaultAddMaterialUseCase implements AddMaterialUseCase {
 
     @Override
     @Transactional
-    public void addOrDispatchMaterial(int amountOfTons, int warehouseNumber, WarehouseAction action) {
+    public void addOrDispatchMaterial(int intitalWeight, int finalWeight, int warehouseNumber, WarehouseAction action) {
 
         final Warehouse warehouse = findWarehouse(warehouseNumber);
-        WarehouseActivity warehouseActivity = buildWarehouseActivityAndAddActivityToWarehouse(warehouse, amountOfTons, action);
+        int amountOfTonsAdded = warehouse.calculateNetWeight(intitalWeight, finalWeight);
+        WarehouseActivity warehouseActivity = buildWarehouseActivityAndAddActivityToWarehouse(warehouse, amountOfTonsAdded, action);
         updateWarehousePort.forEach(port -> port.warehouseCreateActivity(warehouse, warehouseActivity));
     }
 

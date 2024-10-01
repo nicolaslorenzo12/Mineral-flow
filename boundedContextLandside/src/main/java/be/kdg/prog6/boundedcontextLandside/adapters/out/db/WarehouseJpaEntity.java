@@ -10,7 +10,6 @@ import java.util.UUID;
         @UniqueConstraint(columnNames = {"sellerUUID", "materialType"})
 })
 public class WarehouseJpaEntity {
-
     @Id
     private int wareHouseNumber;
     @Column(nullable = false)

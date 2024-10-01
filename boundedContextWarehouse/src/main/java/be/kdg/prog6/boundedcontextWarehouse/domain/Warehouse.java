@@ -50,4 +50,8 @@ public class Warehouse {
     public MaterialType getMaterialType() {
         return materialType;
     }
+
+    public int calculateNetWeight(int inititialWeight, int finalWeight){
+        return inititialWeight - finalWeight;
+    }
 }
