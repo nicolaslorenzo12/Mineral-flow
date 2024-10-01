@@ -10,6 +10,7 @@ import be.kdg.prog6.common.exception.CustomException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -30,13 +31,18 @@ public class DefaultScanLicensePlateNumberWhenArrivingUseCase implements ScanLic
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime roundedTime = now.withMinute(0).withSecond(0).withNano(0);
 
-        Appointment appointment = loadAndCreateAppointmentPort.loadAppointmentByLicensePlateNumberOfTruckAndAppointmentTimeAndDay
-                        (scanLicensePlateNumberCommand.licensePlateNumber(), roundedTime, roundedTime.toLocalDate())
-                .orElseThrow(() ->
-                        new CustomException(HttpStatus.NOT_FOUND, "This truck does not have an appointment today at this time"));
+        Appointment appointment = findAppointmentByLicensePlateNumberOfTruckAndAppointmentTimeAndDay(scanLicensePlateNumberCommand.licensePlateNumber(),
+                roundedTime, roundedTime.toLocalDate());
 
         appointment.checkIfTruckHasAlreadyGottenThisStatus(TruckStatus.ARRIVED);
         appointment.setArrivalTime(LocalDateTime.now());
         updateAppointmentPorts.forEach(updateAppointmentPort -> updateAppointmentPort.updateAppointment(appointment, now.toLocalDate()));
+    }
+
+    public Appointment findAppointmentByLicensePlateNumberOfTruckAndAppointmentTimeAndDay(String licensePlateNumber, LocalDateTime roundedTime, LocalDate day){
+        return loadAndCreateAppointmentPort.loadAppointmentByLicensePlateNumberOfTruckAndAppointmentTimeAndDay
+                        (licensePlateNumber, roundedTime, roundedTime.toLocalDate())
+                .orElseThrow(() ->
+                        new CustomException(HttpStatus.NOT_FOUND, "This truck does not have an appointment today at this time"));
     }
 }

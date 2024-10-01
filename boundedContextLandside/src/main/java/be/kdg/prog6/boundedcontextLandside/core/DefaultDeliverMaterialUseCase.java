@@ -23,14 +23,16 @@ public class DefaultDeliverMaterialUseCase implements DeliverMaterialUseCase {
         this.loadAndCreateAppointmentPort = loadAndCreateAppointmentPort;
         this.updateAppointmentPorts = updateAppointmentPorts;
     }
-
     @Override
     public void deliverMaterial(DeliverMaterialCommand loadMaterialCommand) {
 
-        Appointment appointment = loadAndCreateAppointmentPort.loadAppointmentByAppointmentUUID(loadMaterialCommand.appointmentUUID())
-                .orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND, "Appointment was not found"));
-
+        Appointment appointment = findAppointmentByUUID(loadMaterialCommand.appointmentUUID());
         appointment.checkIfTruckHasAlreadyGottenThisStatus(TruckStatus.RECEIVE_MATERIAL);
         updateAppointmentPorts.forEach(updateAppointmentPort -> updateAppointmentPort.updateAppointment(appointment, LocalDate.now()));
+    }
+
+    private Appointment findAppointmentByUUID(Appointment.AppointmentUUID appointmentUUID){
+        return loadAndCreateAppointmentPort.loadAppointmentByAppointmentUUID(appointmentUUID)
+                .orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND, "Appointment was not found"));
     }
 }

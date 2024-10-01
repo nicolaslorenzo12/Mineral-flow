@@ -2,7 +2,6 @@ package be.kdg.prog6.boundedcontextWarehouse.core;
 
 import be.kdg.prog6.boundedcontextWarehouse.domain.Warehouse;
 import be.kdg.prog6.boundedcontextWarehouse.domain.WarehouseActivity;
-import be.kdg.prog6.boundedcontextWarehouse.ports.in.AddMaterialCommand;
 import be.kdg.prog6.boundedcontextWarehouse.ports.in.AddMaterialUseCase;
 import be.kdg.prog6.boundedcontextWarehouse.ports.out.LoadWarehousePort;
 import be.kdg.prog6.boundedcontextWarehouse.ports.out.UpdateWarehousePort;
@@ -26,13 +25,13 @@ public class DefaultAddMaterialUseCase implements AddMaterialUseCase {
     @Transactional
     public void addOrDispatchMaterial(int intitalWeight, int finalWeight, int warehouseNumber, WarehouseAction action) {
 
-        final Warehouse warehouse = findWarehouse(warehouseNumber);
+        final Warehouse warehouse = findWarehouseByWarehouseNumber(warehouseNumber);
         int amountOfTonsAdded = warehouse.calculateNetWeight(intitalWeight, finalWeight);
         WarehouseActivity warehouseActivity = buildWarehouseActivityAndAddActivityToWarehouse(warehouse, amountOfTonsAdded, action);
         updateWarehousePort.forEach(port -> port.warehouseCreateActivity(warehouse, warehouseActivity));
     }
 
-    private Warehouse findWarehouse(int warehouseNumber) {
+    private Warehouse findWarehouseByWarehouseNumber(int warehouseNumber) {
         return loadWarehousePort.loadWarehouseByWarehouseNumber(warehouseNumber)
                 .orElseThrow(() -> new RuntimeException("Warehouse not found"));
     }
