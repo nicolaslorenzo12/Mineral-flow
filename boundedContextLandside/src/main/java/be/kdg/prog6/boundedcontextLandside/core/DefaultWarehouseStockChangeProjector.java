@@ -1,5 +1,6 @@
 package be.kdg.prog6.boundedcontextLandside.core;
 
+import be.kdg.prog6.boundedcontextLandside.domain.UpdateWarehouseAction;
 import be.kdg.prog6.boundedcontextLandside.domain.Warehouse;
 import be.kdg.prog6.boundedcontextLandside.ports.in.WarehouseStockChangeProjector;
 import be.kdg.prog6.boundedcontextLandside.ports.out.UpdateWarehousePort;
@@ -12,13 +13,15 @@ import java.util.List;
 
 @Service
 public class DefaultWarehouseStockChangeProjector implements WarehouseStockChangeProjector {
-    private final UpdateWarehousePort updateWarehousePort;
-    public DefaultWarehouseStockChangeProjector(UpdateWarehousePort updateWarehousePort) {
-        this.updateWarehousePort = updateWarehousePort;
+    private final List<UpdateWarehousePort> updateWarehousePorts;
+    public DefaultWarehouseStockChangeProjector(List<UpdateWarehousePort> updateWarehousePorts) {
+        this.updateWarehousePorts = updateWarehousePorts;
     }
     @Override
     public void projectStockChange(int amountOfTons, int warehouseNumber, WarehouseAction warehouseAction, Seller.CustomerUUID sellerUuid,
                                    MaterialType materialType) {
-        updateWarehousePort.updateWarehouse(new Warehouse(warehouseNumber, sellerUuid, amountOfTons, materialType));
+
+        updateWarehousePorts.forEach(updateWarehousePort -> updateWarehousePort.updateWarehouse(new Warehouse
+                (warehouseNumber, sellerUuid, amountOfTons, materialType), UpdateWarehouseAction.CHANGE_WAREHOUSE_STOCK));
     }
 }

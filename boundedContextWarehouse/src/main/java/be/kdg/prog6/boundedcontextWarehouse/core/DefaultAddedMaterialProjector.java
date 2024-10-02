@@ -2,7 +2,7 @@ package be.kdg.prog6.boundedcontextWarehouse.core;
 
 import be.kdg.prog6.boundedcontextWarehouse.domain.Warehouse;
 import be.kdg.prog6.boundedcontextWarehouse.domain.WarehouseActivity;
-import be.kdg.prog6.boundedcontextWarehouse.ports.in.AddMaterialUseCase;
+import be.kdg.prog6.boundedcontextWarehouse.ports.in.AddedMaterialProjector;
 import be.kdg.prog6.boundedcontextWarehouse.ports.out.LoadWarehousePort;
 import be.kdg.prog6.boundedcontextWarehouse.ports.out.UpdateWarehousePort;
 import be.kdg.prog6.common.domain.WarehouseAction;
@@ -10,15 +10,17 @@ import be.kdg.prog6.common.exception.CustomException;
 import jakarta.transaction.Transactional;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
-public class DefaultAddMaterialUseCase implements AddMaterialUseCase {
+public class DefaultAddedMaterialProjector implements AddedMaterialProjector {
 
     private final LoadWarehousePort loadWarehousePort;
     private final List<UpdateWarehousePort> updateWarehousePort;
 
-    public DefaultAddMaterialUseCase(LoadWarehousePort loadWarehousePort, final List<UpdateWarehousePort> updateWarehousePort) {
+    public DefaultAddedMaterialProjector(LoadWarehousePort loadWarehousePort, final List<UpdateWarehousePort> updateWarehousePort) {
         this.loadWarehousePort = loadWarehousePort;
         this.updateWarehousePort = updateWarehousePort;
     }

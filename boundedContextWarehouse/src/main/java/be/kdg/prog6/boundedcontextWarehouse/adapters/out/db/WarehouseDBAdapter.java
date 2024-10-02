@@ -1,9 +1,11 @@
 package be.kdg.prog6.boundedcontextWarehouse.adapters.out.db;
 
+import be.kdg.prog6.boundedcontextWarehouse.domain.Pdt;
 import be.kdg.prog6.boundedcontextWarehouse.domain.Warehouse;
 import be.kdg.prog6.boundedcontextWarehouse.domain.WarehouseActivity;
 import be.kdg.prog6.boundedcontextWarehouse.domain.WarehouseActivityWindow;
 import be.kdg.prog6.boundedcontextWarehouse.ports.out.LoadWarehousePort;
+import be.kdg.prog6.boundedcontextWarehouse.ports.out.UpdatePdtPort;
 import be.kdg.prog6.boundedcontextWarehouse.ports.out.UpdateWarehousePort;
 import be.kdg.prog6.common.domain.Seller;
 import org.springframework.stereotype.Component;
@@ -11,9 +13,10 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Component
-public class WarehouseDBAdapter implements LoadWarehousePort, UpdateWarehousePort {
+public class WarehouseDBAdapter implements LoadWarehousePort, UpdateWarehousePort, UpdatePdtPort {
 
     private final WarehouseRepository warehouseRepository;
     private final WarehouseActivityRepository warehouseActivityRepository;
@@ -77,5 +80,17 @@ public class WarehouseDBAdapter implements LoadWarehousePort, UpdateWarehousePor
         warehouseJpaActivityEntity.setTime(LocalDateTime.now());
         warehouseJpaActivityEntity.setWarehouseJpaEntity(warehouseJpaEntity);
         return warehouseJpaActivityEntity;
+    }
+
+    @Override
+    public void createPdtPort(Warehouse warehouse, LocalDateTime timeOfDelivery) {
+
+        final int warehouseNumber = warehouse.getWareHouseNumber();
+        final WarehouseJpaEntity warehouseJpaEntity = warehouseRepository.
+                findByWarehouseNumber(warehouseNumber).orElseThrow();
+
+        PdtJpaEntity pdtJpaEntity = new PdtJpaEntity(UUID.randomUUID(), timeOfDelivery, warehouseNumber);
+        warehouseJpaEntity.getPdtJpaEntityList().add(pdtJpaEntity);
+        warehouseRepository.save(warehouseJpaEntity);
     }
 }

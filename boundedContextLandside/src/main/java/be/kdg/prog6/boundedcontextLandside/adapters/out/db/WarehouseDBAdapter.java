@@ -1,10 +1,12 @@
 package be.kdg.prog6.boundedcontextLandside.adapters.out.db;
 
+import be.kdg.prog6.boundedcontextLandside.domain.UpdateWarehouseAction;
 import be.kdg.prog6.boundedcontextLandside.domain.Warehouse;
 import be.kdg.prog6.boundedcontextLandside.ports.out.LoadOrCreateWarehousePort;
 import be.kdg.prog6.boundedcontextLandside.ports.out.UpdateWarehousePort;
 import be.kdg.prog6.common.domain.MaterialType;
 import be.kdg.prog6.common.domain.Seller;
+import be.kdg.prog6.common.domain.WarehouseAction;
 import be.kdg.prog6.common.exception.CustomException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
@@ -28,9 +30,12 @@ public class WarehouseDBAdapter implements LoadOrCreateWarehousePort, UpdateWare
         return warehouseJpaEntity.map(this::buildWarehouseObject);
     }
     @Override
-    public void updateWarehouse(Warehouse warehouse) {
-        warehouseRepository.save(new WarehouseJpaEntity(warehouse.getWareHouseNumber(), warehouse.getSellerUUID().uuid(), warehouse.getMaterialType(),
-                warehouse.getCurrentStockStorage()));
+    public void updateWarehouse(Warehouse warehouse, UpdateWarehouseAction updateWarehouseAction) {
+
+        if(updateWarehouseAction.equals(UpdateWarehouseAction.CHANGE_WAREHOUSE_STOCK)) {
+            warehouseRepository.save(new WarehouseJpaEntity(warehouse.getWareHouseNumber(), warehouse.getSellerUUID().uuid(), warehouse.getMaterialType(),
+                    warehouse.getCurrentStockStorage()));
+        }
     }
 
     private Warehouse buildWarehouseObject(WarehouseJpaEntity warehouseJpaEntity) {

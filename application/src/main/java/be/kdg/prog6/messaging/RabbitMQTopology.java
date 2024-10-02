@@ -1,5 +1,7 @@
 package be.kdg.prog6.messaging;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.Queue;
@@ -13,16 +15,20 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class RabbitMQTopology {
 
-    // Define a queue for warehouse activity creation events
     @Bean
     Queue warehouseActivityCreatedQueue() {
         return new Queue("warehouse.activity_created", false);
     }
 
     @Bean
-    Queue materialAddedToWarehouseQueue(){return new Queue("landside.material_added", false);}
+    Queue materialAddedToWarehouseQueue(){
+        return new Queue("landside.material_added", false);
+    }
 
-    // Define a topic exchange for the warehouse context
+    @Bean
+    Queue pdtToBeCreatedQueue(){ return new Queue("landside.pdt_to_be_created", false);
+    }
+
     @Bean
     TopicExchange warehouseExchange() {
         return new TopicExchange("warehouseExchange");
@@ -32,7 +38,6 @@ public class RabbitMQTopology {
         return new TopicExchange("landsideExchange");
     }
 
-    // Bind the warehouse activity created queue to the warehouse exchange with the appropriate routing key
     @Bean
     Binding bindWarehouseExchangeToActivityCreatedQueue(
             Queue warehouseActivityCreatedQueue,
@@ -41,7 +46,7 @@ public class RabbitMQTopology {
         return BindingBuilder
                 .bind(warehouseActivityCreatedQueue)
                 .to(warehouseExchange)
-                .with("warehouse.#.activity_created"); // Use wildcard to capture all warehouse activity created events
+                .with("warehouse.#.activity_created");
     }
 
     @Bean
@@ -52,9 +57,20 @@ public class RabbitMQTopology {
         return BindingBuilder
                 .bind(materialAddedToWarehouseQueue)
                 .to(landsideExchange)
-                .with("landside.#.material_added"); // Use wildcard to capture all warehouse activity created events
+                .with("landside.#.material_added");
     }
 
+
+    @Bean
+    Binding bindLandsideExchangeToPdtToBeCreatedQueue(
+            Queue pdtToBeCreatedQueue,
+            TopicExchange landsideExchange
+    ) {
+        return BindingBuilder
+                .bind(pdtToBeCreatedQueue)
+                .to(landsideExchange)
+                .with("landside.#.pdt_to_be_created");
+    }
 
     // Configure the RabbitTemplate with a ConnectionFactory
     @Bean
@@ -65,8 +81,15 @@ public class RabbitMQTopology {
     }
 
     // Configure Jackson JSON message converter for message serialization
+//    @Bean
+//    Jackson2JsonMessageConverter producerJackson2MessageConverter() {
+//        return new Jackson2JsonMessageConverter();
+//    }
+
     @Bean
     Jackson2JsonMessageConverter producerJackson2MessageConverter() {
-        return new Jackson2JsonMessageConverter();
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule()); // Register Java Time Module
+        return new Jackson2JsonMessageConverter(objectMapper);
     }
 }

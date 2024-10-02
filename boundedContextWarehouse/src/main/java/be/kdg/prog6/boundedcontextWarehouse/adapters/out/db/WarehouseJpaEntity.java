@@ -2,6 +2,8 @@
 
     import be.kdg.prog6.common.domain.MaterialType;
     import jakarta.persistence.*;
+
+    import java.util.ArrayList;
     import java.util.List;
     import java.util.UUID;
 
@@ -25,15 +27,20 @@
         @OneToMany(mappedBy = "warehouseJpaEntity", cascade = CascadeType.ALL)
         private List<WarehouseJpaActivityEntity> activities;
 
+        @OneToMany(mappedBy = "warehouseJpaEntity", cascade = CascadeType.ALL)
+        private List<PdtJpaEntity> pdtJpaEntityList;
+
 
         public WarehouseJpaEntity(int warehouseNumber, UUID sellerUUID, MaterialType materialType) {
             this.warehouseNumber = warehouseNumber;
             this.sellerUUID = sellerUUID;
             this.materialType = materialType;
+            pdtJpaEntityList = new ArrayList<>();
         }
 
         public WarehouseJpaEntity() {
 
+            pdtJpaEntityList = new ArrayList<>();
         }
 
         public int getWarehouseNumber() {
@@ -70,5 +77,9 @@
 
         public void setMaterialType(MaterialType materialType) {
             this.materialType = materialType;
+        }
+
+        public List<PdtJpaEntity> getPdtJpaEntityList() {
+            return pdtJpaEntityList;
         }
     }

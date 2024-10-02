@@ -12,7 +12,7 @@ public class Warehouse {
     private final int maximumCapacity = 500000;
     private int currentStockStorage;
 
-    public Warehouse(int wareHouseNumber, Seller.CustomerUUID sellerUUID, MaterialType materialType, int utilizationCapacity) {
+    public Warehouse(int wareHouseNumber, Seller.CustomerUUID sellerUUID, MaterialType materialType) {
         this.wareHouseNumber = wareHouseNumber;
         this.sellerUUID = sellerUUID;
         this.materialType = materialType;

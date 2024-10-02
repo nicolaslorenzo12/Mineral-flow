@@ -4,6 +4,8 @@ import be.kdg.prog6.common.domain.*;
 import be.kdg.prog6.common.exception.CustomException;
 import org.springframework.http.HttpStatus;
 
+import java.util.List;
+
 public class Warehouse {
 
     private final int wareHouseNumber;
@@ -11,12 +13,22 @@ public class Warehouse {
     private final MaterialType materialType;
     private final Uom uom = Uom.T;
     private final WarehouseActivityWindow warehouseActivityWindow;
+    private List<Pdt> pdtList;
 
     public Warehouse(int wareHouseNumber, Seller.CustomerUUID sellerUUID, MaterialType materialType,final WarehouseActivityWindow warehouseActivityWindow) {
         this.wareHouseNumber = wareHouseNumber;
         this.sellerUUID = sellerUUID;
         this.materialType = materialType;
         this.warehouseActivityWindow = warehouseActivityWindow;
+    }
+
+    public Warehouse(int wareHouseNumber, Seller.CustomerUUID sellerUUID, MaterialType materialType,final WarehouseActivityWindow warehouseActivityWindow,
+                     List<Pdt> pdtList) {
+        this.wareHouseNumber = wareHouseNumber;
+        this.sellerUUID = sellerUUID;
+        this.materialType = materialType;
+        this.warehouseActivityWindow = warehouseActivityWindow;
+        this.pdtList = pdtList;
     }
 
     public int getWareHouseNumber() {
@@ -52,5 +64,9 @@ public class Warehouse {
 
     public int calculateNetWeight(int inititialWeight, int finalWeight){
         return inititialWeight - finalWeight;
+    }
+
+    private List<Pdt> getPdtList(){
+        return pdtList;
     }
 }
