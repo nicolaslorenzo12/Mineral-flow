@@ -66,10 +66,7 @@ public class WarehouseDBAdapter implements LoadWarehousePort, UpdateWarehousePor
         final WarehouseJpaEntity warehouseJpaEntity = warehouseRepository.
                 findByWarehouseNumber(warehouseNumber).orElseThrow();
 
-        PdtJpaEntity pdtJpaEntity = warehouseJpaEntity.getPdtJpaEntityList().stream().filter(pdtJpaEntity1 ->
-                pdtJpaEntity1.getPdtUUID().equals(pdtUUID)).findFirst().orElseThrow(()
-        -> new CustomException(HttpStatus.NOT_FOUND, "pdt was not found"));
-
+        PdtJpaEntity pdtJpaEntity = findtPdtJpaEntityByPdtUUID(pdtUUID, warehouseJpaEntity);
         pdtJpaEntity.setAmountOfTonsDelivered(amountOfTonsAdded);
 
         warehouseJpaEntity.getActivities().
@@ -78,6 +75,11 @@ public class WarehouseDBAdapter implements LoadWarehousePort, UpdateWarehousePor
         warehouseRepository.save(warehouseJpaEntity);
     }
 
+    private PdtJpaEntity findtPdtJpaEntityByPdtUUID(UUID pdtUUID, WarehouseJpaEntity warehouseJpaEntity){
+        return warehouseJpaEntity.getPdtJpaEntityList().stream().filter(pdtJpaEntity1 ->
+                pdtJpaEntity1.getPdtUUID().equals(pdtUUID)).findFirst().orElseThrow(()
+                -> new CustomException(HttpStatus.NOT_FOUND, "pdt was not found"));
+    }
     private WarehouseJpaActivityEntity buildJpaActivityEntity(final WarehouseJpaEntity warehouseJpaEntity,
                                                               final WarehouseActivity warehouseActivity) {
 

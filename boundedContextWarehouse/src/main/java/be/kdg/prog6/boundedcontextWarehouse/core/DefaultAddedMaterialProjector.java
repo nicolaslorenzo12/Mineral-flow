@@ -28,12 +28,12 @@ public class DefaultAddedMaterialProjector implements AddedMaterialProjector {
 
     @Override
     @Transactional
-    public void addOrDispatchMaterial(int intitalWeight, int finalWeight, int warehouseNumber, WarehouseAction action, UUID appointemntUUID) {
+    public void addOrDispatchMaterial(int intitalWeight, int finalWeight, int warehouseNumber, WarehouseAction action, UUID pdtUUID) {
 
         final Warehouse warehouse = findWarehouseByWarehouseNumber(warehouseNumber);
         int amountOfTonsAdded = warehouse.calculateNetWeight(intitalWeight, finalWeight);
         WarehouseActivity warehouseActivity = buildWarehouseActivityAndAddActivityToWarehouse(warehouse, amountOfTonsAdded, action);
-        updateWarehousePort.forEach(port -> port.warehouseCreateActivity(warehouse, warehouseActivity, appointemntUUID, amountOfTonsAdded));
+        updateWarehousePort.forEach(port -> port.warehouseCreateActivity(warehouse, warehouseActivity, pdtUUID, amountOfTonsAdded));
     }
 
     private Warehouse findWarehouseByWarehouseNumber(int warehouseNumber) {
