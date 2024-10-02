@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class DefaultAddedMaterialProjector implements AddedMaterialProjector {
@@ -27,12 +28,12 @@ public class DefaultAddedMaterialProjector implements AddedMaterialProjector {
 
     @Override
     @Transactional
-    public void addOrDispatchMaterial(int intitalWeight, int finalWeight, int warehouseNumber, WarehouseAction action) {
+    public void addOrDispatchMaterial(int intitalWeight, int finalWeight, int warehouseNumber, WarehouseAction action, UUID appointemntUUID) {
 
         final Warehouse warehouse = findWarehouseByWarehouseNumber(warehouseNumber);
         int amountOfTonsAdded = warehouse.calculateNetWeight(intitalWeight, finalWeight);
         WarehouseActivity warehouseActivity = buildWarehouseActivityAndAddActivityToWarehouse(warehouse, amountOfTonsAdded, action);
-        updateWarehousePort.forEach(port -> port.warehouseCreateActivity(warehouse, warehouseActivity));
+        updateWarehousePort.forEach(port -> port.warehouseCreateActivity(warehouse, warehouseActivity, appointemntUUID, amountOfTonsAdded));
     }
 
     private Warehouse findWarehouseByWarehouseNumber(int warehouseNumber) {

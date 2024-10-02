@@ -4,6 +4,7 @@ import be.kdg.prog6.boundedcontextLandside.domain.Appointment;
 import be.kdg.prog6.boundedcontextLandside.domain.DailyCalendar;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 public interface UpdateDailyCalendarPort {
 

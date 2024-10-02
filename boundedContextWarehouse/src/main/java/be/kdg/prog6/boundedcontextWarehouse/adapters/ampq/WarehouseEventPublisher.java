@@ -7,6 +7,8 @@ import be.kdg.prog6.common.events.ActivityCreatedEvent;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Component;
 
+import java.util.UUID;
+
 @Component
 public class WarehouseEventPublisher implements UpdateWarehousePort {
 
@@ -17,14 +19,14 @@ public class WarehouseEventPublisher implements UpdateWarehousePort {
     }
 
     @Override
-    public void warehouseCreateActivity(Warehouse warehouse, WarehouseActivity warehouseActivity) {
+    public void warehouseCreateActivity(Warehouse warehouse, WarehouseActivity warehouseActivity, UUID appointmentUUID, int amountOFTonsAdded) {
 
         final int warehouseNumber = warehouse.getWareHouseNumber();
         final int currentStock = warehouse.calculateAndGetCurrentStock();
         final String routingKey = "warehouse. " + warehouseNumber + " .activity_created";
         final String exchangeName = "warehouseExchange";
         final ActivityCreatedEvent body = new ActivityCreatedEvent(currentStock, warehouseNumber, warehouseActivity.action(),
-                warehouse.getSellerUUID(), warehouse.getMaterialType());
+                warehouse.getSellerUUID(), warehouse.getMaterialType(), appointmentUUID);
 
         rabbitTemplate.convertAndSend(exchangeName, routingKey, body);
     }

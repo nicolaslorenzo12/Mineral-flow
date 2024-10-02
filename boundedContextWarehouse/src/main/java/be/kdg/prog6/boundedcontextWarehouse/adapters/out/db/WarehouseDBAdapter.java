@@ -8,6 +8,8 @@ import be.kdg.prog6.boundedcontextWarehouse.ports.out.LoadWarehousePort;
 import be.kdg.prog6.boundedcontextWarehouse.ports.out.UpdatePdtPort;
 import be.kdg.prog6.boundedcontextWarehouse.ports.out.UpdateWarehousePort;
 import be.kdg.prog6.common.domain.Seller;
+import be.kdg.prog6.common.exception.CustomException;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -59,10 +61,16 @@ public class WarehouseDBAdapter implements LoadWarehousePort, UpdateWarehousePor
         }
     }
     @Override
-    public void warehouseCreateActivity(Warehouse warehouse, WarehouseActivity warehouseActivity) {
+    public void warehouseCreateActivity(Warehouse warehouse, WarehouseActivity warehouseActivity, UUID pdtUUID, int amountOfTonsAdded) {
         final int warehouseNumber = warehouse.getWareHouseNumber();
         final WarehouseJpaEntity warehouseJpaEntity = warehouseRepository.
                 findByWarehouseNumber(warehouseNumber).orElseThrow();
+
+        PdtJpaEntity pdtJpaEntity = warehouseJpaEntity.getPdtJpaEntityList().stream().filter(pdtJpaEntity1 ->
+                pdtJpaEntity1.getPdtUUID().equals(pdtUUID)).findFirst().orElseThrow(()
+        -> new CustomException(HttpStatus.NOT_FOUND, "pdt was not found"));
+
+        pdtJpaEntity.setAmountOfTonsDelivered(amountOfTonsAdded);
 
         warehouseJpaEntity.getActivities().
                 add(buildJpaActivityEntity(warehouseJpaEntity, warehouseActivity));
@@ -83,13 +91,13 @@ public class WarehouseDBAdapter implements LoadWarehousePort, UpdateWarehousePor
     }
 
     @Override
-    public void createPdtPort(Warehouse warehouse, LocalDateTime timeOfDelivery) {
+    public void createPdtPort(Warehouse warehouse, LocalDateTime timeOfDelivery, UUID appointmentUUID) {
 
         final int warehouseNumber = warehouse.getWareHouseNumber();
         final WarehouseJpaEntity warehouseJpaEntity = warehouseRepository.
                 findByWarehouseNumber(warehouseNumber).orElseThrow();
 
-        PdtJpaEntity pdtJpaEntity = new PdtJpaEntity(UUID.randomUUID(), timeOfDelivery, warehouseNumber);
+        PdtJpaEntity pdtJpaEntity = new PdtJpaEntity(appointmentUUID, timeOfDelivery, warehouseNumber);
         warehouseJpaEntity.getPdtJpaEntityList().add(pdtJpaEntity);
         warehouseRepository.save(warehouseJpaEntity);
     }

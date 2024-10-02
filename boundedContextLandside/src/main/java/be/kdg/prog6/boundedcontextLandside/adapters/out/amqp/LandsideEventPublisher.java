@@ -9,6 +9,7 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Component
 public class LandsideEventPublisher implements UpdateDailyCalendarPort, UpdateWarehousePort {
@@ -23,20 +24,21 @@ public class LandsideEventPublisher implements UpdateDailyCalendarPort, UpdateWa
         if (appointment.getTruckStatus().equals(TruckStatus.LEFT)) {
             final String routingKey = "landside. " + appointment.getWarehouseNumber() + " .material_added";
             final String exchangeName = "landsideExchange";
-            final MaterialAddedEvent body = new MaterialAddedEvent(appointment.getInitialWeight(),appointment.getFinalWeight(), appointment.getWarehouseNumber());
+            final MaterialAddedEvent body = new MaterialAddedEvent(appointment.getInitialWeight(),appointment.getFinalWeight(),
+                    appointment.getWarehouseNumber(), appointment.getAppointmentUUID().uuid());
 
             rabbitTemplate.convertAndSend(exchangeName, routingKey, body);
         }
 
     }
     @Override
-    public void updateWarehouse(Warehouse warehouse, UpdateWarehouseAction updateWarehouseAction) {
+    public void updateWarehouse(Warehouse warehouse, UpdateWarehouseAction updateWarehouseAction, UUID appointmentUUID) {
 
         if(updateWarehouseAction.equals(UpdateWarehouseAction.CREATE_PDT)) {
 
           final String routingKey = "landside. " + warehouse.getWareHouseNumber() + " .pdt_to_be_created";
           final String exchangeName = "landsideExchange";
-          final PdtToBeCreatedEvent body = new PdtToBeCreatedEvent(warehouse.getWareHouseNumber(), LocalDateTime.now());
+          final PdtToBeCreatedEvent body = new PdtToBeCreatedEvent(warehouse.getWareHouseNumber(), LocalDateTime.now(), appointmentUUID);
             System.out.println(warehouse.getWareHouseNumber());
             System.out.println(body);
 

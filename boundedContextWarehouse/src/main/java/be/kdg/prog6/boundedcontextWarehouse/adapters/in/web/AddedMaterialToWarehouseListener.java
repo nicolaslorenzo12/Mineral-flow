@@ -9,16 +9,16 @@ import org.springframework.stereotype.Component;
 @Component
 public class AddedMaterialToWarehouseListener {
 
-    private final AddedMaterialProjector addedMaterialProjection;
+    private final AddedMaterialProjector addedMaterialProjector;
 
     public AddedMaterialToWarehouseListener(AddedMaterialProjector addedMaterialProjection) {
-        this.addedMaterialProjection = addedMaterialProjection;
+        this.addedMaterialProjector = addedMaterialProjection;
     }
 
     @RabbitListener(queues = "landside.material_added")
     public void activityCreated(final MaterialAddedEvent materialAddedEvent){
 
-        addedMaterialProjection.addOrDispatchMaterial(materialAddedEvent.initialWeight(), materialAddedEvent.finalWeight(),
-                materialAddedEvent.warehouseNumber(), WarehouseAction.RECEIVE);
+        addedMaterialProjector.addOrDispatchMaterial(materialAddedEvent.initialWeight(), materialAddedEvent.finalWeight(),
+                materialAddedEvent.warehouseNumber(), WarehouseAction.RECEIVE, materialAddedEvent.appointmentUUID());
     }
 }

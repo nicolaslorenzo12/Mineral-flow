@@ -40,7 +40,8 @@ public class DefaultDeliverMaterialUseCase implements DeliverMaterialUseCase {
         appointment.checkIfTruckHasAlreadyGottenThisStatus(TruckStatus.RECEIVE_MATERIAL);
         Warehouse warehouse = findWarehouseBySellerUUIDAndMaterialType(appointment.getSellerUUID(), appointment.getMaterialType());
         updateDailyCalendarPorts.forEach(updateDailyCalendarPort -> updateDailyCalendarPort.updateAppointment(appointment,new DailyCalendar(LocalDate.now())));
-        updateWarehousePorts.forEach(updateWarehousePort -> updateWarehousePort.updateWarehouse(warehouse, UpdateWarehouseAction.CREATE_PDT));
+        updateWarehousePorts.forEach(updateWarehousePort -> updateWarehousePort.updateWarehouse(warehouse,
+                UpdateWarehouseAction.CREATE_PDT, appointment.getAppointmentUUID().uuid()));
     }
 
     private Appointment findAppointmentByUUID(Appointment.AppointmentUUID appointmentUUID){

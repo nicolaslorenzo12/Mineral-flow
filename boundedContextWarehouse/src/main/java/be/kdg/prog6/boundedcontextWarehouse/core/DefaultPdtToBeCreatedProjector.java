@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Service
 public class DefaultPdtToBeCreatedProjector implements PdtToBeCreatedProjector {
@@ -24,11 +25,11 @@ public class DefaultPdtToBeCreatedProjector implements PdtToBeCreatedProjector {
 
     @Override
     @Transactional
-    public void createPdt(int warehouseNumber, LocalDateTime timeOfDelivery) {
+    public void createPdt(int warehouseNumber, LocalDateTime timeOfDelivery, UUID appointmentUUID) {
 
         Warehouse warehouse = loadWarehousePort.loadWarehouseByWarehouseNumber(warehouseNumber)
                 .orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND, "Warehouse was not found"));
 
-        updatePdtPort.createPdtPort(warehouse, timeOfDelivery);
+        updatePdtPort.createPdtPort(warehouse, timeOfDelivery, appointmentUUID);
     }
 }

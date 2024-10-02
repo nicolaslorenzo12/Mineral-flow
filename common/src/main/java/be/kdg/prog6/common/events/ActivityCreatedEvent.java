@@ -4,5 +4,8 @@ import be.kdg.prog6.common.domain.MaterialType;
 import be.kdg.prog6.common.domain.Seller;
 import be.kdg.prog6.common.domain.WarehouseAction;
 
-public record ActivityCreatedEvent(int amountOfTons, int warehouseNumber, WarehouseAction warehouseAction, Seller.CustomerUUID sellerUuid, MaterialType materialType) {
+import java.util.UUID;
+
+public record ActivityCreatedEvent(int amountOfTons, int warehouseNumber, WarehouseAction warehouseAction,
+                                   Seller.CustomerUUID sellerUuid, MaterialType materialType, UUID appointmentUUID) {
 }

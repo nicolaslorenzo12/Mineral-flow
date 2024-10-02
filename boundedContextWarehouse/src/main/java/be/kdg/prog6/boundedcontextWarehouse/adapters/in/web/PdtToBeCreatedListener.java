@@ -18,6 +18,6 @@ public class PdtToBeCreatedListener {
     public void createPdt(final PdtToBeCreatedEvent pdtToBeCreatedEvent){
 
         System.out.println("Just entered");
-        pdtToBeCreatedProjector.createPdt(pdtToBeCreatedEvent.warehouseNumber(), pdtToBeCreatedEvent.timeOfDelivery());
+        pdtToBeCreatedProjector.createPdt(pdtToBeCreatedEvent.warehouseNumber(), pdtToBeCreatedEvent.timeOfDelivery(), pdtToBeCreatedEvent.appointmentUUID());
     }
 }
