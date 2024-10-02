@@ -5,8 +5,11 @@ import be.kdg.prog6.boundedcontextLandside.ports.out.LoadOrCreateWarehousePort;
 import be.kdg.prog6.boundedcontextLandside.ports.out.UpdateWarehousePort;
 import be.kdg.prog6.common.domain.MaterialType;
 import be.kdg.prog6.common.domain.Seller;
+import be.kdg.prog6.common.exception.CustomException;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @Component("landsideDatabaseAdapter")
@@ -18,16 +21,24 @@ public class WarehouseDBAdapter implements LoadOrCreateWarehousePort, UpdateWare
     }
 
     @Override
-    public Warehouse loadWarehouseBySellerUUIDAndMaterialType(UUID sellerUuid, MaterialType materialType) {
-        final WarehouseJpaEntity warehouseJpaEntity = warehouseRepository.
-                findBySellerUUIDAndMaterialType(sellerUuid, materialType).orElseThrow();
+    public Optional<Warehouse> loadWarehouseBySellerUUIDAndMaterialType(UUID sellerUuid, MaterialType materialType) {
+        Optional<WarehouseJpaEntity> warehouseJpaEntity = warehouseRepository.
+                findBySellerUUIDAndMaterialType(sellerUuid, materialType);
 
-        return new Warehouse(warehouseJpaEntity.getWareHouseNumber(), new Seller.CustomerUUID(warehouseJpaEntity.getSellerUUID()),
-                warehouseJpaEntity.getUtilizationCapacity(), materialType);
+        return warehouseJpaEntity.map(this::buildWarehouseObject);
     }
     @Override
     public void updateWarehouse(Warehouse warehouse) {
         warehouseRepository.save(new WarehouseJpaEntity(warehouse.getWareHouseNumber(), warehouse.getSellerUUID().uuid(), warehouse.getMaterialType(),
                 warehouse.getCurrentStockStorage()));
+    }
+
+    private Warehouse buildWarehouseObject(WarehouseJpaEntity warehouseJpaEntity) {
+        return new Warehouse(
+                warehouseJpaEntity.getWareHouseNumber(),
+                new Seller.CustomerUUID(warehouseJpaEntity.getSellerUUID()),
+                warehouseJpaEntity.getUtilizationCapacity(),
+                warehouseJpaEntity.getMaterialType()
+        );
     }
 }

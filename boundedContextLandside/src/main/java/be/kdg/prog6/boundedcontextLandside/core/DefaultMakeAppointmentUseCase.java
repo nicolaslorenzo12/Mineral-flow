@@ -79,7 +79,7 @@ public class DefaultMakeAppointmentUseCase implements MakeAppointmentUseCase {
         return loadOrCreateWarehousePort.loadWarehouseBySellerUUIDAndMaterialType(
                 seller.getCustomerUUID().uuid(),
                 material.getMaterialType()
-        );
+        ).orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND, "Warehouse not found, it should be created in advance"));
     }
     private int generateRandomGateNumber () {
         return (int) (Math.random() * 10) + 1;

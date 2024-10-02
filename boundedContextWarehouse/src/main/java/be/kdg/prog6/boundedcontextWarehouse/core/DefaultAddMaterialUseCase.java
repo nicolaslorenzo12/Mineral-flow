@@ -6,7 +6,9 @@ import be.kdg.prog6.boundedcontextWarehouse.ports.in.AddMaterialUseCase;
 import be.kdg.prog6.boundedcontextWarehouse.ports.out.LoadWarehousePort;
 import be.kdg.prog6.boundedcontextWarehouse.ports.out.UpdateWarehousePort;
 import be.kdg.prog6.common.domain.WarehouseAction;
+import be.kdg.prog6.common.exception.CustomException;
 import jakarta.transaction.Transactional;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
@@ -33,7 +35,7 @@ public class DefaultAddMaterialUseCase implements AddMaterialUseCase {
 
     private Warehouse findWarehouseByWarehouseNumber(int warehouseNumber) {
         return loadWarehousePort.loadWarehouseByWarehouseNumber(warehouseNumber)
-                .orElseThrow(() -> new RuntimeException("Warehouse not found"));
+                .orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND, "Warehouse not found"));
     }
 
     private WarehouseActivity buildWarehouseActivityAndAddActivityToWarehouse(Warehouse warehouse, int amountOfTons, WarehouseAction action){

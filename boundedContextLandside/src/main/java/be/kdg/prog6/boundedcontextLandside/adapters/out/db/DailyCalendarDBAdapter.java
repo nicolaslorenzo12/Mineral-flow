@@ -104,11 +104,11 @@ public class DailyCalendarDBAdapter implements LoadOrCreateDailyCalendarPort, Up
 
         DailyCalendarJpaEntity dailyCalendarJpaEntity = findDailyCalendarJpaEntity(dailyCalendar.getDay());
 
-        AppointmentJpaEntity appointmentJpaEntity = dailyCalendarJpaEntity.getAppointments().stream()
+        Optional<AppointmentJpaEntity> appointmentJpaEntity = dailyCalendarJpaEntity.getAppointments().stream()
                 .filter(appt -> appt.getAppointmentUUID().equals(appointmentUUID.uuid()))
-                .findFirst().get();
+                .findFirst();
 
-        return Optional.of(buildAppointmentObject(appointmentJpaEntity));
+        return appointmentJpaEntity.map(this::buildAppointmentObject);
     }
     @Override
     public DailyCalendar loadOrCreateDailyCalendarByDay(LocalDate localDate) {
@@ -135,23 +135,25 @@ public class DailyCalendarDBAdapter implements LoadOrCreateDailyCalendarPort, Up
 
         final DailyCalendarJpaEntity dailyCalendarJpaEntity = findDailyCalendarJpaEntity(dailyCalendar.getDay());
 
-        AppointmentJpaEntity appointmentJpaEntity = dailyCalendarJpaEntity.getAppointments().stream()
+        Optional<AppointmentJpaEntity> appointmentJpaEntity = dailyCalendarJpaEntity.getAppointments().stream()
                 .filter(appt -> appt.getAppointmentUUID().equals(appointment.getAppointmentUUID().uuid()))
-                .findFirst().get();
+                .findFirst();
 
-        appointmentJpaEntity.setSellerUuid(appointment.getSellerUUID().uuid());
-        appointmentJpaEntity.setGateNumber(appointment.getGateNumber());
-        appointmentJpaEntity.setAppointmentTime(appointment.getAppointmentTime());
-        appointmentJpaEntity.setMaterialType(appointment.getMaterialType());
-        appointmentJpaEntity.setLicensePlateNumberOfTruck(appointment.getLicensePlateNumberOfTruck());
-        appointmentJpaEntity.setStatus(appointment.getTruckStatus());
-        appointmentJpaEntity.setWarehouseNumber(appointment.getWarehouseNumber());
-        appointmentJpaEntity.setInitialWeight(appointment.getInitialWeight());
-        appointmentJpaEntity.setFinalWeight(appointment.getFinalWeight());
-        appointmentJpaEntity.setArrivalTime(appointment.getArrivalTime());
-        appointmentJpaEntity.setDepartureTime(appointment.getDepartureTime());
+        appointmentJpaEntity.ifPresent(appointmentJpaEntity2 -> {
+            appointmentJpaEntity2.setSellerUuid(appointment.getSellerUUID().uuid());
+            appointmentJpaEntity2.setGateNumber(appointment.getGateNumber());
+            appointmentJpaEntity2.setAppointmentTime(appointment.getAppointmentTime());
+            appointmentJpaEntity2.setMaterialType(appointment.getMaterialType());
+            appointmentJpaEntity2.setLicensePlateNumberOfTruck(appointment.getLicensePlateNumberOfTruck());
+            appointmentJpaEntity2.setStatus(appointment.getTruckStatus());
+            appointmentJpaEntity2.setWarehouseNumber(appointment.getWarehouseNumber());
+            appointmentJpaEntity2.setInitialWeight(appointment.getInitialWeight());
+            appointmentJpaEntity2.setFinalWeight(appointment.getFinalWeight());
+            appointmentJpaEntity2.setArrivalTime(appointment.getArrivalTime());
+            appointmentJpaEntity2.setDepartureTime(appointment.getDepartureTime());
 
-        dailyCalendarRepository.save(dailyCalendarJpaEntity);
+            dailyCalendarRepository.save(dailyCalendarJpaEntity);
+        });
 
     }
 }

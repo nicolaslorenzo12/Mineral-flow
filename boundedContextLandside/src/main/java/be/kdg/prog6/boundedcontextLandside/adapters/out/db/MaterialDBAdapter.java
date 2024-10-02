@@ -18,18 +18,14 @@ public class MaterialDBAdapter implements LoadMaterialPort {
 
     @Override
     public Optional<Material> loadMaterialByMaterialType(MaterialType materialType) {
+
         Optional<MaterialJpaEntity>  materialJpaEntity = materialRepository.findByMaterialType(materialType);
 
-        if(materialJpaEntity.isEmpty()){
-            return Optional.empty();
-        }
-
-        Material material = buildMaterialObject(materialJpaEntity);
-        return Optional.of(material);
+        return materialJpaEntity.map(this::buildMaterialObject);
     }
 
-    private Material buildMaterialObject(Optional<MaterialJpaEntity> materialJpaEntity){
-        return new Material(materialJpaEntity.get().getMaterialType(), materialJpaEntity.get().getDescription());
+    private Material buildMaterialObject(MaterialJpaEntity materialJpaEntity){
+        return new Material(materialJpaEntity.getMaterialType(), materialJpaEntity.getDescription());
     }
 }
 

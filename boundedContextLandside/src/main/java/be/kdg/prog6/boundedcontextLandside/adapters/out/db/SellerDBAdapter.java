@@ -19,15 +19,10 @@ public class SellerDBAdapter implements LoadSellerPort {
     public Optional<Seller> loadSellerByUUID(UUID uuid) {
         Optional<SellerJpaEntity> sellerJpaEntity = sellerRepository.findBySellerUUID(uuid);
 
-        if(sellerJpaEntity.isEmpty()){
-            return Optional.empty();
-        }
-
-        Seller seller = buildSellerObject(sellerJpaEntity);
-        return Optional.of(seller);
+        return sellerJpaEntity.map(this::buildSellerObject);
     }
 
-    private Seller buildSellerObject(Optional<SellerJpaEntity> sellerJpaEntity){
-        return new Seller(new Seller.CustomerUUID(sellerJpaEntity.get().getSellerUUID()), sellerJpaEntity.get().getName());
+    private Seller buildSellerObject(SellerJpaEntity sellerJpaEntity){
+        return new Seller(new Seller.CustomerUUID(sellerJpaEntity.getSellerUUID()), sellerJpaEntity.getName());
     }
 }

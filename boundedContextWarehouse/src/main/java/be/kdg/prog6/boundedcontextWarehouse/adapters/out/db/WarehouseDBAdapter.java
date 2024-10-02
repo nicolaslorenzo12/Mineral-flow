@@ -26,23 +26,25 @@ public class WarehouseDBAdapter implements LoadWarehousePort, UpdateWarehousePor
 
     @Override
     public Optional<Warehouse> loadWarehouseByWarehouseNumber(int warehouseNumber) {
+        Optional<WarehouseJpaEntity> warehouseJpaEntityOptional = warehouseRepository.findByWarehouseNumber(warehouseNumber);
 
-        Optional<WarehouseJpaEntity> warehouseJpaEntity = warehouseRepository.findByWarehouseNumber(warehouseNumber);
-
-        if(warehouseJpaEntity.isEmpty()){
+        if (warehouseJpaEntityOptional.isEmpty()) {
             return Optional.empty();
         }
 
-        Warehouse warehouse = buildWarehouseObject(warehouseJpaEntity, warehouseNumber);
-        List<WarehouseJpaActivityEntity> warehouseJpaActivityList = null;
-        warehouseJpaActivityList = warehouseActivityRepository.findByWarehouseNumber(warehouseNumber);
+        Warehouse warehouse = buildWarehouseObject(warehouseJpaEntityOptional.get(), warehouseNumber);
+        List<WarehouseJpaActivityEntity> warehouseJpaActivityList = warehouseActivityRepository.findByWarehouseNumber(warehouseNumber);
         addWarehouseActivitiesToWarehouseObject(warehouseJpaActivityList, warehouse);
         return Optional.of(warehouse);
     }
 
-    private Warehouse buildWarehouseObject(Optional<WarehouseJpaEntity> warehouseJpaEntity, int warehouseNumber){
-        return new Warehouse(warehouseNumber, new Seller.CustomerUUID(warehouseJpaEntity.get().getSellerUUID()),
-                warehouseJpaEntity.get().getMaterialType(), new WarehouseActivityWindow(warehouseNumber));
+    private Warehouse buildWarehouseObject(WarehouseJpaEntity warehouseJpaEntity, int warehouseNumber) {
+        return new Warehouse(
+                warehouseNumber,
+                new Seller.CustomerUUID(warehouseJpaEntity.getSellerUUID()),
+                warehouseJpaEntity.getMaterialType(),
+                new WarehouseActivityWindow(warehouseNumber)
+        );
     }
 
     private void addWarehouseActivitiesToWarehouseObject(List<WarehouseJpaActivityEntity> warehouseJpaActivityList,
