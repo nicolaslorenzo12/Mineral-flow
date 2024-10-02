@@ -1,26 +1,23 @@
 package be.kdg.prog6.boundedcontextWaterside.domain;
 
-import be.kdg.prog6.common.domain.Material;
 import be.kdg.prog6.common.domain.MaterialType;
 import be.kdg.prog6.common.domain.Uom;
-import java.util.UUID;
 
 public class OrderLine {
 
-    private MaterialType materialType;
-    private int quantity;
-    private Uom uom;
-    private OrderLineUUID lineUUID;
+    private final int lineNumber;
+    private final MaterialType materialType;
+    private final int quantity;
+    private final Uom uom = Uom.T;
 
-    public record OrderLineUUID(UUID uuid){
-
-    }
-
-    public OrderLine(MaterialType materialType , int quantity, Uom uom, OrderLineUUID lineUUID) {
+    public OrderLine(int lineNumber, MaterialType materialType, int quantity) {
+        this.lineNumber = lineNumber;
         this.materialType = materialType;
         this.quantity = quantity;
-        this.uom = uom;
-        this.lineUUID = lineUUID;
+    }
+
+    public int getLineNumber() {
+        return lineNumber;
     }
 
     public MaterialType getMaterialType() {
@@ -33,9 +30,5 @@ public class OrderLine {
 
     public Uom getUom() {
         return uom;
-    }
-
-    public OrderLineUUID getLineUUID() {
-        return lineUUID;
     }
 }

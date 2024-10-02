@@ -11,7 +11,6 @@ public class Warehouse {
     private final MaterialType materialType;
     private final Uom uom = Uom.T;
     private final WarehouseActivityWindow warehouseActivityWindow;
-    private final int maximumCapacity = 500000;
 
     public Warehouse(int wareHouseNumber, Seller.CustomerUUID sellerUUID, MaterialType materialType,final WarehouseActivityWindow warehouseActivityWindow) {
         this.wareHouseNumber = wareHouseNumber;

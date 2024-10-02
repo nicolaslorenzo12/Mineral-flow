@@ -9,3 +9,4 @@ public class Seller extends Customer{
         super(customerUUID, name);
     }
 }
+

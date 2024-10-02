@@ -2,7 +2,10 @@ package be.kdg.prog6.boundedcontextLandside.adapters.out.db;
 
 import be.kdg.prog6.common.domain.MaterialType;
 import jakarta.persistence.*;
-@Entity
+import org.springframework.stereotype.Component;
+
+@Entity(name = "MaterialLandsideEntity")
+@Table(name = "material-landside")
 public class MaterialJpaEntity {
 
     @Id

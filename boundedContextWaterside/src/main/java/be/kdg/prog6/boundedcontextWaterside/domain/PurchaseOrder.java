@@ -3,35 +3,31 @@ package be.kdg.prog6.boundedcontextWaterside.domain;
 import be.kdg.prog6.common.domain.Buyer;
 import be.kdg.prog6.common.domain.Customer;
 import be.kdg.prog6.common.domain.Seller;
-import java.time.LocalDateTime;
+
+import java.time.LocalDate;
 import java.util.List;
-import java.util.UUID;
 
 public class PurchaseOrder {
 
-    private LocalDateTime date;
-    private Seller.CustomerUUID sellerUuid;
-    private Buyer.CustomerUUID buyerUuid;
-    private String vesselNumber;
-    private PurchaseOrderUUID purchaseOrderUUID;
-    List<OrderLine> orderLineUUIDS;
+    private final String poNumber;
+    private final Seller.CustomerUUID sellerUuid;
+    private final Buyer.CustomerUUID buyerUuid;
+    private final String vesselNumber;
+    private final LocalDate date;
+    private final List<OrderLine> orderLineList;
 
-    public record PurchaseOrderUUID(UUID uuid){
-
-    }
-
-    public PurchaseOrder(LocalDateTime date, Seller.CustomerUUID sellerUuid, Buyer.CustomerUUID buyerUuid, String vesselNumber,
-                         PurchaseOrderUUID purchaseOrderUUID, List<OrderLine> orderLineUUIDS) {
-        this.date = date;
+    public PurchaseOrder(String poNumber, Customer.CustomerUUID sellerUuid, Customer.CustomerUUID buyerUuid,
+                         String vesselNumber, LocalDate date, List<OrderLine> orderLineList) {
+        this.poNumber = poNumber;
         this.sellerUuid = sellerUuid;
         this.buyerUuid = buyerUuid;
         this.vesselNumber = vesselNumber;
-        this.purchaseOrderUUID = purchaseOrderUUID;
-        this.orderLineUUIDS = orderLineUUIDS;
+        this.date = date;
+        this.orderLineList = orderLineList;
     }
 
-    public LocalDateTime getDate() {
-        return date;
+    public String getPoNumber() {
+        return poNumber;
     }
 
     public Seller.CustomerUUID getSellerUuid() {
@@ -46,11 +42,11 @@ public class PurchaseOrder {
         return vesselNumber;
     }
 
-    public PurchaseOrderUUID getPurchaseOrderUUID() {
-        return purchaseOrderUUID;
+    public LocalDate getDate() {
+        return date;
     }
 
-    public List<OrderLine> getOrderLineUUIDS() {
-        return orderLineUUIDS;
+    public List<OrderLine> getOrderLineList() {
+        return orderLineList;
     }
 }

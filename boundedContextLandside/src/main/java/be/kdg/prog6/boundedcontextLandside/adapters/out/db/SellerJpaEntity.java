@@ -2,11 +2,13 @@ package be.kdg.prog6.boundedcontextLandside.adapters.out.db;
 
 import jakarta.persistence.*;
 import org.hibernate.annotations.JdbcTypeCode;
+import org.springframework.stereotype.Component;
 
 import java.sql.Types;
 import java.util.UUID;
 
 @Entity
+@Table(name = "seller-landside")
 public class SellerJpaEntity {
 
     @Id

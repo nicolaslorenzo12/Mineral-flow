@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
-@Component
+@Component("landsideMaterialDatabaseAdapter")
 public class MaterialDBAdapter implements LoadMaterialPort {
 
     private final MaterialRepository materialRepository;
