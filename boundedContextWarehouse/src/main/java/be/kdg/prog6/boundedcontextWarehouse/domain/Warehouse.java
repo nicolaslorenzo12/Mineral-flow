@@ -4,6 +4,7 @@ import be.kdg.prog6.common.domain.*;
 import be.kdg.prog6.common.exception.CustomException;
 import org.springframework.http.HttpStatus;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Warehouse {
@@ -20,6 +21,7 @@ public class Warehouse {
         this.sellerUUID = sellerUUID;
         this.materialType = materialType;
         this.warehouseActivityWindow = warehouseActivityWindow;
+        this.pdtList = new ArrayList<>();
     }
 
     public Warehouse(int wareHouseNumber, Seller.CustomerUUID sellerUUID, MaterialType materialType,final WarehouseActivityWindow warehouseActivityWindow,
@@ -66,7 +68,11 @@ public class Warehouse {
         return inititialWeight - finalWeight;
     }
 
-    private List<Pdt> getPdtList(){
+    public List<Pdt> getPdtList(){
         return pdtList;
+    }
+
+    public void addPdt(Pdt pdt){
+        pdtList.add(pdt);
     }
 }

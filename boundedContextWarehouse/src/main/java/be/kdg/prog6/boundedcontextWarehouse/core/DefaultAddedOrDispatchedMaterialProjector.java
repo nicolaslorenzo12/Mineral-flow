@@ -1,5 +1,6 @@
 package be.kdg.prog6.boundedcontextWarehouse.core;
 
+import be.kdg.prog6.boundedcontextWarehouse.domain.Pdt;
 import be.kdg.prog6.boundedcontextWarehouse.domain.Warehouse;
 import be.kdg.prog6.boundedcontextWarehouse.domain.WarehouseActivity;
 import be.kdg.prog6.boundedcontextWarehouse.ports.in.AddedOrDispatchedMaterialProjector;
@@ -14,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -34,7 +36,8 @@ public class DefaultAddedOrDispatchedMaterialProjector implements AddedOrDispatc
         final Warehouse warehouse = findWarehouseByWarehouseNumber(warehouseNumber);
         int amountOfTonsAdded = warehouse.calculateNetWeight(intitalWeight, finalWeight);
         WarehouseActivity warehouseActivity = buildWarehouseActivityAndAddActivityToWarehouse(warehouse, amountOfTonsAdded, action);
-        updateWarehousePort.forEach(port -> port.warehouseCreateActivity(warehouse, warehouseActivity, pdtUUID));
+        Optional<Pdt> pdt = Optional.of(warehouse.getPdtList().stream().filter(pdt1 -> pdt1.getPdtUUID().uuid().equals(pdtUUID)).findFirst().orElseThrow());
+        updateWarehousePort.forEach(port -> port.warehouseCreateActivity(warehouse, warehouseActivity, pdtUUID, pdt.get()));
     }
 
     @Override
@@ -45,7 +48,7 @@ public class DefaultAddedOrDispatchedMaterialProjector implements AddedOrDispatc
                 .orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND, "Warehouse was not found"));
 
         WarehouseActivity warehouseActivity = buildWarehouseActivityAndAddActivityToWarehouse(warehouse, tonsToDispatch, WarehouseAction.DISPATCH);
-        updateWarehousePort.forEach(port -> port.warehouseCreateActivity(warehouse, warehouseActivity,UUID.randomUUID()));
+        updateWarehousePort.forEach(port -> port.warehouseCreateActivity(warehouse, warehouseActivity,UUID.randomUUID(), new Pdt()));
     }
 
     private Warehouse findWarehouseByWarehouseNumber(int warehouseNumber) {

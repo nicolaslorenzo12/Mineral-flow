@@ -1,5 +1,6 @@
 package be.kdg.prog6.boundedcontextWarehouse.adapters.ampq;
 
+import be.kdg.prog6.boundedcontextWarehouse.domain.Pdt;
 import be.kdg.prog6.boundedcontextWarehouse.domain.Warehouse;
 import be.kdg.prog6.boundedcontextWarehouse.domain.WarehouseActivity;
 import be.kdg.prog6.boundedcontextWarehouse.ports.out.UpdateWarehousePort;
@@ -7,6 +8,7 @@ import be.kdg.prog6.common.events.ActivityCreatedEvent;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.UUID;
 
 @Component
@@ -19,7 +21,7 @@ public class WarehouseEventPublisher implements UpdateWarehousePort {
     }
 
     @Override
-    public void warehouseCreateActivity(Warehouse warehouse, WarehouseActivity warehouseActivity, UUID appointmentUUID) {
+    public void warehouseCreateActivity(Warehouse warehouse, WarehouseActivity warehouseActivity, UUID appointmentUUID, Pdt pdt) {
 
         final int warehouseNumber = warehouse.getWareHouseNumber();
         final int currentStock = warehouse.calculateAndGetCurrentStock();

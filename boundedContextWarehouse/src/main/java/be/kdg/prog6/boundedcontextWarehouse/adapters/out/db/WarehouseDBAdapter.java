@@ -10,9 +10,7 @@ import be.kdg.prog6.boundedcontextWarehouse.ports.out.UpdateWarehousePort;
 import be.kdg.prog6.common.domain.MaterialType;
 import be.kdg.prog6.common.domain.Seller;
 import be.kdg.prog6.common.domain.WarehouseAction;
-import be.kdg.prog6.common.exception.CustomException;
 import jakarta.transaction.Transactional;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -34,26 +32,34 @@ public class WarehouseDBAdapter implements LoadWarehousePort, UpdateWarehousePor
 
     @Override
     public Optional<Warehouse> loadWarehouseByWarehouseNumber(int warehouseNumber) {
-        WarehouseJpaEntity warehouseJpaEntity = warehouseRepository.findByWarehouseNumber(warehouseNumber)
-                .orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND, "Warehosue was not found"));
+        Optional<WarehouseJpaEntity> warehouseJpaEntity = warehouseRepository.findByWarehouseNumber(warehouseNumber);
 
-        Warehouse warehouse = buildWarehouseObject(warehouseJpaEntity);
-        List<WarehouseJpaActivityEntity> warehouseJpaActivityList = warehouseActivityRepository.findByWarehouseNumber(warehouseNumber);
-        addWarehouseActivitiesToWarehouseObject(warehouseJpaActivityList, warehouse);
-        return Optional.of(warehouse);
+        if (warehouseJpaEntity.isEmpty()) {
+            return Optional.empty();
+        }
+
+        return returnWarehouseWithActivitiesAndPdts(warehouseJpaEntity);
     }
 
     @Override
     public Optional<Warehouse> loadWarehouseBySellerUUIDAndMaterialType(Seller.CustomerUUID sellerUUID, MaterialType materialType) {
 
-        WarehouseJpaEntity warehouseJpaEntity = warehouseRepository.findBySellerUUIDAndMaterialType(sellerUUID.uuid(), materialType)
-                .orElseThrow();
-        Warehouse warehouse = buildWarehouseObject(warehouseJpaEntity);
-        List<WarehouseJpaActivityEntity> warehouseJpaActivityList = warehouseActivityRepository.findByWarehouseNumber(warehouse.getWareHouseNumber());
-        addWarehouseActivitiesToWarehouseObject(warehouseJpaActivityList, warehouse);
-        return Optional.of(warehouse);
+        Optional<WarehouseJpaEntity> warehouseJpaEntity = warehouseRepository.findBySellerUUIDAndMaterialType(sellerUUID.uuid(), materialType);
+
+        if (warehouseJpaEntity.isEmpty()) {
+            return Optional.empty();
+        }
+
+        return returnWarehouseWithActivitiesAndPdts(warehouseJpaEntity);
     }
 
+    private Optional<Warehouse> returnWarehouseWithActivitiesAndPdts(Optional<WarehouseJpaEntity> warehouseJpaEntity){
+
+        Warehouse warehouse = buildWarehouseObject(warehouseJpaEntity.get());
+        addWarehouseActivitiesToWarehouseObject(warehouseJpaEntity.get().getActivities(), warehouse);
+        addWarehousePdtsToWarehouseObject(warehouseJpaEntity.get().getPdtJpaEntityList(), warehouse);
+        return Optional.of(warehouse);
+    }
 
     private Warehouse buildWarehouseObject(WarehouseJpaEntity warehouseJpaEntity) {
         return new Warehouse(
@@ -64,6 +70,7 @@ public class WarehouseDBAdapter implements LoadWarehousePort, UpdateWarehousePor
         );
     }
 
+
     private void addWarehouseActivitiesToWarehouseObject(List<WarehouseJpaActivityEntity> warehouseJpaActivityList,
                                                               Warehouse warehouse){
         for(WarehouseJpaActivityEntity warehouseJpaActivity :  warehouseJpaActivityList){
@@ -72,15 +79,22 @@ public class WarehouseDBAdapter implements LoadWarehousePort, UpdateWarehousePor
                     warehouseJpaActivity.getWarehouseAction());
         }
     }
+
+    private void addWarehousePdtsToWarehouseObject(List<PdtJpaEntity> pdtJpaEntityList, Warehouse warehouse){
+
+        for(PdtJpaEntity pdtJpaEntity : pdtJpaEntityList){
+            warehouse.addPdt(new Pdt(pdtJpaEntity.getTimeOfDelivery(), pdtJpaEntity.getAmountOfTonsDelivered(), new Pdt.PdtUUID(pdtJpaEntity.getPdtUUID())));
+        }
+    }
     @Override
     @Transactional
-    public void warehouseCreateActivity(Warehouse warehouse, WarehouseActivity warehouseActivity, UUID pdtUUID) {
+    public void warehouseCreateActivity(Warehouse warehouse, WarehouseActivity warehouseActivity, UUID pdtUUID, Pdt pdt) {
         final int warehouseNumber = warehouse.getWareHouseNumber();
         final WarehouseJpaEntity warehouseJpaEntity = warehouseRepository.
                 findByWarehouseNumber(warehouseNumber).orElseThrow();
 
         if(warehouseActivity.action().equals(WarehouseAction.RECEIVE)) {
-            PdtJpaEntity pdtJpaEntity = findtPdtJpaEntityByPdtUUID(pdtUUID, warehouseJpaEntity);
+            PdtJpaEntity pdtJpaEntity = new PdtJpaEntity(pdt.getPdtUUID().uuid(), pdt.getTimeOfDelivery(), pdt.getAmountOfTonsDelivered());
             pdtJpaEntity.setAmountOfTonsDelivered(warehouseActivity.amountOfTons());
         }
 
@@ -89,11 +103,6 @@ public class WarehouseDBAdapter implements LoadWarehousePort, UpdateWarehousePor
         warehouseRepository.save(warehouseJpaEntity);
     }
 
-    private PdtJpaEntity findtPdtJpaEntityByPdtUUID(UUID pdtUUID, WarehouseJpaEntity warehouseJpaEntity){
-        return warehouseJpaEntity.getPdtJpaEntityList().stream().filter(pdtJpaEntity1 ->
-                pdtJpaEntity1.getPdtUUID().equals(pdtUUID)).findFirst().orElseThrow(()
-                -> new CustomException(HttpStatus.NOT_FOUND, "pdt was not found"));
-    }
     private WarehouseJpaActivityEntity buildJpaActivityEntity(final WarehouseJpaEntity warehouseJpaEntity,
                                                               final WarehouseActivity warehouseActivity) {
 
