@@ -31,17 +31,21 @@ public class DefaultAddedOrDispatchedMaterialProjector implements AddedOrDispatc
 
     @Override
     @Transactional
-    public void addMaterial(int intitalWeight, int finalWeight, int warehouseNumber, WarehouseAction action, UUID pdtUUID) {
+    public void addMaterial(int intitalWeight, int finalWeight, int warehouseNumber, WarehouseAction warehouseAction, UUID pdtUUID) {
 
         final Warehouse warehouse = findWarehouseByWarehouseNumber(warehouseNumber);
         int amountOfTonsAdded = warehouse.calculateNetWeight(intitalWeight, finalWeight);
-        WarehouseActivity warehouseActivity = buildWarehouseActivityAndAddActivityToWarehouse(warehouse, amountOfTonsAdded, action);
+        WarehouseActivity warehouseActivity = buildWarehouseActivityAndAddActivityToWarehouse(warehouse, amountOfTonsAdded, warehouseAction);
+        addPdtToWarehouseObjectIfReceivingMaterial(warehouse, warehouseAction, pdtUUID);
 
-        if(action.equals(WarehouseAction.RECEIVE)) {
+        updateWarehousePort.forEach(port -> port.warehouseCreateActivity(warehouse, warehouseActivity, pdtUUID));
+    }
+
+    private void addPdtToWarehouseObjectIfReceivingMaterial(Warehouse warehouse, WarehouseAction warehouseAction, UUID pdtUUID){
+        if(warehouseAction.equals(WarehouseAction.RECEIVE)) {
             Optional<Pdt> pdt = Optional.of(warehouse.getPdtList().stream().filter(pdt1 -> pdt1.getPdtUUID().uuid().equals(pdtUUID)).findFirst().orElseThrow());
             warehouse.addPdt(pdt.get());
         }
-        updateWarehousePort.forEach(port -> port.warehouseCreateActivity(warehouse, warehouseActivity, pdtUUID));
     }
 
     @Override

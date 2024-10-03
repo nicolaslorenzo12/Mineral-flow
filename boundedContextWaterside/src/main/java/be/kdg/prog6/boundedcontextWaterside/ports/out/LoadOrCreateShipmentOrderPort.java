@@ -8,5 +8,5 @@ import java.util.Optional;
 public interface LoadOrCreateShipmentOrderPort {
 
     Optional<ShipmentOrder> loadOrCreateShipmentOrder(String poNumber);
-    PurchaseOrder loadPurchaseOrder(String poNumber);
+    Optional<PurchaseOrder> loadPurchaseOrder(String poNumber);
 }

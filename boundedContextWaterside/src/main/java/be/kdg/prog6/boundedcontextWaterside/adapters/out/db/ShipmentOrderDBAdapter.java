@@ -61,10 +61,13 @@ public class ShipmentOrderDBAdapter implements LoadOrCreateShipmentOrderPort {
     }
 
     @Override
-    public PurchaseOrder loadPurchaseOrder(String poNumber) {
+    public Optional<PurchaseOrder> loadPurchaseOrder(String poNumber) {
 
-        ShipmentOrderJpaEntity shipmentOrderJpaEntity = shipmentOrderJpaEntityRepository.findShipmentOrderJpaEntityByPoNumber(poNumber)
-                .orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND, "shipment order not found"));
-        return buildPurchaseOrderObject(shipmentOrderJpaEntity.getPurchaseOrder());
+        Optional<ShipmentOrderJpaEntity> shipmentOrderJpaEntity = shipmentOrderJpaEntityRepository.findShipmentOrderJpaEntityByPoNumber(poNumber);
+
+        if(shipmentOrderJpaEntity.isEmpty()){
+            return Optional.empty();
+        }
+        return Optional.of(buildPurchaseOrderObject(shipmentOrderJpaEntity.get().getPurchaseOrder()));
     }
 }
