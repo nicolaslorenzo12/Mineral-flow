@@ -37,6 +37,9 @@ POST http://localhost:8090/api/appointment/3f30d9e7-582a-4d75-91a3-d3a17db63cd1/
 
 POST http://localhost:8090/api/new/purchase-order-draft/seller/123e4567-e89b-12d3-a456-426614174000/buyer/193e4567-e98d-12d3-a457-416614174001/vesselNumber/VSL7891011/date/2024-10-05
 
+###
+
+POST http://localhost:8090/api/new/line-order-draft/purchase-order/PO930283/material-type/GP/quantity/15
 
 
 

@@ -2,15 +2,15 @@ package be.kdg.prog6.boundedcontextWaterside.core;
 
 import be.kdg.prog6.boundedcontextWaterside.ports.in.CreatePurchaseOrderDraftCommand;
 import be.kdg.prog6.boundedcontextWaterside.ports.in.CreatePurchaseOrderDraftUseCase;
-import be.kdg.prog6.boundedcontextWaterside.ports.out.CreatePurchaseOrderDraftPort;
+import be.kdg.prog6.boundedcontextWaterside.ports.out.LoadOrCreatePurchaseOrderDraftPort;
 import org.springframework.stereotype.Service;
 
 @Service
 public class DefaultCreatePurchaseOrderDraftUseCase implements CreatePurchaseOrderDraftUseCase {
 
-    private final CreatePurchaseOrderDraftPort createPurchaseOrderDraftPort;
+    private final LoadOrCreatePurchaseOrderDraftPort createPurchaseOrderDraftPort;
 
-    public DefaultCreatePurchaseOrderDraftUseCase(CreatePurchaseOrderDraftPort createPurchaseOrderDraftPort) {
+    public DefaultCreatePurchaseOrderDraftUseCase(LoadOrCreatePurchaseOrderDraftPort createPurchaseOrderDraftPort) {
         this.createPurchaseOrderDraftPort = createPurchaseOrderDraftPort;
     }
 

@@ -5,13 +5,12 @@ import be.kdg.prog6.common.domain.Uom;
 
 public class OrderLine {
 
-    private final int lineNumber;
+    private int lineNumber;
     private final MaterialType materialType;
     private final int quantity;
     private final Uom uom = Uom.T;
 
-    public OrderLine(int lineNumber, MaterialType materialType, int quantity) {
-        this.lineNumber = lineNumber;
+    public OrderLine(MaterialType materialType, int quantity) {
         this.materialType = materialType;
         this.quantity = quantity;
     }

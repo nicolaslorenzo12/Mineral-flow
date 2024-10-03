@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import org.springframework.cglib.core.Local;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -46,6 +47,7 @@ public class PurchaseOrderDraftJpaEntity {
         this.purchaseOrderDate = purchaseOrderDate;
         this.sellerJpaEntitty = sellerJpaEntitty;
         this.buyerJpaEntity = buyerJpaEntity;
+        orderLines = new ArrayList<>();
     }
 
     public PurchaseOrderDraftJpaEntity(String poNumber, UUID sellerUUID, UUID buyerUUID, String vesselNumber, LocalDate purchaseOrderDate) {
@@ -54,9 +56,14 @@ public class PurchaseOrderDraftJpaEntity {
         this.buyerUUID = buyerUUID;
         this.vesselNumber = vesselNumber;
         this.purchaseOrderDate = purchaseOrderDate;
+        orderLines = new ArrayList<>();
     }
 
     public PurchaseOrderDraftJpaEntity() {
 
+    }
+
+    public List<OrderLineDraftJpaEntity> getOrderLines() {
+        return orderLines;
     }
 }
