@@ -14,9 +14,7 @@ public class ShipmentOrderJpaEntity {
     private LocalDate estimatedArrivalDate;
     @Column(nullable = false)
     private LocalDate estimatedDepartureDate;
-    @Column(nullable = false)
     private LocalDate actualArrivalDate;
-    @Column(nullable = false)
     private LocalDate actualDepartureDate;
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
