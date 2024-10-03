@@ -11,6 +11,7 @@ public class OrderLineJpaEntity {
     private int lineNumber;
 
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private MaterialType materialType;
 
     @Column(nullable = false)

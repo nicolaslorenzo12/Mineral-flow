@@ -6,5 +6,5 @@ import be.kdg.prog6.common.domain.WarehouseAction;
 
 public interface WarehouseStockChangeProjector {
 
-    void projectStockChange(int amountOfTons, int warehouseNumber, WarehouseAction warehouseAction, Seller .CustomerUUID sellerUuid, MaterialType materialType);
+    void projectStockChange(int amountOfTons, int warehouseNumber, Seller .CustomerUUID sellerUuid, MaterialType materialType);
 }

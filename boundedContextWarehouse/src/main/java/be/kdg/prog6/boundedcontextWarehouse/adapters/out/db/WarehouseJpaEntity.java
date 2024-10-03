@@ -36,11 +36,13 @@
             this.sellerUUID = sellerUUID;
             this.materialType = materialType;
             pdtJpaEntityList = new ArrayList<>();
+            activities = new ArrayList<>();
         }
 
         public WarehouseJpaEntity() {
 
             pdtJpaEntityList = new ArrayList<>();
+            activities = new ArrayList<>();
         }
 
         public int getWarehouseNumber() {

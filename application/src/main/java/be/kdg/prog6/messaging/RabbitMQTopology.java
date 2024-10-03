@@ -26,8 +26,10 @@ public class RabbitMQTopology {
     }
 
     @Bean
-    Queue pdtToBeCreatedQueue(){ return new Queue("landside.pdt_to_be_created", false);
-    }
+    Queue pdtToBeCreatedQueue(){ return new Queue("landside.pdt_to_be_created", false);}
+
+    @Bean
+    Queue materialDispatchedToWarehouseQueue(){ return new Queue("waterside.material_dispatched", false);}
 
     @Bean
     TopicExchange warehouseExchange() {
@@ -37,6 +39,9 @@ public class RabbitMQTopology {
     TopicExchange landsideExchange() {
         return new TopicExchange("landsideExchange");
     }
+
+    @Bean
+    TopicExchange watersideExchange() { return new TopicExchange("watersideExchange");}
 
     @Bean
     Binding bindWarehouseExchangeToActivityCreatedQueue(
@@ -72,6 +77,18 @@ public class RabbitMQTopology {
                 .with("landside.#.pdt_to_be_created");
     }
 
+    @Bean
+    Binding bindWatersideExchangeToMaterialDispatchedToWarehouseQueue(
+            Queue materialDispatchedToWarehouseQueue,
+            TopicExchange watersideExchange
+    ) {
+        return BindingBuilder
+                .bind(materialDispatchedToWarehouseQueue)
+                .to(watersideExchange)
+                .with("waterside.#.material_dispatched");
+    }
+
+
     // Configure the RabbitTemplate with a ConnectionFactory
     @Bean
     RabbitTemplate rabbitTemplate(final ConnectionFactory connectionFactory) {
@@ -88,8 +105,8 @@ public class RabbitMQTopology {
 
     @Bean
     Jackson2JsonMessageConverter producerJackson2MessageConverter() {
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.registerModule(new JavaTimeModule()); // Register Java Time Module
-        return new Jackson2JsonMessageConverter(objectMapper);
+            ObjectMapper objectMapper = new ObjectMapper();
+            objectMapper.registerModule(new JavaTimeModule()); // Register Java Time Module
+            return new Jackson2JsonMessageConverter(objectMapper);
     }
 }

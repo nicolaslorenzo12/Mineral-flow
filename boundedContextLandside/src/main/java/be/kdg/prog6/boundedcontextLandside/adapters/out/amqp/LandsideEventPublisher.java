@@ -39,8 +39,6 @@ public class LandsideEventPublisher implements UpdateDailyCalendarPort, UpdateWa
           final String routingKey = "landside. " + warehouse.getWareHouseNumber() + " .pdt_to_be_created";
           final String exchangeName = "landsideExchange";
           final PdtToBeCreatedEvent body = new PdtToBeCreatedEvent(warehouse.getWareHouseNumber(), LocalDateTime.now(), appointmentUUID);
-            System.out.println(warehouse.getWareHouseNumber());
-            System.out.println(body);
 
             rabbitTemplate.convertAndSend(exchangeName, routingKey, body);
         }

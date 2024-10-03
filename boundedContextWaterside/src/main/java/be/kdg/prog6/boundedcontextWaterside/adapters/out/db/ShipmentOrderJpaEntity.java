@@ -4,11 +4,14 @@ import be.kdg.prog6.boundedcontextWaterside.domain.ShipmentStatus;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 @Entity
 public class ShipmentOrderJpaEntity {
 
     @Id
+    private UUID shipmentOrderUUID;
+    @Column(nullable = false)
     private String poNumber;
     @Column(nullable = false)
     private LocalDate estimatedArrivalDate;
@@ -21,13 +24,13 @@ public class ShipmentOrderJpaEntity {
     private ShipmentStatus shipmentStatus;
 
     @OneToOne
-    @MapsId
-    @JoinColumn(name = "poNumber", referencedColumnName = "poNumber", insertable = false, updatable = false)
+    @JoinColumn(name = "poNumber", referencedColumnName = "poNumber", updatable = false, insertable = false)
     private PurchaseOrderJpaEntity purchaseOrder;
 
 
-    public ShipmentOrderJpaEntity(String poNumber, LocalDate estimatedArrivalDate, LocalDate estimatedDepartureDate, LocalDate actualArrivalDate,
+    public ShipmentOrderJpaEntity(UUID shipmentOrderUUID,String poNumber, LocalDate estimatedArrivalDate, LocalDate estimatedDepartureDate, LocalDate actualArrivalDate,
                                   LocalDate actualDepartureDate, ShipmentStatus shipmentStatus) {
+        this.shipmentOrderUUID = shipmentOrderUUID;
         this.poNumber = poNumber;
         this.estimatedArrivalDate = estimatedArrivalDate;
         this.estimatedDepartureDate = estimatedDepartureDate;
@@ -86,5 +89,21 @@ public class ShipmentOrderJpaEntity {
 
     public void setShipmentStatus(ShipmentStatus shipmentStatus) {
         this.shipmentStatus = shipmentStatus;
+    }
+
+    public UUID getShipmentOrderUUID() {
+        return shipmentOrderUUID;
+    }
+
+    public void setShipmentOrderUUID(UUID shipmentOrderUUID) {
+        this.shipmentOrderUUID = shipmentOrderUUID;
+    }
+
+    public PurchaseOrderJpaEntity getPurchaseOrder() {
+        return purchaseOrder;
+    }
+
+    public void setPurchaseOrder(PurchaseOrderJpaEntity purchaseOrder) {
+        this.purchaseOrder = purchaseOrder;
     }
 }

@@ -19,7 +19,7 @@ public class DefaultWarehouseStockChangeProjector implements WarehouseStockChang
         this.updateWarehousePorts = updateWarehousePorts;
     }
     @Override
-    public void projectStockChange(int amountOfTons, int warehouseNumber, WarehouseAction warehouseAction, Seller.CustomerUUID sellerUuid,
+    public void projectStockChange(int amountOfTons, int warehouseNumber, Seller.CustomerUUID sellerUuid,
                                    MaterialType materialType) {
 
         Warehouse warehouse = new Warehouse(warehouseNumber, sellerUuid, amountOfTons, materialType);

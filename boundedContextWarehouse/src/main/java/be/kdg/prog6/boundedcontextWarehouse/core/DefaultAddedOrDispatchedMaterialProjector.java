@@ -2,38 +2,50 @@ package be.kdg.prog6.boundedcontextWarehouse.core;
 
 import be.kdg.prog6.boundedcontextWarehouse.domain.Warehouse;
 import be.kdg.prog6.boundedcontextWarehouse.domain.WarehouseActivity;
-import be.kdg.prog6.boundedcontextWarehouse.ports.in.AddedMaterialProjector;
+import be.kdg.prog6.boundedcontextWarehouse.ports.in.AddedOrDispatchedMaterialProjector;
 import be.kdg.prog6.boundedcontextWarehouse.ports.out.LoadWarehousePort;
 import be.kdg.prog6.boundedcontextWarehouse.ports.out.UpdateWarehousePort;
+import be.kdg.prog6.common.domain.MaterialType;
+import be.kdg.prog6.common.domain.Seller;
 import be.kdg.prog6.common.domain.WarehouseAction;
 import be.kdg.prog6.common.exception.CustomException;
 import jakarta.transaction.Transactional;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
 @Service
-public class DefaultAddedMaterialProjector implements AddedMaterialProjector {
+public class DefaultAddedOrDispatchedMaterialProjector implements AddedOrDispatchedMaterialProjector {
 
     private final LoadWarehousePort loadWarehousePort;
     private final List<UpdateWarehousePort> updateWarehousePort;
 
-    public DefaultAddedMaterialProjector(LoadWarehousePort loadWarehousePort, final List<UpdateWarehousePort> updateWarehousePort) {
+    public DefaultAddedOrDispatchedMaterialProjector(LoadWarehousePort loadWarehousePort, final List<UpdateWarehousePort> updateWarehousePort) {
         this.loadWarehousePort = loadWarehousePort;
         this.updateWarehousePort = updateWarehousePort;
     }
 
     @Override
     @Transactional
-    public void addOrDispatchMaterial(int intitalWeight, int finalWeight, int warehouseNumber, WarehouseAction action, UUID pdtUUID) {
+    public void addMaterial(int intitalWeight, int finalWeight, int warehouseNumber, WarehouseAction action, UUID pdtUUID) {
 
         final Warehouse warehouse = findWarehouseByWarehouseNumber(warehouseNumber);
         int amountOfTonsAdded = warehouse.calculateNetWeight(intitalWeight, finalWeight);
         WarehouseActivity warehouseActivity = buildWarehouseActivityAndAddActivityToWarehouse(warehouse, amountOfTonsAdded, action);
-        updateWarehousePort.forEach(port -> port.warehouseCreateActivity(warehouse, warehouseActivity, pdtUUID, amountOfTonsAdded));
+        updateWarehousePort.forEach(port -> port.warehouseCreateActivity(warehouse, warehouseActivity, pdtUUID));
+    }
+
+    @Override
+    @Transactional
+    public void dispatchMaterial(Seller.CustomerUUID sellerUUID, MaterialType materialType, WarehouseAction action, int tonsToDispatch) {
+
+        final Warehouse warehouse =loadWarehousePort.loadWarehouseBySellerUUIDAndMaterialType(sellerUUID, materialType)
+                .orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND, "Warehouse was not found"));
+
+        WarehouseActivity warehouseActivity = buildWarehouseActivityAndAddActivityToWarehouse(warehouse, tonsToDispatch, WarehouseAction.DISPATCH);
+        updateWarehousePort.forEach(port -> port.warehouseCreateActivity(warehouse, warehouseActivity,UUID.randomUUID()));
     }
 
     private Warehouse findWarehouseByWarehouseNumber(int warehouseNumber) {
