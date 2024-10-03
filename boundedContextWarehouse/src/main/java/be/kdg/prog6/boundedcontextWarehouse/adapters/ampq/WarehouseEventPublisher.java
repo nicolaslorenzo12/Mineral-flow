@@ -21,7 +21,7 @@ public class WarehouseEventPublisher implements UpdateWarehousePort {
     }
 
     @Override
-    public void warehouseCreateActivity(Warehouse warehouse, WarehouseActivity warehouseActivity, UUID appointmentUUID, Pdt pdt) {
+    public void warehouseCreateActivity(Warehouse warehouse, WarehouseActivity warehouseActivity, UUID appointmentUUID) {
 
         final int warehouseNumber = warehouse.getWareHouseNumber();
         final int currentStock = warehouse.calculateAndGetCurrentStock();

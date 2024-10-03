@@ -10,5 +10,5 @@ import java.util.UUID;
 
 public interface UpdateWarehousePort {
 
-    void warehouseCreateActivity(Warehouse warehouse, WarehouseActivity warehouseActivity, UUID appointmentUUID, Pdt pdt);
+    void warehouseCreateActivity(Warehouse warehouse, WarehouseActivity warehouseActivity, UUID appointmentUUID);
 }

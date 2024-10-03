@@ -24,14 +24,6 @@ public class Warehouse {
         this.pdtList = new ArrayList<>();
     }
 
-    public Warehouse(int wareHouseNumber, Seller.CustomerUUID sellerUUID, MaterialType materialType,final WarehouseActivityWindow warehouseActivityWindow,
-                     List<Pdt> pdtList) {
-        this.wareHouseNumber = wareHouseNumber;
-        this.sellerUUID = sellerUUID;
-        this.materialType = materialType;
-        this.warehouseActivityWindow = warehouseActivityWindow;
-        this.pdtList = pdtList;
-    }
 
     public int getWareHouseNumber() {
         return wareHouseNumber;

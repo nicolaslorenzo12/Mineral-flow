@@ -16,19 +16,19 @@ POST http://localhost:8090/api/material-truck-appointment/seller/123e4567-e89b-1
 
 ###
 
-POST http://localhost:8090/api/appointment/truck/ABC123/check
+POST http://localhost:8090/api/appointment/truck/ABCD123/check
 
 ###
 
-POST http://localhost:8090/api/appointment/4e562708-eac5-4727-aa94-fa932589d0d8/weight/FIRST_TIME
+POST http://localhost:8090/api/appointment/8773eb60-1852-4b68-9e6e-d556f3fb3591/weight/FIRST_TIME
 
 ###
 
-POST http://localhost:8090/api/appointment/4e562708-eac5-4727-aa94-fa932589d0d8/loadMaterial
+POST http://localhost:8090/api/appointment/8773eb60-1852-4b68-9e6e-d556f3fb3591/loadMaterial
 
 ###
 
-POST http://localhost:8090/api/appointment/4e562708-eac5-4727-aa94-fa932589d0d8/weight/SECOND_TIME
+POST http://localhost:8090/api/appointment/8773eb60-1852-4b68-9e6e-d556f3fb3591/weight/SECOND_TIME
 
 
 

@@ -36,8 +36,12 @@ public class DefaultAddedOrDispatchedMaterialProjector implements AddedOrDispatc
         final Warehouse warehouse = findWarehouseByWarehouseNumber(warehouseNumber);
         int amountOfTonsAdded = warehouse.calculateNetWeight(intitalWeight, finalWeight);
         WarehouseActivity warehouseActivity = buildWarehouseActivityAndAddActivityToWarehouse(warehouse, amountOfTonsAdded, action);
-        Optional<Pdt> pdt = Optional.of(warehouse.getPdtList().stream().filter(pdt1 -> pdt1.getPdtUUID().uuid().equals(pdtUUID)).findFirst().orElseThrow());
-        updateWarehousePort.forEach(port -> port.warehouseCreateActivity(warehouse, warehouseActivity, pdtUUID, pdt.get()));
+
+        if(action.equals(WarehouseAction.RECEIVE)) {
+            Optional<Pdt> pdt = Optional.of(warehouse.getPdtList().stream().filter(pdt1 -> pdt1.getPdtUUID().uuid().equals(pdtUUID)).findFirst().orElseThrow());
+            warehouse.addPdt(pdt.get());
+        }
+        updateWarehousePort.forEach(port -> port.warehouseCreateActivity(warehouse, warehouseActivity, pdtUUID));
     }
 
     @Override
@@ -48,7 +52,7 @@ public class DefaultAddedOrDispatchedMaterialProjector implements AddedOrDispatc
                 .orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND, "Warehouse was not found"));
 
         WarehouseActivity warehouseActivity = buildWarehouseActivityAndAddActivityToWarehouse(warehouse, tonsToDispatch, WarehouseAction.DISPATCH);
-        updateWarehousePort.forEach(port -> port.warehouseCreateActivity(warehouse, warehouseActivity,UUID.randomUUID(), new Pdt()));
+        updateWarehousePort.forEach(port -> port.warehouseCreateActivity(warehouse, warehouseActivity,UUID.randomUUID()));
     }
 
     private Warehouse findWarehouseByWarehouseNumber(int warehouseNumber) {

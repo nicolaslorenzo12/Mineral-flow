@@ -22,13 +22,10 @@ import java.util.UUID;
 public class WarehouseDBAdapter implements LoadWarehousePort, UpdateWarehousePort, UpdatePdtPort {
 
     private final WarehouseRepository warehouseRepository;
-    private final WarehouseActivityRepository warehouseActivityRepository;
 
-    public WarehouseDBAdapter(WarehouseRepository warehouseRepository, WarehouseActivityRepository warehouseActivityRepository) {
+    public WarehouseDBAdapter(WarehouseRepository warehouseRepository) {
         this.warehouseRepository = warehouseRepository;
-        this.warehouseActivityRepository = warehouseActivityRepository;
     }
-
 
     @Override
     public Optional<Warehouse> loadWarehouseByWarehouseNumber(int warehouseNumber) {
@@ -83,20 +80,16 @@ public class WarehouseDBAdapter implements LoadWarehousePort, UpdateWarehousePor
     private void addWarehousePdtsToWarehouseObject(List<PdtJpaEntity> pdtJpaEntityList, Warehouse warehouse){
 
         for(PdtJpaEntity pdtJpaEntity : pdtJpaEntityList){
-            warehouse.addPdt(new Pdt(pdtJpaEntity.getTimeOfDelivery(), pdtJpaEntity.getAmountOfTonsDelivered(), new Pdt.PdtUUID(pdtJpaEntity.getPdtUUID())));
+            warehouse.addPdt(new Pdt(pdtJpaEntity.getTimeOfDelivery(), pdtJpaEntity.getAmountOfTonsDelivered(),
+                    new Pdt.PdtUUID(pdtJpaEntity.getPdtUUID())));
         }
     }
     @Override
     @Transactional
-    public void warehouseCreateActivity(Warehouse warehouse, WarehouseActivity warehouseActivity, UUID pdtUUID, Pdt pdt) {
+    public void warehouseCreateActivity(Warehouse warehouse, WarehouseActivity warehouseActivity, UUID pdtUUID) {
         final int warehouseNumber = warehouse.getWareHouseNumber();
         final WarehouseJpaEntity warehouseJpaEntity = warehouseRepository.
                 findByWarehouseNumber(warehouseNumber).orElseThrow();
-
-        if(warehouseActivity.action().equals(WarehouseAction.RECEIVE)) {
-            PdtJpaEntity pdtJpaEntity = new PdtJpaEntity(pdt.getPdtUUID().uuid(), pdt.getTimeOfDelivery(), pdt.getAmountOfTonsDelivered());
-            pdtJpaEntity.setAmountOfTonsDelivered(warehouseActivity.amountOfTons());
-        }
 
         warehouseJpaEntity.getActivities().
                 add(buildJpaActivityEntity(warehouseJpaEntity, warehouseActivity));
