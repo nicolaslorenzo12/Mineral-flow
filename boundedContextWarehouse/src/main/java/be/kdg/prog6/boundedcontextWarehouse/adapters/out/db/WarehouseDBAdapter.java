@@ -83,53 +83,37 @@ public class WarehouseDBAdapter implements LoadWarehousePort, UpdateWarehousePor
                     new Pdt.PdtUUID(pdtJpaEntity.getPdtUUID())));
         }
     }
-
-    private void createActivity(Warehouse warehouse, WarehouseActivity warehouseActivity){
-        final int warehouseNumber = warehouse.getWareHouseNumber();
-        final WarehouseJpaEntity warehouseJpaEntity = warehouseRepository.
-                findByWarehouseNumber(warehouseNumber).orElseThrow();
-
-        warehouseJpaEntity.getActivities().
-                add(buildJpaActivityEntity(warehouseJpaEntity, warehouseActivity));
-
-        List<PdtJpaEntity> pdtJpaEntities = buildJpaEntityObjects(warehouse.getPdtList(), warehouseJpaEntity.getWarehouseNumber());
-        warehouseJpaEntity.setPdtJpaEntityList(pdtJpaEntities);
-
-        warehouseRepository.save(warehouseJpaEntity);
-    }
     @Override
     @Transactional
     public void updateWarehouse(UpdateWarehouseAction updateWarehouseAction, Warehouse warehouse, WarehouseActivity warehouseActivity, UUID appointmentUUID) {
 
-        if(updateWarehouseAction.equals(UpdateWarehouseAction.CREATE_ACTIVIY)){
-            createActivity(warehouse, warehouseActivity);
-        }
-        else{
-            setPdtsJpaEntityToWarehouseJpaEntity(warehouse);
-        }
-    }
 
-    private void setPdtsJpaEntityToWarehouseJpaEntity(Warehouse warehouse){
         WarehouseJpaEntity warehouseJpaEntity = warehouseRepository.findByWarehouseNumber(warehouse.getWareHouseNumber())
                 .orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND, "Warehouse not found"));
 
-        List<PdtJpaEntity> pdtJpaEntities = buildJpaEntityObjects(warehouse.getPdtList(), warehouseJpaEntity.getWarehouseNumber());
+        List<PdtJpaEntity> pdtJpaEntities = buildJpaEntityObjects(warehouse);
         warehouseJpaEntity.setPdtJpaEntityList(pdtJpaEntities);
+
+        if(updateWarehouseAction.equals(UpdateWarehouseAction.CREATE_ACTIVIY)){
+            warehouseJpaEntity.getActivities().
+                    add(buildJpaActivityEntity(warehouseJpaEntity, warehouseActivity));
+        }
 
         warehouseRepository.save(warehouseJpaEntity);
     }
 
-    private List<PdtJpaEntity> buildJpaEntityObjects(List<Pdt> pdtList, int warehouseNumber) {
-        return pdtList.stream()
-                .map(pdt -> buildPdtJpaEntity(pdt, warehouseNumber))
+
+    private List<PdtJpaEntity> buildJpaEntityObjects(Warehouse warehouse) {
+        return warehouse.getPdtList().stream()
+                .map(pdt -> buildPdtJpaEntity(pdt, warehouse))
                 .collect(Collectors.toList());
     }
 
-    private PdtJpaEntity buildPdtJpaEntity(Pdt pdt, int warehouseNumber) {
+    private PdtJpaEntity buildPdtJpaEntity(Pdt pdt, Warehouse warehouse) {
         return new PdtJpaEntity(
                 pdt.getPdtUUID().uuid(),
                 pdt.getTimeOfDelivery(),
-                warehouseNumber,
+                warehouse.getWareHouseNumber(),
                 pdt.getAmountOfTonsDelivered()
         );
     }
