@@ -100,18 +100,6 @@ public class DailyCalendarDBAdapter implements LoadOrCreateDailyCalendarPort, Up
         List<Appointment> appointments =  buildAppointmentObjects(appointmentJpaEntityList);
         return new DailyCalendar(day, appointments);
     }
-
-    @Override
-    public Optional<Appointment> loadAppointmentByAppointmentUUID(Appointment.AppointmentUUID appointmentUUID, DailyCalendar dailyCalendar) {
-
-        DailyCalendarJpaEntity dailyCalendarJpaEntity = findDailyCalendarJpaEntity(dailyCalendar.getDay());
-
-        Optional<AppointmentJpaEntity> appointmentJpaEntity = dailyCalendarJpaEntity.getAppointments().stream()
-                .filter(appt -> appt.getAppointmentUUID().equals(appointmentUUID.uuid()))
-                .findFirst();
-
-        return appointmentJpaEntity.map(this::buildAppointmentObject);
-    }
     @Override
     public DailyCalendar loadOrCreateDailyCalendarByDay(LocalDate localDate) {
 
@@ -157,6 +145,36 @@ public class DailyCalendarDBAdapter implements LoadOrCreateDailyCalendarPort, Up
             dailyCalendarRepository.save(dailyCalendarJpaEntity);
         });
 
+    }
+
+    @Override
+    public void updateDailyCalendar(DailyCalendar dailyCalendar) {
+        final DailyCalendarJpaEntity dailyCalendarJpaEntity = findDailyCalendarJpaEntity(dailyCalendar.getDay());
+
+        dailyCalendar.getAppointments().forEach(appointment -> {
+            AppointmentJpaEntity appointmentJpaEntity = buildAppointmentJpaEntity(appointment, dailyCalendar.getDay());
+            dailyCalendarJpaEntity.addAppointment(appointmentJpaEntity);
+        });
+
+        dailyCalendarRepository.save(dailyCalendarJpaEntity);
+    }
+
+    private AppointmentJpaEntity buildAppointmentJpaEntity(Appointment appointment, LocalDate day) {
+        return new AppointmentJpaEntity(
+                appointment.getAppointmentUUID().uuid(),
+                appointment.getSellerUUID().uuid(),
+                appointment.getGateNumber(),
+                appointment.getAppointmentTime(),
+                appointment.getMaterialType(),
+                appointment.getLicensePlateNumberOfTruck(),
+                appointment.getTruckStatus(),
+                appointment.getWarehouseNumber(),
+                day,
+                appointment.getInitialWeight(),
+                appointment.getFinalWeight(),
+                appointment.getArrivalTime(),
+                appointment.getDepartureTime()
+        );
     }
 }
 

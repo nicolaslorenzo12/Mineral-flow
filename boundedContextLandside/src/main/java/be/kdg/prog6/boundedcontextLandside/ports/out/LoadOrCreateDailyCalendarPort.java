@@ -11,5 +11,4 @@ public interface LoadOrCreateDailyCalendarPort {
     DailyCalendar loadOrCreateDailyCalendarByDay(LocalDate localDate);
     void createAppointment(Appointment appointment,DailyCalendar dailyCalendar);
     Optional<Appointment> loadAppointmentByLicensePlateNumberOfTruckAndAppointmentTimeAndDay(String licensePlateNumberOfTruck, LocalDateTime localDateTime, LocalDate day);
-    Optional<Appointment> loadAppointmentByAppointmentUUID(Appointment.AppointmentUUID appointmentUUID, DailyCalendar dailyCalendar);
 }

@@ -16,7 +16,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -26,13 +25,15 @@ public class DefaultMakeAppointmentUseCase implements MakeAppointmentUseCase {
     private final LoadMaterialPort loadMaterialPort;
     private final LoadOrCreateWarehousePort loadOrCreateWarehousePort;
     private final LoadOrCreateDailyCalendarPort loadDailyCalendarPort;
+    private final List<UpdateDailyCalendarPort> updateDailyCalendarPorts;
 
     public DefaultMakeAppointmentUseCase(LoadSellerPort loadSellerPort, LoadMaterialPort loadMaterialPort,
-                                         LoadOrCreateWarehousePort loadOrCreateWarehousePort, LoadOrCreateDailyCalendarPort loadDailyCalendarPort) {
+                                         LoadOrCreateWarehousePort loadOrCreateWarehousePort, LoadOrCreateDailyCalendarPort loadDailyCalendarPort, List<UpdateDailyCalendarPort> updateDailyCalendarPorts) {
         this.loadSellerPort = loadSellerPort;
         this.loadMaterialPort = loadMaterialPort;
         this.loadOrCreateWarehousePort = loadOrCreateWarehousePort;
         this.loadDailyCalendarPort = loadDailyCalendarPort;
+        this.updateDailyCalendarPorts = updateDailyCalendarPorts;
     }
 
     @Override
@@ -52,7 +53,9 @@ public class DefaultMakeAppointmentUseCase implements MakeAppointmentUseCase {
         int gateNumber = generateRandomGateNumber();
 
         Appointment appointment = buildAppointmentObject(seller, gateNumber, makeAppointmentCommand, material, warehouse, dailyCalendar.getDay());
-        loadDailyCalendarPort.createAppointment(appointment, dailyCalendar);
+        dailyCalendar.addAppointment(appointment);
+        updateDailyCalendarPorts.forEach(updateDailyCalendarPort -> updateDailyCalendarPort.updateDailyCalendar(dailyCalendar));
+//        loadDailyCalendarPort.createAppointment(appointment, dailyCalendar);
     }
 
     private Appointment buildAppointmentObject(Seller seller, int gateNumber, MakeAppointmentCommand makeAppointmentCommand, Material material, Warehouse warehouse, LocalDate day){

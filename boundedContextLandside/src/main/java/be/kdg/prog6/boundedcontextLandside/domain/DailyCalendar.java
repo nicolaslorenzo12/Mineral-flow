@@ -50,4 +50,8 @@ public class DailyCalendar {
         return this.getAppointments().stream().filter(appointment -> appointment.getAppointmentUUID().equals(appointmentUUID))
                 .findFirst().orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND, "Appointment was not found"));
     }
+
+    public void addAppointment(Appointment appointment){
+        appointments.add(appointment);
+    }
 }

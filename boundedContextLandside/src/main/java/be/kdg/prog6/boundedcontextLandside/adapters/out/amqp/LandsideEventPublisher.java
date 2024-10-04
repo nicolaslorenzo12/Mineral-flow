@@ -31,6 +31,12 @@ public class LandsideEventPublisher implements UpdateDailyCalendarPort, UpdateWa
         }
 
     }
+
+    @Override
+    public void updateDailyCalendar(DailyCalendar dailyCalendar) {
+
+    }
+
     @Override
     public void updateWarehouse(Warehouse warehouse, UpdateWarehouseAction updateWarehouseAction, UUID appointmentUUID) {
 
