@@ -2,6 +2,7 @@ package be.kdg.prog6.boundedcontextLandside.adapters.out.db;
 
 import be.kdg.prog6.boundedcontextLandside.domain.Appointment;
 import be.kdg.prog6.boundedcontextLandside.domain.DailyCalendar;
+import be.kdg.prog6.boundedcontextLandside.domain.TruckStatus;
 import be.kdg.prog6.boundedcontextLandside.ports.out.LoadOrCreateDailyCalendarPort;
 import be.kdg.prog6.boundedcontextLandside.ports.out.UpdateDailyCalendarPort;
 import be.kdg.prog6.common.domain.Customer;
@@ -43,56 +44,6 @@ public class DailyCalendarDBAdapter implements LoadOrCreateDailyCalendarPort, Up
         return appointments;
     }
 
-    @Override
-    public void createAppointment(Appointment appointment, DailyCalendar dailyCalendar) {
-
-        final DailyCalendarJpaEntity dailyCalendarJpaEntity = dailyCalendarRepository.findDailyCalendarJpaEntityByDay(dailyCalendar.getDay()).
-                orElseGet(() -> createNewDailyCalendar(dailyCalendar.getDay()));
-
-        final AppointmentJpaEntity appointmentJpaEntity = new AppointmentJpaEntity(appointment.getAppointmentUUID().uuid(), appointment.getSellerUUID().uuid(), appointment.getGateNumber(),
-                appointment.getAppointmentTime(),appointment.getMaterialType(), appointment.getLicensePlateNumberOfTruck(), appointment.getTruckStatus(),
-                appointment.getWarehouseNumber(), appointment.getAppointmentTime().toLocalDate(), appointment.getInitialWeight(), appointment.getFinalWeight(),
-                appointment.getArrivalTime(), appointment.getDepartureTime());
-
-        dailyCalendarJpaEntity.addAppointment(appointmentJpaEntity);
-        dailyCalendarRepository.save(dailyCalendarJpaEntity);
-    }
-
-    @Override
-    public Optional<Appointment> loadAppointmentByLicensePlateNumberOfTruckAndAppointmentTimeAndDay(String licensePlateNumberOfTruck, LocalDateTime localDateTime, LocalDate day) {
-
-        DailyCalendarJpaEntity dailyCalendarJpaEntity = findDailyCalendarJpaEntity(day);
-
-        List<AppointmentJpaEntity> appointmentJpaEntityList = dailyCalendarJpaEntity.getAppointments();
-
-        return appointmentJpaEntityList.stream()
-                .filter(appointment -> appointment.getLicensePlateNumberOfTruck().equals(licensePlateNumberOfTruck)
-                        && appointment.getAppointmentTime().equals(localDateTime)
-                        && appointment.getDay().equals(day))
-                .findFirst()
-                .map(this::buildAppointmentObject);
-
-    }
-
-    private Appointment buildAppointmentObject(AppointmentJpaEntity appointmentJpaEntity) {
-        return new Appointment(
-                new Appointment.AppointmentUUID(appointmentJpaEntity.getAppointmentUUID()),
-                new Seller.CustomerUUID(appointmentJpaEntity.getSellerUuid()),
-                appointmentJpaEntity.getDailyCalendarJpaEntity().getDay(),
-                appointmentJpaEntity.getGateNumber(),
-                appointmentJpaEntity.getAppointmentTime(),
-                appointmentJpaEntity.getMaterialType(),
-                appointmentJpaEntity.getLicensePlateNumberOfTruck(),
-                appointmentJpaEntity.getTruckStatus(),
-                appointmentJpaEntity.getWarehouseNumber(),
-                appointmentJpaEntity.getInitialWeight(),
-                appointmentJpaEntity.getFinalWeight(),
-                appointmentJpaEntity.getArrivalTime(),
-                appointmentJpaEntity.getDepartureTime()
-        );
-    }
-
-
     private DailyCalendar buildDailyCalendarObject(final DailyCalendarJpaEntity dailyCalendarJpaEntity){
 
         LocalDate day = dailyCalendarJpaEntity.getDay();
@@ -121,41 +72,15 @@ public class DailyCalendarDBAdapter implements LoadOrCreateDailyCalendarPort, Up
     }
 
     @Override
-    public void updateAppointment(Appointment appointment, DailyCalendar dailyCalendar) {
-
+    public void updateDailyCalendar(DailyCalendar dailyCalendar, Appointment appt) {
         final DailyCalendarJpaEntity dailyCalendarJpaEntity = findDailyCalendarJpaEntity(dailyCalendar.getDay());
-
-        Optional<AppointmentJpaEntity> appointmentJpaEntity = dailyCalendarJpaEntity.getAppointments().stream()
-                .filter(appt -> appt.getAppointmentUUID().equals(appointment.getAppointmentUUID().uuid()))
-                .findFirst();
-
-        appointmentJpaEntity.ifPresent(appointmentJpaEntity2 -> {
-            appointmentJpaEntity2.setSellerUuid(appointment.getSellerUUID().uuid());
-            appointmentJpaEntity2.setGateNumber(appointment.getGateNumber());
-            appointmentJpaEntity2.setAppointmentTime(appointment.getAppointmentTime());
-            appointmentJpaEntity2.setMaterialType(appointment.getMaterialType());
-            appointmentJpaEntity2.setLicensePlateNumberOfTruck(appointment.getLicensePlateNumberOfTruck());
-            appointmentJpaEntity2.setStatus(appointment.getTruckStatus());
-            appointmentJpaEntity2.setWarehouseNumber(appointment.getWarehouseNumber());
-            appointmentJpaEntity2.setInitialWeight(appointment.getInitialWeight());
-            appointmentJpaEntity2.setFinalWeight(appointment.getFinalWeight());
-            appointmentJpaEntity2.setArrivalTime(appointment.getArrivalTime());
-            appointmentJpaEntity2.setDepartureTime(appointment.getDepartureTime());
-
-            dailyCalendarRepository.save(dailyCalendarJpaEntity);
-        });
-
-    }
-
-    @Override
-    public void updateDailyCalendar(DailyCalendar dailyCalendar) {
-        final DailyCalendarJpaEntity dailyCalendarJpaEntity = findDailyCalendarJpaEntity(dailyCalendar.getDay());
-
+        List<AppointmentJpaEntity> appointmentJpaEntityList = new ArrayList<>();
         dailyCalendar.getAppointments().forEach(appointment -> {
             AppointmentJpaEntity appointmentJpaEntity = buildAppointmentJpaEntity(appointment, dailyCalendar.getDay());
-            dailyCalendarJpaEntity.addAppointment(appointmentJpaEntity);
+            appointmentJpaEntityList.add(appointmentJpaEntity);
         });
 
+        dailyCalendarJpaEntity.setAppointments(appointmentJpaEntityList);
         dailyCalendarRepository.save(dailyCalendarJpaEntity);
     }
 

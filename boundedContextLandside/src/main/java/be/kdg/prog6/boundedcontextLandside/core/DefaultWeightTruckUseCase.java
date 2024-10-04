@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
@@ -29,10 +30,11 @@ public class DefaultWeightTruckUseCase implements WeightTruckUseCase {
 
     @Override
     public void weightTruck(WeightTruckCommand weightTruckCommand) {
-        Appointment appointment = findAppointment(weightTruckCommand);
+        DailyCalendar dailyCalendar = loadDailyCalendarPort.loadOrCreateDailyCalendarByDay(LocalDate.now());
+        Appointment appointment = findAppointment(weightTruckCommand, dailyCalendar);
         int randomWeight = generateRandomWeight(weightTruckCommand.weightingTime());
-        Appointment finalAppointment = appointment.proccessWeighting(weightTruckCommand.weightingTime(),randomWeight);
-        updateDailyCalendarPorts.forEach(updateAppointmentPort -> updateAppointmentPort.updateAppointment(finalAppointment, new DailyCalendar(LocalDate.now())));
+        appointment.proccessWeighting(weightTruckCommand.weightingTime(),randomWeight);
+        updateDailyCalendarPorts.forEach(updateDailyCalendarPort -> updateDailyCalendarPort.updateDailyCalendar(dailyCalendar, appointment));
     }
 
     private int generateRandomWeight(WeightingTime weightingTime) {
@@ -45,10 +47,7 @@ public class DefaultWeightTruckUseCase implements WeightTruckUseCase {
         }
     }
 
-    private Appointment findAppointment(WeightTruckCommand weightTruckCommand){
-
-        DailyCalendar dailyCalendar = loadDailyCalendarPort.loadOrCreateDailyCalendarByDay(LocalDate.now());
-
+    private Appointment findAppointment(WeightTruckCommand weightTruckCommand, DailyCalendar dailyCalendar){
         return dailyCalendar.findAppointmentByAppointmentUUID(weightTruckCommand.uuid());
     }
 

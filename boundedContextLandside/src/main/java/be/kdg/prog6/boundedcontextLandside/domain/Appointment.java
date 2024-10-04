@@ -10,7 +10,7 @@ import java.util.UUID;
 public class Appointment {
 
     private final Seller.CustomerUUID sellerUUID;
-    private final LocalDate localDate;
+    private final LocalDate day;
     private final int gateNumber;
     private final LocalDateTime appointmentTime;
     private final MaterialType materialType;
@@ -32,7 +32,7 @@ public class Appointment {
     {
         this.appointmentUUID = appointmentUUID;
         this.sellerUUID = sellerUUID;
-        this.localDate = localDate;
+        this.day = localDate;
         this.gateNumber = gateNumber;
         this.appointmentTime = appointmentTime;
         this.materialType = materialType;
@@ -45,7 +45,13 @@ public class Appointment {
         this.departureTime = departureTime;
     }
 
+    public LocalDate getDay() {
+        return day;
+    }
 
+    public TruckStatus getStatus() {
+        return status;
+    }
 
     public Seller.CustomerUUID getSellerUUID() {
         return sellerUUID;
@@ -142,7 +148,7 @@ public class Appointment {
         updateAppointmentStatus(truckStatus);
     }
 
-    public Appointment proccessWeighting(WeightingTime weightingTime, int weight){
+    public void proccessWeighting(WeightingTime weightingTime, int weight){
         if (weightingTime.equals(WeightingTime.FIRST_TIME)) {
             checkIfTruckHasAlreadyGottenThisStatus(TruckStatus.WEIGHTINGFIRSTTIME);
             this.setInitialWeight(weight);
@@ -154,8 +160,6 @@ public class Appointment {
             setDepartureTime(LocalDateTime.now());
 
         }
-
-        return this;
     }
 
     public void updateAppointmentStatus(TruckStatus truckStatus) {

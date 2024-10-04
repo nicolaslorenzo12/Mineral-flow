@@ -14,10 +14,6 @@ public class DailyCalendar {
     private final LocalDate day;
     private List<Appointment> appointments;
 
-    public DailyCalendar(LocalDate day) {
-        this.day = day;
-        appointments = new ArrayList<>();
-    }
 
     public DailyCalendar(LocalDate day, List<Appointment> appointments) {
         this.day = day;
@@ -50,6 +46,14 @@ public class DailyCalendar {
         return this.getAppointments().stream().filter(appointment -> appointment.getAppointmentUUID().equals(appointmentUUID))
                 .findFirst().orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND, "Appointment was not found"));
     }
+
+    public Appointment findAppointmentByLicensePlateNumberAndTimeAndDay(String licensePlateNumber,LocalDateTime roundedTime){
+
+        return appointments.stream().filter(appointment -> appointment.getLicensePlateNumberOfTruck().equals(licensePlateNumber)
+        && appointment.getAppointmentTime().equals(roundedTime)
+        && appointment.getDay().equals(day)).findFirst().orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND, "Appointment was not found"));
+    }
+
 
     public void addAppointment(Appointment appointment){
         appointments.add(appointment);

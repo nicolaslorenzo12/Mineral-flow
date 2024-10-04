@@ -19,8 +19,22 @@ public class LandsideEventPublisher implements UpdateDailyCalendarPort, UpdateWa
         this.rabbitTemplate = rabbitTemplate;
     }
 
+//    @Override
+//    public void updateAppointment(Appointment appointment, DailyCalendar dailyCalendar) {
+//        if (appointment.getTruckStatus().equals(TruckStatus.LEFT)) {
+//            final String routingKey = "landside. " + appointment.getWarehouseNumber() + " .material_added";
+//            final String exchangeName = "landsideExchange";
+//            final MaterialAddedEvent body = new MaterialAddedEvent(appointment.getInitialWeight(),appointment.getFinalWeight(),
+//                    appointment.getWarehouseNumber(), appointment.getAppointmentUUID().uuid());
+//
+//            rabbitTemplate.convertAndSend(exchangeName, routingKey, body);
+//        }
+//
+//    }
+
     @Override
-    public void updateAppointment(Appointment appointment, DailyCalendar dailyCalendar) {
+    public void updateDailyCalendar(DailyCalendar dailyCalendar, Appointment appointment) {
+
         if (appointment.getTruckStatus().equals(TruckStatus.LEFT)) {
             final String routingKey = "landside. " + appointment.getWarehouseNumber() + " .material_added";
             final String exchangeName = "landsideExchange";
@@ -29,12 +43,6 @@ public class LandsideEventPublisher implements UpdateDailyCalendarPort, UpdateWa
 
             rabbitTemplate.convertAndSend(exchangeName, routingKey, body);
         }
-
-    }
-
-    @Override
-    public void updateDailyCalendar(DailyCalendar dailyCalendar) {
-
     }
 
     @Override

@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,19 +39,18 @@ public class DefaultDeliverMaterialUseCase implements DeliverMaterialUseCase {
     @Override
     public void deliverMaterial(DeliverMaterialCommand loadMaterialCommand) {
 
-        Appointment appointment = findAppointmentByUUID(loadMaterialCommand.appointmentUUID());
+        DailyCalendar dailyCalendar = loadDailyCalendarPort.loadOrCreateDailyCalendarByDay(LocalDate.now());
+        Appointment appointment = findAppointmentByUUID(loadMaterialCommand.appointmentUUID(), dailyCalendar);
 
         appointment.checkIfTruckHasAlreadyGottenThisStatus(TruckStatus.RECEIVE_MATERIAL);
         Warehouse warehouse = findWarehouseBySellerUUIDAndMaterialType(appointment.getSellerUUID(), appointment.getMaterialType());
-        updateDailyCalendarPorts.forEach(updateDailyCalendarPort -> updateDailyCalendarPort.updateAppointment(appointment,new DailyCalendar(LocalDate.now())));
+
+        updateDailyCalendarPorts.forEach(updateDailyCalendarPort -> updateDailyCalendarPort.updateDailyCalendar(dailyCalendar, appointment));
         updateWarehousePorts.forEach(updateWarehousePort -> updateWarehousePort.updateWarehouse(warehouse,
                 UpdateWarehouseAction.CREATE_PDT, appointment.getAppointmentUUID().uuid()));
     }
 
-    private Appointment findAppointmentByUUID(Appointment.AppointmentUUID appointmentUUID){
-
-        DailyCalendar dailyCalendar = loadDailyCalendarPort.loadOrCreateDailyCalendarByDay(LocalDate.now());
-
+    private Appointment findAppointmentByUUID(Appointment.AppointmentUUID appointmentUUID, DailyCalendar dailyCalendar){
         return dailyCalendar.findAppointmentByAppointmentUUID(appointmentUUID);
     }
 

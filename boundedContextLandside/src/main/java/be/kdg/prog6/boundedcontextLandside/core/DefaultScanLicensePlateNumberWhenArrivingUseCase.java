@@ -31,18 +31,18 @@ public class DefaultScanLicensePlateNumberWhenArrivingUseCase implements ScanLic
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime roundedTime = now.withMinute(0).withSecond(0).withNano(0);
 
+        DailyCalendar dailyCalendar = loadDailyCalendarPort.loadOrCreateDailyCalendarByDay(roundedTime.toLocalDate());
         Appointment appointment = findAppointmentByLicensePlateNumberOfTruckAndAppointmentTimeAndDay(scanLicensePlateNumberCommand.licensePlateNumber(),
-                roundedTime, roundedTime.toLocalDate());
+                roundedTime, dailyCalendar);
 
         appointment.checkIfTruckHasAlreadyGottenThisStatus(TruckStatus.ARRIVED);
         appointment.setArrivalTime(LocalDateTime.now());
-        updateDailyCalendarPorts.forEach(updateAppointmentPort -> updateAppointmentPort.updateAppointment(appointment, new DailyCalendar(now.toLocalDate())));
+        updateDailyCalendarPorts.forEach(updateDailyCalendarPort -> updateDailyCalendarPort.updateDailyCalendar(dailyCalendar, appointment));
     }
 
-    public Appointment findAppointmentByLicensePlateNumberOfTruckAndAppointmentTimeAndDay(String licensePlateNumber, LocalDateTime roundedTime, LocalDate day){
-        return loadDailyCalendarPort.loadAppointmentByLicensePlateNumberOfTruckAndAppointmentTimeAndDay
-                        (licensePlateNumber, roundedTime, roundedTime.toLocalDate())
-                .orElseThrow(() ->
-                        new CustomException(HttpStatus.NOT_FOUND, "This truck does not have an appointment today at this time"));
+    public Appointment findAppointmentByLicensePlateNumberOfTruckAndAppointmentTimeAndDay(String licensePlateNumber, LocalDateTime roundedTime, DailyCalendar dailyCalendar){
+
+       return dailyCalendar.findAppointmentByLicensePlateNumberAndTimeAndDay(licensePlateNumber, roundedTime);
     }
 }
+
