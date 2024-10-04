@@ -45,4 +45,9 @@ public class DailyCalendar {
                 .filter(appointment -> appointment.getAppointmentTime().getHour() == targetHour)
                 .collect(Collectors.toList());
     }
+
+    public Appointment findAppointmentByAppointmentUUID(Appointment.AppointmentUUID appointmentUUID){
+        return this.getAppointments().stream().filter(appointment -> appointment.getAppointmentUUID().equals(appointmentUUID))
+                .findFirst().orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND, "Appointment was not found"));
+    }
 }

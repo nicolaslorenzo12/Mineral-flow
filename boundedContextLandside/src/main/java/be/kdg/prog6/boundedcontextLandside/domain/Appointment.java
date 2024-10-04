@@ -46,38 +46,6 @@ public class Appointment {
     }
 
 
-    public Appointment(final AppointmentUUID appointmentUUID, Seller.CustomerUUID sellerUUID, LocalDate localDate, int gateNumber,
-                       LocalDateTime appointmentTime, MaterialType materialType, String licensePlateNumberOfTruck, TruckStatus status, int warehouseNumber,
-                       int initialWeight, int finalWeight)
-    {
-        this.appointmentUUID = appointmentUUID;
-        this.sellerUUID = sellerUUID;
-        this.localDate = localDate;
-        this.gateNumber = gateNumber;
-        this.appointmentTime = appointmentTime;
-        this.materialType = materialType;
-        this.licensePlateNumberOfTruck = licensePlateNumberOfTruck;
-        this.status = status;
-        this.warehouseNumber = warehouseNumber;
-        this.initialWeight = initialWeight;
-        this.finalWeight = finalWeight;
-    }
-
-    public Appointment(final AppointmentUUID appointmentUUID, Seller.CustomerUUID sellerUUID, LocalDate localDate, int gateNumber,
-                       LocalDateTime appointmentTime, MaterialType materialType, String licensePlateNumberOfTruck, TruckStatus status, int warehouseNumber)
-    {
-        this.appointmentUUID = appointmentUUID;
-        this.sellerUUID = sellerUUID;
-        this.localDate = localDate;
-        this.gateNumber = gateNumber;
-        this.appointmentTime = appointmentTime;
-        this.materialType = materialType;
-        this.licensePlateNumberOfTruck = licensePlateNumberOfTruck;
-        this.status = status;
-        this.warehouseNumber = warehouseNumber;
-    }
-
-
 
     public Seller.CustomerUUID getSellerUUID() {
         return sellerUUID;

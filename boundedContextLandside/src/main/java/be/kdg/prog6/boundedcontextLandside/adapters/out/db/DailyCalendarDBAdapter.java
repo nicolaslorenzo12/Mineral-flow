@@ -23,8 +23,7 @@ public class DailyCalendarDBAdapter implements LoadOrCreateDailyCalendarPort, Up
         this.dailyCalendarRepository = dailyCalendarRepository;
     }
 
-    private List<Appointment>
-    buildAppointmentObjects(List<AppointmentJpaEntity> appointmentJpaEntityList) {
+    private List<Appointment> buildAppointmentObjects(List<AppointmentJpaEntity> appointmentJpaEntityList) {
         List<Appointment> appointments = new ArrayList<>();
         appointmentJpaEntityList.forEach(appointmentJpaEntity -> appointments.add(new Appointment(
                 new Appointment.AppointmentUUID(appointmentJpaEntity.getAppointmentUUID()),
@@ -37,7 +36,9 @@ public class DailyCalendarDBAdapter implements LoadOrCreateDailyCalendarPort, Up
                 appointmentJpaEntity.getTruckStatus(),
                 appointmentJpaEntity.getWarehouseNumber(),
                 appointmentJpaEntity.getInitialWeight(),
-                appointmentJpaEntity.getFinalWeight()
+                appointmentJpaEntity.getFinalWeight(),
+                appointmentJpaEntity.getArrivalTime(),
+                appointmentJpaEntity.getDepartureTime()
         )));
         return appointments;
     }
@@ -50,7 +51,8 @@ public class DailyCalendarDBAdapter implements LoadOrCreateDailyCalendarPort, Up
 
         final AppointmentJpaEntity appointmentJpaEntity = new AppointmentJpaEntity(appointment.getAppointmentUUID().uuid(), appointment.getSellerUUID().uuid(), appointment.getGateNumber(),
                 appointment.getAppointmentTime(),appointment.getMaterialType(), appointment.getLicensePlateNumberOfTruck(), appointment.getTruckStatus(),
-                appointment.getWarehouseNumber(), appointment.getAppointmentTime().toLocalDate(), appointment.getInitialWeight(), appointment.getFinalWeight());
+                appointment.getWarehouseNumber(), appointment.getAppointmentTime().toLocalDate(), appointment.getInitialWeight(), appointment.getFinalWeight(),
+                appointment.getArrivalTime(), appointment.getDepartureTime());
 
         dailyCalendarJpaEntity.addAppointment(appointmentJpaEntity);
         dailyCalendarRepository.save(dailyCalendarJpaEntity);

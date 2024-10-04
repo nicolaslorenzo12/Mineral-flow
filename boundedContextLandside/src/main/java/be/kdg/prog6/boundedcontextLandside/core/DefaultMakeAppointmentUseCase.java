@@ -16,6 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -59,7 +60,7 @@ public class DefaultMakeAppointmentUseCase implements MakeAppointmentUseCase {
         return new Appointment(new Appointment.AppointmentUUID(UUID.randomUUID()),
                 seller.getCustomerUUID(), day, gateNumber, makeAppointmentCommand.appointmentTime(),
                 material.getMaterialType(), makeAppointmentCommand.licensePlateNumber(), TruckStatus.NOTARRIVED,
-                warehouse.getWareHouseNumber());
+                warehouse.getWareHouseNumber(), 0, 0, null, null);
     }
 
     private Seller findSellerByUUID(UUID sellerUUID) {

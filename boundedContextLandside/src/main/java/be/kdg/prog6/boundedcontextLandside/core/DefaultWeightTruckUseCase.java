@@ -1,5 +1,6 @@
 package be.kdg.prog6.boundedcontextLandside.core;
 
+import be.kdg.prog6.boundedcontextLandside.adapters.out.db.AppointmentJpaEntity;
 import be.kdg.prog6.boundedcontextLandside.domain.Appointment;
 import be.kdg.prog6.boundedcontextLandside.domain.DailyCalendar;
 import be.kdg.prog6.boundedcontextLandside.domain.WeightingTime;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 
 @Service
@@ -27,7 +29,7 @@ public class DefaultWeightTruckUseCase implements WeightTruckUseCase {
 
     @Override
     public void weightTruck(WeightTruckCommand weightTruckCommand) {
-        Appointment appointment = loadAppointment(weightTruckCommand);
+        Appointment appointment = findAppointment(weightTruckCommand);
         int randomWeight = generateRandomWeight(weightTruckCommand.weightingTime());
         Appointment finalAppointment = appointment.proccessWeighting(weightTruckCommand.weightingTime(),randomWeight);
         updateDailyCalendarPorts.forEach(updateAppointmentPort -> updateAppointmentPort.updateAppointment(finalAppointment, new DailyCalendar(LocalDate.now())));
@@ -43,9 +45,11 @@ public class DefaultWeightTruckUseCase implements WeightTruckUseCase {
         }
     }
 
-    private Appointment loadAppointment(WeightTruckCommand weightTruckCommand){
+    private Appointment findAppointment(WeightTruckCommand weightTruckCommand){
 
-        return loadDailyCalendarPort.loadAppointmentByAppointmentUUID(new Appointment.AppointmentUUID(weightTruckCommand.uuid().uuid()), new DailyCalendar(LocalDate.now()))
-                .orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND,"The appointment was not found"));
+        DailyCalendar dailyCalendar = loadDailyCalendarPort.loadOrCreateDailyCalendarByDay(LocalDate.now());
+
+        return dailyCalendar.findAppointmentByAppointmentUUID(weightTruckCommand.uuid());
     }
+
 }

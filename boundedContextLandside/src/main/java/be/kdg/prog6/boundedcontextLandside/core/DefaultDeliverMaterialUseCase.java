@@ -1,5 +1,6 @@
 package be.kdg.prog6.boundedcontextLandside.core;
 
+import be.kdg.prog6.boundedcontextLandside.adapters.out.db.AppointmentJpaEntity;
 import be.kdg.prog6.boundedcontextLandside.domain.*;
 import be.kdg.prog6.boundedcontextLandside.ports.in.DeliverMaterialCommand;
 import be.kdg.prog6.boundedcontextLandside.ports.in.DeliverMaterialUseCase;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class DefaultDeliverMaterialUseCase implements DeliverMaterialUseCase {
@@ -37,6 +39,7 @@ public class DefaultDeliverMaterialUseCase implements DeliverMaterialUseCase {
     public void deliverMaterial(DeliverMaterialCommand loadMaterialCommand) {
 
         Appointment appointment = findAppointmentByUUID(loadMaterialCommand.appointmentUUID());
+
         appointment.checkIfTruckHasAlreadyGottenThisStatus(TruckStatus.RECEIVE_MATERIAL);
         Warehouse warehouse = findWarehouseBySellerUUIDAndMaterialType(appointment.getSellerUUID(), appointment.getMaterialType());
         updateDailyCalendarPorts.forEach(updateDailyCalendarPort -> updateDailyCalendarPort.updateAppointment(appointment,new DailyCalendar(LocalDate.now())));
@@ -46,9 +49,11 @@ public class DefaultDeliverMaterialUseCase implements DeliverMaterialUseCase {
 
     private Appointment findAppointmentByUUID(Appointment.AppointmentUUID appointmentUUID){
 
-        return loadDailyCalendarPort.loadAppointmentByAppointmentUUID(appointmentUUID, new DailyCalendar(LocalDate.now()))
-                .orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND, "Appointment was not found"));
+        DailyCalendar dailyCalendar = loadDailyCalendarPort.loadOrCreateDailyCalendarByDay(LocalDate.now());
+
+        return dailyCalendar.findAppointmentByAppointmentUUID(appointmentUUID);
     }
+
 
     private Warehouse findWarehouseBySellerUUIDAndMaterialType(Seller.CustomerUUID sellerUUID, MaterialType materialType){
         return loadOrCreateWarehousePort.loadWarehouseBySellerUUIDAndMaterialType(sellerUUID.uuid(), materialType)
