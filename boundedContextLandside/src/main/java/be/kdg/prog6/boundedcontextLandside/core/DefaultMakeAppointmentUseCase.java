@@ -47,7 +47,7 @@ public class DefaultMakeAppointmentUseCase implements MakeAppointmentUseCase {
         final Warehouse warehouse = findWarehouseForSellerAndMaterial(seller, material);
         final DailyCalendar dailyCalendar = findDailyCalenderByDay(makeAppointmentCommand.appointmentTime().toLocalDate());
 
-        List<Appointment> appointments= dailyCalendar.filterAppointmentsByAppointmentTime(makeAppointmentCommand.appointmentTime());
+        List<Appointment> appointments = dailyCalendar.filterAppointmentsByAppointmentTime(makeAppointmentCommand.appointmentTime());
         warehouse.checkIfMaximumStockPercentageExceeded();
         dailyCalendar.checkIfThereAreMoreThan40AppointmentsAndIfYesThrowException(appointments);
         int gateNumber = generateRandomGateNumber();

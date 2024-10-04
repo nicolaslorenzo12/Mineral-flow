@@ -91,6 +91,10 @@ public class WarehouseDBAdapter implements LoadWarehousePort, UpdateWarehousePor
 
         warehouseJpaEntity.getActivities().
                 add(buildJpaActivityEntity(warehouseJpaEntity, warehouseActivity));
+
+        List<PdtJpaEntity> pdtJpaEntities = buildJpaEntityObjects(warehouse.getPdtList(), warehouseJpaEntity.getWarehouseNumber());
+        warehouseJpaEntity.setPdtJpaEntityList(pdtJpaEntities);
+
         warehouseRepository.save(warehouseJpaEntity);
     }
     @Override
@@ -101,11 +105,11 @@ public class WarehouseDBAdapter implements LoadWarehousePort, UpdateWarehousePor
             createActivity(warehouse, warehouseActivity);
         }
         else{
-            createPdt(warehouse);
+            setPdtsJpaEntityToWarehouseJpaEntity(warehouse);
         }
     }
 
-    private void createPdt(Warehouse warehouse){
+    private void setPdtsJpaEntityToWarehouseJpaEntity(Warehouse warehouse){
         WarehouseJpaEntity warehouseJpaEntity = warehouseRepository.findByWarehouseNumber(warehouse.getWareHouseNumber())
                 .orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND, "Warehouse not found"));
 

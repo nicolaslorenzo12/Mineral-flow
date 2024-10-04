@@ -34,18 +34,18 @@ public class DefaultAddedOrDispatchedMaterialProjector implements AddedOrDispatc
     @Transactional
     public void addMaterial(int intitalWeight, int finalWeight, int warehouseNumber, WarehouseAction warehouseAction, UUID pdtUUID) {
 
-        final Warehouse warehouse = findWarehouseByWarehouseNumber(warehouseNumber);
-        int amountOfTonsAdded = warehouse.calculateNetWeight(intitalWeight, finalWeight);
-        WarehouseActivity warehouseActivity = buildWarehouseActivityAndAddActivityToWarehouse(warehouse, amountOfTonsAdded, warehouseAction);
-        addPdtToWarehouseObjectIfReceivingMaterial(warehouse, warehouseAction, pdtUUID);
+        Warehouse warehouse = findWarehouseByWarehouseNumber(warehouseNumber);
+        int amountOfTonsDelivered = warehouse.calculateNetWeight(intitalWeight, finalWeight);
+        WarehouseActivity warehouseActivity = buildWarehouseActivityAndAddActivityToWarehouse(warehouse, amountOfTonsDelivered, warehouseAction);
+        addPdtToWarehouseObjectIfReceivingMaterial(warehouse, warehouseAction, pdtUUID, amountOfTonsDelivered);
 
         updateWarehousePort.forEach(port -> port.updateWarehouse(UpdateWarehouseAction.CREATE_ACTIVIY, warehouse, warehouseActivity, pdtUUID));
     }
 
-    private void addPdtToWarehouseObjectIfReceivingMaterial(Warehouse warehouse, WarehouseAction warehouseAction, UUID pdtUUID){
+    private void addPdtToWarehouseObjectIfReceivingMaterial(Warehouse warehouse, WarehouseAction warehouseAction, UUID pdtUUID, int amountOfTondsDelivered){
         if(warehouseAction.equals(WarehouseAction.RECEIVE)) {
             Optional<Pdt> pdt = Optional.of(warehouse.getPdtList().stream().filter(pdt1 -> pdt1.getPdtUUID().uuid().equals(pdtUUID)).findFirst().orElseThrow());
-            warehouse.addPdt(pdt.get());
+            pdt.get().setAmountOfTonsDelivered(amountOfTondsDelivered);
         }
     }
 
@@ -53,7 +53,7 @@ public class DefaultAddedOrDispatchedMaterialProjector implements AddedOrDispatc
     @Transactional
     public void dispatchMaterial(Seller.CustomerUUID sellerUUID, MaterialType materialType, WarehouseAction action, int tonsToDispatch) {
 
-        final Warehouse warehouse =loadWarehousePort.loadWarehouseBySellerUUIDAndMaterialType(sellerUUID, materialType)
+        Warehouse warehouse =loadWarehousePort.loadWarehouseBySellerUUIDAndMaterialType(sellerUUID, materialType)
                 .orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND, "Warehouse was not found"));
 
         WarehouseActivity warehouseActivity = buildWarehouseActivityAndAddActivityToWarehouse(warehouse, tonsToDispatch, WarehouseAction.DISPATCH);
