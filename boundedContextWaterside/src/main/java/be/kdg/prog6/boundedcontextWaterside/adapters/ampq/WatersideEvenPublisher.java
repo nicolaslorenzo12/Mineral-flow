@@ -21,7 +21,6 @@ public class WatersideEvenPublisher implements UpdateWarehousePort {
     public WatersideEvenPublisher(RabbitTemplate rabbitTemplate) {
         this.rabbitTemplate = rabbitTemplate;
     }
-
     @Override
     public void updateWarehouse(OrderLine orderLine, Seller.CustomerUUID sellerUUID, Buyer.CustomerUUID buyerUUID) {
 

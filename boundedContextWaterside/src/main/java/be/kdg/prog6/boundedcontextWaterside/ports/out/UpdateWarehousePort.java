@@ -10,6 +10,5 @@ import be.kdg.prog6.common.domain.Seller;
 import java.util.List;
 
 public interface UpdateWarehousePort {
-
     void updateWarehouse(OrderLine line, Seller.CustomerUUID sellerUUID, Buyer.CustomerUUID buyerUUID);
 }

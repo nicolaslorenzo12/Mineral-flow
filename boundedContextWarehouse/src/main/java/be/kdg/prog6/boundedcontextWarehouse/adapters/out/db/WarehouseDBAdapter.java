@@ -1,9 +1,6 @@
 package be.kdg.prog6.boundedcontextWarehouse.adapters.out.db;
 
-import be.kdg.prog6.boundedcontextWarehouse.domain.Pdt;
-import be.kdg.prog6.boundedcontextWarehouse.domain.Warehouse;
-import be.kdg.prog6.boundedcontextWarehouse.domain.WarehouseActivity;
-import be.kdg.prog6.boundedcontextWarehouse.domain.WarehouseActivityWindow;
+import be.kdg.prog6.boundedcontextWarehouse.domain.*;
 import be.kdg.prog6.boundedcontextWarehouse.ports.out.LoadWarehousePort;
 import be.kdg.prog6.boundedcontextWarehouse.ports.out.UpdateWarehousePort;
 import be.kdg.prog6.common.domain.MaterialType;
@@ -88,25 +85,28 @@ public class WarehouseDBAdapter implements LoadWarehousePort, UpdateWarehousePor
     }
     @Override
     @Transactional
-    public void warehouseCreateActivity(Warehouse warehouse, WarehouseActivity warehouseActivity, UUID pdtUUID) {
-        final int warehouseNumber = warehouse.getWareHouseNumber();
-        final WarehouseJpaEntity warehouseJpaEntity = warehouseRepository.
-                findByWarehouseNumber(warehouseNumber).orElseThrow();
+    public void updateWarehouse(UpdateWarehouseAction updateWarehouseAction, Warehouse warehouse, WarehouseActivity warehouseActivity, UUID appointmentUUID) {
 
-        warehouseJpaEntity.getActivities().
-                add(buildJpaActivityEntity(warehouseJpaEntity, warehouseActivity));
-        warehouseRepository.save(warehouseJpaEntity);
-    }
+        if(updateWarehouseAction.equals(UpdateWarehouseAction.CREATE_ACTIVIY)){
+            final int warehouseNumber = warehouse.getWareHouseNumber();
+            final WarehouseJpaEntity warehouseJpaEntity = warehouseRepository.
+                    findByWarehouseNumber(warehouseNumber).orElseThrow();
 
-    @Override
-    public void updateWarehouse(Warehouse warehouse) {
-        WarehouseJpaEntity warehouseJpaEntity = warehouseRepository.findByWarehouseNumber(warehouse.getWareHouseNumber())
-                .orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND, "Warehouse not found"));
+            warehouseJpaEntity.getActivities().
+                    add(buildJpaActivityEntity(warehouseJpaEntity, warehouseActivity));
+            warehouseRepository.save(warehouseJpaEntity);
+        }
+        else{
+            WarehouseJpaEntity warehouseJpaEntity = warehouseRepository.findByWarehouseNumber(warehouse.getWareHouseNumber())
+                    .orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND, "Warehouse not found"));
 
-        List<PdtJpaEntity> pdtJpaEntities = buildJpaEntityObjects(warehouse.getPdtList(), warehouseJpaEntity.getWarehouseNumber());
-        warehouseJpaEntity.setPdtJpaEntityList(pdtJpaEntities);
+            List<PdtJpaEntity> pdtJpaEntities = buildJpaEntityObjects(warehouse.getPdtList(), warehouseJpaEntity.getWarehouseNumber());
+            warehouseJpaEntity.setPdtJpaEntityList(pdtJpaEntities);
 
-        warehouseRepository.save(warehouseJpaEntity);
+            warehouseRepository.save(warehouseJpaEntity);
+        }
+
+
     }
 
     private List<PdtJpaEntity> buildJpaEntityObjects(List<Pdt> pdtList, int warehouseNumber) {

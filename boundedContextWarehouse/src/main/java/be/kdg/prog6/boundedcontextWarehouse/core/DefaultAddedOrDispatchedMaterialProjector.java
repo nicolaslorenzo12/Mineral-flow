@@ -1,6 +1,7 @@
 package be.kdg.prog6.boundedcontextWarehouse.core;
 
 import be.kdg.prog6.boundedcontextWarehouse.domain.Pdt;
+import be.kdg.prog6.boundedcontextWarehouse.domain.UpdateWarehouseAction;
 import be.kdg.prog6.boundedcontextWarehouse.domain.Warehouse;
 import be.kdg.prog6.boundedcontextWarehouse.domain.WarehouseActivity;
 import be.kdg.prog6.boundedcontextWarehouse.ports.in.AddedOrDispatchedMaterialProjector;
@@ -38,7 +39,7 @@ public class DefaultAddedOrDispatchedMaterialProjector implements AddedOrDispatc
         WarehouseActivity warehouseActivity = buildWarehouseActivityAndAddActivityToWarehouse(warehouse, amountOfTonsAdded, warehouseAction);
         addPdtToWarehouseObjectIfReceivingMaterial(warehouse, warehouseAction, pdtUUID);
 
-        updateWarehousePort.forEach(port -> port.warehouseCreateActivity(warehouse, warehouseActivity, pdtUUID));
+        updateWarehousePort.forEach(port -> port.updateWarehouse(UpdateWarehouseAction.CREATE_ACTIVIY, warehouse, warehouseActivity, pdtUUID));
     }
 
     private void addPdtToWarehouseObjectIfReceivingMaterial(Warehouse warehouse, WarehouseAction warehouseAction, UUID pdtUUID){
@@ -56,7 +57,7 @@ public class DefaultAddedOrDispatchedMaterialProjector implements AddedOrDispatc
                 .orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND, "Warehouse was not found"));
 
         WarehouseActivity warehouseActivity = buildWarehouseActivityAndAddActivityToWarehouse(warehouse, tonsToDispatch, WarehouseAction.DISPATCH);
-        updateWarehousePort.forEach(port -> port.warehouseCreateActivity(warehouse, warehouseActivity,UUID.randomUUID()));
+        updateWarehousePort.forEach(port -> port.updateWarehouse(UpdateWarehouseAction.CREATE_ACTIVIY,warehouse, warehouseActivity,UUID.randomUUID()));
     }
 
     private Warehouse findWarehouseByWarehouseNumber(int warehouseNumber) {
