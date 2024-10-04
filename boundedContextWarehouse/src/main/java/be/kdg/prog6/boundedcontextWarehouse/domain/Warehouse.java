@@ -67,4 +67,8 @@ public class Warehouse {
     public void addPdt(Pdt pdt){
         pdtList.add(pdt);
     }
+
+    public WarehouseActivityWindow getWarehouseActivityWindow() {
+        return warehouseActivityWindow;
+    }
 }

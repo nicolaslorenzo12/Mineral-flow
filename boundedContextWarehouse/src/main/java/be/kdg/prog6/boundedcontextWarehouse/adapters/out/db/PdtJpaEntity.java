@@ -18,13 +18,6 @@ public class PdtJpaEntity {
     @ManyToOne
     @JoinColumn(name = "warehouseNumber", insertable = false, updatable = false)
     private WarehouseJpaEntity warehouseJpaEntity;
-
-    public PdtJpaEntity(UUID pdtUUID, LocalDateTime timeOfDelivery, int warehouseNumber) {
-        this.pdtUUID = pdtUUID;
-        this.timeOfDelivery = timeOfDelivery;
-        this.warehouseNumber = warehouseNumber;
-    }
-
     public PdtJpaEntity(UUID pdtUUID, LocalDateTime timeOfDelivery, int warehouseNumber, int amountOfTonsDelivered) {
         this.pdtUUID = pdtUUID;
         this.timeOfDelivery = timeOfDelivery;

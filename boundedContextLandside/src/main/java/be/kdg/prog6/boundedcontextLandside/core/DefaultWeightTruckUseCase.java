@@ -34,6 +34,7 @@ public class DefaultWeightTruckUseCase implements WeightTruckUseCase {
         Appointment appointment = findAppointment(weightTruckCommand, dailyCalendar);
         int randomWeight = generateRandomWeight(weightTruckCommand.weightingTime());
         appointment.proccessWeighting(weightTruckCommand.weightingTime(),randomWeight);
+
         updateDailyCalendarPorts.forEach(updateDailyCalendarPort -> updateDailyCalendarPort.updateDailyCalendar(dailyCalendar, appointment));
     }
 

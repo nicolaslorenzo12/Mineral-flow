@@ -26,7 +26,6 @@ public class DefaultDeliverMaterialUseCase implements DeliverMaterialUseCase {
     private final LoadOrCreateDailyCalendarPort loadDailyCalendarPort;
     private final List<UpdateDailyCalendarPort> updateDailyCalendarPorts;
     private final List<UpdateWarehousePort> updateWarehousePorts;
-
     private final LoadOrCreateWarehousePort loadOrCreateWarehousePort;
 
     public DefaultDeliverMaterialUseCase(LoadOrCreateDailyCalendarPort loadDailyCalendarPort, List<UpdateDailyCalendarPort> updateDailyCalendarPorts,

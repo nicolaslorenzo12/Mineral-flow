@@ -1,25 +1,26 @@
 package be.kdg.prog6.boundedcontextWarehouse.core;
 
+import be.kdg.prog6.boundedcontextWarehouse.domain.Pdt;
 import be.kdg.prog6.boundedcontextWarehouse.domain.Warehouse;
 import be.kdg.prog6.boundedcontextWarehouse.ports.in.PdtToBeCreatedProjector;
 import be.kdg.prog6.boundedcontextWarehouse.ports.out.LoadWarehousePort;
-import be.kdg.prog6.boundedcontextWarehouse.ports.out.UpdatePdtPort;
+import be.kdg.prog6.boundedcontextWarehouse.ports.out.UpdateWarehousePort;
 import be.kdg.prog6.common.exception.CustomException;
 import jakarta.transaction.Transactional;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Service
 public class DefaultPdtToBeCreatedProjector implements PdtToBeCreatedProjector {
-
-    private final UpdatePdtPort updatePdtPort;
+    private final List<UpdateWarehousePort> updateWarehousePorts;
     private final LoadWarehousePort loadWarehousePort;
 
-    public DefaultPdtToBeCreatedProjector(UpdatePdtPort updatePdtPort, LoadWarehousePort loadWarehousePort) {
-        this.updatePdtPort = updatePdtPort;
+    public DefaultPdtToBeCreatedProjector(List<UpdateWarehousePort> updateWarehousePorts, LoadWarehousePort loadWarehousePort) {
+        this.updateWarehousePorts = updateWarehousePorts;
         this.loadWarehousePort = loadWarehousePort;
     }
 
@@ -30,6 +31,7 @@ public class DefaultPdtToBeCreatedProjector implements PdtToBeCreatedProjector {
         Warehouse warehouse = loadWarehousePort.loadWarehouseByWarehouseNumber(warehouseNumber)
                 .orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND, "Warehouse was not found"));
 
-        updatePdtPort.createPdtPort(warehouse, timeOfDelivery, appointmentUUID);
+        warehouse.addPdt(new Pdt(timeOfDelivery, 0, new Pdt.PdtUUID(appointmentUUID)));
+        updateWarehousePorts.forEach(updateWarehousePort -> updateWarehousePort.updateWarehouse(warehouse));
     }
 }

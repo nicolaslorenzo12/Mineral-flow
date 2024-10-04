@@ -30,4 +30,8 @@ public class WarehouseActivityWindow {
         }
         return totalTons;
     }
+
+    public List<WarehouseActivity> getWarehouseActivityList() {
+        return warehouseActivityList;
+    }
 }

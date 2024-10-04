@@ -149,6 +149,7 @@ public class Appointment {
     }
 
     public void proccessWeighting(WeightingTime weightingTime, int weight){
+
         if (weightingTime.equals(WeightingTime.FIRST_TIME)) {
             checkIfTruckHasAlreadyGottenThisStatus(TruckStatus.WEIGHTINGFIRSTTIME);
             this.setInitialWeight(weight);
@@ -158,7 +159,6 @@ public class Appointment {
             this.setStatus(TruckStatus.LEFT);
             this.setFinalWeight(weight);
             setDepartureTime(LocalDateTime.now());
-
         }
     }
 

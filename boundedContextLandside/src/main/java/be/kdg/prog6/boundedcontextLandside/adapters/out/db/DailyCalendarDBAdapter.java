@@ -55,7 +55,6 @@ public class DailyCalendarDBAdapter implements LoadOrCreateDailyCalendarPort, Up
     public DailyCalendar loadOrCreateDailyCalendarByDay(LocalDate localDate) {
 
         final DailyCalendarJpaEntity dailyCalendarJpaEntity = findDailyCalendarJpaEntity(localDate);
-
         return buildDailyCalendarObject(dailyCalendarJpaEntity);
     }
 
@@ -67,23 +66,31 @@ public class DailyCalendarDBAdapter implements LoadOrCreateDailyCalendarPort, Up
     private DailyCalendarJpaEntity createNewDailyCalendar(LocalDate localDate){
 
         DailyCalendarJpaEntity dailyCalendarJpaEntity = new DailyCalendarJpaEntity(localDate);
+
         dailyCalendarRepository.save(dailyCalendarJpaEntity);
+
         return dailyCalendarJpaEntity;
     }
 
     @Override
     public void updateDailyCalendar(DailyCalendar dailyCalendar, Appointment appt) {
         final DailyCalendarJpaEntity dailyCalendarJpaEntity = findDailyCalendarJpaEntity(dailyCalendar.getDay());
-        List<AppointmentJpaEntity> appointmentJpaEntityList = new ArrayList<>();
-        dailyCalendar.getAppointments().forEach(appointment -> {
-            AppointmentJpaEntity appointmentJpaEntity = buildAppointmentJpaEntity(appointment, dailyCalendar.getDay());
-            appointmentJpaEntityList.add(appointmentJpaEntity);
-        });
+        dailyCalendarJpaEntity.setAppointments(buildAppointJpaEntities(dailyCalendar.getAppointments(), dailyCalendar.getDay()));
 
-        dailyCalendarJpaEntity.setAppointments(appointmentJpaEntityList);
         dailyCalendarRepository.save(dailyCalendarJpaEntity);
     }
 
+    private List<AppointmentJpaEntity> buildAppointJpaEntities(List<Appointment> appointments, LocalDate day){
+
+        List<AppointmentJpaEntity> appointmentJpaEntityList = new ArrayList<>();
+        appointments.forEach(appointment -> {
+            AppointmentJpaEntity appointmentJpaEntity = buildAppointmentJpaEntity(appointment, day);
+
+            appointmentJpaEntityList.add(appointmentJpaEntity);
+        });
+
+        return appointmentJpaEntityList;
+    }
     private AppointmentJpaEntity buildAppointmentJpaEntity(Appointment appointment, LocalDate day) {
         return new AppointmentJpaEntity(
                 appointment.getAppointmentUUID().uuid(),

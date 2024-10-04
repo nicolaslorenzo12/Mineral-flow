@@ -32,4 +32,9 @@ public class WarehouseEventPublisher implements UpdateWarehousePort {
 
         rabbitTemplate.convertAndSend(exchangeName, routingKey, body);
     }
+
+    @Override
+    public void updateWarehouse(Warehouse warehouse) {
+
+    }
 }

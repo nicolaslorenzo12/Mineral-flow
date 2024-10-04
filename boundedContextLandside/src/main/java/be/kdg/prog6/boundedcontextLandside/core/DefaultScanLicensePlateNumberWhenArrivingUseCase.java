@@ -1,5 +1,6 @@
 package be.kdg.prog6.boundedcontextLandside.core;
 
+import be.kdg.prog6.boundedcontextLandside.adapters.out.db.AppointmentJpaEntity;
 import be.kdg.prog6.boundedcontextLandside.domain.Appointment;
 import be.kdg.prog6.boundedcontextLandside.domain.DailyCalendar;
 import be.kdg.prog6.boundedcontextLandside.domain.TruckStatus;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -37,11 +39,11 @@ public class DefaultScanLicensePlateNumberWhenArrivingUseCase implements ScanLic
 
         appointment.checkIfTruckHasAlreadyGottenThisStatus(TruckStatus.ARRIVED);
         appointment.setArrivalTime(LocalDateTime.now());
+
         updateDailyCalendarPorts.forEach(updateDailyCalendarPort -> updateDailyCalendarPort.updateDailyCalendar(dailyCalendar, appointment));
     }
 
     public Appointment findAppointmentByLicensePlateNumberOfTruckAndAppointmentTimeAndDay(String licensePlateNumber, LocalDateTime roundedTime, DailyCalendar dailyCalendar){
-
        return dailyCalendar.findAppointmentByLicensePlateNumberAndTimeAndDay(licensePlateNumber, roundedTime);
     }
 }

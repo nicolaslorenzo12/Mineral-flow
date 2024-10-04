@@ -5,21 +5,22 @@ import be.kdg.prog6.boundedcontextWarehouse.domain.Warehouse;
 import be.kdg.prog6.boundedcontextWarehouse.domain.WarehouseActivity;
 import be.kdg.prog6.boundedcontextWarehouse.domain.WarehouseActivityWindow;
 import be.kdg.prog6.boundedcontextWarehouse.ports.out.LoadWarehousePort;
-import be.kdg.prog6.boundedcontextWarehouse.ports.out.UpdatePdtPort;
 import be.kdg.prog6.boundedcontextWarehouse.ports.out.UpdateWarehousePort;
 import be.kdg.prog6.common.domain.MaterialType;
 import be.kdg.prog6.common.domain.Seller;
-import be.kdg.prog6.common.domain.WarehouseAction;
+import be.kdg.prog6.common.exception.CustomException;
 import jakarta.transaction.Transactional;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Component
-public class WarehouseDBAdapter implements LoadWarehousePort, UpdateWarehousePort, UpdatePdtPort {
+public class WarehouseDBAdapter implements LoadWarehousePort, UpdateWarehousePort{
 
     private final WarehouseRepository warehouseRepository;
 
@@ -49,6 +50,7 @@ public class WarehouseDBAdapter implements LoadWarehousePort, UpdateWarehousePor
 
         return returnWarehouseWithActivitiesAndPdts(warehouseJpaEntity);
     }
+
 
     private Optional<Warehouse> returnWarehouseWithActivitiesAndPdts(Optional<WarehouseJpaEntity> warehouseJpaEntity){
 
@@ -96,6 +98,32 @@ public class WarehouseDBAdapter implements LoadWarehousePort, UpdateWarehousePor
         warehouseRepository.save(warehouseJpaEntity);
     }
 
+    @Override
+    public void updateWarehouse(Warehouse warehouse) {
+        WarehouseJpaEntity warehouseJpaEntity = warehouseRepository.findByWarehouseNumber(warehouse.getWareHouseNumber())
+                .orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND, "Warehouse not found"));
+
+        List<PdtJpaEntity> pdtJpaEntities = buildJpaEntityObjects(warehouse.getPdtList(), warehouseJpaEntity.getWarehouseNumber());
+        warehouseJpaEntity.setPdtJpaEntityList(pdtJpaEntities);
+
+        warehouseRepository.save(warehouseJpaEntity);
+    }
+
+    private List<PdtJpaEntity> buildJpaEntityObjects(List<Pdt> pdtList, int warehouseNumber) {
+        return pdtList.stream()
+                .map(pdt -> buildPdtJpaEntity(pdt, warehouseNumber))
+                .collect(Collectors.toList());
+    }
+
+    private PdtJpaEntity buildPdtJpaEntity(Pdt pdt, int warehouseNumber) {
+        return new PdtJpaEntity(
+                pdt.getPdtUUID().uuid(),
+                pdt.getTimeOfDelivery(),
+                warehouseNumber,
+                pdt.getAmountOfTonsDelivered()
+        );
+    }
+
     private WarehouseJpaActivityEntity buildJpaActivityEntity(final WarehouseJpaEntity warehouseJpaEntity,
                                                               final WarehouseActivity warehouseActivity) {
 
@@ -106,17 +134,5 @@ public class WarehouseDBAdapter implements LoadWarehousePort, UpdateWarehousePor
         warehouseJpaActivityEntity.setTime(LocalDateTime.now());
         warehouseJpaActivityEntity.setWarehouseJpaEntity(warehouseJpaEntity);
         return warehouseJpaActivityEntity;
-    }
-
-    @Override
-    public void createPdtPort(Warehouse warehouse, LocalDateTime timeOfDelivery, UUID appointmentUUID) {
-
-        final int warehouseNumber = warehouse.getWareHouseNumber();
-        final WarehouseJpaEntity warehouseJpaEntity = warehouseRepository.
-                findByWarehouseNumber(warehouseNumber).orElseThrow();
-
-        PdtJpaEntity pdtJpaEntity = new PdtJpaEntity(appointmentUUID, timeOfDelivery, warehouseNumber);
-        warehouseJpaEntity.getPdtJpaEntityList().add(pdtJpaEntity);
-        warehouseRepository.save(warehouseJpaEntity);
     }
 }

@@ -84,4 +84,8 @@
         public List<PdtJpaEntity> getPdtJpaEntityList() {
             return pdtJpaEntityList;
         }
+
+        public void setPdtJpaEntityList(List<PdtJpaEntity> pdtJpaEntityList) {
+            this.pdtJpaEntityList = pdtJpaEntityList;
+        }
     }
