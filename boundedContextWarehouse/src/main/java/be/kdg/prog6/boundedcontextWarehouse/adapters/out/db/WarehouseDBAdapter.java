@@ -83,30 +83,36 @@ public class WarehouseDBAdapter implements LoadWarehousePort, UpdateWarehousePor
                     new Pdt.PdtUUID(pdtJpaEntity.getPdtUUID())));
         }
     }
+
+    private void createActivity(Warehouse warehouse, WarehouseActivity warehouseActivity){
+        final int warehouseNumber = warehouse.getWareHouseNumber();
+        final WarehouseJpaEntity warehouseJpaEntity = warehouseRepository.
+                findByWarehouseNumber(warehouseNumber).orElseThrow();
+
+        warehouseJpaEntity.getActivities().
+                add(buildJpaActivityEntity(warehouseJpaEntity, warehouseActivity));
+        warehouseRepository.save(warehouseJpaEntity);
+    }
     @Override
     @Transactional
     public void updateWarehouse(UpdateWarehouseAction updateWarehouseAction, Warehouse warehouse, WarehouseActivity warehouseActivity, UUID appointmentUUID) {
 
         if(updateWarehouseAction.equals(UpdateWarehouseAction.CREATE_ACTIVIY)){
-            final int warehouseNumber = warehouse.getWareHouseNumber();
-            final WarehouseJpaEntity warehouseJpaEntity = warehouseRepository.
-                    findByWarehouseNumber(warehouseNumber).orElseThrow();
-
-            warehouseJpaEntity.getActivities().
-                    add(buildJpaActivityEntity(warehouseJpaEntity, warehouseActivity));
-            warehouseRepository.save(warehouseJpaEntity);
+            createActivity(warehouse, warehouseActivity);
         }
         else{
-            WarehouseJpaEntity warehouseJpaEntity = warehouseRepository.findByWarehouseNumber(warehouse.getWareHouseNumber())
-                    .orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND, "Warehouse not found"));
-
-            List<PdtJpaEntity> pdtJpaEntities = buildJpaEntityObjects(warehouse.getPdtList(), warehouseJpaEntity.getWarehouseNumber());
-            warehouseJpaEntity.setPdtJpaEntityList(pdtJpaEntities);
-
-            warehouseRepository.save(warehouseJpaEntity);
+            createPdt(warehouse);
         }
+    }
 
+    private void createPdt(Warehouse warehouse){
+        WarehouseJpaEntity warehouseJpaEntity = warehouseRepository.findByWarehouseNumber(warehouse.getWareHouseNumber())
+                .orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND, "Warehouse not found"));
 
+        List<PdtJpaEntity> pdtJpaEntities = buildJpaEntityObjects(warehouse.getPdtList(), warehouseJpaEntity.getWarehouseNumber());
+        warehouseJpaEntity.setPdtJpaEntityList(pdtJpaEntities);
+
+        warehouseRepository.save(warehouseJpaEntity);
     }
 
     private List<PdtJpaEntity> buildJpaEntityObjects(List<Pdt> pdtList, int warehouseNumber) {
