@@ -37,16 +37,14 @@ public class DefaultAddedOrDispatchedMaterialProjector implements AddedOrDispatc
         Warehouse warehouse = findWarehouseByWarehouseNumber(warehouseNumber);
         int amountOfTonsDelivered = warehouse.calculateNetWeight(intitalWeight, finalWeight);
         WarehouseActivity warehouseActivity = buildWarehouseActivityAndAddActivityToWarehouse(warehouse, amountOfTonsDelivered, warehouseAction);
-        addPdtToWarehouseObjectIfReceivingMaterial(warehouse, warehouseAction, pdtUUID, amountOfTonsDelivered);
+        modifypdt(warehouse, pdtUUID, amountOfTonsDelivered);
 
         updateWarehousePort.forEach(port -> port.updateWarehouse(UpdateWarehouseAction.CREATE_ACTIVIY, warehouse, warehouseActivity, pdtUUID));
     }
 
-    private void addPdtToWarehouseObjectIfReceivingMaterial(Warehouse warehouse, WarehouseAction warehouseAction, UUID pdtUUID, int amountOfTondsDelivered){
-        if(warehouseAction.equals(WarehouseAction.RECEIVE)) {
+    private void modifypdt(Warehouse warehouse, UUID pdtUUID, int amountOfTondsDelivered){
             Optional<Pdt> pdt = Optional.of(warehouse.getPdtList().stream().filter(pdt1 -> pdt1.getPdtUUID().uuid().equals(pdtUUID)).findFirst().orElseThrow());
             pdt.get().setAmountOfTonsDelivered(amountOfTondsDelivered);
-        }
     }
 
     @Override
