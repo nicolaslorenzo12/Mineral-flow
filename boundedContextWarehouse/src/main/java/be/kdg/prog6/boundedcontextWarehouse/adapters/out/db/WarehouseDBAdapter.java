@@ -93,13 +93,18 @@ public class WarehouseDBAdapter implements LoadWarehousePort, UpdateWarehousePor
 
         List<PdtJpaEntity> pdtJpaEntities = buildJpaEntityObjects(warehouse);
         warehouseJpaEntity.setPdtJpaEntityList(pdtJpaEntities);
+        addActivityJpaEntityToWarehouseJpaEntityObject(warehouseJpaEntity, updateWarehouseAction, warehouseActivity);
+
+        warehouseRepository.save(warehouseJpaEntity);
+    }
+
+    public void addActivityJpaEntityToWarehouseJpaEntityObject(WarehouseJpaEntity warehouseJpaEntity, UpdateWarehouseAction updateWarehouseAction,
+                                                               WarehouseActivity warehouseActivity){
 
         if(updateWarehouseAction.equals(UpdateWarehouseAction.CREATE_ACTIVIY)){
             warehouseJpaEntity.getActivities().
                     add(buildJpaActivityEntity(warehouseJpaEntity, warehouseActivity));
         }
-
-        warehouseRepository.save(warehouseJpaEntity);
     }
 
 
