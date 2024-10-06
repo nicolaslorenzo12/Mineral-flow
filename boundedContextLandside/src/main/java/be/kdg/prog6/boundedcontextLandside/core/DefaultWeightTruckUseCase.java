@@ -41,7 +41,7 @@ public class DefaultWeightTruckUseCase implements WeightTruckUseCase {
     private int generateRandomWeight(WeightingTime weightingTime) {
         Random random = new Random();
         if(weightingTime.equals(WeightingTime.FIRST_TIME)) {
-            return random.nextInt(21) + 10;
+            return random.nextInt(21) + 15;
         }
         else{
             return 10;

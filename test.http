@@ -8,27 +8,27 @@ GET http://localhost:8090/api/current-stock/warehouse/6
 
 ###
 
-POST http://localhost:8090/api/material-truck-appointment/seller/123e4567-e89b-12d3-a456-426614174000/material/GP/licensePlateNumbe/ABC123/appointment/2024-10-06T11:00:00
+POST http://localhost:8090/api/material-truck-appointment/seller/123e4567-e89b-12d3-a456-426614174000/material/PT/licensePlateNumbe/ABCD123/appointment/2024-10-06T13:00:00
 
 ###
 
-POST http://localhost:8090/api/material-truck-appointment/seller/123e4567-e89b-12d3-a456-426614174001/material/PT/licensePlateNumbe/CBA123/appointment/2024-10-03T19:00:00
+POST http://localhost:8090/api/material-truck-appointment/seller/123e4567-e89b-12d3-a456-426614174001/material/PT/licensePlateNumbe/CBA123/appointment/2024-10-06T19:00:00
 
 ###
 
-POST http://localhost:8090/api/appointment/truck/ABC123/check
+POST http://localhost:8090/api/appointment/truck/ABCD123/check
 
 ###
 
-POST http://localhost:8090/api/appointment/57ba0393-d7fb-4129-b157-b6340e66fc8c/weight/FIRST_TIME
+POST http://localhost:8090/api/appointment/2c4bbd34-a71e-41cb-8e38-a4cd561704fd/weight/FIRST_TIME
 
 ###
 
-POST http://localhost:8090/api/appointment/57ba0393-d7fb-4129-b157-b6340e66fc8c/loadMaterial
+POST http://localhost:8090/api/appointment/2c4bbd34-a71e-41cb-8e38-a4cd561704fd/loadMaterial
 
 ###
 
-POST http://localhost:8090/api/appointment/57ba0393-d7fb-4129-b157-b6340e66fc8c/weight/SECOND_TIME
+POST http://localhost:8090/api/appointment/2c4bbd34-a71e-41cb-8e38-a4cd561704fd/weight/SECOND_TIME
 
 
 
