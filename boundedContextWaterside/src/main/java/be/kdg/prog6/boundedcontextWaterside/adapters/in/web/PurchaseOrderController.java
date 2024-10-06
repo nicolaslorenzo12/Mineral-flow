@@ -1,5 +1,6 @@
 package be.kdg.prog6.boundedcontextWaterside.adapters.in.web;
 
+import be.kdg.prog6.boundedcontextWaterside.domain.dto.ShipmentAndPurchaseOrderMatchedDto;
 import be.kdg.prog6.boundedcontextWaterside.ports.in.LoadShipWithMaterialCommand;
 import be.kdg.prog6.boundedcontextWaterside.ports.in.LoadShipWithMaterialUseCase;
 import be.kdg.prog6.boundedcontextWaterside.ports.in.MatchPurchaseAndShipmentOrderCommand;
@@ -21,10 +22,10 @@ public class PurchaseOrderController {
     }
 
     @PostMapping("match-shipment-and-purchase-order/purchase-order/{purchaseNumber}")
-    public ResponseEntity<String> makeAppointment(@PathVariable String purchaseNumber) {
+    public ResponseEntity<ShipmentAndPurchaseOrderMatchedDto> makeAppointment(@PathVariable String purchaseNumber) {
 
-        matchPurchaseAndShipmentOrderUseCase.matchPurchaseAndShipmentOrderWhenArriving(new MatchPurchaseAndShipmentOrderCommand(purchaseNumber));
-        return ResponseEntity.ok("The shipment and purchase order match.");
+        ShipmentAndPurchaseOrderMatchedDto shipmentAndPurchaseOrderMatchedDto = matchPurchaseAndShipmentOrderUseCase.matchPurchaseAndShipmentOrderWhenArriving(new MatchPurchaseAndShipmentOrderCommand(purchaseNumber));
+        return ResponseEntity.ok(shipmentAndPurchaseOrderMatchedDto);
     }
 
     @PostMapping("load-ship/purchase-order/{poNumber}")

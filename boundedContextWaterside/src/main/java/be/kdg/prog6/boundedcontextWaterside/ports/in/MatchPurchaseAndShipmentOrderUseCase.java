@@ -1,6 +1,9 @@
 package be.kdg.prog6.boundedcontextWaterside.ports.in;
 
+import be.kdg.prog6.boundedcontextWaterside.domain.ShipmentOrder;
+import be.kdg.prog6.boundedcontextWaterside.domain.dto.ShipmentAndPurchaseOrderMatchedDto;
+
 public interface MatchPurchaseAndShipmentOrderUseCase {
 
-    void matchPurchaseAndShipmentOrderWhenArriving(MatchPurchaseAndShipmentOrderCommand matchPurchaseAndShipmentOrderCommand);
+    ShipmentAndPurchaseOrderMatchedDto matchPurchaseAndShipmentOrderWhenArriving(MatchPurchaseAndShipmentOrderCommand matchPurchaseAndShipmentOrderCommand);
 }

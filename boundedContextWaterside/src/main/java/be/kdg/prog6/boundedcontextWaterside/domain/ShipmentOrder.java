@@ -15,7 +15,6 @@ public class ShipmentOrder {
     private LocalDate actualDepartureDate;
     private ShipmentStatus shipmentStatus;
     private final ShipmentOrderUUID shipmentOrderUUID;
-
     public record ShipmentOrderUUID(UUID uuid){
 
     }
@@ -68,6 +67,14 @@ public class ShipmentOrder {
 
     public ShipmentOrderUUID getShipmentOrderUUID() {
         return shipmentOrderUUID;
+    }
+
+    public void setActualArrivalDate(LocalDate actualArrivalDate) {
+        this.actualArrivalDate = actualArrivalDate;
+    }
+
+    public void setActualDepartureDate(LocalDate actualDepartureDate) {
+        this.actualDepartureDate = actualDepartureDate;
     }
 
     public void checkIfShipmentOrderHasAlreadyHadThisStatus(ShipmentStatus shipmentStatus){
