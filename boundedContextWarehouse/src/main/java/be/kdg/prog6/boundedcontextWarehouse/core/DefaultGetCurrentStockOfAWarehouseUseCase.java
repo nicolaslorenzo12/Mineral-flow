@@ -1,6 +1,7 @@
 package be.kdg.prog6.boundedcontextWarehouse.core;
 
 import be.kdg.prog6.boundedcontextWarehouse.domain.Warehouse;
+import be.kdg.prog6.boundedcontextWarehouse.domain.dto.WarehouseStockDto;
 import be.kdg.prog6.boundedcontextWarehouse.ports.in.GetCurrentStockOfAWarehouseCommand;
 import be.kdg.prog6.boundedcontextWarehouse.ports.in.GetCurrentStockOfAWarehouseUseCase;
 import be.kdg.prog6.boundedcontextWarehouse.ports.out.LoadWarehousePort;
@@ -17,12 +18,13 @@ public class DefaultGetCurrentStockOfAWarehouseUseCase implements GetCurrentStoc
         this.loadWarehousePort = loadWarehousePort;
     }
     @Override
-    public int getCurrentStockOfAWarehouse(GetCurrentStockOfAWarehouseCommand getCurrentStockOfAWarehouseCommand) {
+    public WarehouseStockDto getCurrentStockOfAWarehouse(GetCurrentStockOfAWarehouseCommand getCurrentStockOfAWarehouseCommand) {
 
         final int warehouseNumber = getCurrentStockOfAWarehouseCommand.warehouseNumber();
         final Warehouse warehouse = findWarehouse(warehouseNumber);
+        int currentStock = warehouse.calculateAndGetCurrentStock();
 
-        return warehouse.calculateAndGetCurrentStock();
+        return new WarehouseStockDto(warehouseNumber, currentStock);
     }
 
     private Warehouse findWarehouse(int warehouseNumber) {

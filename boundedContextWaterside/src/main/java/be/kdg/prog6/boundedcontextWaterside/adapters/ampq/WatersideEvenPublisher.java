@@ -24,6 +24,7 @@ public class WatersideEvenPublisher implements UpdateWarehousePort {
     @Override
     public void updateWarehouse(OrderLine orderLine, Seller.CustomerUUID sellerUUID, Buyer.CustomerUUID buyerUUID) {
 
+
         final String routingKey = "waterside. " + orderLine.getLineNumber() + " .material_dispatched";
         final String exchangeName = "watersideExchange";
         final MaterialDispatchedEvent body = new MaterialDispatchedEvent(sellerUUID.uuid(), buyerUUID.uuid(), orderLine.getMaterialType(), orderLine.getQuantity());

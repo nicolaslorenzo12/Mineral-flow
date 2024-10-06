@@ -1,6 +1,8 @@
 package be.kdg.prog6.boundedcontextWarehouse.ports.in;
 
+import be.kdg.prog6.boundedcontextWarehouse.domain.dto.WarehouseStockDto;
+
 public interface GetCurrentStockOfAWarehouseUseCase {
 
-    int getCurrentStockOfAWarehouse(GetCurrentStockOfAWarehouseCommand getCurrentStockOfAWarehouseCommand);
+    WarehouseStockDto getCurrentStockOfAWarehouse(GetCurrentStockOfAWarehouseCommand getCurrentStockOfAWarehouseCommand);
 }
