@@ -9,6 +9,7 @@ import be.kdg.prog6.common.domain.Seller;
 import be.kdg.prog6.common.domain.WarehouseAction;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -25,6 +26,6 @@ public class DefaultWarehouseStockChangeProjector implements WarehouseStockChang
         Warehouse warehouse = new Warehouse(warehouseNumber, sellerUuid, amountOfTons, materialType);
 
         updateWarehousePorts.forEach(updateWarehousePort -> updateWarehousePort.updateWarehouse(warehouse,UpdateWarehouseAction.CHANGE_WAREHOUSE_STOCK
-        , UUID.randomUUID()));
+        , UUID.randomUUID(), LocalDateTime.now()));
     }
 }

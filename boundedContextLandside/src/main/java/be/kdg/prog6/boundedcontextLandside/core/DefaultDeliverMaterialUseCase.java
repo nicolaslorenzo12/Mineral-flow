@@ -2,6 +2,7 @@ package be.kdg.prog6.boundedcontextLandside.core;
 
 import be.kdg.prog6.boundedcontextLandside.adapters.out.db.AppointmentJpaEntity;
 import be.kdg.prog6.boundedcontextLandside.domain.*;
+import be.kdg.prog6.boundedcontextLandside.domain.dto.LoadedMaterialDto;
 import be.kdg.prog6.boundedcontextLandside.ports.in.DeliverMaterialCommand;
 import be.kdg.prog6.boundedcontextLandside.ports.in.DeliverMaterialUseCase;
 import be.kdg.prog6.boundedcontextLandside.ports.out.LoadOrCreateDailyCalendarPort;
@@ -36,7 +37,7 @@ public class DefaultDeliverMaterialUseCase implements DeliverMaterialUseCase {
         this.loadOrCreateWarehousePort = loadOrCreateWarehousePort;
     }
     @Override
-    public void deliverMaterial(DeliverMaterialCommand loadMaterialCommand) {
+    public LoadedMaterialDto deliverMaterial(DeliverMaterialCommand loadMaterialCommand) {
 
         DailyCalendar dailyCalendar = loadDailyCalendarPort.loadOrCreateDailyCalendarByDay(LocalDate.now());
         Appointment appointment = findAppointmentByUUID(loadMaterialCommand.appointmentUUID(), dailyCalendar);
@@ -46,7 +47,9 @@ public class DefaultDeliverMaterialUseCase implements DeliverMaterialUseCase {
 
         updateDailyCalendarPorts.forEach(updateDailyCalendarPort -> updateDailyCalendarPort.updateDailyCalendar(dailyCalendar, appointment));
         updateWarehousePorts.forEach(updateWarehousePort -> updateWarehousePort.updateWarehouse(warehouse,
-                UpdateWarehouseAction.CREATE_PDT, appointment.getAppointmentUUID().uuid()));
+                UpdateWarehouseAction.CREATE_PDT, appointment.getAppointmentUUID().uuid(), LocalDateTime.now()));
+
+        return new LoadedMaterialDto(appointment.getAppointmentUUID(), appointment.getLicensePlateNumberOfTruck(), LocalDateTime.now(), appointment.getWarehouseNumber());
     }
 
     private Appointment findAppointmentByUUID(Appointment.AppointmentUUID appointmentUUID, DailyCalendar dailyCalendar){

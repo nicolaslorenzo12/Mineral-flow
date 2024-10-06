@@ -1,6 +1,8 @@
 package be.kdg.prog6.boundedcontextLandside.ports.in;
 
+import be.kdg.prog6.boundedcontextLandside.domain.dto.LoadedMaterialDto;
+
 public interface DeliverMaterialUseCase {
 
-    void deliverMaterial(DeliverMaterialCommand loadMaterialCommand);
+    LoadedMaterialDto deliverMaterial(DeliverMaterialCommand loadMaterialCommand);
 }

@@ -11,6 +11,7 @@ import be.kdg.prog6.common.exception.CustomException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -30,7 +31,7 @@ public class WarehouseDBAdapter implements LoadOrCreateWarehousePort, UpdateWare
         return warehouseJpaEntity.map(this::buildWarehouseObject);
     }
     @Override
-    public void updateWarehouse(Warehouse warehouse, UpdateWarehouseAction updateWarehouseAction, UUID appointmentUUID) {
+    public void updateWarehouse(Warehouse warehouse, UpdateWarehouseAction updateWarehouseAction, UUID appointmentUUID, LocalDateTime dateTime) {
 
         if(updateWarehouseAction.equals(UpdateWarehouseAction.CHANGE_WAREHOUSE_STOCK)) {
             warehouseRepository.save(new WarehouseJpaEntity(warehouse.getWareHouseNumber(), warehouse.getSellerUUID().uuid(), warehouse.getMaterialType(),

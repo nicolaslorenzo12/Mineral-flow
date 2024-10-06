@@ -37,7 +37,7 @@ public class DefaultWeightTruckUseCase implements WeightTruckUseCase {
         appointment.proccessWeighting(weightTruckCommand.weightingTime(),randomWeight);
 
         updateDailyCalendarPorts.forEach(updateDailyCalendarPort -> updateDailyCalendarPort.updateDailyCalendar(dailyCalendar, appointment));
-        return new TruckWeightedDto(appointment.getLicensePlateNumberOfTruck(), appointment.getInitialWeight(), appointment.getFinalWeight());
+        return new TruckWeightedDto(appointment.getAppointmentUUID(), appointment.getLicensePlateNumberOfTruck(), appointment.getInitialWeight(), appointment.getFinalWeight());
     }
 
     private int generateRandomWeight(WeightingTime weightingTime) {

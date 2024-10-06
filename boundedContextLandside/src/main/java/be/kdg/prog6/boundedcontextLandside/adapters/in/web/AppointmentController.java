@@ -3,6 +3,7 @@ package be.kdg.prog6.boundedcontextLandside.adapters.in.web;
 import be.kdg.prog6.boundedcontextLandside.domain.Appointment;
 import be.kdg.prog6.boundedcontextLandside.domain.WeightingTime;
 import be.kdg.prog6.boundedcontextLandside.domain.dto.CreatedAppointmentDto;
+import be.kdg.prog6.boundedcontextLandside.domain.dto.LoadedMaterialDto;
 import be.kdg.prog6.boundedcontextLandside.domain.dto.TruckArrivedDto;
 import be.kdg.prog6.boundedcontextLandside.domain.dto.TruckWeightedDto;
 import be.kdg.prog6.boundedcontextLandside.ports.in.*;
@@ -56,8 +57,8 @@ public class AppointmentController {
     }
 
     @PostMapping("appointment/{appointmentUuid}/loadMaterial")
-    public ResponseEntity<String> loadMaterial(@PathVariable UUID appointmentUuid){
-        deliverMaterialUseCase.deliverMaterial(new DeliverMaterialCommand(new Appointment.AppointmentUUID(appointmentUuid)));
-        return ResponseEntity.ok("The truck has successfully delivered the material");
+    public ResponseEntity<LoadedMaterialDto> loadMaterial(@PathVariable UUID appointmentUuid){
+        LoadedMaterialDto loadedMaterialDto = deliverMaterialUseCase.deliverMaterial(new DeliverMaterialCommand(new Appointment.AppointmentUUID(appointmentUuid)));
+        return ResponseEntity.ok(loadedMaterialDto);
     }
 }

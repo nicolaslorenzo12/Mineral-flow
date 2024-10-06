@@ -42,7 +42,7 @@ public class DefaultScanLicensePlateNumberWhenArrivingUseCase implements ScanLic
         appointment.setArrivalTime(LocalDateTime.now());
 
         updateDailyCalendarPorts.forEach(updateDailyCalendarPort -> updateDailyCalendarPort.updateDailyCalendar(dailyCalendar, appointment));
-        return new TruckArrivedDto(appointment.getLicensePlateNumberOfTruck(), appointment.getTruckStatus(), appointment.getArrivalTime());
+        return new TruckArrivedDto(appointment.getAppointmentUUID(), appointment.getLicensePlateNumberOfTruck(), appointment.getTruckStatus(), appointment.getArrivalTime());
     }
 
     public Appointment findAppointmentByLicensePlateNumberOfTruckAndAppointmentTimeAndDay(String licensePlateNumber, LocalDateTime roundedTime, DailyCalendar dailyCalendar){

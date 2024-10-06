@@ -19,19 +19,6 @@ public class LandsideEventPublisher implements UpdateDailyCalendarPort, UpdateWa
         this.rabbitTemplate = rabbitTemplate;
     }
 
-//    @Override
-//    public void updateAppointment(Appointment appointment, DailyCalendar dailyCalendar) {
-//        if (appointment.getTruckStatus().equals(TruckStatus.LEFT)) {
-//            final String routingKey = "landside. " + appointment.getWarehouseNumber() + " .material_added";
-//            final String exchangeName = "landsideExchange";
-//            final MaterialAddedEvent body = new MaterialAddedEvent(appointment.getInitialWeight(),appointment.getFinalWeight(),
-//                    appointment.getWarehouseNumber(), appointment.getAppointmentUUID().uuid());
-//
-//            rabbitTemplate.convertAndSend(exchangeName, routingKey, body);
-//        }
-//
-//    }
-
     @Override
     public void updateDailyCalendar(DailyCalendar dailyCalendar, Appointment appointment) {
 
@@ -46,13 +33,13 @@ public class LandsideEventPublisher implements UpdateDailyCalendarPort, UpdateWa
     }
 
     @Override
-    public void updateWarehouse(Warehouse warehouse, UpdateWarehouseAction updateWarehouseAction, UUID appointmentUUID) {
+    public void updateWarehouse(Warehouse warehouse, UpdateWarehouseAction updateWarehouseAction, UUID appointmentUUID, LocalDateTime timeOfDelivery) {
 
         if(updateWarehouseAction.equals(UpdateWarehouseAction.CREATE_PDT)) {
 
           final String routingKey = "landside. " + warehouse.getWareHouseNumber() + " .pdt_to_be_created";
           final String exchangeName = "landsideExchange";
-          final PdtToBeCreatedEvent body = new PdtToBeCreatedEvent(warehouse.getWareHouseNumber(), LocalDateTime.now(), appointmentUUID);
+          final PdtToBeCreatedEvent body = new PdtToBeCreatedEvent(warehouse.getWareHouseNumber(), timeOfDelivery, appointmentUUID);
 
             rabbitTemplate.convertAndSend(exchangeName, routingKey, body);
         }
