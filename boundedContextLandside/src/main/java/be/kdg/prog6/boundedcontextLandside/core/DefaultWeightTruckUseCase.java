@@ -4,6 +4,7 @@ import be.kdg.prog6.boundedcontextLandside.adapters.out.db.AppointmentJpaEntity;
 import be.kdg.prog6.boundedcontextLandside.domain.Appointment;
 import be.kdg.prog6.boundedcontextLandside.domain.DailyCalendar;
 import be.kdg.prog6.boundedcontextLandside.domain.WeightingTime;
+import be.kdg.prog6.boundedcontextLandside.domain.dto.TruckWeightedDto;
 import be.kdg.prog6.boundedcontextLandside.ports.in.WeightTruckCommand;
 import be.kdg.prog6.boundedcontextLandside.ports.in.WeightTruckUseCase;
 import be.kdg.prog6.boundedcontextLandside.ports.out.LoadOrCreateDailyCalendarPort;
@@ -29,13 +30,14 @@ public class DefaultWeightTruckUseCase implements WeightTruckUseCase {
     }
 
     @Override
-    public void weightTruck(WeightTruckCommand weightTruckCommand) {
+    public TruckWeightedDto weightTruck(WeightTruckCommand weightTruckCommand) {
         DailyCalendar dailyCalendar = loadDailyCalendarPort.loadOrCreateDailyCalendarByDay(LocalDate.now());
         Appointment appointment = findAppointment(weightTruckCommand, dailyCalendar);
         int randomWeight = generateRandomWeight(weightTruckCommand.weightingTime());
         appointment.proccessWeighting(weightTruckCommand.weightingTime(),randomWeight);
 
         updateDailyCalendarPorts.forEach(updateDailyCalendarPort -> updateDailyCalendarPort.updateDailyCalendar(dailyCalendar, appointment));
+        return new TruckWeightedDto(appointment.getLicensePlateNumberOfTruck(), appointment.getInitialWeight(), appointment.getFinalWeight());
     }
 
     private int generateRandomWeight(WeightingTime weightingTime) {
