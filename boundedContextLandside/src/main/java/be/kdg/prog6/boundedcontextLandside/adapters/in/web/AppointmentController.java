@@ -2,6 +2,7 @@ package be.kdg.prog6.boundedcontextLandside.adapters.in.web;
 
 import be.kdg.prog6.boundedcontextLandside.domain.Appointment;
 import be.kdg.prog6.boundedcontextLandside.domain.WeightingTime;
+import be.kdg.prog6.boundedcontextLandside.domain.dto.CreatedAppointmentDto;
 import be.kdg.prog6.boundedcontextLandside.ports.in.*;
 import be.kdg.prog6.common.domain.MaterialType;
 import be.kdg.prog6.common.domain.Seller;
@@ -29,13 +30,13 @@ public class AppointmentController {
 
 
     @PostMapping("material-truck-appointment/seller/{sellerUuid}/material/{materialType}/licensePlateNumbe/{licensePlateNumberOfTruck}/appointment/{appointmentTime}")
-    public ResponseEntity<String> makeAppointment(@PathVariable UUID sellerUuid, @PathVariable MaterialType materialType,
+    public ResponseEntity<CreatedAppointmentDto> makeAppointment(@PathVariable UUID sellerUuid, @PathVariable MaterialType materialType,
                                                   @PathVariable String licensePlateNumberOfTruck, @PathVariable LocalDateTime appointmentTime) {
 
-            makeAppointmentUseCase.makeAppointment(new MakeAppointmentCommand(new Seller.CustomerUUID(sellerUuid), materialType,
+            CreatedAppointmentDto createdAppointmentDto = makeAppointmentUseCase.makeAppointment(new MakeAppointmentCommand(new Seller.CustomerUUID(sellerUuid), materialType,
                     licensePlateNumberOfTruck, appointmentTime));
 
-            return ResponseEntity.ok("The appointment was created successfully.");
+            return ResponseEntity.ok(createdAppointmentDto);
     }
 
     @PostMapping("appointment/truck/{licensePlateNumber}/check")

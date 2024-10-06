@@ -2,8 +2,8 @@ package be.kdg.prog6.boundedcontextWarehouse.domain.dto;
 
 public class WarehouseStockDto {
 
-    private int warehouseNumber;
-    private int currentStock;
+    private final int warehouseNumber;
+    private final int currentStock;
 
     public WarehouseStockDto(int warehouseNumber, int currentStock) {
         this.warehouseNumber = warehouseNumber;
@@ -18,11 +18,4 @@ public class WarehouseStockDto {
         return currentStock;
     }
 
-    public void setWarehouseNumber(int warehouseNumber) {
-        this.warehouseNumber = warehouseNumber;
-    }
-
-    public void setCurrentStock(int currentStock) {
-        this.currentStock = currentStock;
-    }
 }

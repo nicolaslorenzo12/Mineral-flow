@@ -16,7 +16,7 @@ public class Appointment {
     private final MaterialType materialType;
     private final String licensePlateNumberOfTruck;
     private TruckStatus status;
-    private int warehouseNumber;
+    private final int warehouseNumber;
     private LocalDateTime arrivalTime;
     private LocalDateTime departureTime;
     private int initialWeight;
@@ -114,10 +114,6 @@ public class Appointment {
 
     public int getWarehouseNumber() {
         return warehouseNumber;
-    }
-
-    public void setWarehouseNumber(int warehouseNumber) {
-        this.warehouseNumber = warehouseNumber;
     }
 
     public MaterialType getMaterialType() {

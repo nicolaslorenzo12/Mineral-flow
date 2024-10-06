@@ -4,6 +4,7 @@ import be.kdg.prog6.boundedcontextLandside.domain.Appointment;
 import be.kdg.prog6.boundedcontextLandside.domain.DailyCalendar;
 import be.kdg.prog6.boundedcontextLandside.domain.TruckStatus;
 import be.kdg.prog6.boundedcontextLandside.domain.Warehouse;
+import be.kdg.prog6.boundedcontextLandside.domain.dto.CreatedAppointmentDto;
 import be.kdg.prog6.boundedcontextLandside.ports.in.MakeAppointmentCommand;
 import be.kdg.prog6.boundedcontextLandside.ports.in.MakeAppointmentUseCase;
 import be.kdg.prog6.boundedcontextLandside.ports.out.*;
@@ -38,7 +39,7 @@ public class DefaultMakeAppointmentUseCase implements MakeAppointmentUseCase {
 
     @Override
     @Transactional
-    public void makeAppointment(MakeAppointmentCommand makeAppointmentCommand) {
+    public CreatedAppointmentDto makeAppointment(MakeAppointmentCommand makeAppointmentCommand) {
 
         final UUID sellerUUID = makeAppointmentCommand.sellerUUID().uuid();
         final MaterialType materialType = makeAppointmentCommand.materialType();
@@ -55,6 +56,8 @@ public class DefaultMakeAppointmentUseCase implements MakeAppointmentUseCase {
         Appointment appointment = buildAppointmentObject(seller, gateNumber, makeAppointmentCommand, material, warehouse, dailyCalendar.getDay());
         dailyCalendar.addAppointment(appointment);
         updateDailyCalendarPorts.forEach(updateDailyCalendarPort -> updateDailyCalendarPort.updateDailyCalendar(dailyCalendar, appointment));
+        return new CreatedAppointmentDto(appointment.getAppointmentUUID(), appointment.getSellerUUID(), appointment.getDay(), appointment.getGateNumber(),
+                appointment.getAppointmentTime(), appointment.getMaterialType(), appointment.getLicensePlateNumberOfTruck(), appointment.getWarehouseNumber());
     }
 
     private Appointment buildAppointmentObject(Seller seller, int gateNumber, MakeAppointmentCommand makeAppointmentCommand, Material material, Warehouse warehouse, LocalDate day){
