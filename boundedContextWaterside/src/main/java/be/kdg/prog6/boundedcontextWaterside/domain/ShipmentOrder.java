@@ -80,4 +80,10 @@ public class ShipmentOrder {
 
         this.setShipmentStatus(shipmentStatus);
     }
+
+    public void checkIfPoNumberIsTheSame(String poNumber){
+        if(!this.getPoNumber().equals(poNumber)){
+            throw new CustomException(HttpStatus.CONFLICT, "Purchase order and shipment order do not match");
+        }
+    }
 }

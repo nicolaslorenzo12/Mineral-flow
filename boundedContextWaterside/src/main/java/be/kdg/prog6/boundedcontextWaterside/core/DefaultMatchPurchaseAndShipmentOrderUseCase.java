@@ -28,10 +28,9 @@ public class DefaultMatchPurchaseAndShipmentOrderUseCase implements MatchPurchas
         ShipmentOrder shipmentOrder = loadOrCreateShipmentOrderPort.loadOrCreateShipmentOrder(matchPurchaseAndShipmentOrderCommand.poNumber())
                 .orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND, "Shipment order was not found"));
 
+        shipmentOrder.checkIfPoNumberIsTheSame(poNumber);
         shipmentOrder.checkIfShipmentOrderHasAlreadyHadThisStatus(ShipmentStatus.ARRIVED);
-        if(!shipmentOrder.getPoNumber().equals(poNumber)){
-            throw new CustomException(HttpStatus.CONFLICT, "Purchase order and shipment order do not match");
-        }
+
         updateShipmentOrderPort.updateShipmentOrder(shipmentOrder);
     }
 }
