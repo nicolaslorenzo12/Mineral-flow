@@ -23,7 +23,7 @@ public class PurchaseOrderController {
     @PostMapping("match-shipment-and-purchase-order/purchase-order/{purchaseNumber}")
     public ResponseEntity<String> makeAppointment(@PathVariable String purchaseNumber) {
 
-        matchPurchaseAndShipmentOrderUseCase.matchPurchaseAndShipmentOrder(new MatchPurchaseAndShipmentOrderCommand(purchaseNumber));
+        matchPurchaseAndShipmentOrderUseCase.matchPurchaseAndShipmentOrderWhenArriving(new MatchPurchaseAndShipmentOrderCommand(purchaseNumber));
         return ResponseEntity.ok("The shipment and purchase order match.");
     }
 

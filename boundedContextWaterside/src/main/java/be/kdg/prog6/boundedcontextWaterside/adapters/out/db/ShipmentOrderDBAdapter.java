@@ -5,6 +5,7 @@ import be.kdg.prog6.boundedcontextWaterside.domain.PurchaseOrder;
 import be.kdg.prog6.boundedcontextWaterside.domain.ShipmentOrder;
 import be.kdg.prog6.boundedcontextWaterside.domain.ShipmentStatus;
 import be.kdg.prog6.boundedcontextWaterside.ports.out.LoadOrCreateShipmentOrderPort;
+import be.kdg.prog6.boundedcontextWaterside.ports.out.UpdateShipmentOrderPort;
 import be.kdg.prog6.common.domain.Buyer;
 import be.kdg.prog6.common.domain.Customer;
 import be.kdg.prog6.common.domain.Seller;
@@ -18,7 +19,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Component
-public class ShipmentOrderDBAdapter implements LoadOrCreateShipmentOrderPort {
+public class ShipmentOrderDBAdapter implements LoadOrCreateShipmentOrderPort, UpdateShipmentOrderPort {
 
     private final ShipmentOrderJpaEntityRepository shipmentOrderJpaEntityRepository;
 
@@ -69,5 +70,23 @@ public class ShipmentOrderDBAdapter implements LoadOrCreateShipmentOrderPort {
             return Optional.empty();
         }
         return Optional.of(buildPurchaseOrderObject(shipmentOrderJpaEntity.get().getPurchaseOrder()));
+    }
+
+    @Override
+    public void updateShipmentOrder(ShipmentOrder shipmentOrder) {
+        shipmentOrderJpaEntityRepository.save(buildShipmentOrderJpaEntity(shipmentOrder));
+    }
+
+    private ShipmentOrderJpaEntity buildShipmentOrderJpaEntity(ShipmentOrder shipmentOrder){
+        ShipmentOrderJpaEntity shipmentOrderJpaEntity = new ShipmentOrderJpaEntity();
+        shipmentOrderJpaEntity.setShipmentOrderUUID(shipmentOrder.getShipmentOrderUUID().uuid());
+        shipmentOrderJpaEntity.setPoNumber(shipmentOrder.getPoNumber());
+        shipmentOrderJpaEntity.setEstimatedArrivalDate(shipmentOrder.getEstimatedArrivalDate());
+        shipmentOrderJpaEntity.setEstimatedDepartureDate(shipmentOrder.getEstimatedDepartureDate());
+        shipmentOrderJpaEntity.setActualArrivalDate(shipmentOrder.getActualArrivalDate());
+        shipmentOrderJpaEntity.setActualDepartureDate(shipmentOrder.getActualDepartureDate());
+        shipmentOrderJpaEntity.setShipmentStatus(shipmentOrder.getShipmentStatus());
+
+        return shipmentOrderJpaEntity;
     }
 }
