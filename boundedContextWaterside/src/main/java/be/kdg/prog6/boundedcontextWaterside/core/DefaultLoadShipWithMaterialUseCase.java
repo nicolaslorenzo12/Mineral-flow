@@ -3,6 +3,7 @@ package be.kdg.prog6.boundedcontextWaterside.core;
 import be.kdg.prog6.boundedcontextWaterside.domain.PurchaseOrder;
 import be.kdg.prog6.boundedcontextWaterside.domain.ShipmentOrder;
 import be.kdg.prog6.boundedcontextWaterside.domain.ShipmentStatus;
+import be.kdg.prog6.boundedcontextWaterside.domain.dto.PurchaseOrderLoadedDto;
 import be.kdg.prog6.boundedcontextWaterside.ports.in.LoadShipWithMaterialCommand;
 import be.kdg.prog6.boundedcontextWaterside.ports.in.LoadShipWithMaterialUseCase;
 import be.kdg.prog6.boundedcontextWaterside.ports.out.LoadOrCreateShipmentOrderPort;
@@ -27,7 +28,7 @@ public class DefaultLoadShipWithMaterialUseCase implements LoadShipWithMaterialU
     }
 
     @Override
-    public void loadShipWithMaterial(LoadShipWithMaterialCommand loadShipWithMaterialCommand) {
+    public PurchaseOrderLoadedDto loadShipWithMaterial(LoadShipWithMaterialCommand loadShipWithMaterialCommand) {
 
         String poNumber = loadShipWithMaterialCommand.poNumber();
         PurchaseOrder purchaseOrder = loadOrCreateShipmentOrderPort.loadPurchaseOrder(poNumber)
@@ -40,5 +41,7 @@ public class DefaultLoadShipWithMaterialUseCase implements LoadShipWithMaterialU
         purchaseOrder.getOrderLineList().forEach(orderLine -> updateWarehousePort.updateWarehouse(orderLine, purchaseOrder.getSellerUuid(), purchaseOrder.getBuyerUuid()));
 
         updateShipmentOrderPort.updateShipmentOrder(shipmentOrder);
+
+        return new PurchaseOrderLoadedDto(shipmentOrder.getShipmentOrderUUID(), purchaseOrder.getPoNumber(), purchaseOrder.getOrderLineList());
     }
 }

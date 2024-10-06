@@ -1,5 +1,6 @@
 package be.kdg.prog6.boundedcontextWaterside.adapters.in.web;
 
+import be.kdg.prog6.boundedcontextWaterside.domain.dto.PurchaseOrderLoadedDto;
 import be.kdg.prog6.boundedcontextWaterside.domain.dto.ShipmentAndPurchaseOrderMatchedDto;
 import be.kdg.prog6.boundedcontextWaterside.ports.in.LoadShipWithMaterialCommand;
 import be.kdg.prog6.boundedcontextWaterside.ports.in.LoadShipWithMaterialUseCase;
@@ -29,9 +30,9 @@ public class PurchaseOrderController {
     }
 
     @PostMapping("load-ship/purchase-order/{poNumber}")
-    public ResponseEntity<String> loadShip(@PathVariable String poNumber) {
+    public ResponseEntity<PurchaseOrderLoadedDto> loadShip(@PathVariable String poNumber) {
 
-        loadShipWithMaterialUseCase.loadShipWithMaterial(new LoadShipWithMaterialCommand(poNumber));
-        return ResponseEntity.ok("The ship was successfully loaded with the needed material");
+        PurchaseOrderLoadedDto purchaseOrderLoadedDto = loadShipWithMaterialUseCase.loadShipWithMaterial(new LoadShipWithMaterialCommand(poNumber));
+        return ResponseEntity.ok(purchaseOrderLoadedDto);
     }
 }

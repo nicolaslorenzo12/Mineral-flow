@@ -7,7 +7,6 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 public class ShipmentOrder {
-
     private final String poNumber;
     private final  LocalDate estimatedArrivalDate;
     private final LocalDate estimatedDepartureDate;

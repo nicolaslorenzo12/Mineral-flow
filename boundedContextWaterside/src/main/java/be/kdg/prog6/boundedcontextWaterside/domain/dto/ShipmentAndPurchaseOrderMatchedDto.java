@@ -6,13 +6,13 @@ import be.kdg.prog6.boundedcontextWaterside.domain.ShipmentStatus;
 import java.time.LocalDate;
 
 public class ShipmentAndPurchaseOrderMatchedDto {
-
     private final ShipmentOrder.ShipmentOrderUUID shipmentOrderUUID;
     private final String poNumber;
     private final LocalDate actualArrivalDate;
     private final ShipmentStatus shipmentStatus;
 
-    public ShipmentAndPurchaseOrderMatchedDto(ShipmentOrder.ShipmentOrderUUID shipmentOrderUUID, String poNumber, LocalDate actualArrivalDate, ShipmentStatus shipmentStatus) {
+    public ShipmentAndPurchaseOrderMatchedDto(ShipmentOrder.ShipmentOrderUUID shipmentOrderUUID, String poNumber, LocalDate actualArrivalDate,
+                                              ShipmentStatus shipmentStatus) {
         this.shipmentOrderUUID = shipmentOrderUUID;
         this.poNumber = poNumber;
         this.actualArrivalDate = actualArrivalDate;
