@@ -3,6 +3,7 @@ package be.kdg.prog6.boundedcontextLandside.adapters.in.web;
 import be.kdg.prog6.boundedcontextLandside.domain.Appointment;
 import be.kdg.prog6.boundedcontextLandside.domain.WeightingTime;
 import be.kdg.prog6.boundedcontextLandside.domain.dto.CreatedAppointmentDto;
+import be.kdg.prog6.boundedcontextLandside.domain.dto.TruckArrivedDto;
 import be.kdg.prog6.boundedcontextLandside.ports.in.*;
 import be.kdg.prog6.common.domain.MaterialType;
 import be.kdg.prog6.common.domain.Seller;
@@ -40,10 +41,10 @@ public class AppointmentController {
     }
 
     @PostMapping("appointment/truck/{licensePlateNumber}/check")
-    public ResponseEntity<String> scanTruckForAppointment(@PathVariable String licensePlateNumber){
+    public ResponseEntity<TruckArrivedDto> scanTruckForAppointment(@PathVariable String licensePlateNumber){
 
-        scanLicensePlateNumberOfATruckUseCase.scanLicensePlateNumber(new ScanLicensePlateNumberWhenArrivingCommand(licensePlateNumber));
-        return ResponseEntity.ok("The truck is arriving at an acceptable time");
+        TruckArrivedDto truckArrivedDto = scanLicensePlateNumberOfATruckUseCase.scanLicensePlateNumber(new ScanLicensePlateNumberWhenArrivingCommand(licensePlateNumber));
+        return ResponseEntity.ok(truckArrivedDto);
     }
 
     @PostMapping("appointment/{appointmentUuid}/weight/{weighingTime}")

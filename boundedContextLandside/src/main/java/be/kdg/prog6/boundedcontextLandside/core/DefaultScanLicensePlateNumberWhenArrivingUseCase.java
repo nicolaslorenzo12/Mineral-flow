@@ -4,6 +4,7 @@ import be.kdg.prog6.boundedcontextLandside.adapters.out.db.AppointmentJpaEntity;
 import be.kdg.prog6.boundedcontextLandside.domain.Appointment;
 import be.kdg.prog6.boundedcontextLandside.domain.DailyCalendar;
 import be.kdg.prog6.boundedcontextLandside.domain.TruckStatus;
+import be.kdg.prog6.boundedcontextLandside.domain.dto.TruckArrivedDto;
 import be.kdg.prog6.boundedcontextLandside.ports.in.ScanLicensePlateNumberWhenArrivingCommand;
 import be.kdg.prog6.boundedcontextLandside.ports.in.ScanLicensePlateNumberWhenArrivingUseCase;
 import be.kdg.prog6.boundedcontextLandside.ports.out.LoadOrCreateDailyCalendarPort;
@@ -28,7 +29,7 @@ public class DefaultScanLicensePlateNumberWhenArrivingUseCase implements ScanLic
     }
 
     @Override
-    public void scanLicensePlateNumber(ScanLicensePlateNumberWhenArrivingCommand scanLicensePlateNumberCommand) {
+    public TruckArrivedDto scanLicensePlateNumber(ScanLicensePlateNumberWhenArrivingCommand scanLicensePlateNumberCommand) {
 
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime roundedTime = now.withMinute(0).withSecond(0).withNano(0);
@@ -41,6 +42,7 @@ public class DefaultScanLicensePlateNumberWhenArrivingUseCase implements ScanLic
         appointment.setArrivalTime(LocalDateTime.now());
 
         updateDailyCalendarPorts.forEach(updateDailyCalendarPort -> updateDailyCalendarPort.updateDailyCalendar(dailyCalendar, appointment));
+        return new TruckArrivedDto(appointment.getLicensePlateNumberOfTruck(), appointment.getTruckStatus(), appointment.getArrivalTime());
     }
 
     public Appointment findAppointmentByLicensePlateNumberOfTruckAndAppointmentTimeAndDay(String licensePlateNumber, LocalDateTime roundedTime, DailyCalendar dailyCalendar){
