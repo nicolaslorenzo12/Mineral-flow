@@ -24,26 +24,15 @@ public class PurchaseOrderJpaEntity {
     @Column(nullable = false)
     private LocalDate purchaseOrderDate;
 
-    @OneToOne
-    @JoinColumn(name = "sellerUUID", referencedColumnName = "sellerUUID", insertable = false, updatable = false)
-    private SellerJpaEntitty sellerJpaEntitty;
-
-    @OneToOne
-    @JoinColumn(name = "buyerUUID", referencedColumnName = "buyerUUID", insertable = false, updatable = false)
-    private BuyerJpaEntity buyerJpaEntity;
-
     @OneToMany(mappedBy = "purchaseOrder", cascade = CascadeType.ALL)
     private List<OrderLineJpaEntity> orderLines;
 
-    public PurchaseOrderJpaEntity(String poNumber, UUID sellerUUID, UUID buyerUuid, String vesselNumber, LocalDate purchaseOrderDate,
-                                  SellerJpaEntitty sellerJpaEntitty, BuyerJpaEntity buyerJpaEntity) {
+    public PurchaseOrderJpaEntity(String poNumber, UUID sellerUUID, UUID buyerUuid, String vesselNumber, LocalDate purchaseOrderDate) {
         this.poNumber = poNumber;
         this.sellerUUID = sellerUUID;
         this.buyerUUID = buyerUuid;
         this.vesselNumber = vesselNumber;
         this.purchaseOrderDate = purchaseOrderDate;
-        this.sellerJpaEntitty = sellerJpaEntitty;
-        this.buyerJpaEntity = buyerJpaEntity;
     }
 
     public PurchaseOrderJpaEntity() {
@@ -88,22 +77,6 @@ public class PurchaseOrderJpaEntity {
 
     public void setPurchaseOrderDate(LocalDate purchaseOrderDate) {
         this.purchaseOrderDate = purchaseOrderDate;
-    }
-
-    public SellerJpaEntitty getSellerJpaEntitty() {
-        return sellerJpaEntitty;
-    }
-
-    public void setSellerJpaEntitty(SellerJpaEntitty sellerJpaEntitty) {
-        this.sellerJpaEntitty = sellerJpaEntitty;
-    }
-
-    public BuyerJpaEntity getBuyerJpaEntity() {
-        return buyerJpaEntity;
-    }
-
-    public void setBuyerJpaEntity(BuyerJpaEntity buyerJpaEntity) {
-        this.buyerJpaEntity = buyerJpaEntity;
     }
 
     public List<OrderLineJpaEntity> getOrderLines() {

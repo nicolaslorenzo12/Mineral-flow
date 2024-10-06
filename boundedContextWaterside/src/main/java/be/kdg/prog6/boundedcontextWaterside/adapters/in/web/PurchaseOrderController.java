@@ -31,6 +31,6 @@ public class PurchaseOrderController {
     public ResponseEntity<String> loadShip(@PathVariable String poNumber) {
 
         loadShipWithMaterialUseCase.loadShipWithMaterial(new LoadShipWithMaterialCommand(poNumber));
-        return ResponseEntity.ok("The shipment and purchase order match.");
+        return ResponseEntity.ok("The ship was successfully loaded with the needed material");
     }
 }
