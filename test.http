@@ -20,15 +20,15 @@ POST http://localhost:8090/api/appointment/truck/ABC123/check
 
 ###
 
-POST http://localhost:8090/api/appointment/020a0c71-15f5-4f3e-b524-602eec70d320/weight/FIRST_TIME
+POST http://localhost:8090/api/appointment/c9f56b8b-638d-499d-8456-11186ef02557/weight/FIRST_TIME
 
 ###
 
-POST http://localhost:8090/api/appointment/020a0c71-15f5-4f3e-b524-602eec70d320/loadMaterial
+POST http://localhost:8090/api/appointment/c9f56b8b-638d-499d-8456-11186ef02557/loadMaterial
 
 ###
 
-POST http://localhost:8090/api/appointment/020a0c71-15f5-4f3e-b524-602eec70d320/weight/SECOND_TIME
+POST http://localhost:8090/api/appointment/c9f56b8b-638d-499d-8456-11186ef02557/weight/SECOND_TIME
 
 
 

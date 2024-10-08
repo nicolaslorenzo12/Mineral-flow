@@ -10,6 +10,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -91,5 +92,23 @@ public class DailyCalendar {
         appointment.checkIfTruckHasAlreadyGottenThisStatus(TruckStatus.ARRIVED);
         appointment.setArrivalTime(LocalDateTime.now());
         return appointment;
+    }
+
+    public Appointment weightTruckOfAnAppointment(Appointment.AppointmentUUID appointmentUUID, WeightingTime weightingTime ){
+
+        Appointment appointment = findAppointmentByAppointmentUUID(appointmentUUID);
+        int randomWeight = generateRandomWeight(weightingTime);
+        appointment.proccessWeighting(weightingTime,randomWeight);
+        return appointment;
+    }
+
+    private int generateRandomWeight(WeightingTime weightingTime) {
+        Random random = new Random();
+        if(weightingTime.equals(WeightingTime.FIRST_TIME)) {
+            return random.nextInt(21) + 15;
+        }
+        else{
+            return 10;
+        }
     }
 }

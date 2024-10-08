@@ -32,26 +32,13 @@ public class DefaultWeightTruckUseCase implements WeightTruckUseCase {
     @Override
     public TruckWeightedDto weightTruck(WeightTruckCommand weightTruckCommand) {
         DailyCalendar dailyCalendar = loadDailyCalendarPort.loadOrCreateDailyCalendarByDay(LocalDate.now());
-        Appointment appointment = findAppointment(weightTruckCommand, dailyCalendar);
-        int randomWeight = generateRandomWeight(weightTruckCommand.weightingTime());
-        appointment.proccessWeighting(weightTruckCommand.weightingTime(),randomWeight);
 
-        updateDailyCalendarPorts.forEach(updateDailyCalendarPort -> updateDailyCalendarPort.updateDailyCalendar(dailyCalendar, appointment));
+        Appointment appointment = dailyCalendar.weightTruckOfAnAppointment(weightTruckCommand.uuid(),
+                weightTruckCommand.weightingTime());
+
+        updateDailyCalendarPorts.forEach(updateDailyCalendarPort ->
+                updateDailyCalendarPort.updateDailyCalendar(dailyCalendar, appointment));
+
         return new TruckWeightedDto(appointment.getAppointmentUUID(), appointment.getLicensePlateNumberOfTruck(), appointment.getInitialWeight(), appointment.getFinalWeight());
     }
-
-    private int generateRandomWeight(WeightingTime weightingTime) {
-        Random random = new Random();
-        if(weightingTime.equals(WeightingTime.FIRST_TIME)) {
-            return random.nextInt(21) + 15;
-        }
-        else{
-            return 10;
-        }
-    }
-
-    private Appointment findAppointment(WeightTruckCommand weightTruckCommand, DailyCalendar dailyCalendar){
-        return dailyCalendar.findAppointmentByAppointmentUUID(weightTruckCommand.uuid());
-    }
-
 }
