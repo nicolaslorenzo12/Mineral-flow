@@ -25,20 +25,20 @@ public class DefaultMatchPurchaseAndShipmentOrderUseCase implements MatchPurchas
         this.updateShipmentOrderPort = updateShipmentOrderPort;
     }
 
-    @Override
-    public ShipmentAndPurchaseOrderMatchedDto matchPurchaseAndShipmentOrderWhenArriving(MatchPurchaseAndShipmentOrderCommand matchPurchaseAndShipmentOrderCommand) {
-
-        String poNumber = matchPurchaseAndShipmentOrderCommand.poNumber();
-        ShipmentOrder shipmentOrder = loadOrCreateShipmentOrderPort.loadOrCreateShipmentOrder(matchPurchaseAndShipmentOrderCommand.poNumber())
-                .orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND, "Shipment order was not found"));
-
-        shipmentOrder.checkIfPoNumberIsTheSame(poNumber);
-        shipmentOrder.checkIfShipmentOrderHasAlreadyHadThisStatus(ShipmentStatus.ARRIVED);
-        shipmentOrder.setActualArrivalDate(LocalDate.now());
-
-        updateShipmentOrderPort.updateShipmentOrder(shipmentOrder);
-
-        return new ShipmentAndPurchaseOrderMatchedDto(shipmentOrder.getShipmentOrderUUID(), shipmentOrder.getPoNumber(),
-                shipmentOrder.getActualArrivalDate(), shipmentOrder.getShipmentStatus());
-    }
+    //@Override
+    //public ShipmentAndPurchaseOrderMatchedDto matchPurchaseAndShipmentOrderWhenArriving(MatchPurchaseAndShipmentOrderCommand matchPurchaseAndShipmentOrderCommand) {
+//
+    //    String poNumber = matchPurchaseAndShipmentOrderCommand.poNumber();
+    //    ShipmentOrder shipmentOrder = loadOrCreateShipmentOrderPort.loadOrCreateShipmentOrder(matchPurchaseAndShipmentOrderCommand.poNumber())
+    //            .orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND, "Shipment order was not found"));
+//
+    //    shipmentOrder.checkIfPoNumberIsTheSame(poNumber);
+    //    shipmentOrder.checkIfShipmentOrderHasAlreadyHadThisStatus(ShipmentStatus.ARRIVED);
+    //    shipmentOrder.setActualArrivalDate(LocalDate.now());
+//
+    //    updateShipmentOrderPort.updateShipmentOrder(shipmentOrder);
+//
+    //    return new ShipmentAndPurchaseOrderMatchedDto(shipmentOrder.getShipmentOrderUUID(), shipmentOrder.getPoNumber(),
+    //            shipmentOrder.getActualArrivalDate(), shipmentOrder.getShipmentStatus());
+    //}
 }

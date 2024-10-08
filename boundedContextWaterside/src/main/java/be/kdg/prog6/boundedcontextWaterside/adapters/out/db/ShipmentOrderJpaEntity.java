@@ -23,10 +23,6 @@ public class ShipmentOrderJpaEntity {
     @Enumerated(EnumType.STRING)
     private ShipmentStatus shipmentStatus;
 
-    @OneToOne
-    @JoinColumn(name = "poNumber", referencedColumnName = "poNumber", updatable = false, insertable = false)
-    private PurchaseOrderJpaEntity purchaseOrder;
-
 
     public ShipmentOrderJpaEntity(UUID shipmentOrderUUID,String poNumber, LocalDate estimatedArrivalDate, LocalDate estimatedDepartureDate, LocalDate actualArrivalDate,
                                   LocalDate actualDepartureDate, ShipmentStatus shipmentStatus) {
@@ -97,13 +93,5 @@ public class ShipmentOrderJpaEntity {
 
     public void setShipmentOrderUUID(UUID shipmentOrderUUID) {
         this.shipmentOrderUUID = shipmentOrderUUID;
-    }
-
-    public PurchaseOrderJpaEntity getPurchaseOrder() {
-        return purchaseOrder;
-    }
-
-    public void setPurchaseOrder(PurchaseOrderJpaEntity purchaseOrder) {
-        this.purchaseOrder = purchaseOrder;
     }
 }

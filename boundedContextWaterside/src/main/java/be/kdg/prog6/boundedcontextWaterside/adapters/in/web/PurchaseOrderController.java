@@ -25,14 +25,16 @@ public class PurchaseOrderController {
     @PostMapping("match-shipment-and-purchase-order/purchase-order/{purchaseNumber}")
     public ResponseEntity<ShipmentAndPurchaseOrderMatchedDto> makeAppointment(@PathVariable String purchaseNumber) {
 
-        ShipmentAndPurchaseOrderMatchedDto shipmentAndPurchaseOrderMatchedDto = matchPurchaseAndShipmentOrderUseCase.matchPurchaseAndShipmentOrderWhenArriving(new MatchPurchaseAndShipmentOrderCommand(purchaseNumber));
-        return ResponseEntity.ok(shipmentAndPurchaseOrderMatchedDto);
+        //ShipmentAndPurchaseOrderMatchedDto shipmentAndPurchaseOrderMatchedDto = matchPurchaseAndShipmentOrderUseCase.matchPurchaseAndShipmentOrderWhenArriving(new MatchPurchaseAndShipmentOrderCommand(purchaseNumber));
+        //return ResponseEntity.ok(shipmentAndPurchaseOrderMatchedDto);
+        return null;
     }
 
     @PostMapping("load-ship/purchase-order/{poNumber}")
     public ResponseEntity<PurchaseOrderLoadedDto> loadShip(@PathVariable String poNumber) {
 
-        PurchaseOrderLoadedDto purchaseOrderLoadedDto = loadShipWithMaterialUseCase.loadShipWithMaterial(new LoadShipWithMaterialCommand(poNumber));
-        return ResponseEntity.ok(purchaseOrderLoadedDto);
+        //PurchaseOrderLoadedDto purchaseOrderLoadedDto = loadShipWithMaterialUseCase.loadShipWithMaterial(new LoadShipWithMaterialCommand(poNumber));
+        //return ResponseEntity.ok(purchaseOrderLoadedDto);
+        return null;
     }
 }

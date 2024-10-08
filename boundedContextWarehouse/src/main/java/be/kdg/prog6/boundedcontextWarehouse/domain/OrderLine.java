@@ -1,4 +1,4 @@
-package be.kdg.prog6.boundedcontextWaterside.domain;
+package be.kdg.prog6.boundedcontextWarehouse.domain;
 
 import be.kdg.prog6.common.domain.MaterialType;
 import be.kdg.prog6.common.domain.Uom;

@@ -1,4 +1,4 @@
-package be.kdg.prog6.boundedcontextWaterside.adapters.out.db;
+package be.kdg.prog6.boundedcontextWarehouse.adapters.out.db;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

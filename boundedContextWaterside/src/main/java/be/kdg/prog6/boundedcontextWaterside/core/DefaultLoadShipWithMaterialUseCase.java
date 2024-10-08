@@ -1,6 +1,5 @@
 package be.kdg.prog6.boundedcontextWaterside.core;
 
-import be.kdg.prog6.boundedcontextWaterside.domain.PurchaseOrder;
 import be.kdg.prog6.boundedcontextWaterside.domain.ShipmentOrder;
 import be.kdg.prog6.boundedcontextWaterside.domain.ShipmentStatus;
 import be.kdg.prog6.boundedcontextWaterside.domain.dto.PurchaseOrderLoadedDto;
@@ -27,21 +26,21 @@ public class DefaultLoadShipWithMaterialUseCase implements LoadShipWithMaterialU
         this.updateShipmentOrderPort = updateShipmentOrderPort;
     }
 
-    @Override
-    public PurchaseOrderLoadedDto loadShipWithMaterial(LoadShipWithMaterialCommand loadShipWithMaterialCommand) {
-
-        String poNumber = loadShipWithMaterialCommand.poNumber();
-        PurchaseOrder purchaseOrder = loadOrCreateShipmentOrderPort.loadPurchaseOrder(poNumber)
-                .orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND, "Purchase order was not found"));
-
-        ShipmentOrder shipmentOrder = loadOrCreateShipmentOrderPort.loadOrCreateShipmentOrder(poNumber)
-                .orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND, "Shipment order was not found"));
-
-        shipmentOrder.checkIfShipmentOrderHasAlreadyHadThisStatus(ShipmentStatus.LOADED);
-        purchaseOrder.getOrderLineList().forEach(orderLine -> updateWarehousePort.updateWarehouse(orderLine, purchaseOrder.getSellerUuid(), purchaseOrder.getBuyerUuid()));
-
-        updateShipmentOrderPort.updateShipmentOrder(shipmentOrder);
-
-        return new PurchaseOrderLoadedDto(shipmentOrder.getShipmentOrderUUID(), purchaseOrder.getPoNumber(), purchaseOrder.getOrderLineList());
-    }
+    //@Override
+    //public PurchaseOrderLoadedDto loadShipWithMaterial(LoadShipWithMaterialCommand loadShipWithMaterialCommand) {
+//
+    //    String poNumber = loadShipWithMaterialCommand.poNumber();
+    //    PurchaseOrder purchaseOrder = loadOrCreateShipmentOrderPort.loadPurchaseOrder(poNumber)
+    //            .orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND, "Purchase order was not found"));
+//
+    //    ShipmentOrder shipmentOrder = loadOrCreateShipmentOrderPort.loadOrCreateShipmentOrder(poNumber)
+    //            .orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND, "Shipment order was not found"));
+//
+    //    shipmentOrder.checkIfShipmentOrderHasAlreadyHadThisStatus(ShipmentStatus.LOADED);
+    //    purchaseOrder.getOrderLineList().forEach(orderLine -> updateWarehousePort.updateWarehouse(orderLine, purchaseOrder.getSellerUuid(), purchaseOrder.getBuyerUuid()));
+//
+    //    updateShipmentOrderPort.updateShipmentOrder(shipmentOrder);
+//
+    //    return new PurchaseOrderLoadedDto(shipmentOrder.getShipmentOrderUUID(), purchaseOrder.getPoNumber(), purchaseOrder.getOrderLineList());
+    //}
 }

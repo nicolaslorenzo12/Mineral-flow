@@ -18,16 +18,14 @@ public class ShipmentOrder {
 
     }
 
-    public ShipmentOrder(ShipmentOrderUUID shipmentOrderUUID, String poNumber, LocalDate estimatedArrivalDate, LocalDate estimatedDepartureDate) {
+    public ShipmentOrder(ShipmentOrderUUID shipmentOrderUUID, LocalDate estimatedArrivalDate, LocalDate estimatedDepartureDate) {
         this.shipmentOrderUUID = shipmentOrderUUID;
-        this.poNumber = poNumber;
         this.estimatedArrivalDate = estimatedArrivalDate;
         this.estimatedDepartureDate = estimatedDepartureDate;
     }
 
-    public ShipmentOrder(String poNumber, LocalDate estimatedArrivalDate, LocalDate estimatedDepartureDate, LocalDate actualArrivalDate,
+    public ShipmentOrder(LocalDate estimatedArrivalDate, LocalDate estimatedDepartureDate, LocalDate actualArrivalDate,
                          LocalDate actualDepartureDate, ShipmentStatus shipmentStatus, ShipmentOrderUUID shipmentOrderUUID) {
-        this.poNumber = poNumber;
         this.estimatedArrivalDate = estimatedArrivalDate;
         this.estimatedDepartureDate = estimatedDepartureDate;
         this.actualArrivalDate = actualArrivalDate;
@@ -60,10 +58,6 @@ public class ShipmentOrder {
         return shipmentStatus;
     }
 
-    public String getPoNumber() {
-        return poNumber;
-    }
-
     public ShipmentOrderUUID getShipmentOrderUUID() {
         return shipmentOrderUUID;
     }
@@ -85,11 +79,5 @@ public class ShipmentOrder {
         }
 
         this.setShipmentStatus(shipmentStatus);
-    }
-
-    public void checkIfPoNumberIsTheSame(String poNumber){
-        if(!this.getPoNumber().equals(poNumber)){
-            throw new CustomException(HttpStatus.CONFLICT, "Purchase order and shipment order do not match");
-        }
     }
 }
