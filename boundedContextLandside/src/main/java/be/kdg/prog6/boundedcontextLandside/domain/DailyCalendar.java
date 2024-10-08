@@ -1,5 +1,8 @@
 package be.kdg.prog6.boundedcontextLandside.domain;
 
+import be.kdg.prog6.boundedcontextLandside.ports.in.MakeAppointmentCommand;
+import be.kdg.prog6.common.domain.Material;
+import be.kdg.prog6.common.domain.Seller;
 import be.kdg.prog6.common.exception.CustomException;
 import org.springframework.http.HttpStatus;
 
@@ -7,6 +10,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 public class DailyCalendar {
@@ -51,11 +55,32 @@ public class DailyCalendar {
 
         return appointments.stream().filter(appointment -> appointment.getLicensePlateNumberOfTruck().equals(licensePlateNumber)
         && appointment.getAppointmentTime().equals(roundedTime)
-        && appointment.getDay().equals(day)).findFirst().orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND, "Appointment was not found"));
+        && appointment.getDay().equals(day)).findFirst().orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND,
+                "Appointment was not found"));
     }
 
 
-    public void addAppointment(Appointment appointment){
+    public Appointment addAppointment(Seller seller, LocalDateTime appointmentTime, Material material, String licensePlateNumber,
+                               Warehouse warehouse){
+
+        List<Appointment> appointmentsAtACertainHour = this.filterAppointmentsByAppointmentTime(appointmentTime);
+        this.checkIfThereAreMoreThan40AppointmentsAndIfYesThrowException(appointmentsAtACertainHour);
+        int gateNumber = generateRandomGateNumber();
+        Appointment appointment =  buildAppointmentObject(seller, appointmentTime, material, licensePlateNumber, warehouse, gateNumber);
         appointments.add(appointment);
+        return appointment;
+    }
+
+    private int generateRandomGateNumber () {
+        return (int) (Math.random() * 10) + 1;
+    }
+
+    private Appointment buildAppointmentObject(Seller seller, LocalDateTime appointmentTime, Material material, String licensePlateNumber,
+                                               Warehouse warehouse, int gateNumber){
+
+        return new Appointment(new Appointment.AppointmentUUID(UUID.randomUUID()),
+                seller.getCustomerUUID(), this.day, gateNumber, appointmentTime,
+                material.getMaterialType(), licensePlateNumber, TruckStatus.NOTARRIVED,
+                warehouse.getWareHouseNumber(), 0, 0, null, null);
     }
 }

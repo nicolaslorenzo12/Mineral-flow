@@ -48,25 +48,18 @@ public class DefaultMakeAppointmentUseCase implements MakeAppointmentUseCase {
         final Warehouse warehouse = findWarehouseForSellerAndMaterial(seller, material);
         final DailyCalendar dailyCalendar = findDailyCalenderByDay(makeAppointmentCommand.appointmentTime().toLocalDate());
 
-        List<Appointment> appointments = dailyCalendar.filterAppointmentsByAppointmentTime(makeAppointmentCommand.appointmentTime());
         warehouse.checkIfMaximumStockPercentageExceeded();
-        dailyCalendar.checkIfThereAreMoreThan40AppointmentsAndIfYesThrowException(appointments);
-        int gateNumber = generateRandomGateNumber();
 
-        Appointment appointment = buildAppointmentObject(seller, gateNumber, makeAppointmentCommand, material, warehouse, dailyCalendar.getDay());
-        dailyCalendar.addAppointment(appointment);
+        Appointment appointment = dailyCalendar.addAppointment(seller, makeAppointmentCommand.appointmentTime(), material,
+                makeAppointmentCommand.licensePlateNumber(), warehouse);
+
         updateDailyCalendarPorts.forEach(updateDailyCalendarPort -> updateDailyCalendarPort.updateDailyCalendar(dailyCalendar, appointment));
-        return new CreatedAppointmentDto(appointment.getAppointmentUUID(), appointment.getSellerUUID(), appointment.getDay(), appointment.getGateNumber(),
-                appointment.getAppointmentTime(), appointment.getMaterialType(), appointment.getLicensePlateNumberOfTruck(), appointment.getWarehouseNumber());
+
+        return new CreatedAppointmentDto(appointment.getAppointmentUUID(), appointment.getSellerUUID(), appointment.getDay(),
+                appointment.getGateNumber(), appointment.getAppointmentTime(), appointment.getMaterialType(),
+                appointment.getLicensePlateNumberOfTruck(), appointment.getWarehouseNumber());
     }
 
-    private Appointment buildAppointmentObject(Seller seller, int gateNumber, MakeAppointmentCommand makeAppointmentCommand, Material material, Warehouse warehouse, LocalDate day){
-
-        return new Appointment(new Appointment.AppointmentUUID(UUID.randomUUID()),
-                seller.getCustomerUUID(), day, gateNumber, makeAppointmentCommand.appointmentTime(),
-                material.getMaterialType(), makeAppointmentCommand.licensePlateNumber(), TruckStatus.NOTARRIVED,
-                warehouse.getWareHouseNumber(), 0, 0, null, null);
-    }
 
     private Seller findSellerByUUID(UUID sellerUUID) {
         return loadSellerPort.loadSellerByUUID(sellerUUID)
@@ -86,8 +79,5 @@ public class DefaultMakeAppointmentUseCase implements MakeAppointmentUseCase {
                 seller.getCustomerUUID().uuid(),
                 material.getMaterialType()
         ).orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND, "Warehouse not found, it should be created in advance"));
-    }
-    private int generateRandomGateNumber () {
-        return (int) (Math.random() * 10) + 1;
     }
 }
