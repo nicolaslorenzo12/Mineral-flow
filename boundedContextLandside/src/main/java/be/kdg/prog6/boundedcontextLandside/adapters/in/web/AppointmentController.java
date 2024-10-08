@@ -49,10 +49,12 @@ public class AppointmentController {
         return ResponseEntity.ok(truckArrivedDto);
     }
 
-    @PostMapping("appointment/{appointmentUuid}/weight/{weighingTime}")
-    public ResponseEntity<TruckWeightedDto> weightTruckDuringAppointment(@PathVariable UUID appointmentUuid, @PathVariable WeightingTime weighingTime){
+    @PostMapping("appointment/{appointmentUuid}/weight")
+    public ResponseEntity<TruckWeightedDto> weightTruckDuringAppointment(@PathVariable UUID appointmentUuid){
 
-        TruckWeightedDto truckWeightedDto = weightTruckUseCase.weightTruck(new WeightTruckCommand(new Appointment.AppointmentUUID(appointmentUuid), weighingTime));
+        TruckWeightedDto truckWeightedDto = weightTruckUseCase.
+                weightTruck(new WeightTruckCommand(new Appointment.AppointmentUUID(appointmentUuid)));
+
         return ResponseEntity.ok(truckWeightedDto);
     }
 

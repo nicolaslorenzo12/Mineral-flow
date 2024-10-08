@@ -40,22 +40,17 @@ public class DefaultDeliverMaterialUseCase implements DeliverMaterialUseCase {
     public LoadedMaterialDto deliverMaterial(DeliverMaterialCommand loadMaterialCommand) {
 
         DailyCalendar dailyCalendar = loadDailyCalendarPort.loadOrCreateDailyCalendarByDay(LocalDate.now());
-        Appointment appointment = findAppointmentByUUID(loadMaterialCommand.appointmentUUID(), dailyCalendar);
 
-        appointment.checkIfTruckHasAlreadyGottenThisStatus(TruckStatus.RECEIVE_MATERIAL);
+        Appointment appointment = dailyCalendar.receiveMaterialThroughAppointment(loadMaterialCommand.appointmentUUID());
         Warehouse warehouse = findWarehouseBySellerUUIDAndMaterialType(appointment.getSellerUUID(), appointment.getMaterialType());
 
         updateDailyCalendarPorts.forEach(updateDailyCalendarPort -> updateDailyCalendarPort.updateDailyCalendar(dailyCalendar, appointment));
         updateWarehousePorts.forEach(updateWarehousePort -> updateWarehousePort.updateWarehouse(warehouse,
                 UpdateWarehouseAction.CREATE_PDT, appointment.getAppointmentUUID().uuid(), LocalDateTime.now()));
 
-        return new LoadedMaterialDto(appointment.getAppointmentUUID(), appointment.getLicensePlateNumberOfTruck(), LocalDateTime.now(), appointment.getWarehouseNumber());
+        return new LoadedMaterialDto(appointment.getAppointmentUUID(), appointment.getLicensePlateNumberOfTruck(),
+                LocalDateTime.now(), appointment.getWarehouseNumber());
     }
-
-    private Appointment findAppointmentByUUID(Appointment.AppointmentUUID appointmentUUID, DailyCalendar dailyCalendar){
-        return dailyCalendar.findAppointmentByAppointmentUUID(appointmentUUID);
-    }
-
 
     private Warehouse findWarehouseBySellerUUIDAndMaterialType(Seller.CustomerUUID sellerUUID, MaterialType materialType){
         return loadOrCreateWarehousePort.loadWarehouseBySellerUUIDAndMaterialType(sellerUUID.uuid(), materialType)

@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Random;
 import java.util.UUID;
 
 public class Appointment {
@@ -144,17 +145,38 @@ public class Appointment {
         updateAppointmentStatus(truckStatus);
     }
 
-    public void proccessWeighting(WeightingTime weightingTime, int weight){
+    public void proccessWeighting(){
 
-        if (weightingTime.equals(WeightingTime.FIRST_TIME)) {
+        //if (weightingTime.equals(WeightingTime.FIRST_TIME)) {
+        //    checkIfTruckHasAlreadyGottenThisStatus(TruckStatus.WEIGHTINGFIRSTTIME);
+        //    this.setInitialWeight(weight);
+        //}
+        //else {
+        //    checkIfTruckHasAlreadyGottenThisStatus(TruckStatus.WEIGHTINGLASTTIME);
+        //    this.setStatus(TruckStatus.LEFT);
+        //    this.setFinalWeight(weight);
+        //    setDepartureTime(LocalDateTime.now());
+        //}
+
+        if(this.getInitialWeight() == 0){
             checkIfTruckHasAlreadyGottenThisStatus(TruckStatus.WEIGHTINGFIRSTTIME);
-            this.setInitialWeight(weight);
+            this.setInitialWeight(generateRandomWeight());
         }
-        else {
+        else{
             checkIfTruckHasAlreadyGottenThisStatus(TruckStatus.WEIGHTINGLASTTIME);
             this.setStatus(TruckStatus.LEFT);
-            this.setFinalWeight(weight);
+            this.setFinalWeight(generateRandomWeight());
             setDepartureTime(LocalDateTime.now());
+        }
+    }
+
+    private int generateRandomWeight() {
+        Random random = new Random();
+        if(this.getInitialWeight() == 0) {
+            return random.nextInt(21) + 15;
+        }
+        else{
+            return 10;
         }
     }
 

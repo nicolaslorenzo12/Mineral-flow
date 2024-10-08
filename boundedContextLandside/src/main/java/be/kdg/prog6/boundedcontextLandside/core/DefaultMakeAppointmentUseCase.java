@@ -49,7 +49,6 @@ public class DefaultMakeAppointmentUseCase implements MakeAppointmentUseCase {
         final DailyCalendar dailyCalendar = findDailyCalenderByDay(makeAppointmentCommand.appointmentTime().toLocalDate());
 
         warehouse.checkIfMaximumStockPercentageExceeded();
-
         Appointment appointment = dailyCalendar.addAppointment(seller, makeAppointmentCommand.appointmentTime(), material,
                 makeAppointmentCommand.licensePlateNumber(), warehouse);
 

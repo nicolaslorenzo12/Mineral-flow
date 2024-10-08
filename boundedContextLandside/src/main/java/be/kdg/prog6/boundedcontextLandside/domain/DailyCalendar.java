@@ -94,21 +94,18 @@ public class DailyCalendar {
         return appointment;
     }
 
-    public Appointment weightTruckOfAnAppointment(Appointment.AppointmentUUID appointmentUUID, WeightingTime weightingTime ){
+    public Appointment weightTruckOfAnAppointment(Appointment.AppointmentUUID appointmentUUID ){
 
         Appointment appointment = findAppointmentByAppointmentUUID(appointmentUUID);
-        int randomWeight = generateRandomWeight(weightingTime);
-        appointment.proccessWeighting(weightingTime,randomWeight);
+        appointment.proccessWeighting();
         return appointment;
     }
 
-    private int generateRandomWeight(WeightingTime weightingTime) {
-        Random random = new Random();
-        if(weightingTime.equals(WeightingTime.FIRST_TIME)) {
-            return random.nextInt(21) + 15;
-        }
-        else{
-            return 10;
-        }
+
+    public Appointment receiveMaterialThroughAppointment(Appointment.AppointmentUUID appointmentUUID){
+        findAppointmentByAppointmentUUID(appointmentUUID);
+        Appointment appointment = findAppointmentByAppointmentUUID(appointmentUUID);
+        appointment.checkIfTruckHasAlreadyGottenThisStatus(TruckStatus.RECEIVE_MATERIAL);
+        return appointment;
     }
 }

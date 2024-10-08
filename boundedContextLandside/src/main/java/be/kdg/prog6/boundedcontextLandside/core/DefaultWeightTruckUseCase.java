@@ -33,8 +33,7 @@ public class DefaultWeightTruckUseCase implements WeightTruckUseCase {
     public TruckWeightedDto weightTruck(WeightTruckCommand weightTruckCommand) {
         DailyCalendar dailyCalendar = loadDailyCalendarPort.loadOrCreateDailyCalendarByDay(LocalDate.now());
 
-        Appointment appointment = dailyCalendar.weightTruckOfAnAppointment(weightTruckCommand.uuid(),
-                weightTruckCommand.weightingTime());
+        Appointment appointment = dailyCalendar.weightTruckOfAnAppointment(weightTruckCommand.uuid());
 
         updateDailyCalendarPorts.forEach(updateDailyCalendarPort ->
                 updateDailyCalendarPort.updateDailyCalendar(dailyCalendar, appointment));
