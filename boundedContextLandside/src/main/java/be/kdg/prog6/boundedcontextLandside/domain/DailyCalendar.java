@@ -83,4 +83,13 @@ public class DailyCalendar {
                 material.getMaterialType(), licensePlateNumber, TruckStatus.NOTARRIVED,
                 warehouse.getWareHouseNumber(), 0, 0, null, null);
     }
+
+
+    public Appointment setArrivalTimeOfAnAppointment(String licensePlateNumber, LocalDateTime arrivalTime){
+
+        Appointment appointment = findAppointmentByLicensePlateNumberAndTimeAndDay(licensePlateNumber, arrivalTime);
+        appointment.checkIfTruckHasAlreadyGottenThisStatus(TruckStatus.ARRIVED);
+        appointment.setArrivalTime(LocalDateTime.now());
+        return appointment;
+    }
 }
