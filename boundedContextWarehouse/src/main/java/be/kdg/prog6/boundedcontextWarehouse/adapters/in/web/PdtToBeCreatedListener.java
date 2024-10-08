@@ -17,7 +17,6 @@ public class PdtToBeCreatedListener {
     @RabbitListener(queues = "landside.pdt_to_be_created")
     public void createPdt(final PdtToBeCreatedEvent pdtToBeCreatedEvent){
 
-        System.out.println("Just entered");
         pdtToBeCreatedProjector.createPdt(pdtToBeCreatedEvent.warehouseNumber(), pdtToBeCreatedEvent.timeOfDelivery(), pdtToBeCreatedEvent.appointmentUUID());
     }
 }

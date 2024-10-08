@@ -15,16 +15,16 @@ import org.springframework.stereotype.Service;
 @Service
 public class DefaultLoadShipWithMaterialUseCase implements LoadShipWithMaterialUseCase {
 
-    private final LoadOrCreateShipmentOrderPort loadOrCreateShipmentOrderPort;
-    private final UpdateWarehousePort updateWarehousePort;
-    private final UpdateShipmentOrderPort updateShipmentOrderPort;
-
-    public DefaultLoadShipWithMaterialUseCase(LoadOrCreateShipmentOrderPort loadOrCreateShipmentOrderPort, UpdateWarehousePort updateWarehousePort,
-                                              UpdateShipmentOrderPort updateShipmentOrderPort) {
-        this.loadOrCreateShipmentOrderPort = loadOrCreateShipmentOrderPort;
-        this.updateWarehousePort = updateWarehousePort;
-        this.updateShipmentOrderPort = updateShipmentOrderPort;
-    }
+    //private final LoadOrCreateShipmentOrderPort loadOrCreateShipmentOrderPort;
+    //private final UpdateWarehousePort updateWarehousePort;
+    //private final UpdateShipmentOrderPort updateShipmentOrderPort;
+//
+    //public DefaultLoadShipWithMaterialUseCase(LoadOrCreateShipmentOrderPort loadOrCreateShipmentOrderPort, UpdateWarehousePort updateWarehousePort,
+    //                                          UpdateShipmentOrderPort updateShipmentOrderPort) {
+    //    this.loadOrCreateShipmentOrderPort = loadOrCreateShipmentOrderPort;
+    //    this.updateWarehousePort = updateWarehousePort;
+    //    this.updateShipmentOrderPort = updateShipmentOrderPort;
+    //}
 
     //@Override
     //public PurchaseOrderLoadedDto loadShipWithMaterial(LoadShipWithMaterialCommand loadShipWithMaterialCommand) {

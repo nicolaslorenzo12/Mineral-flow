@@ -38,6 +38,7 @@ public class DefaultWeightTruckUseCase implements WeightTruckUseCase {
         updateDailyCalendarPorts.forEach(updateDailyCalendarPort ->
                 updateDailyCalendarPort.updateDailyCalendar(dailyCalendar, appointment));
 
-        return new TruckWeightedDto(appointment.getAppointmentUUID(), appointment.getLicensePlateNumberOfTruck(), appointment.getInitialWeight(), appointment.getFinalWeight());
+        return new TruckWeightedDto(appointment.getAppointmentUUID(), appointment.getLicensePlateNumberOfTruck(),
+                appointment.getInitialWeight(), appointment.getFinalWeight());
     }
 }

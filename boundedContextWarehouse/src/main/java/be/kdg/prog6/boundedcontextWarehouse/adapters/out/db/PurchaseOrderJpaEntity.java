@@ -11,6 +11,8 @@ public class PurchaseOrderJpaEntity {
 
     @Id
     private String poNumber;
+    @Column(nullable = false)
+    private UUID shipmentOrderUUID;
 
     @Column(nullable = false)
     private UUID sellerUUID;
@@ -27,12 +29,13 @@ public class PurchaseOrderJpaEntity {
     @OneToMany(mappedBy = "purchaseOrder", cascade = CascadeType.ALL)
     private List<OrderLineJpaEntity> orderLines;
 
-    public PurchaseOrderJpaEntity(String poNumber, UUID sellerUUID, UUID buyerUuid, String vesselNumber, LocalDate purchaseOrderDate) {
+    public PurchaseOrderJpaEntity(String poNumber, UUID shipmentOrderUUID,UUID sellerUUID, UUID buyerUuid, String vesselNumber, LocalDate purchaseOrderDate) {
         this.poNumber = poNumber;
         this.sellerUUID = sellerUUID;
         this.buyerUUID = buyerUuid;
         this.vesselNumber = vesselNumber;
         this.purchaseOrderDate = purchaseOrderDate;
+        this.shipmentOrderUUID = shipmentOrderUUID;
     }
 
     public PurchaseOrderJpaEntity() {
@@ -85,5 +88,21 @@ public class PurchaseOrderJpaEntity {
 
     public void setOrderLines(List<OrderLineJpaEntity> orderLines) {
         this.orderLines = orderLines;
+    }
+
+    public UUID getShipmentOrderUUID() {
+        return shipmentOrderUUID;
+    }
+
+    public void setShipmentOrderUUID(UUID purchaseOrderUUID) {
+        this.shipmentOrderUUID = purchaseOrderUUID;
+    }
+
+    public UUID getBuyerUUID() {
+        return buyerUUID;
+    }
+
+    public void setBuyerUUID(UUID buyerUUID) {
+        this.buyerUUID = buyerUUID;
     }
 }

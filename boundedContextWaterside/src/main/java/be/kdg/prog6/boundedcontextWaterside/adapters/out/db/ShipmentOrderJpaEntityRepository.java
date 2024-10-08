@@ -9,5 +9,5 @@ import java.util.UUID;
 @Repository
 public interface ShipmentOrderJpaEntityRepository extends JpaRepository<ShipmentOrderJpaEntity, UUID>{
 
-    Optional<ShipmentOrderJpaEntity> findShipmentOrderJpaEntityByPoNumber(String poNumber);
+    ShipmentOrderJpaEntity findShipmentOrderJpaEntityByShipmentOrderUUID(UUID shipmentUUID);
 }

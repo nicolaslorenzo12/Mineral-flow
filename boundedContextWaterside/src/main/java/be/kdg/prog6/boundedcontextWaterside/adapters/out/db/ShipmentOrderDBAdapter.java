@@ -3,13 +3,7 @@ package be.kdg.prog6.boundedcontextWaterside.adapters.out.db;
 import be.kdg.prog6.boundedcontextWaterside.domain.ShipmentOrder;
 import be.kdg.prog6.boundedcontextWaterside.ports.out.LoadOrCreateShipmentOrderPort;
 import be.kdg.prog6.boundedcontextWaterside.ports.out.UpdateShipmentOrderPort;
-import be.kdg.prog6.common.domain.Buyer;
-import be.kdg.prog6.common.domain.Seller;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Component
 public class ShipmentOrderDBAdapter implements LoadOrCreateShipmentOrderPort, UpdateShipmentOrderPort {
@@ -21,4 +15,27 @@ public class ShipmentOrderDBAdapter implements LoadOrCreateShipmentOrderPort, Up
     }
 
 
+    @Override
+    public ShipmentOrder loadOrCreateShipmentOrder(ShipmentOrder.ShipmentOrderUUID shipmentOrderUUID) {
+
+        ShipmentOrderJpaEntity shipmentOrderJpaEntity = shipmentOrderJpaEntityRepository.findShipmentOrderJpaEntityByShipmentOrderUUID(shipmentOrderUUID.uuid());
+        return buildShipmentOrderObject(shipmentOrderJpaEntity);
+    }
+
+    private ShipmentOrder buildShipmentOrderObject(ShipmentOrderJpaEntity jpaEntity) {
+
+        return new ShipmentOrder(
+                jpaEntity.getEstimatedArrivalDate(),
+                jpaEntity.getEstimatedDepartureDate(),
+                jpaEntity.getActualArrivalDate(),
+                jpaEntity.getActualDepartureDate(),
+                jpaEntity.getShipmentStatus(),
+                new ShipmentOrder.ShipmentOrderUUID(jpaEntity.getShipmentOrderUUID())
+        );
+    }
+
+    @Override
+    public void updateShipmentOrder(ShipmentOrder.ShipmentOrderUUID shipmentOrderUUID) {
+
+    }
 }

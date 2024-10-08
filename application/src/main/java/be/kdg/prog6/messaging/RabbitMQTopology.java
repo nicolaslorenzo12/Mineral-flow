@@ -32,6 +32,9 @@ public class RabbitMQTopology {
     Queue materialDispatchedToWarehouseQueue(){ return new Queue("waterside.material_dispatched", false);}
 
     @Bean
+    Queue matchShipmentOrderAndPurchaseOrderQueue(){ return new Queue("match.shipment_order_and_purchase_order", false);}
+
+    @Bean
     TopicExchange warehouseExchange() {
         return new TopicExchange("warehouseExchange");
     }
@@ -39,7 +42,6 @@ public class RabbitMQTopology {
     TopicExchange landsideExchange() {
         return new TopicExchange("landsideExchange");
     }
-
     @Bean
     TopicExchange watersideExchange() { return new TopicExchange("watersideExchange");}
 
@@ -87,6 +89,18 @@ public class RabbitMQTopology {
                 .to(watersideExchange)
                 .with("waterside.#.material_dispatched");
     }
+
+    @Bean
+    Binding bindWatersideExchangeToMatchShipmentOrderAndPurchaseOrderQueue(
+            Queue matchShipmentOrderAndPurchaseOrderQueue,
+            TopicExchange watersideExchange
+    ) {
+        return BindingBuilder
+                .bind(matchShipmentOrderAndPurchaseOrderQueue)
+                .to(watersideExchange)
+                .with("match.#.shipment_order_and_purchase_order");
+    }
+
 
 
     // Configure the RabbitTemplate with a ConnectionFactory

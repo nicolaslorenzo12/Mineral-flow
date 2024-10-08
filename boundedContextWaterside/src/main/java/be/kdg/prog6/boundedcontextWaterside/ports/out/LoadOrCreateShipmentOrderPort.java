@@ -6,6 +6,6 @@ import java.util.Optional;
 
 public interface LoadOrCreateShipmentOrderPort {
 
-    //Optional<ShipmentOrder> loadOrCreateShipmentOrder(String poNumber);
+    ShipmentOrder loadOrCreateShipmentOrder(ShipmentOrder.ShipmentOrderUUID shipmentOrderUUID);
     //Optional<PurchaseOrder> loadPurchaseOrder(String poNumber);
 }

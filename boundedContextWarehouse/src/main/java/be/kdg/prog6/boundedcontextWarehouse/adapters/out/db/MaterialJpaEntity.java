@@ -4,7 +4,7 @@ import be.kdg.prog6.common.domain.MaterialType;
 import jakarta.persistence.*;
 
 @Entity(name = "MaterialWatersideEntity")
-@Table(name = "material-waterside")
+@Table(name = "material-warehouse")
 public class MaterialJpaEntity {
 
     @Id
