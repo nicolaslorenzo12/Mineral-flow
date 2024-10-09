@@ -5,6 +5,7 @@ import java.util.UUID;
 
 public class Pdt {
 
+    private int warehouseNumber;
     private LocalDateTime timeOfDelivery;
     private int amountOfTonsDelivered;
 
@@ -13,7 +14,8 @@ public class Pdt {
 
     }
 
-    public Pdt(LocalDateTime timeOfDelivery, int amountOfTonsDelivered, PdtUUID pdtUUID) {
+    public Pdt(int warehouseNumber, LocalDateTime timeOfDelivery, int amountOfTonsDelivered, PdtUUID pdtUUID) {
+        this.warehouseNumber = warehouseNumber;
         this.timeOfDelivery = timeOfDelivery;
         this.amountOfTonsDelivered = amountOfTonsDelivered;
         this.pdtUUID = pdtUUID;
@@ -38,5 +40,7 @@ public class Pdt {
         return pdtUUID;
     }
 
-
+    public int getWarehouseNumber() {
+        return warehouseNumber;
+    }
 }

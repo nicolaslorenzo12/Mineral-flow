@@ -5,6 +5,7 @@ import be.kdg.prog6.common.exception.CustomException;
 import org.springframework.http.HttpStatus;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class Warehouse {
@@ -70,5 +71,32 @@ public class Warehouse {
 
     public WarehouseActivityWindow getWarehouseActivityWindow() {
         return warehouseActivityWindow;
+    }
+
+    public Warehouse removeTonsFromOldestPdts(int amountOfTonsToDispatch){
+
+        List<Pdt> pdtsFromOldestToEarliest= pdtList.stream()
+                .sorted(Comparator.comparing(Pdt::getTimeOfDelivery))
+                .toList();
+
+        int x = 0;
+
+        while(amountOfTonsToDispatch > 0){
+
+            Pdt pdt = pdtsFromOldestToEarliest.get(x);
+
+            amountOfTonsToDispatch = pdt.getAmountOfTonsDelivered() - amountOfTonsToDispatch;
+
+            if(amountOfTonsToDispatch >= 0){
+                pdt.setAmountOfTonsDelivered(amountOfTonsToDispatch);
+                amountOfTonsToDispatch = 0;
+            }
+            else{
+                pdt.setAmountOfTonsDelivered(0);
+                amountOfTonsToDispatch = amountOfTonsToDispatch * (-1);
+            }
+            x++;
+        }
+        return this;
     }
 }

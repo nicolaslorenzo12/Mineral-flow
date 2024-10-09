@@ -79,7 +79,7 @@ public class WarehouseDBAdapter implements LoadWarehousePort, UpdateWarehousePor
     private void addWarehousePdtsToWarehouseObject(List<PdtJpaEntity> pdtJpaEntityList, Warehouse warehouse){
 
         for(PdtJpaEntity pdtJpaEntity : pdtJpaEntityList){
-            warehouse.addPdt(new Pdt(pdtJpaEntity.getTimeOfDelivery(), pdtJpaEntity.getAmountOfTonsDelivered(),
+            warehouse.addPdt(new Pdt(pdtJpaEntity.getWarehouseNumber(), pdtJpaEntity.getTimeOfDelivery(), pdtJpaEntity.getAmountOfTonsDelivered(),
                     new Pdt.PdtUUID(pdtJpaEntity.getPdtUUID())));
         }
     }

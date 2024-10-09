@@ -60,6 +60,8 @@ public class DefaultAddedOrDispatchedMaterialProjector implements AddedOrDispatc
             Warehouse warehouse = loadWarehousePort.loadWarehouseBySellerUUIDAndMaterialType(sellerUUID, orderLine.getMaterialType())
                     .orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND, "Warehouse was not found"));
 
+            warehouse.removeTonsFromOldestPdts(orderLine.getQuantity());
+
             WarehouseActivity warehouseActivity = buildWarehouseActivityAndAddActivityToWarehouse(warehouse,
                     orderLine.getQuantity(), WarehouseAction.DISPATCH);
             updateWarehousePort.forEach(port -> port.updateWarehouse(UpdateWarehouseAction.CREATE_ACTIVIY, warehouse, warehouseActivity, UUID.randomUUID()));
