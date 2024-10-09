@@ -37,8 +37,7 @@ public class DefaultAddedOrDispatchedMaterialProjector implements AddedOrDispatc
 
         Warehouse warehouse = findWarehouseByWarehouseNumber(warehouseNumber);
         int amountOfTonsDelivered = warehouse.calculateNetWeight(intitalWeight, finalWeight);
-        //WarehouseActivity warehouseActivity = buildWarehouseActivityAndAddActivityToWarehouse(warehouse, amountOfTonsDelivered, warehouseAction);
-        WarehouseActivity warehouseActivity = warehouse.addWarehouseActivity(amountOfTonsDelivered, warehouseNumber, warehouseAction);
+        WarehouseActivity warehouseActivity = warehouse.addWarehouseActivity(amountOfTonsDelivered, warehouseAction);
         setAmountOfTonsDeliveredToPdt(warehouse, pdtUUID, amountOfTonsDelivered);
 
         updateWarehousePort.forEach(port -> port.updateWarehouse(UpdateWarehouseAction.CREATE_ACTIVIY, warehouse, warehouseActivity, pdtUUID));
@@ -67,10 +66,7 @@ public class DefaultAddedOrDispatchedMaterialProjector implements AddedOrDispatc
 
         warehouse.removeTonsFromOldestPdts(orderLine.getQuantity());
 
-        //WarehouseActivity warehouseActivity = buildWarehouseActivityAndAddActivityToWarehouse(warehouse,
-        //        orderLine.getQuantity(), WarehouseAction.DISPATCH);
-
-        WarehouseActivity warehouseActivity = warehouse.addWarehouseActivity(orderLine.getQuantity(),warehouse.getWareHouseNumber() ,WarehouseAction.DISPATCH);
+        WarehouseActivity warehouseActivity = warehouse.addWarehouseActivity(orderLine.getQuantity(),WarehouseAction.DISPATCH);
         updateWarehousePort.forEach(port -> port.updateWarehouse(UpdateWarehouseAction.CREATE_ACTIVIY, warehouse, warehouseActivity,
                 UUID.randomUUID()));
     }
@@ -79,12 +75,5 @@ public class DefaultAddedOrDispatchedMaterialProjector implements AddedOrDispatc
     private Warehouse findWarehouseByWarehouseNumber(int warehouseNumber) {
         return loadWarehousePort.loadWarehouseByWarehouseNumber(warehouseNumber)
                 .orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND, "Warehouse not found"));
-    }
-
-    private WarehouseActivity buildWarehouseActivityAndAddActivityToWarehouse(Warehouse warehouse, int amountOfTons, WarehouseAction action){
-
-        return warehouse.addWarehouseActivity(amountOfTons,
-                warehouse.getWareHouseNumber(),
-                action);
     }
 }
