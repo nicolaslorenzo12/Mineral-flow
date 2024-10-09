@@ -12,8 +12,6 @@ public class ShipmentOrderJpaEntity {
     @Id
     private UUID shipmentOrderUUID;
     @Column(nullable = false)
-    private String poNumber;
-    @Column(nullable = false)
     private LocalDate estimatedArrivalDate;
     @Column(nullable = false)
     private LocalDate estimatedDepartureDate;
@@ -24,10 +22,9 @@ public class ShipmentOrderJpaEntity {
     private ShipmentStatus shipmentStatus;
 
 
-    public ShipmentOrderJpaEntity(UUID shipmentOrderUUID,String poNumber, LocalDate estimatedArrivalDate, LocalDate estimatedDepartureDate, LocalDate actualArrivalDate,
+    public ShipmentOrderJpaEntity(UUID shipmentOrderUUID, LocalDate estimatedArrivalDate, LocalDate estimatedDepartureDate, LocalDate actualArrivalDate,
                                   LocalDate actualDepartureDate, ShipmentStatus shipmentStatus) {
         this.shipmentOrderUUID = shipmentOrderUUID;
-        this.poNumber = poNumber;
         this.estimatedArrivalDate = estimatedArrivalDate;
         this.estimatedDepartureDate = estimatedDepartureDate;
         this.actualArrivalDate = actualArrivalDate;
@@ -37,14 +34,6 @@ public class ShipmentOrderJpaEntity {
 
     public ShipmentOrderJpaEntity() {
 
-    }
-
-    public String getPoNumber() {
-        return poNumber;
-    }
-
-    public void setPoNumber(String poNumber) {
-        this.poNumber = poNumber;
     }
 
     public LocalDate getEstimatedArrivalDate() {

@@ -1,10 +1,8 @@
 package be.kdg.prog6.boundedcontextWarehouse.core;
 
-import be.kdg.prog6.boundedcontextWarehouse.domain.Pdt;
-import be.kdg.prog6.boundedcontextWarehouse.domain.UpdateWarehouseAction;
-import be.kdg.prog6.boundedcontextWarehouse.domain.Warehouse;
-import be.kdg.prog6.boundedcontextWarehouse.domain.WarehouseActivity;
+import be.kdg.prog6.boundedcontextWarehouse.domain.*;
 import be.kdg.prog6.boundedcontextWarehouse.ports.in.AddedOrDispatchedMaterialProjector;
+import be.kdg.prog6.boundedcontextWarehouse.ports.out.LoadPurchaseOrderPort;
 import be.kdg.prog6.boundedcontextWarehouse.ports.out.LoadWarehousePort;
 import be.kdg.prog6.boundedcontextWarehouse.ports.out.UpdateWarehousePort;
 import be.kdg.prog6.common.domain.MaterialType;
@@ -15,6 +13,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -24,10 +23,12 @@ public class DefaultAddedOrDispatchedMaterialProjector implements AddedOrDispatc
 
     private final LoadWarehousePort loadWarehousePort;
     private final List<UpdateWarehousePort> updateWarehousePort;
+    private final LoadPurchaseOrderPort loadPurchaseOrderPort;
 
-    public DefaultAddedOrDispatchedMaterialProjector(LoadWarehousePort loadWarehousePort, final List<UpdateWarehousePort> updateWarehousePort) {
+    public DefaultAddedOrDispatchedMaterialProjector(LoadWarehousePort loadWarehousePort, final List<UpdateWarehousePort> updateWarehousePort, LoadPurchaseOrderPort loadPurchaseOrderPort) {
         this.loadWarehousePort = loadWarehousePort;
         this.updateWarehousePort = updateWarehousePort;
+        this.loadPurchaseOrderPort = loadPurchaseOrderPort;
     }
 
     @Override
@@ -49,13 +50,20 @@ public class DefaultAddedOrDispatchedMaterialProjector implements AddedOrDispatc
 
     @Override
     @Transactional
-    public void dispatchMaterial(Seller.CustomerUUID sellerUUID, MaterialType materialType, WarehouseAction action, int tonsToDispatch) {
+    public void dispatchMaterial(UUID shipmentOrderUUID) {
 
-        Warehouse warehouse =loadWarehousePort.loadWarehouseBySellerUUIDAndMaterialType(sellerUUID, materialType)
-                .orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND, "Warehouse was not found"));
+        PurchaseOrder purchaseOrder = loadPurchaseOrderPort.loadPurchaseOrderByShipmentOrderUUID(shipmentOrderUUID);
+        Seller.CustomerUUID sellerUUID = purchaseOrder.getSellerUuid();
 
-        WarehouseActivity warehouseActivity = buildWarehouseActivityAndAddActivityToWarehouse(warehouse, tonsToDispatch, WarehouseAction.DISPATCH);
-        updateWarehousePort.forEach(port -> port.updateWarehouse(UpdateWarehouseAction.CREATE_ACTIVIY,warehouse, warehouseActivity,UUID.randomUUID()));
+        for(OrderLine orderLine : purchaseOrder.getOrderLineList()) {
+
+            Warehouse warehouse = loadWarehousePort.loadWarehouseBySellerUUIDAndMaterialType(sellerUUID, orderLine.getMaterialType())
+                    .orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND, "Warehouse was not found"));
+
+            WarehouseActivity warehouseActivity = buildWarehouseActivityAndAddActivityToWarehouse(warehouse,
+                    orderLine.getQuantity(), WarehouseAction.DISPATCH);
+            updateWarehousePort.forEach(port -> port.updateWarehouse(UpdateWarehouseAction.CREATE_ACTIVIY, warehouse, warehouseActivity, UUID.randomUUID()));
+        }
     }
 
     private Warehouse findWarehouseByWarehouseNumber(int warehouseNumber) {

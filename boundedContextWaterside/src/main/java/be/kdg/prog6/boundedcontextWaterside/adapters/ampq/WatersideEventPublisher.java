@@ -1,7 +1,9 @@
 package be.kdg.prog6.boundedcontextWaterside.adapters.ampq;
 
 import be.kdg.prog6.boundedcontextWaterside.domain.ShipmentOrder;
+import be.kdg.prog6.boundedcontextWaterside.domain.ShipmentStatus;
 import be.kdg.prog6.boundedcontextWaterside.ports.out.UpdateShipmentOrderPort;
+import be.kdg.prog6.common.events.MaterialToBeDispatchedEvent;
 import be.kdg.prog6.common.facades.MatchShipmentOrderWithPurchaseOrderCommand;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Component;
@@ -17,13 +19,25 @@ public class WatersideEventPublisher implements UpdateShipmentOrderPort{
 
 
     @Override
-    public void updateShipmentOrder(ShipmentOrder.ShipmentOrderUUID shipmentOrderUUID) {
+    public void matchShipmentOrderAndPurchaseOrder(ShipmentOrder shipmentOrder) {
 
-        final String routingKey = "match. " + shipmentOrderUUID.toString() + " .shipment_order_and_purchase_order";
-        final String exchangeName = "watersideExchange";
-        final MatchShipmentOrderWithPurchaseOrderCommand body = new MatchShipmentOrderWithPurchaseOrderCommand(shipmentOrderUUID.uuid());
+        if(shipmentOrder.getShipmentStatus().equals(ShipmentStatus.NOTARRIVED)) {
+            final String routingKey = "match. " + shipmentOrder.getShipmentOrderUUID().toString() + " .shipment_order_and_purchase_order";
+            final String exchangeName = "watersideExchange";
+            final MatchShipmentOrderWithPurchaseOrderCommand body = new MatchShipmentOrderWithPurchaseOrderCommand(shipmentOrder.getShipmentOrderUUID().uuid());
 
-        System.out.println("Leaving now");
-        rabbitTemplate.convertAndSend(exchangeName, routingKey, body);
+            rabbitTemplate.convertAndSend(exchangeName, routingKey, body);
+        }
+    }
+
+    @Override
+    public void loadMaterial(ShipmentOrder shipmentOrder) {
+
+
+            final String routingKey = "waterside. " + shipmentOrder.getShipmentOrderUUID().toString() + " .material_dispatch";
+            final String exchangeName = "watersideExchange";
+            final MaterialToBeDispatchedEvent materialToDispatch = new MaterialToBeDispatchedEvent(shipmentOrder.getShipmentOrderUUID().uuid());
+
+            rabbitTemplate.convertAndSend(exchangeName, routingKey, materialToDispatch);
     }
 }

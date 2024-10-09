@@ -29,10 +29,12 @@ public class RabbitMQTopology {
     Queue pdtToBeCreatedQueue(){ return new Queue("landside.pdt_to_be_created", false);}
 
     @Bean
-    Queue materialDispatchedToWarehouseQueue(){ return new Queue("waterside.material_dispatched", false);}
+    Queue materialDispatchedToWarehouseQueue(){ return new Queue("waterside.material_dispatch", false);}
 
     @Bean
     Queue matchShipmentOrderAndPurchaseOrderQueue(){ return new Queue("match.shipment_order_and_purchase_order", false);}
+    @Bean
+    Queue matchedShipmentOrderAndPurchaseOrderQueue(){return new Queue("matched.shipment_order_and_purchase_order", false);}
 
     @Bean
     TopicExchange warehouseExchange() {
@@ -87,7 +89,7 @@ public class RabbitMQTopology {
         return BindingBuilder
                 .bind(materialDispatchedToWarehouseQueue)
                 .to(watersideExchange)
-                .with("waterside.#.material_dispatched");
+                .with("waterside.#.material_dispatch");
     }
 
     @Bean
@@ -101,9 +103,19 @@ public class RabbitMQTopology {
                 .with("match.#.shipment_order_and_purchase_order");
     }
 
+    @Bean
+    Binding bindWarehouseExchangeToMatchedShipmentOrderAndPurchaseOrderQueue(
+            Queue matchedShipmentOrderAndPurchaseOrderQueue,
+            TopicExchange warehouseExchange
+    ) {
+        return BindingBuilder
+                .bind(matchedShipmentOrderAndPurchaseOrderQueue)
+                .to(warehouseExchange)
+                .with("matched.#.shipment_order_and_purchase_order");
+    }
 
 
-    // Configure the RabbitTemplate with a ConnectionFactory
+
     @Bean
     RabbitTemplate rabbitTemplate(final ConnectionFactory connectionFactory) {
         final var rabbitTemplate = new RabbitTemplate(connectionFactory);

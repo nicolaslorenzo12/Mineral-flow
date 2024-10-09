@@ -10,5 +10,5 @@ import java.util.UUID;
 public interface AddedOrDispatchedMaterialProjector {
 
     void addMaterial(int intitalWeight, int finalWeight, int warehouseNumber, WarehouseAction action, UUID appointmentUUID);
-    void dispatchMaterial(Seller.CustomerUUID sellerUUID, MaterialType materialType, WarehouseAction action, int tonsToDispatch);
+    void dispatchMaterial(UUID shipmentOrderUUID);
 }

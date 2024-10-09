@@ -1,22 +1,17 @@
 package be.kdg.prog6.boundedcontextWaterside.core;
 
 import be.kdg.prog6.boundedcontextWaterside.domain.ShipmentOrder;
-import be.kdg.prog6.boundedcontextWaterside.domain.ShipmentStatus;
-import be.kdg.prog6.boundedcontextWaterside.domain.dto.ShipmentAndPurchaseOrderMatchedDto;
-import be.kdg.prog6.boundedcontextWaterside.ports.in.MatchPurchaseAndShipmentOrderUseCase;
+import be.kdg.prog6.boundedcontextWaterside.ports.in.MatchShipmentOrderAndPurchaseOrderUseCase;
 import be.kdg.prog6.boundedcontextWaterside.ports.out.LoadOrCreateShipmentOrderPort;
 import be.kdg.prog6.boundedcontextWaterside.ports.out.UpdateShipmentOrderPort;
-import be.kdg.prog6.common.exception.CustomException;
 import be.kdg.prog6.common.facades.MatchShipmentOrderWithPurchaseOrderCommand;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
 @Service
-public class DefaultMatchPurchaseAndShipmentOrderUseCase implements MatchPurchaseAndShipmentOrderUseCase {
+public class DefaultMatchPurchaseAndShipmentOrderUseCase implements MatchShipmentOrderAndPurchaseOrderUseCase {
 
     private final LoadOrCreateShipmentOrderPort loadOrCreateShipmentOrderPort;
     private final List<UpdateShipmentOrderPort> updateShipmentOrderPorts;
@@ -37,6 +32,6 @@ public class DefaultMatchPurchaseAndShipmentOrderUseCase implements MatchPurchas
 
 
        updateShipmentOrderPorts.forEach(updateShipmentOrderPort ->
-               updateShipmentOrderPort.updateShipmentOrder(new ShipmentOrder.ShipmentOrderUUID(shipmentOrderUUID)));
+               updateShipmentOrderPort.matchShipmentOrderAndPurchaseOrder(shipmentOrder));
     }
 }

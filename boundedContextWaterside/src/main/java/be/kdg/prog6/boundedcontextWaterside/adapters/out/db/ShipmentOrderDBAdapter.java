@@ -1,6 +1,7 @@
 package be.kdg.prog6.boundedcontextWaterside.adapters.out.db;
 
 import be.kdg.prog6.boundedcontextWaterside.domain.ShipmentOrder;
+import be.kdg.prog6.boundedcontextWaterside.domain.ShipmentStatus;
 import be.kdg.prog6.boundedcontextWaterside.ports.out.LoadOrCreateShipmentOrderPort;
 import be.kdg.prog6.boundedcontextWaterside.ports.out.UpdateShipmentOrderPort;
 import org.springframework.stereotype.Component;
@@ -35,7 +36,29 @@ public class ShipmentOrderDBAdapter implements LoadOrCreateShipmentOrderPort, Up
     }
 
     @Override
-    public void updateShipmentOrder(ShipmentOrder.ShipmentOrderUUID shipmentOrderUUID) {
+    public void matchShipmentOrderAndPurchaseOrder(ShipmentOrder shipmentOrder) {
 
+        if(!shipmentOrder.getShipmentStatus().equals(ShipmentStatus.NOTARRIVED)){
+
+            shipmentOrderJpaEntityRepository.save(buildShipmentOrderJpaEntity(shipmentOrder));
+        }
+
+    }
+
+    @Override
+    public void loadMaterial(ShipmentOrder shipmentOrder) {
+
+    }
+
+    private ShipmentOrderJpaEntity buildShipmentOrderJpaEntity(ShipmentOrder shipmentOrder) {
+
+        return new ShipmentOrderJpaEntity(
+                shipmentOrder.getShipmentOrderUUID().uuid(),
+                shipmentOrder.getEstimatedArrivalDate(),
+                shipmentOrder.getEstimatedDepartureDate(),
+                shipmentOrder.getActualArrivalDate(),
+                shipmentOrder.getActualDepartureDate(),
+                shipmentOrder.getShipmentStatus()
+        );
     }
 }

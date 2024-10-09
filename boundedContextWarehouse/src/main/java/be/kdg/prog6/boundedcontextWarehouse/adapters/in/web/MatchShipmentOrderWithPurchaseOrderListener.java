@@ -1,7 +1,6 @@
 package be.kdg.prog6.boundedcontextWarehouse.adapters.in.web;
 
 import be.kdg.prog6.boundedcontextWarehouse.ports.in.MatchShipmentOrderWithPurchaseOrderUseCase;
-import be.kdg.prog6.common.events.PdtToBeCreatedEvent;
 import be.kdg.prog6.common.facades.MatchShipmentOrderWithPurchaseOrderCommand;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
@@ -20,7 +19,6 @@ public class MatchShipmentOrderWithPurchaseOrderListener {
     @RabbitListener(queues = "match.shipment_order_and_purchase_order")
     public void matchShipmentOrderAndPurchaseOrder(final MatchShipmentOrderWithPurchaseOrderCommand matchShipmentOrderWithPurchaseOrderCommand) {
 
-        System.out.println("Entering now");
         matchShipmentOrderWithPurchaseOrderUseCase.matchShipmentOrderAndPurchaseOrder(matchShipmentOrderWithPurchaseOrderCommand);
     }
 }

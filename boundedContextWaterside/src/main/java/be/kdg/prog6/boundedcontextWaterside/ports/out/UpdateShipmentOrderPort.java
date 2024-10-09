@@ -3,5 +3,6 @@ package be.kdg.prog6.boundedcontextWaterside.ports.out;
 import be.kdg.prog6.boundedcontextWaterside.domain.ShipmentOrder;
 
 public interface UpdateShipmentOrderPort {
-    void updateShipmentOrder(ShipmentOrder.ShipmentOrderUUID shipmentOrderUUID);
+    void matchShipmentOrderAndPurchaseOrder(ShipmentOrder shipmentOrder);
+    void loadMaterial(ShipmentOrder shipmentOrder);
 }
