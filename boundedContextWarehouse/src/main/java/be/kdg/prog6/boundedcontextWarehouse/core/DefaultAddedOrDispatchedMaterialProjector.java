@@ -37,7 +37,8 @@ public class DefaultAddedOrDispatchedMaterialProjector implements AddedOrDispatc
 
         Warehouse warehouse = findWarehouseByWarehouseNumber(warehouseNumber);
         int amountOfTonsDelivered = warehouse.calculateNetWeight(intitalWeight, finalWeight);
-        WarehouseActivity warehouseActivity = buildWarehouseActivityAndAddActivityToWarehouse(warehouse, amountOfTonsDelivered, warehouseAction);
+        //WarehouseActivity warehouseActivity = buildWarehouseActivityAndAddActivityToWarehouse(warehouse, amountOfTonsDelivered, warehouseAction);
+        WarehouseActivity warehouseActivity = warehouse.addWarehouseActivity(amountOfTonsDelivered, warehouseNumber, warehouseAction);
         setAmountOfTonsDeliveredToPdt(warehouse, pdtUUID, amountOfTonsDelivered);
 
         updateWarehousePort.forEach(port -> port.updateWarehouse(UpdateWarehouseAction.CREATE_ACTIVIY, warehouse, warehouseActivity, pdtUUID));
@@ -55,18 +56,25 @@ public class DefaultAddedOrDispatchedMaterialProjector implements AddedOrDispatc
         PurchaseOrder purchaseOrder = loadPurchaseOrderPort.loadPurchaseOrderByShipmentOrderUUID(shipmentOrderUUID);
         Seller.CustomerUUID sellerUUID = purchaseOrder.getSellerUuid();
 
-        for(OrderLine orderLine : purchaseOrder.getOrderLineList()) {
-
-            Warehouse warehouse = loadWarehousePort.loadWarehouseBySellerUUIDAndMaterialType(sellerUUID, orderLine.getMaterialType())
-                    .orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND, "Warehouse was not found"));
-
-            warehouse.removeTonsFromOldestPdts(orderLine.getQuantity());
-
-            WarehouseActivity warehouseActivity = buildWarehouseActivityAndAddActivityToWarehouse(warehouse,
-                    orderLine.getQuantity(), WarehouseAction.DISPATCH);
-            updateWarehousePort.forEach(port -> port.updateWarehouse(UpdateWarehouseAction.CREATE_ACTIVIY, warehouse, warehouseActivity, UUID.randomUUID()));
+        for (OrderLine orderLine : purchaseOrder.getOrderLineList()) {
+            processOrderLine(sellerUUID, orderLine);
         }
     }
+
+    private void processOrderLine(Seller.CustomerUUID sellerUUID, OrderLine orderLine) {
+        Warehouse warehouse = loadWarehousePort.loadWarehouseBySellerUUIDAndMaterialType(sellerUUID, orderLine.getMaterialType())
+                .orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND, "Warehouse was not found"));
+
+        warehouse.removeTonsFromOldestPdts(orderLine.getQuantity());
+
+        //WarehouseActivity warehouseActivity = buildWarehouseActivityAndAddActivityToWarehouse(warehouse,
+        //        orderLine.getQuantity(), WarehouseAction.DISPATCH);
+
+        WarehouseActivity warehouseActivity = warehouse.addWarehouseActivity(orderLine.getQuantity(),warehouse.getWareHouseNumber() ,WarehouseAction.DISPATCH);
+        updateWarehousePort.forEach(port -> port.updateWarehouse(UpdateWarehouseAction.CREATE_ACTIVIY, warehouse, warehouseActivity,
+                UUID.randomUUID()));
+    }
+
 
     private Warehouse findWarehouseByWarehouseNumber(int warehouseNumber) {
         return loadWarehousePort.loadWarehouseByWarehouseNumber(warehouseNumber)

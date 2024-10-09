@@ -44,6 +44,7 @@ public class Warehouse {
         return warehouseActivityWindow.addWarehouseActivity(amountOfTons, warehouseNumber, action);
     }
 
+
     public int calculateAndGetCurrentStock(){
 
         return warehouseActivityWindow.calculateCurrentStock();
