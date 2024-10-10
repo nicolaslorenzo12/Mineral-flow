@@ -33,13 +33,12 @@ public class WatersideEventPublisher implements UpdateShipmentOrderPort{
     @Override
     public void loadOrLoadedMaterial(ShipmentOrder shipmentOrder) {
 
-        System.out.println("wtf");
-
-        if(shipmentOrder.getShipmentStatus().equals(ShipmentStatus.ARRIVED)) {}
+        if(shipmentOrder.getShipmentStatus().equals(ShipmentStatus.ARRIVED)) {
             final String routingKey = "waterside. " + shipmentOrder.getShipmentOrderUUID().toString() + " .material_dispatch";
             final String exchangeName = "watersideExchange";
             final MaterialToBeDispatchedEvent materialToDispatch = new MaterialToBeDispatchedEvent(shipmentOrder.getShipmentOrderUUID().uuid());
 
             rabbitTemplate.convertAndSend(exchangeName, routingKey, materialToDispatch);
+        }
     }
 }
