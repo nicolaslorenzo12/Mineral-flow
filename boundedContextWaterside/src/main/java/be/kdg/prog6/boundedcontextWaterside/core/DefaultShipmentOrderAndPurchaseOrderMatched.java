@@ -26,7 +26,7 @@ public class DefaultShipmentOrderAndPurchaseOrderMatched implements ShipmentOrde
 
         ShipmentOrder shipmentOrder = loadOrCreateShipmentOrderPort.loadOrCreateShipmentOrder(shipmentOrderUUID);
         shipmentOrder.setShipmentStatus(ShipmentStatus.ARRIVED);
-        updateShipmentOrderPorts.forEach(updateShipmentOrderPort -> {updateShipmentOrderPort.matchShipmentOrderAndPurchaseOrder(shipmentOrder);});
+        updateShipmentOrderPorts.forEach(updateShipmentOrderPort -> {updateShipmentOrderPort.updateShipmentOrder(shipmentOrder, false);});
 
     }
 }

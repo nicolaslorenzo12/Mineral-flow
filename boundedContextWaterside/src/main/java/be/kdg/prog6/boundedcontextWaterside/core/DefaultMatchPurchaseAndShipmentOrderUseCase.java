@@ -32,6 +32,6 @@ public class DefaultMatchPurchaseAndShipmentOrderUseCase implements MatchShipmen
 
 
        updateShipmentOrderPorts.forEach(updateShipmentOrderPort ->
-               updateShipmentOrderPort.matchShipmentOrderAndPurchaseOrder(shipmentOrder));
+               updateShipmentOrderPort.updateShipmentOrder(shipmentOrder, true));
     }
 }

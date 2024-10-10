@@ -36,22 +36,8 @@ public class ShipmentOrderDBAdapter implements LoadOrCreateShipmentOrderPort, Up
     }
 
     @Override
-    public void matchShipmentOrderAndPurchaseOrder(ShipmentOrder shipmentOrder) {
-
-        if(shipmentOrder.getShipmentStatus().equals(ShipmentStatus.ARRIVED)){
-
-            shipmentOrderJpaEntityRepository.save(buildShipmentOrderJpaEntity(shipmentOrder));
-        }
-
-    }
-
-    @Override
-    public void loadOrLoadedMaterial(ShipmentOrder shipmentOrder) {
-
-        if(shipmentOrder.getShipmentStatus().equals(ShipmentStatus.LOADED)){
-            shipmentOrderJpaEntityRepository.save(buildShipmentOrderJpaEntity(shipmentOrder));
-        }
-
+    public void updateShipmentOrder(ShipmentOrder shipmentOrder, boolean notPublished) {
+        shipmentOrderJpaEntityRepository.save(buildShipmentOrderJpaEntity(shipmentOrder));
     }
 
     private ShipmentOrderJpaEntity buildShipmentOrderJpaEntity(ShipmentOrder shipmentOrder) {

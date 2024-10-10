@@ -19,26 +19,20 @@ public class WatersideEventPublisher implements UpdateShipmentOrderPort{
 
 
     @Override
-    public void matchShipmentOrderAndPurchaseOrder(ShipmentOrder shipmentOrder) {
+    public void updateShipmentOrder(ShipmentOrder shipmentOrder, boolean notPublished) {
 
-        if(shipmentOrder.getShipmentStatus().equals(ShipmentStatus.NOTARRIVED)) {
+        if(shipmentOrder.getShipmentStatus().equals(ShipmentStatus.NOTARRIVED) && notPublished) {
             final String routingKey = "match. " + shipmentOrder.getShipmentOrderUUID().toString() + " .shipment_order_and_purchase_order";
             final String exchangeName = "watersideExchange";
             final MatchShipmentOrderWithPurchaseOrderCommand body = new MatchShipmentOrderWithPurchaseOrderCommand(shipmentOrder.getShipmentOrderUUID().uuid());
 
             rabbitTemplate.convertAndSend(exchangeName, routingKey, body);
         }
-    }
-
-    @Override
-    public void loadOrLoadedMaterial(ShipmentOrder shipmentOrder) {
-
-        if(shipmentOrder.getShipmentStatus().equals(ShipmentStatus.ARRIVED)) {
+        else if(shipmentOrder.getShipmentStatus().equals(ShipmentStatus.ARRIVED) && notPublished) {
             final String routingKey = "waterside. " + shipmentOrder.getShipmentOrderUUID().toString() + " .material_dispatch";
             final String exchangeName = "watersideExchange";
-            final MaterialToBeDispatchedEvent materialToDispatch = new MaterialToBeDispatchedEvent(shipmentOrder.getShipmentOrderUUID().uuid());
-
-            rabbitTemplate.convertAndSend(exchangeName, routingKey, materialToDispatch);
+            final MaterialToBeDispatchedEvent body = new MaterialToBeDispatchedEvent(shipmentOrder.getShipmentOrderUUID().uuid());
+            rabbitTemplate.convertAndSend(exchangeName, routingKey, body);
         }
     }
 }
