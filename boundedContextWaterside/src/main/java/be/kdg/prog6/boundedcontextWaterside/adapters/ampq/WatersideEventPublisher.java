@@ -31,9 +31,11 @@ public class WatersideEventPublisher implements UpdateShipmentOrderPort{
     }
 
     @Override
-    public void loadMaterial(ShipmentOrder shipmentOrder) {
+    public void loadOrLoadedMaterial(ShipmentOrder shipmentOrder) {
 
+        System.out.println("wtf");
 
+        if(shipmentOrder.getShipmentStatus().equals(ShipmentStatus.ARRIVED)) {}
             final String routingKey = "waterside. " + shipmentOrder.getShipmentOrderUUID().toString() + " .material_dispatch";
             final String exchangeName = "watersideExchange";
             final MaterialToBeDispatchedEvent materialToDispatch = new MaterialToBeDispatchedEvent(shipmentOrder.getShipmentOrderUUID().uuid());

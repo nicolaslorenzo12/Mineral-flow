@@ -4,5 +4,5 @@ import be.kdg.prog6.boundedcontextWaterside.domain.ShipmentOrder;
 
 public interface UpdateShipmentOrderPort {
     void matchShipmentOrderAndPurchaseOrder(ShipmentOrder shipmentOrder);
-    void loadMaterial(ShipmentOrder shipmentOrder);
+    void loadOrLoadedMaterial(ShipmentOrder shipmentOrder);
 }

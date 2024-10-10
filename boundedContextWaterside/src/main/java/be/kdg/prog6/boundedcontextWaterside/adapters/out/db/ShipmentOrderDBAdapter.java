@@ -46,7 +46,7 @@ public class ShipmentOrderDBAdapter implements LoadOrCreateShipmentOrderPort, Up
     }
 
     @Override
-    public void loadMaterial(ShipmentOrder shipmentOrder) {
+    public void loadOrLoadedMaterial(ShipmentOrder shipmentOrder) {
 
         if(shipmentOrder.getShipmentStatus().equals(ShipmentStatus.LOADED)){
             shipmentOrderJpaEntityRepository.save(buildShipmentOrderJpaEntity(shipmentOrder));
