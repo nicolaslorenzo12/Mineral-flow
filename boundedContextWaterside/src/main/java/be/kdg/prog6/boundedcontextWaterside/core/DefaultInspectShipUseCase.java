@@ -2,6 +2,7 @@ package be.kdg.prog6.boundedcontextWaterside.core;
 
 import be.kdg.prog6.boundedcontextWaterside.domain.ShipmentOrder;
 import be.kdg.prog6.boundedcontextWaterside.domain.ShipmentStatus;
+import be.kdg.prog6.boundedcontextWaterside.ports.in.InspectShipCommand;
 import be.kdg.prog6.boundedcontextWaterside.ports.in.InspectShipUseCase;
 import be.kdg.prog6.boundedcontextWaterside.ports.out.LoadOrCreateShipmentOrderPort;
 import be.kdg.prog6.boundedcontextWaterside.ports.out.UpdateShipmentOrderPort;
@@ -22,8 +23,8 @@ public class DefaultInspectShipUseCase implements InspectShipUseCase {
 
 
     @Override
-    public ShipmentOrder inspect(ShipmentOrder.ShipmentOrderUUID shipmentOrderUUID) {
-        ShipmentOrder shipmentOrder = loadOrCreateShipmentOrderPort.loadOrCreateShipmentOrder(shipmentOrderUUID);
+    public ShipmentOrder inspect(InspectShipCommand inspectShipCommand) {
+        ShipmentOrder shipmentOrder = loadOrCreateShipmentOrderPort.loadOrCreateShipmentOrder(inspectShipCommand.shipmentOrderUUID());
         shipmentOrder.setShipmentStatus(ShipmentStatus.INSPECTED);
         updateShipmentOrderPortList.forEach(updateShipmentOrderPort -> updateShipmentOrderPort.updateShipmentOrder(shipmentOrder, false));
         return shipmentOrder;

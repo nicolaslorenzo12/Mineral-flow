@@ -1,8 +1,7 @@
 package be.kdg.prog6.boundedcontextWaterside.ports.in;
 
 import be.kdg.prog6.boundedcontextWaterside.domain.ShipmentOrder;
+import com.rabbitmq.client.Command;
 
-public interface InspectShipUseCase {
-
-    public ShipmentOrder inspect(InspectShipCommand inspectShipCommand);
+public record RefuelShipCommand(ShipmentOrder.ShipmentOrderUUID shipmentOrderUUID){
 }
