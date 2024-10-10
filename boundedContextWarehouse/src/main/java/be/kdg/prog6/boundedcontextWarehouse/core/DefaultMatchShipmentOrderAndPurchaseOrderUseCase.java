@@ -34,6 +34,6 @@ public class DefaultMatchShipmentOrderAndPurchaseOrderUseCase implements MatchSh
             System.out.println("do not match");
         }
 
-        updatePurchaseOrderPort.updatePurchase(shipmentOrderUUID);
+        updatePurchaseOrderPort.shipmentOrderAndPurchaseOrderMatched(shipmentOrderUUID);
     }
 }

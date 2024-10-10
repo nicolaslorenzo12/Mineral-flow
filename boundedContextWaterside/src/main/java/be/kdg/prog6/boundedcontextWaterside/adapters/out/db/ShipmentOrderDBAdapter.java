@@ -38,7 +38,7 @@ public class ShipmentOrderDBAdapter implements LoadOrCreateShipmentOrderPort, Up
     @Override
     public void matchShipmentOrderAndPurchaseOrder(ShipmentOrder shipmentOrder) {
 
-        if(!shipmentOrder.getShipmentStatus().equals(ShipmentStatus.NOTARRIVED)){
+        if(shipmentOrder.getShipmentStatus().equals(ShipmentStatus.ARRIVED)){
 
             shipmentOrderJpaEntityRepository.save(buildShipmentOrderJpaEntity(shipmentOrder));
         }
@@ -47,6 +47,10 @@ public class ShipmentOrderDBAdapter implements LoadOrCreateShipmentOrderPort, Up
 
     @Override
     public void loadMaterial(ShipmentOrder shipmentOrder) {
+
+        if(shipmentOrder.getShipmentStatus().equals(ShipmentStatus.LOADED)){
+            shipmentOrderJpaEntityRepository.save(buildShipmentOrderJpaEntity(shipmentOrder));
+        }
 
     }
 

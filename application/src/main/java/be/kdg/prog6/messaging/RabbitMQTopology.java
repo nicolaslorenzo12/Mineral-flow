@@ -9,6 +9,7 @@ import org.springframework.amqp.core.TopicExchange;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -35,6 +36,8 @@ public class RabbitMQTopology {
     Queue matchShipmentOrderAndPurchaseOrderQueue(){ return new Queue("match.shipment_order_and_purchase_order", false);}
     @Bean
     Queue matchedShipmentOrderAndPurchaseOrderQueue(){return new Queue("matched.shipment_order_and_purchase_order", false);}
+    @Bean
+    Queue materialLoadedQueue(){return new Queue("warehouse.material_loaded", false);}
 
     @Bean
     TopicExchange warehouseExchange() {
@@ -114,6 +117,16 @@ public class RabbitMQTopology {
                 .with("matched.#.shipment_order_and_purchase_order");
     }
 
+    @Bean
+    Binding bindWarehouseExchangeToWarehouseMaterialLoadedQueue(
+            Queue materialLoadedQueue,
+            TopicExchange warehouseExchange
+    ){
+        return BindingBuilder
+                .bind(materialLoadedQueue)
+                .to(warehouseExchange)
+                .with("warehouse.#.material_loaded");
+    }
 
 
     @Bean

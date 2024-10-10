@@ -4,6 +4,7 @@ import be.kdg.prog6.boundedcontextWarehouse.domain.*;
 import be.kdg.prog6.boundedcontextWarehouse.ports.in.AddedOrDispatchedMaterialProjector;
 import be.kdg.prog6.boundedcontextWarehouse.ports.out.LoadPurchaseOrderPort;
 import be.kdg.prog6.boundedcontextWarehouse.ports.out.LoadWarehousePort;
+import be.kdg.prog6.boundedcontextWarehouse.ports.out.UpdatePurchaseOrderPort;
 import be.kdg.prog6.boundedcontextWarehouse.ports.out.UpdateWarehousePort;
 import be.kdg.prog6.common.domain.MaterialType;
 import be.kdg.prog6.common.domain.Seller;
@@ -24,11 +25,13 @@ public class DefaultAddedOrDispatchedMaterialProjector implements AddedOrDispatc
     private final LoadWarehousePort loadWarehousePort;
     private final List<UpdateWarehousePort> updateWarehousePort;
     private final LoadPurchaseOrderPort loadPurchaseOrderPort;
+    private final UpdatePurchaseOrderPort updatePurchaseOrderPort;
 
-    public DefaultAddedOrDispatchedMaterialProjector(LoadWarehousePort loadWarehousePort, final List<UpdateWarehousePort> updateWarehousePort, LoadPurchaseOrderPort loadPurchaseOrderPort) {
+    public DefaultAddedOrDispatchedMaterialProjector(LoadWarehousePort loadWarehousePort, final List<UpdateWarehousePort> updateWarehousePort, LoadPurchaseOrderPort loadPurchaseOrderPort, UpdatePurchaseOrderPort updatePurchaseOrderPort) {
         this.loadWarehousePort = loadWarehousePort;
         this.updateWarehousePort = updateWarehousePort;
         this.loadPurchaseOrderPort = loadPurchaseOrderPort;
+        this.updatePurchaseOrderPort = updatePurchaseOrderPort;
     }
 
     @Override
@@ -58,6 +61,8 @@ public class DefaultAddedOrDispatchedMaterialProjector implements AddedOrDispatc
         for (OrderLine orderLine : purchaseOrder.getOrderLineList()) {
             processOrderLine(sellerUUID, orderLine);
         }
+
+        updatePurchaseOrderPort.materialLoaded(shipmentOrderUUID);
     }
 
     private void processOrderLine(Seller.CustomerUUID sellerUUID, OrderLine orderLine) {

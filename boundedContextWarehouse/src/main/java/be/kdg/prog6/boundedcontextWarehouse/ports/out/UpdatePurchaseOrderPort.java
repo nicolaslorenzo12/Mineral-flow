@@ -4,5 +4,6 @@ import java.util.UUID;
 
 public interface UpdatePurchaseOrderPort {
 
-    void updatePurchase(UUID shipmentOrderUUID);
+    void shipmentOrderAndPurchaseOrderMatched(UUID shipmentOrderUUID);
+    void materialLoaded(UUID shipmentOrderUUID);
 }

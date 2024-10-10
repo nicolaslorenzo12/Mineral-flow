@@ -6,8 +6,11 @@ import be.kdg.prog6.boundedcontextWarehouse.domain.WarehouseActivity;
 import be.kdg.prog6.boundedcontextWarehouse.ports.out.UpdatePurchaseOrderPort;
 import be.kdg.prog6.boundedcontextWarehouse.ports.out.UpdateWarehousePort;
 import be.kdg.prog6.common.events.ActivityCreatedEvent;
+import be.kdg.prog6.common.events.MaterialLoadedEvent;
 import be.kdg.prog6.common.events.ShipmentOrderAndPurchaseOrderMatchedEvent;
+import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;
@@ -39,11 +42,21 @@ public class WarehouseEventPublisher implements UpdateWarehousePort, UpdatePurch
     }
 
     @Override
-    public void updatePurchase(UUID shipmentUUID) {
+    public void shipmentOrderAndPurchaseOrderMatched(UUID shipmentUUID) {
 
         final String routingKey = "matched. " + shipmentUUID.toString() + " .shipment_order_and_purchase_order";
         final String exchangeName = "warehouseExchange";
         final ShipmentOrderAndPurchaseOrderMatchedEvent body = new ShipmentOrderAndPurchaseOrderMatchedEvent(shipmentUUID);
         rabbitTemplate.convertAndSend(exchangeName, routingKey, body);
+    }
+
+    @Override
+    public void materialLoaded(UUID shipmentOrderUUID) {
+
+        final String routingKey = "warehouse. " + shipmentOrderUUID.toString() + " .material_loaded";
+        final String exchangeName = "warehouseExchange";
+        final MaterialLoadedEvent body = new MaterialLoadedEvent(shipmentOrderUUID);
+        rabbitTemplate.convertAndSend(exchangeName, routingKey, body);
+
     }
 }
