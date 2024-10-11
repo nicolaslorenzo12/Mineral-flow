@@ -24,7 +24,7 @@ public class DefaultShipmentOrderMaterialLoaded implements ShipmentOrderMaterial
     public void changeStatusOfShipToLoaded(ShipmentOrder.ShipmentOrderUUID shipmentOrderUUID) {
 
         ShipmentOrder shipmentOrder = loadOrCreateShipmentOrderPort.loadOrCreateShipmentOrder(shipmentOrderUUID);
-        shipmentOrder.setShipmentStatus(ShipmentStatus.LOADED);
+        //shipmentOrder.setShipmentStatus(ShipmentStatus.LOADED);
         updateShipmentOrderPorts.forEach(updateShipmentOrderPort -> updateShipmentOrderPort.updateShipmentOrder(shipmentOrder, false));
     }
 }

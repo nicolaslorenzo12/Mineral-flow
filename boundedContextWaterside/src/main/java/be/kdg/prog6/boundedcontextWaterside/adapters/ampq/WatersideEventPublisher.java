@@ -28,7 +28,7 @@ public class WatersideEventPublisher implements UpdateShipmentOrderPort{
 
             rabbitTemplate.convertAndSend(exchangeName, routingKey, body);
         }
-        else if(shipmentOrder.getShipmentStatus().equals(ShipmentStatus.ARRIVED) && notPublished) {
+        else if(shipmentOrder.getShipmentStatus().equals(ShipmentStatus.LOADED) && notPublished) {
             final String routingKey = "waterside. " + shipmentOrder.getShipmentOrderUUID().toString() + " .material_dispatch";
             final String exchangeName = "watersideExchange";
             final MaterialToBeDispatchedEvent body = new MaterialToBeDispatchedEvent(shipmentOrder.getShipmentOrderUUID().uuid());

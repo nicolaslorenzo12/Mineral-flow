@@ -1,6 +1,7 @@
 package be.kdg.prog6.boundedcontextWaterside.core;
 
 import be.kdg.prog6.boundedcontextWaterside.domain.ShipmentOrder;
+import be.kdg.prog6.boundedcontextWaterside.domain.ShipmentStatus;
 import be.kdg.prog6.boundedcontextWaterside.ports.in.LoadMaterialCommand;
 import be.kdg.prog6.boundedcontextWaterside.ports.in.LoadMaterialUseCase;
 import be.kdg.prog6.boundedcontextWaterside.ports.out.LoadOrCreateShipmentOrderPort;
@@ -24,6 +25,7 @@ public class DefaultLoadMaterialUseCase implements LoadMaterialUseCase {
     public void loadMaterial(LoadMaterialCommand loadMaterialCommand) {
 
         ShipmentOrder shipmentOrder = loadOrCreateShipmentOrderPort.loadOrCreateShipmentOrder(loadMaterialCommand.shipmentOrderUUID());
+        shipmentOrder.checkIfShipmentOrderHasAlreadyHadThisStatus(ShipmentStatus.LOADED);
         updateShipmentOrderPorts.forEach(updateShipmentOrderPort -> {updateShipmentOrderPort.updateShipmentOrder(shipmentOrder, true);});
     }
 

@@ -146,18 +146,6 @@ public class Appointment {
     }
 
     public void proccessWeighting(){
-
-        //if (weightingTime.equals(WeightingTime.FIRST_TIME)) {
-        //    checkIfTruckHasAlreadyGottenThisStatus(TruckStatus.WEIGHTINGFIRSTTIME);
-        //    this.setInitialWeight(weight);
-        //}
-        //else {
-        //    checkIfTruckHasAlreadyGottenThisStatus(TruckStatus.WEIGHTINGLASTTIME);
-        //    this.setStatus(TruckStatus.LEFT);
-        //    this.setFinalWeight(weight);
-        //    setDepartureTime(LocalDateTime.now());
-        //}
-
         if(this.getInitialWeight() == 0){
             checkIfTruckHasAlreadyGottenThisStatus(TruckStatus.WEIGHTINGFIRSTTIME);
             this.setInitialWeight(generateRandomWeight());

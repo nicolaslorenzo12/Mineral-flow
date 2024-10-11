@@ -1,6 +1,7 @@
 package be.kdg.prog6.boundedcontextWaterside.core;
 
 import be.kdg.prog6.boundedcontextWaterside.domain.ShipmentOrder;
+import be.kdg.prog6.boundedcontextWaterside.domain.ShipmentStatus;
 import be.kdg.prog6.boundedcontextWaterside.ports.in.MatchShipmentOrderAndPurchaseOrderUseCase;
 import be.kdg.prog6.boundedcontextWaterside.ports.out.LoadOrCreateShipmentOrderPort;
 import be.kdg.prog6.boundedcontextWaterside.ports.out.UpdateShipmentOrderPort;
@@ -30,6 +31,7 @@ public class DefaultMatchPurchaseAndShipmentOrderUseCase implements MatchShipmen
        ShipmentOrder shipmentOrder = loadOrCreateShipmentOrderPort.loadOrCreateShipmentOrder
                (new ShipmentOrder.ShipmentOrderUUID(shipmentOrderUUID));
 
+       shipmentOrder.checkIfShipmentOrderHasAlreadyHadThisStatus(ShipmentStatus.ARRIVED);
 
        updateShipmentOrderPorts.forEach(updateShipmentOrderPort ->
                updateShipmentOrderPort.updateShipmentOrder(shipmentOrder, true));

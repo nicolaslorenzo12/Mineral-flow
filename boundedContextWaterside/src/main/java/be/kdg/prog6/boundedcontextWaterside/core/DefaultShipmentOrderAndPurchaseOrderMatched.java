@@ -25,7 +25,7 @@ public class DefaultShipmentOrderAndPurchaseOrderMatched implements ShipmentOrde
     public void changeStatusOfShipToArrived(ShipmentOrder.ShipmentOrderUUID shipmentOrderUUID) {
 
         ShipmentOrder shipmentOrder = loadOrCreateShipmentOrderPort.loadOrCreateShipmentOrder(shipmentOrderUUID);
-        shipmentOrder.setShipmentStatus(ShipmentStatus.ARRIVED);
+        //shipmentOrder.setShipmentStatus(ShipmentStatus.ARRIVED);
         updateShipmentOrderPorts.forEach(updateShipmentOrderPort -> {updateShipmentOrderPort.updateShipmentOrder(shipmentOrder, false);});
 
     }
