@@ -1,15 +1,16 @@
-package be.kdg.prog6.boundedcontextWarehouse.domain;
-
-import be.kdg.prog6.common.domain.MaterialType;
-import be.kdg.prog6.common.domain.Uom;
+package be.kdg.prog6.common.domain;
 
 public class OrderLine {
 
     private int lineNumber;
-    private final MaterialType materialType;
-    private final int quantity;
-    private final Uom uom = Uom.T;
+    private MaterialType materialType;
+    private int quantity;
+    private Uom uom = Uom.T;
 
+
+    public OrderLine(){
+
+    }
     public OrderLine(MaterialType materialType, int quantity) {
         this.materialType = materialType;
         this.quantity = quantity;

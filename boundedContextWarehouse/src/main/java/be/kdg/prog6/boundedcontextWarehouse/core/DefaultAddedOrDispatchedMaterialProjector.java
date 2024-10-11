@@ -2,20 +2,18 @@ package be.kdg.prog6.boundedcontextWarehouse.core;
 
 import be.kdg.prog6.boundedcontextWarehouse.domain.*;
 import be.kdg.prog6.boundedcontextWarehouse.ports.in.AddedOrDispatchedMaterialProjector;
-import be.kdg.prog6.boundedcontextWarehouse.ports.out.LoadPurchaseOrderPort;
-import be.kdg.prog6.boundedcontextWarehouse.ports.out.LoadWarehousePort;
-import be.kdg.prog6.boundedcontextWarehouse.ports.out.UpdatePurchaseOrderPort;
-import be.kdg.prog6.boundedcontextWarehouse.ports.out.UpdateWarehousePort;
-import be.kdg.prog6.common.domain.MaterialType;
+import be.kdg.prog6.boundedcontextWarehouse.ports.out.*;
+import be.kdg.prog6.common.domain.OrderLine;
+import be.kdg.prog6.common.domain.PurchaseOrder;
 import be.kdg.prog6.common.domain.Seller;
 import be.kdg.prog6.common.domain.WarehouseAction;
 import be.kdg.prog6.common.exception.CustomException;
+import be.kdg.prog6.common.facades.CommissionFeeToCalculateCommand;
 import jakarta.transaction.Transactional;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -27,12 +25,14 @@ public class DefaultAddedOrDispatchedMaterialProjector implements AddedOrDispatc
     private final List<UpdateWarehousePort> updateWarehousePort;
     private final LoadPurchaseOrderPort loadPurchaseOrderPort;
     private final UpdatePurchaseOrderPort updatePurchaseOrderPort;
+    private final UpdateInvoicePort updateInvoicePort;
 
-    public DefaultAddedOrDispatchedMaterialProjector(LoadWarehousePort loadWarehousePort, final List<UpdateWarehousePort> updateWarehousePort, LoadPurchaseOrderPort loadPurchaseOrderPort, UpdatePurchaseOrderPort updatePurchaseOrderPort) {
+    public DefaultAddedOrDispatchedMaterialProjector(LoadWarehousePort loadWarehousePort, final List<UpdateWarehousePort> updateWarehousePort, LoadPurchaseOrderPort loadPurchaseOrderPort, UpdatePurchaseOrderPort updatePurchaseOrderPort, UpdateInvoicePort updateInvoicePort) {
         this.loadWarehousePort = loadWarehousePort;
         this.updateWarehousePort = updateWarehousePort;
         this.loadPurchaseOrderPort = loadPurchaseOrderPort;
         this.updatePurchaseOrderPort = updatePurchaseOrderPort;
+        this.updateInvoicePort = updateInvoicePort;
     }
 
     @Override
@@ -64,6 +64,7 @@ public class DefaultAddedOrDispatchedMaterialProjector implements AddedOrDispatc
         }
 
         updatePurchaseOrderPort.materialLoaded(shipmentOrderUUID, LocalDate.now());
+        updateInvoicePort.updateInvoice(new CommissionFeeToCalculateCommand(purchaseOrder.getSellerUuid().uuid(), purchaseOrder.getBuyerUuid().uuid(), purchaseOrder.getOrderLineList()));
     }
 
     private void processOrderLine(Seller.CustomerUUID sellerUUID, OrderLine orderLine) {

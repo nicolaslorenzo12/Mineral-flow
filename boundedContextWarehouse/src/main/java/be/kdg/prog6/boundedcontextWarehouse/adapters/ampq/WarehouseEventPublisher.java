@@ -3,18 +3,21 @@ package be.kdg.prog6.boundedcontextWarehouse.adapters.ampq;
 import be.kdg.prog6.boundedcontextWarehouse.domain.UpdateWarehouseAction;
 import be.kdg.prog6.boundedcontextWarehouse.domain.Warehouse;
 import be.kdg.prog6.boundedcontextWarehouse.domain.WarehouseActivity;
+import be.kdg.prog6.boundedcontextWarehouse.ports.out.UpdateInvoicePort;
 import be.kdg.prog6.boundedcontextWarehouse.ports.out.UpdatePurchaseOrderPort;
 import be.kdg.prog6.boundedcontextWarehouse.ports.out.UpdateWarehousePort;
+import be.kdg.prog6.common.domain.PurchaseOrder;
 import be.kdg.prog6.common.events.ActivityCreatedEvent;
 import be.kdg.prog6.common.events.MaterialLoadedEvent;
 import be.kdg.prog6.common.events.ShipmentOrderAndPurchaseOrderMatchedEvent;
+import be.kdg.prog6.common.facades.CommissionFeeToCalculateCommand;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Component;
 import java.time.LocalDate;
 import java.util.UUID;
 
 @Component
-public class WarehouseEventPublisher implements UpdateWarehousePort, UpdatePurchaseOrderPort {
+public class WarehouseEventPublisher implements UpdateWarehousePort, UpdatePurchaseOrderPort, UpdateInvoicePort {
 
     private final RabbitTemplate rabbitTemplate;
 
@@ -54,6 +57,16 @@ public class WarehouseEventPublisher implements UpdateWarehousePort, UpdatePurch
         final String routingKey = "warehouse. " + shipmentOrderUUID.toString() + " .material_loaded";
         final String exchangeName = "warehouseExchange";
         final MaterialLoadedEvent body = new MaterialLoadedEvent(shipmentOrderUUID, localDate);
+        rabbitTemplate.convertAndSend(exchangeName, routingKey, body);
+    }
+
+    @Override
+    public void updateInvoice(CommissionFeeToCalculateCommand commissionFeeToCalculateCommand) {
+
+        final String routingKey = "warehouse. " + commissionFeeToCalculateCommand.sellerUUID().toString() + " .commission_fee";
+        final String exchangeName = "warehouseExchange";
+        final CommissionFeeToCalculateCommand body = new CommissionFeeToCalculateCommand(commissionFeeToCalculateCommand.sellerUUID(),
+                commissionFeeToCalculateCommand.buyerUUID(), commissionFeeToCalculateCommand.orderLines());
         rabbitTemplate.convertAndSend(exchangeName, routingKey, body);
     }
 }

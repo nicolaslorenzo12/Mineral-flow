@@ -34,10 +34,15 @@ public class RabbitMQTopology {
 
     @Bean
     Queue matchShipmentOrderAndPurchaseOrderQueue(){ return new Queue("match.shipment_order_and_purchase_order", false);}
+
     @Bean
     Queue matchedShipmentOrderAndPurchaseOrderQueue(){return new Queue("matched.shipment_order_and_purchase_order", false);}
+
     @Bean
     Queue materialLoadedQueue(){return new Queue("warehouse.material_loaded", false);}
+
+    @Bean
+    Queue commissionFeeQueue(){return new Queue("warehouse.commission_fee", false);}
 
     @Bean
     TopicExchange warehouseExchange() {
@@ -126,6 +131,17 @@ public class RabbitMQTopology {
                 .bind(materialLoadedQueue)
                 .to(warehouseExchange)
                 .with("warehouse.#.material_loaded");
+    }
+
+    @Bean
+    Binding bindWarehouseExchangeToCommissionFeeQueue(
+            Queue commissionFeeQueue,
+            TopicExchange warehouseExchange
+    ){
+        return BindingBuilder
+                .bind(commissionFeeQueue)
+                .to(warehouseExchange)
+                .with("warehouse.#.commission_fee");
     }
 
 
