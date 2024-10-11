@@ -6,6 +6,8 @@ import be.kdg.prog6.boundedcontextWaterside.ports.out.LoadOrCreateShipmentOrderP
 import be.kdg.prog6.boundedcontextWaterside.ports.out.UpdateShipmentOrderPort;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 public class ShipmentOrderDBAdapter implements LoadOrCreateShipmentOrderPort, UpdateShipmentOrderPort {
 
@@ -21,6 +23,14 @@ public class ShipmentOrderDBAdapter implements LoadOrCreateShipmentOrderPort, Up
 
         ShipmentOrderJpaEntity shipmentOrderJpaEntity = shipmentOrderJpaEntityRepository.findShipmentOrderJpaEntityByShipmentOrderUUID(shipmentOrderUUID.uuid());
         return buildShipmentOrderObject(shipmentOrderJpaEntity);
+    }
+
+    @Override
+    public List<ShipmentOrder> getShipmentOrders() {
+        List<ShipmentOrderJpaEntity> shipmentOrderJpaEntities = shipmentOrderJpaEntityRepository.findAll();
+
+        return shipmentOrderJpaEntities.stream()
+                .map(this::buildShipmentOrderObject).toList();
     }
 
     private ShipmentOrder buildShipmentOrderObject(ShipmentOrderJpaEntity jpaEntity) {

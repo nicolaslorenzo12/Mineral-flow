@@ -4,6 +4,7 @@ import be.kdg.prog6.common.exception.CustomException;
 import org.springframework.http.HttpStatus;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 public class ShipmentOrder {
@@ -79,5 +80,11 @@ public class ShipmentOrder {
         }
 
         this.setShipmentStatus(shipmentStatus);
+    }
+
+    public static List<ShipmentOrder> getOutStandingPOS(List<ShipmentOrder> shipmentOrders){
+        return shipmentOrders.stream()
+                .filter(order -> order.getShipmentStatus().ordinal() >= ShipmentStatus.ARRIVED.ordinal() &&
+                        order.getShipmentStatus().ordinal() < ShipmentStatus.LOADED.ordinal()).toList();
     }
 }

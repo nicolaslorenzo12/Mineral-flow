@@ -43,3 +43,7 @@ POST http://localhost:8090/api/refuel/shipment-order/564e4567-e89b-12d3-a456-426
 ###
 
 POST http://localhost:8090/api/load-ship/shipment-order/564e4567-e89b-12d3-a456-426614174333
+
+###
+
+POST http://localhost:8090/api/outstanding-po's

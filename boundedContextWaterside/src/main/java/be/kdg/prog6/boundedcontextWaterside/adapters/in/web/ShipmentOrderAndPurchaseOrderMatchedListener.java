@@ -20,7 +20,6 @@ public class ShipmentOrderAndPurchaseOrderMatchedListener {
     @RabbitListener(queues = "matched.shipment_order_and_purchase_order")
     public void shipmentOrderAndPurchaseOrderMatched(ShipmentOrderAndPurchaseOrderMatchedEvent shipmentOrderAndPurchaseOrderMatchedEvent) {
 
-        System.out.println("matched");
         final ShipmentOrder.ShipmentOrderUUID shipmentOrderUUID = new
                 ShipmentOrder.ShipmentOrderUUID(shipmentOrderAndPurchaseOrderMatchedEvent.shipmentOrderUUID());
 
