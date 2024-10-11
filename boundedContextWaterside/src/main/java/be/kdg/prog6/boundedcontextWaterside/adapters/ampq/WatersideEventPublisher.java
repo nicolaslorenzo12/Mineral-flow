@@ -21,7 +21,7 @@ public class WatersideEventPublisher implements UpdateShipmentOrderPort{
     @Override
     public void updateShipmentOrder(ShipmentOrder shipmentOrder, boolean notPublished) {
 
-        if(shipmentOrder.getShipmentStatus().equals(ShipmentStatus.NOTARRIVED) && notPublished) {
+        if(shipmentOrder.getShipmentStatus().equals(ShipmentStatus.ARRIVED) && notPublished) {
             final String routingKey = "match. " + shipmentOrder.getShipmentOrderUUID().toString() + " .shipment_order_and_purchase_order";
             final String exchangeName = "watersideExchange";
             final MatchShipmentOrderWithPurchaseOrderCommand body = new MatchShipmentOrderWithPurchaseOrderCommand(shipmentOrder.getShipmentOrderUUID().uuid());

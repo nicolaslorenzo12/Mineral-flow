@@ -7,6 +7,7 @@ import be.kdg.prog6.boundedcontextWarehouse.ports.out.UpdatePurchaseOrderPort;
 import be.kdg.prog6.common.facades.MatchShipmentOrderWithPurchaseOrderCommand;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.UUID;
 
 @Service
@@ -34,6 +35,6 @@ public class DefaultMatchShipmentOrderAndPurchaseOrderUseCase implements MatchSh
             System.out.println("do not match");
         }
 
-        updatePurchaseOrderPort.shipmentOrderAndPurchaseOrderMatched(shipmentOrderUUID);
+        updatePurchaseOrderPort.shipmentOrderAndPurchaseOrderMatched(shipmentOrderUUID, LocalDate.now());
     }
 }

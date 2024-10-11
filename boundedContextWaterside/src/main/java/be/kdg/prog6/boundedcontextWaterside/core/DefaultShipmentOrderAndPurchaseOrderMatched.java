@@ -7,6 +7,7 @@ import be.kdg.prog6.boundedcontextWaterside.ports.out.LoadOrCreateShipmentOrderP
 import be.kdg.prog6.boundedcontextWaterside.ports.out.UpdateShipmentOrderPort;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -22,10 +23,10 @@ public class DefaultShipmentOrderAndPurchaseOrderMatched implements ShipmentOrde
 
 
     @Override
-    public void changeStatusOfShipToArrived(ShipmentOrder.ShipmentOrderUUID shipmentOrderUUID) {
+    public void changeStatusOfShipToArrived(ShipmentOrder.ShipmentOrderUUID shipmentOrderUUID, LocalDate actualArrivalDate) {
 
         ShipmentOrder shipmentOrder = loadOrCreateShipmentOrderPort.loadOrCreateShipmentOrder(shipmentOrderUUID);
-        //shipmentOrder.setShipmentStatus(ShipmentStatus.ARRIVED);
+        shipmentOrder.setActualArrivalDate(actualArrivalDate);
         updateShipmentOrderPorts.forEach(updateShipmentOrderPort -> {updateShipmentOrderPort.updateShipmentOrder(shipmentOrder, false);});
 
     }

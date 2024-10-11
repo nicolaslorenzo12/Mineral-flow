@@ -6,21 +6,26 @@ import be.kdg.prog6.common.events.ShipmentOrderAndPurchaseOrderMatchedEvent;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
+
 @Component
-public class ShipmentOrderAndPurchaseOrderListener {
+public class ShipmentOrderAndPurchaseOrderMatchedListener {
 
     private final ShipmentOrderAndPurchaseOrderMatched shipmentOrderAndPurchaseOrderMatched;
 
-    public ShipmentOrderAndPurchaseOrderListener(ShipmentOrderAndPurchaseOrderMatched shipmentOrderAndPurchaseOrderMatched) {
+    public ShipmentOrderAndPurchaseOrderMatchedListener(ShipmentOrderAndPurchaseOrderMatched shipmentOrderAndPurchaseOrderMatched) {
         this.shipmentOrderAndPurchaseOrderMatched = shipmentOrderAndPurchaseOrderMatched;
     }
 
     @RabbitListener(queues = "matched.shipment_order_and_purchase_order")
-    public void shipmentOrderAndPurchaseOrderMatched(final ShipmentOrderAndPurchaseOrderMatchedEvent shipmentOrderAndPurchaseOrderMatchedEvent) {
+    public void shipmentOrderAndPurchaseOrderMatched(ShipmentOrderAndPurchaseOrderMatchedEvent shipmentOrderAndPurchaseOrderMatchedEvent) {
 
+        System.out.println("matched");
         final ShipmentOrder.ShipmentOrderUUID shipmentOrderUUID = new
                 ShipmentOrder.ShipmentOrderUUID(shipmentOrderAndPurchaseOrderMatchedEvent.shipmentOrderUUID());
 
-        shipmentOrderAndPurchaseOrderMatched.changeStatusOfShipToArrived(shipmentOrderUUID);
+        LocalDate actualArrivalDate = shipmentOrderAndPurchaseOrderMatchedEvent.actualArrivalDate();
+
+        shipmentOrderAndPurchaseOrderMatched.changeStatusOfShipToArrived(shipmentOrderUUID, actualArrivalDate);
     }
 }
