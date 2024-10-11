@@ -1,11 +1,9 @@
 package be.kdg.prog6.boundedcontextWaterside.adapters.in.web;
 
 import be.kdg.prog6.boundedcontextWaterside.domain.ShipmentOrder;
-import be.kdg.prog6.boundedcontextWaterside.domain.dto.PurchaseOrderLoadedDto;
 import be.kdg.prog6.boundedcontextWaterside.ports.in.*;
 import be.kdg.prog6.common.facades.MatchShipmentOrderWithPurchaseOrderCommand;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,9 +19,9 @@ public class ShipmentOrderController {
     private final LoadMaterialUseCase loadMaterialUseCase;
     private final InspectShipUseCase inspectShipUseCase;
     private final RefuelShipUseCase refuelShipUseCase;
-    private final GetOutstandingPOSUseCase getOutstandingPOSUseCase;
+    private final GetOutstandingOperationsUseCase getOutstandingPOSUseCase;
 
-    public ShipmentOrderController(MatchShipmentOrderAndPurchaseOrderUseCase matchPurchaseAndShipmentOrderUseCase, LoadMaterialUseCase loadMaterialUseCase, InspectShipUseCase inspectShipUseCase, RefuelShipUseCase refuelShipUseCase, GetOutstandingPOSUseCase getOutstandingPOSUseCase) {
+    public ShipmentOrderController(MatchShipmentOrderAndPurchaseOrderUseCase matchPurchaseAndShipmentOrderUseCase, LoadMaterialUseCase loadMaterialUseCase, InspectShipUseCase inspectShipUseCase, RefuelShipUseCase refuelShipUseCase, GetOutstandingOperationsUseCase getOutstandingPOSUseCase) {
         this.matchPurchaseAndShipmentOrderUseCase = matchPurchaseAndShipmentOrderUseCase;
         this.loadMaterialUseCase = loadMaterialUseCase;
         this.inspectShipUseCase = inspectShipUseCase;
@@ -64,6 +62,13 @@ public class ShipmentOrderController {
     public ResponseEntity<List<ShipmentOrder>> outstandingPOS() {
 
         List<ShipmentOrder> shipmentOrders = getOutstandingPOSUseCase.getOutstandingPOS();
+        return ResponseEntity.ok(shipmentOrders);
+    }
+
+    @PostMapping("outstanding-io's")
+    public ResponseEntity<List<ShipmentOrder>> outstandingIOS() {
+
+        List<ShipmentOrder> shipmentOrders = getOutstandingPOSUseCase.getOutstandingIOS();
         return ResponseEntity.ok(shipmentOrders);
     }
 }

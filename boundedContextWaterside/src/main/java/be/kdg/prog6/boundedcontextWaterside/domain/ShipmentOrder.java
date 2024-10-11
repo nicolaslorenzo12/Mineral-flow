@@ -87,4 +87,9 @@ public class ShipmentOrder {
                 .filter(order -> order.getShipmentStatus().ordinal() >= ShipmentStatus.ARRIVED.ordinal() &&
                         order.getShipmentStatus().ordinal() < ShipmentStatus.LOADED.ordinal()).toList();
     }
+
+    public static List<ShipmentOrder> getOutStandingIOS(List<ShipmentOrder> shipmentOrders){
+        return shipmentOrders.stream()
+                .filter(order -> order.getShipmentStatus().ordinal() == ShipmentStatus.ARRIVED.ordinal()).toList();
+    }
 }
