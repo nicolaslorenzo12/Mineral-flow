@@ -91,7 +91,8 @@ public class WarehouseDBAdapter implements LoadWarehousePort, UpdateWarehousePor
                 .orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND, "Warehouse not found"));
 
         List<PdtJpaEntity> pdtJpaEntities = buildJpaEntityObjects(warehouse);
-        warehouseJpaEntity.setPdtJpaEntityList(pdtJpaEntities);
+        warehouseJpaEntity.getPdtJpaEntityList().clear();
+        warehouseJpaEntity.getPdtJpaEntityList().addAll(pdtJpaEntities);
         addActivityJpaEntityToWarehouseJpaEntityObject(warehouseJpaEntity, updateWarehouseAction, warehouseActivity);
 
         warehouseRepository.save(warehouseJpaEntity);

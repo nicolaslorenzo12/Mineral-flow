@@ -76,15 +76,13 @@ public class Warehouse {
 
     public Warehouse removeTonsFromOldestPdts(int amountOfTonsToDispatch){
 
-        List<Pdt> pdtsFromOldestToEarliest= pdtList.stream()
-                .sorted(Comparator.comparing(Pdt::getTimeOfDelivery))
-                .toList();
+        pdtList.sort(Comparator.comparing(Pdt::getTimeOfDelivery));
 
         int x = 0;
 
         while(amountOfTonsToDispatch > 0){
 
-            Pdt pdt = pdtsFromOldestToEarliest.get(x);
+            Pdt pdt = pdtList.get(x);
 
             amountOfTonsToDispatch = pdt.getAmountOfTonsDelivered() - amountOfTonsToDispatch;
 
@@ -98,6 +96,9 @@ public class Warehouse {
             }
             x++;
         }
+
+        pdtList.removeIf(pdt -> pdt.getAmountOfTonsDelivered() == 0);
+
         return this;
     }
 }

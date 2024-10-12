@@ -27,7 +27,7 @@
         @OneToMany(mappedBy = "warehouseJpaEntity", cascade = CascadeType.ALL)
         private List<WarehouseJpaActivityEntity> activities;
 
-        @OneToMany(mappedBy = "warehouseJpaEntity", cascade = CascadeType.ALL)
+        @OneToMany(mappedBy = "warehouseJpaEntity", cascade = CascadeType.ALL, orphanRemoval = true)
         private List<PdtJpaEntity> pdtJpaEntityList;
 
 
