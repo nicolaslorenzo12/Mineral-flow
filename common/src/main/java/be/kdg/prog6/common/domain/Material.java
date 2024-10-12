@@ -21,6 +21,10 @@ public class Material {
         this.description = description;
     }
 
+    public Material(){
+
+    }
+
     public MaterialType getMaterialType() {
         return materialType;
     }

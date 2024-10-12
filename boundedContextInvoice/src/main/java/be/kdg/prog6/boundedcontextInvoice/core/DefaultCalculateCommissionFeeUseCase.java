@@ -12,6 +12,6 @@ public class DefaultCalculateCommissionFeeUseCase implements CalculateCommission
     @Override
     public void calculateCommissionFee(CommissionFeeToCalculateCommand commissionFeeToCalculateCommand) {
 
-        Accountant.calculateCommissionFee(commissionFeeToCalculateCommand.orderLines());
+        Accountant.calculateCommissionFee(commissionFeeToCalculateCommand.orderLines(), commissionFeeToCalculateCommand.materials());
     }
 }

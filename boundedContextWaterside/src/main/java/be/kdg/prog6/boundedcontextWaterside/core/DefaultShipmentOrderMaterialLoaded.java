@@ -1,7 +1,6 @@
 package be.kdg.prog6.boundedcontextWaterside.core;
 
 import be.kdg.prog6.boundedcontextWaterside.domain.ShipmentOrder;
-import be.kdg.prog6.boundedcontextWaterside.domain.ShipmentStatus;
 import be.kdg.prog6.boundedcontextWaterside.ports.in.ShipmentOrderMaterialLoaded;
 import be.kdg.prog6.boundedcontextWaterside.ports.out.LoadOrCreateShipmentOrderPort;
 import be.kdg.prog6.boundedcontextWaterside.ports.out.UpdateShipmentOrderPort;

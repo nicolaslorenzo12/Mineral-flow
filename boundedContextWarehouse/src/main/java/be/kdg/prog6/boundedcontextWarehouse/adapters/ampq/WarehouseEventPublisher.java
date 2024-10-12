@@ -6,6 +6,8 @@ import be.kdg.prog6.boundedcontextWarehouse.domain.WarehouseActivity;
 import be.kdg.prog6.boundedcontextWarehouse.ports.out.UpdateInvoicePort;
 import be.kdg.prog6.boundedcontextWarehouse.ports.out.UpdatePurchaseOrderPort;
 import be.kdg.prog6.boundedcontextWarehouse.ports.out.UpdateWarehousePort;
+import be.kdg.prog6.common.domain.Material;
+import be.kdg.prog6.common.domain.OrderLine;
 import be.kdg.prog6.common.domain.PurchaseOrder;
 import be.kdg.prog6.common.events.ActivityCreatedEvent;
 import be.kdg.prog6.common.events.MaterialLoadedEvent;
@@ -14,6 +16,7 @@ import be.kdg.prog6.common.facades.CommissionFeeToCalculateCommand;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Component;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 @Component
@@ -61,12 +64,11 @@ public class WarehouseEventPublisher implements UpdateWarehousePort, UpdatePurch
     }
 
     @Override
-    public void updateInvoice(CommissionFeeToCalculateCommand commissionFeeToCalculateCommand) {
+    public void updateInvoice(UUID sellerUUID, UUID buyerUUID, List<OrderLine> orderLines, List<Material> materials) {
 
-        final String routingKey = "warehouse. " + commissionFeeToCalculateCommand.sellerUUID().toString() + " .commission_fee";
+        final String routingKey = "warehouse. " + sellerUUID.toString() + " .commission_fee";
         final String exchangeName = "warehouseExchange";
-        final CommissionFeeToCalculateCommand body = new CommissionFeeToCalculateCommand(commissionFeeToCalculateCommand.sellerUUID(),
-                commissionFeeToCalculateCommand.buyerUUID(), commissionFeeToCalculateCommand.orderLines());
+        final CommissionFeeToCalculateCommand body = new CommissionFeeToCalculateCommand(sellerUUID, buyerUUID, orderLines, materials);
         rabbitTemplate.convertAndSend(exchangeName, routingKey, body);
     }
 }
