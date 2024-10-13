@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 
 
 @Entity
+@Table(catalog = "Warehouse")
 public class OrderLineJpaEntity {
 
     @Id

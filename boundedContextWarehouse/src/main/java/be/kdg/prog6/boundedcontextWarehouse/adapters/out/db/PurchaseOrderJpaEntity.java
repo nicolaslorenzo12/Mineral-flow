@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Entity
+@Table(catalog = "Warehouse")
 public class PurchaseOrderJpaEntity {
 
     @Id

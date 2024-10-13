@@ -8,7 +8,7 @@
     import java.util.UUID;
 
     @Entity(name = "warehouse")
-    @Table(name = "warehouse-warehouse", uniqueConstraints = {
+    @Table(catalog = "Warehouse", name = "warehouse-warehouse", uniqueConstraints = {
             @UniqueConstraint(columnNames = {"sellerUUID", "materialType"})
     })
     public class WarehouseJpaEntity {

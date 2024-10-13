@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import org.springframework.stereotype.Component;
 
 @Entity(name = "MaterialLandsideEntity")
-@Table(name = "material-landside")
+@Table(catalog = "Landside", name = "material-landside")
 public class MaterialJpaEntity {
 
     @Id

@@ -8,7 +8,7 @@ import java.sql.Types;
 import java.util.UUID;
 
 @Entity
-@Table(name = "seller-landside")
+@Table(catalog = "Landside", name = "seller-landside")
 public class SellerJpaEntity {
 
     @Id

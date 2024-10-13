@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Table(catalog = "Landside")
 public class DailyCalendarJpaEntity {
 
     @Id

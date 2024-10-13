@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
+@Table(catalog = "Warehouse")
 public class WarehouseJpaActivityEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)

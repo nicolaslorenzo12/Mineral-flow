@@ -7,6 +7,7 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 @Entity
+@Table(catalog = "Waterside")
 public class ShipmentOrderJpaEntity {
 
     @Id

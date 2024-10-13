@@ -6,7 +6,7 @@ import jakarta.persistence.*;
 import java.util.UUID;
 
 @Entity(name = "landside")
-@Table(name = "warehouse-landside", uniqueConstraints = {
+@Table(catalog = "Landside", name = "warehouse-landside", uniqueConstraints = {
         @UniqueConstraint(columnNames = {"sellerUUID", "materialType"})
 })
 public class WarehouseJpaEntity {
