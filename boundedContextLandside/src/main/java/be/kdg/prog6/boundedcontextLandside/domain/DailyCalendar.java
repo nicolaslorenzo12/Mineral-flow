@@ -1,6 +1,5 @@
 package be.kdg.prog6.boundedcontextLandside.domain;
 
-import be.kdg.prog6.boundedcontextLandside.ports.in.MakeAppointmentCommand;
 import be.kdg.prog6.common.domain.Material;
 import be.kdg.prog6.common.domain.Seller;
 import be.kdg.prog6.common.exception.CustomException;
@@ -8,9 +7,7 @@ import org.springframework.http.HttpStatus;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -107,5 +104,17 @@ public class DailyCalendar {
         Appointment appointment = findAppointmentByAppointmentUUID(appointmentUUID);
         appointment.checkIfTruckHasAlreadyGottenThisStatus(TruckStatus.RECEIVE_MATERIAL);
         return appointment;
+    }
+
+    public int getNumberOfAppointmentsAtACertainHourThatAreInside(LocalDateTime localDateTime){
+
+        int targetHour = localDateTime.getHour();
+
+        List<Appointment> appointments1 = appointments.stream()
+                .filter(appointment -> appointment.getAppointmentTime().getHour() == targetHour)
+                .filter(appointment -> appointment.getTruckStatus().ordinal() >= TruckStatus.ARRIVED.ordinal())
+                .toList();
+
+        return appointments1.size();
     }
 }
