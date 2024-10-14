@@ -7,7 +7,7 @@ import java.util.UUID;
 
 @Entity
 @Table(catalog = "Warehouse")
-public class PdtJpaEntity {
+public class StorageJpaEntity {
 
     @Id
     private UUID pdtUUID;
@@ -16,17 +16,24 @@ public class PdtJpaEntity {
     @Column(nullable = false)
     private int warehouseNumber;
     private int amountOfTonsDelivered;
+    @Column(nullable = false)
+    private int amountOfTonsConsumed;
+    @Column(nullable = false)
+    private boolean allTonsConsumed;
     @ManyToOne
     @JoinColumn(name = "warehouseNumber", insertable = false, updatable = false)
     private WarehouseJpaEntity warehouseJpaEntity;
-    public PdtJpaEntity(UUID pdtUUID, LocalDateTime timeOfDelivery, int warehouseNumber, int amountOfTonsDelivered) {
+    public StorageJpaEntity(UUID pdtUUID, LocalDateTime timeOfDelivery, int warehouseNumber, int amountOfTonsDelivered,
+                            int amountOfTonsConsumed, boolean allTonsConsumed) {
         this.pdtUUID = pdtUUID;
         this.timeOfDelivery = timeOfDelivery;
         this.warehouseNumber = warehouseNumber;
         this.amountOfTonsDelivered = amountOfTonsDelivered;
+        this.amountOfTonsConsumed = amountOfTonsConsumed;
+        this.allTonsConsumed = allTonsConsumed;
     }
 
-    public PdtJpaEntity() {
+    public StorageJpaEntity() {
 
     }
 
@@ -60,5 +67,21 @@ public class PdtJpaEntity {
 
     public void setAmountOfTonsDelivered(int amountOfTonsDelivered) {
         this.amountOfTonsDelivered = amountOfTonsDelivered;
+    }
+
+    public int getAmountOfTonsConsumed() {
+        return amountOfTonsConsumed;
+    }
+
+    public void setAmountOfTonsConsumed(int amountOfTonsConsumed) {
+        this.amountOfTonsConsumed = amountOfTonsConsumed;
+    }
+
+    public boolean isAllTonsConsumed() {
+        return allTonsConsumed;
+    }
+
+    public void setAllTonsConsumed(boolean allTonsConsumed) {
+        this.allTonsConsumed = allTonsConsumed;
     }
 }

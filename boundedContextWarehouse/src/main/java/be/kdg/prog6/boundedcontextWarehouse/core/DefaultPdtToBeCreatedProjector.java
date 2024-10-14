@@ -32,7 +32,7 @@ public class DefaultPdtToBeCreatedProjector implements PdtToBeCreatedProjector {
         Warehouse warehouse = loadWarehousePort.loadWarehouseByWarehouseNumber(warehouseNumber)
                 .orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND, "Warehouse was not found"));
 
-        warehouse.addPdt(new Pdt (warehouseNumber, timeOfDelivery, 0, new Pdt.PdtUUID(appointmentUUID)));
+        warehouse.addPdt(new Pdt (warehouseNumber, timeOfDelivery, 0, new Pdt.PdtUUID(appointmentUUID), 0, false));
         updateWarehousePorts.forEach(updateWarehousePort -> updateWarehousePort.updateWarehouse(UpdateWarehouseAction.CREATE_PDT, warehouse,
                 null, null));
     }

@@ -27,8 +27,8 @@
         @OneToMany(mappedBy = "warehouseJpaEntity", cascade = CascadeType.ALL)
         private List<WarehouseJpaActivityEntity> activities;
 
-        @OneToMany(mappedBy = "warehouseJpaEntity", cascade = CascadeType.ALL, orphanRemoval = true)
-        private List<PdtJpaEntity> pdtJpaEntityList;
+        @OneToMany(mappedBy = "warehouseJpaEntity", cascade = CascadeType.ALL)
+        private List<StorageJpaEntity> pdtJpaEntityList;
 
 
         public WarehouseJpaEntity(int warehouseNumber, UUID sellerUUID, MaterialType materialType) {
@@ -81,11 +81,11 @@
             this.materialType = materialType;
         }
 
-        public List<PdtJpaEntity> getPdtJpaEntityList() {
+        public List<StorageJpaEntity> getPdtJpaEntityList() {
             return pdtJpaEntityList;
         }
 
-        public void setPdtJpaEntityList(List<PdtJpaEntity> pdtJpaEntityList) {
+        public void setPdtJpaEntityList(List<StorageJpaEntity> pdtJpaEntityList) {
             this.pdtJpaEntityList = pdtJpaEntityList;
         }
     }

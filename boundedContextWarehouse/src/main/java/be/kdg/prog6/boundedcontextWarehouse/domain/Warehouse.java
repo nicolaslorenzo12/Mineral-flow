@@ -76,28 +76,32 @@ public class Warehouse {
 
     public Warehouse removeTonsFromOldestPdts(int amountOfTonsToDispatch){
 
-        pdtList.sort(Comparator.comparing(Pdt::getTimeOfDelivery));
+        List<Pdt> filteredAndSortedPdtList = pdtList.stream()
+                .filter(pdt -> !pdt.isAllTonsConsumed())
+                .sorted(Comparator.comparing(Pdt::getTimeOfDelivery))
+                .toList();
 
         int x = 0;
 
         while(amountOfTonsToDispatch > 0){
 
-            Pdt pdt = pdtList.get(x);
+            Pdt pdt = filteredAndSortedPdtList.get(x);
 
             amountOfTonsToDispatch = pdt.getAmountOfTonsDelivered() - amountOfTonsToDispatch;
 
             if(amountOfTonsToDispatch >= 0){
-                pdt.setAmountOfTonsDelivered(amountOfTonsToDispatch);
+                //pdt.setAmountOfTonsDelivered(amountOfTonsToDispatch);
+                pdt.setAmountOfTonsConsumed(pdt.getAmountOfTonsDelivered() - amountOfTonsToDispatch);
                 amountOfTonsToDispatch = 0;
             }
             else{
-                pdt.setAmountOfTonsDelivered(0);
+                //pdt.setAmountOfTonsDelivered(0);
+                pdt.setAmountOfTonsConsumed(pdt.getAmountOfTonsDelivered());
+                pdt.setAllTonsConsumed(true);
                 amountOfTonsToDispatch = amountOfTonsToDispatch * (-1);
             }
             x++;
         }
-
-        pdtList.removeIf(pdt -> pdt.getAmountOfTonsDelivered() == 0);
 
         return this;
     }

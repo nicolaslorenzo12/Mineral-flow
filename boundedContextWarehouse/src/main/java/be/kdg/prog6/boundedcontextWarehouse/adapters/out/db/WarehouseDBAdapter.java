@@ -75,11 +75,11 @@ public class WarehouseDBAdapter implements LoadWarehousePort, UpdateWarehousePor
         }
     }
 
-    private void addWarehousePdtsToWarehouseObject(List<PdtJpaEntity> pdtJpaEntityList, Warehouse warehouse){
+    private void addWarehousePdtsToWarehouseObject(List<StorageJpaEntity> storageJpaEntityList, Warehouse warehouse){
 
-        for(PdtJpaEntity pdtJpaEntity : pdtJpaEntityList){
-            warehouse.addPdt(new Pdt(pdtJpaEntity.getWarehouseNumber(), pdtJpaEntity.getTimeOfDelivery(), pdtJpaEntity.getAmountOfTonsDelivered(),
-                    new Pdt.PdtUUID(pdtJpaEntity.getPdtUUID())));
+        for(StorageJpaEntity storageJpaEntity : storageJpaEntityList){
+            warehouse.addPdt(new Pdt(storageJpaEntity.getWarehouseNumber(), storageJpaEntity.getTimeOfDelivery(), storageJpaEntity.getAmountOfTonsDelivered(),
+                    new Pdt.PdtUUID(storageJpaEntity.getPdtUUID()), storageJpaEntity.getAmountOfTonsConsumed(), storageJpaEntity.isAllTonsConsumed()));
         }
     }
     @Override
@@ -90,9 +90,10 @@ public class WarehouseDBAdapter implements LoadWarehousePort, UpdateWarehousePor
         WarehouseJpaEntity warehouseJpaEntity = warehouseRepository.findByWarehouseNumber(warehouse.getWareHouseNumber())
                 .orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND, "Warehouse not found"));
 
-        List<PdtJpaEntity> pdtJpaEntities = buildJpaEntityObjects(warehouse);
-        warehouseJpaEntity.getPdtJpaEntityList().clear();
-        warehouseJpaEntity.getPdtJpaEntityList().addAll(pdtJpaEntities);
+        List<StorageJpaEntity> pdtJpaEntities = buildJpaEntityObjects(warehouse);
+        //warehouseJpaEntity.getPdtJpaEntityList().clear();
+        //warehouseJpaEntity.getPdtJpaEntityList().addAll(pdtJpaEntities);
+        warehouseJpaEntity.setPdtJpaEntityList(pdtJpaEntities);
         addActivityJpaEntityToWarehouseJpaEntityObject(warehouseJpaEntity, updateWarehouseAction, warehouseActivity);
 
         warehouseRepository.save(warehouseJpaEntity);
@@ -108,18 +109,20 @@ public class WarehouseDBAdapter implements LoadWarehousePort, UpdateWarehousePor
     }
 
 
-    private List<PdtJpaEntity> buildJpaEntityObjects(Warehouse warehouse) {
+    private List<StorageJpaEntity> buildJpaEntityObjects(Warehouse warehouse) {
         return warehouse.getPdtList().stream()
                 .map(pdt -> buildPdtJpaEntity(pdt, warehouse))
                 .collect(Collectors.toList());
     }
 
-    private PdtJpaEntity buildPdtJpaEntity(Pdt pdt, Warehouse warehouse) {
-        return new PdtJpaEntity(
+    private StorageJpaEntity buildPdtJpaEntity(Pdt pdt, Warehouse warehouse) {
+        return new StorageJpaEntity(
                 pdt.getPdtUUID().uuid(),
                 pdt.getTimeOfDelivery(),
                 warehouse.getWareHouseNumber(),
-                pdt.getAmountOfTonsDelivered()
+                pdt.getAmountOfTonsDelivered(),
+                pdt.getAmountOfTonsConsumed(),
+                pdt.isAllTonsConsumed()
         );
     }
 
