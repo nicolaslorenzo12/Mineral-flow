@@ -45,6 +45,7 @@ public class PurchaseOrderDBAdapter implements LoadPurchaseOrderPort {
     private OrderLine mapOrderLine(OrderLineJpaEntity orderLineJpaEntity) {
 
         return new OrderLine(
+                new OrderLine.OrderLineUUID(orderLineJpaEntity.getOrderLineUUID()),
                 orderLineJpaEntity.getLineNumber(),
                 orderLineJpaEntity.getMaterialType(),
                 orderLineJpaEntity.getQuantity()

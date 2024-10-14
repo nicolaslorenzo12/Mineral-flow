@@ -3,12 +3,16 @@ package be.kdg.prog6.boundedcontextWarehouse.adapters.out.db;
 import be.kdg.prog6.common.domain.MaterialType;
 import jakarta.persistence.*;
 
+import java.util.UUID;
+
 
 @Entity
 @Table(catalog = "Warehouse")
 public class OrderLineJpaEntity {
 
     @Id
+    private UUID orderLineUUID;
+    @Column(nullable = false)
     private int lineNumber;
 
     @Column(nullable = false)
@@ -25,7 +29,8 @@ public class OrderLineJpaEntity {
     @JoinColumn(name = "poNumber", insertable = false, updatable = false)
     private PurchaseOrderJpaEntity purchaseOrder;
 
-    public OrderLineJpaEntity(int lineNumber, String poNumber,MaterialType materialType, int quantity) {
+    public OrderLineJpaEntity(UUID orderLineUUID, int lineNumber, String poNumber,MaterialType materialType, int quantity) {
+        this.orderLineUUID = orderLineUUID;
         this.lineNumber = lineNumber;
         this.materialType = materialType;
         this.quantity = quantity;
@@ -66,5 +71,13 @@ public class OrderLineJpaEntity {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+
+    public UUID getOrderLineUUID() {
+        return orderLineUUID;
+    }
+
+    public void setOrderLineUUID(UUID orderLineUUID) {
+        this.orderLineUUID = orderLineUUID;
     }
 }

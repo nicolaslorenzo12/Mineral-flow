@@ -12,7 +12,7 @@ GET http://localhost:8090/api/trucks-inside/2024-10-14T10:00:00
 
 ###
 
-POST http://localhost:8090/api/material-truck-appointment/seller/123e4567-e89b-12d3-a456-426614174000/material/PT/licensePlateNumbe/ABCDEF123/appointment/2024-10-14T15:00:00
+POST http://localhost:8090/api/material-truck-appointment/seller/123e4567-e89b-12d3-a456-426614174000/material/PT/licensePlateNumbe/ABCDEFG123/appointment/2024-10-14T16:00:00
 
 ###
 
@@ -20,15 +20,15 @@ POST http://localhost:8090/api/material-truck-appointment/seller/123e4567-e89b-1
 
 ###
 
-POST http://localhost:8090/api/appointment/truck/ABCDEF123/check
+POST http://localhost:8090/api/appointment/truck/ABCDEFG123/check
 
 ###
 
-POST http://localhost:8090/api/appointment/2dc25eb9-862e-498a-a94c-017849fb54a0/weight
+POST http://localhost:8090/api/appointment/83bf7a4d-025e-4be8-aeeb-1eba4eea7ec4/weight
 
 ###
 
-POST http://localhost:8090/api/appointment/2dc25eb9-862e-498a-a94c-017849fb54a0/loadMaterial
+POST http://localhost:8090/api/appointment/83bf7a4d-025e-4be8-aeeb-1eba4eea7ec4/loadMaterial
 
 
 ### Waterside
@@ -49,6 +49,30 @@ POST http://localhost:8090/api/refuel/shipment-order/564e4567-e89b-12d3-a456-426
 POST http://localhost:8090/api/load-ship/shipment-order/564e4567-e89b-12d3-a456-426614174333
 
 ###
+
+
+
+
+
+POST http://localhost:8090/api/match-shipment-and-purchase-order/purchase-order/564e4567-e89b-12d3-a456-426614174222
+
+###
+
+POST http://localhost:8090/api/inspect/shipment-order/564e4567-e89b-12d3-a456-426614174222
+
+###
+
+POST http://localhost:8090/api/refuel/shipment-order/564e4567-e89b-12d3-a456-426614174222
+
+###
+
+POST http://localhost:8090/api/load-ship/shipment-order/564e4567-e89b-12d3-a456-426614174222
+
+###
+
+
+
+
 
 POST http://localhost:8090/api/outstanding-po's
 

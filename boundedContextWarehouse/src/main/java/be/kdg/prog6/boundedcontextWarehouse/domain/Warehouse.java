@@ -91,7 +91,7 @@ public class Warehouse {
 
             if(amountOfTonsToDispatch >= 0){
                 //pdt.setAmountOfTonsDelivered(amountOfTonsToDispatch);
-                pdt.setAmountOfTonsConsumed(pdt.getAmountOfTonsDelivered() - amountOfTonsToDispatch);
+                pdt.setAmountOfTonsConsumed(pdt.getAmountOfTonsDelivered() - amountOfTonsToDispatch + pdt.getAmountOfTonsConsumed());
                 amountOfTonsToDispatch = 0;
             }
             else{
