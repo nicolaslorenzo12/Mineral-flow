@@ -106,15 +106,13 @@ public class DailyCalendar {
         return appointment;
     }
 
-    public int getNumberOfAppointmentsAtACertainHourThatAreInside(LocalDateTime localDateTime){
+    public List<Appointment> getNumberOfAppointmentsAtACertainHourThatAreInside(LocalDateTime localDateTime){
 
         int targetHour = localDateTime.getHour();
 
-        List<Appointment> appointments1 = appointments.stream()
+        return appointments.stream()
                 .filter(appointment -> appointment.getAppointmentTime().getHour() == targetHour)
                 .filter(appointment -> appointment.getTruckStatus().ordinal() >= TruckStatus.ARRIVED.ordinal())
                 .toList();
-
-        return appointments1.size();
     }
 }

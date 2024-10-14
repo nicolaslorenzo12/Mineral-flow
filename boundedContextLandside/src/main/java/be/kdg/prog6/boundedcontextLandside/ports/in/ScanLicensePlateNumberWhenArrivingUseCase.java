@@ -1,8 +1,8 @@
 package be.kdg.prog6.boundedcontextLandside.ports.in;
 
-import be.kdg.prog6.boundedcontextLandside.domain.dto.TruckArrivedDto;
+import be.kdg.prog6.boundedcontextLandside.domain.dto.TruckDto;
 
 public interface ScanLicensePlateNumberWhenArrivingUseCase {
 
-    TruckArrivedDto scanLicensePlateNumber(ScanLicensePlateNumberWhenArrivingCommand scanLicensePlateNumberCommand);
+    TruckDto scanLicensePlateNumber(ScanLicensePlateNumberWhenArrivingCommand scanLicensePlateNumberCommand);
 }

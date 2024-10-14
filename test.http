@@ -8,11 +8,11 @@ GET http://localhost:8090/api/current-stock/warehouse/7
 
 ###
 
-GET http://localhost:8090/api/trucks-inside/2024-10-14T10:00:00
+GET http://localhost:8090/api/trucks-inside/2024-10-14T18:00:00
 
 ###
 
-POST http://localhost:8090/api/material-truck-appointment/seller/123e4567-e89b-12d3-a456-426614174000/material/PT/licensePlateNumbe/ABCDEFG123/appointment/2024-10-14T16:00:00
+POST http://localhost:8090/api/material-truck-appointment/seller/123e4567-e89b-12d3-a456-426614174000/material/PT/licensePlateNumbe/ABCCC123/appointment/2024-10-14T21:00:00
 
 ###
 
@@ -20,15 +20,15 @@ POST http://localhost:8090/api/material-truck-appointment/seller/123e4567-e89b-1
 
 ###
 
-POST http://localhost:8090/api/appointment/truck/ABCDEFG123/check
+POST http://localhost:8090/api/appointment/truck/ABCCC123/check
 
 ###
 
-POST http://localhost:8090/api/appointment/83bf7a4d-025e-4be8-aeeb-1eba4eea7ec4/weight
+POST http://localhost:8090/api/appointment/f5a7d322-5620-44d5-9ca1-999e0c90d0e2/weight
 
 ###
 
-POST http://localhost:8090/api/appointment/83bf7a4d-025e-4be8-aeeb-1eba4eea7ec4/loadMaterial
+POST http://localhost:8090/api/appointment/f5a7d322-5620-44d5-9ca1-999e0c90d0e2/loadMaterial
 
 
 ### Waterside

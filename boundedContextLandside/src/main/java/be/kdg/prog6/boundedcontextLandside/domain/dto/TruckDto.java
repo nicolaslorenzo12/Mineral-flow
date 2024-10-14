@@ -1,27 +1,21 @@
 package be.kdg.prog6.boundedcontextLandside.domain.dto;
 
-import be.kdg.prog6.boundedcontextLandside.domain.Appointment;
 import be.kdg.prog6.boundedcontextLandside.domain.TruckStatus;
-import org.springframework.cglib.core.Local;
 
 import java.time.LocalDateTime;
 
-public class TruckArrivedDto {
+public class TruckDto {
 
-    private final Appointment.AppointmentUUID appointmentUUID;
     private final String licensePlateNumber;
     private final TruckStatus truckStatus;
     private final LocalDateTime arrivalTime;
+    private final String materialDescription;
 
-    public TruckArrivedDto(Appointment.AppointmentUUID appointmentUUID, String licensePlateNumber, TruckStatus truckStatus, LocalDateTime arrivalTime) {
-        this.appointmentUUID = appointmentUUID;
+    public TruckDto(String licensePlateNumber, TruckStatus truckStatus, LocalDateTime arrivalTime, String materialDescription) {
         this.licensePlateNumber = licensePlateNumber;
         this.truckStatus = truckStatus;
         this.arrivalTime = arrivalTime;
-    }
-
-    public Appointment.AppointmentUUID getAppointmentUUID() {
-        return appointmentUUID;
+        this.materialDescription = materialDescription;
     }
 
     public String getLicensePlateNumber() {
@@ -34,5 +28,9 @@ public class TruckArrivedDto {
 
     public LocalDateTime getArrivalTime() {
         return arrivalTime;
+    }
+
+    public String getMaterialDescription() {
+        return materialDescription;
     }
 }

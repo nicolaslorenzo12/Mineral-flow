@@ -4,7 +4,7 @@ import java.util.UUID;
 
 public class Material {
 
-    private MaterialType materialType;
+    private  MaterialType materialType;
     private String description;
     private int storagePricePerTonPerDay;
     private int pricePerTon;

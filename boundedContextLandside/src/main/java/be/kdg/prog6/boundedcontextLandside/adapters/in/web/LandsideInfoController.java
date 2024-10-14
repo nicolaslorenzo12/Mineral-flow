@@ -1,15 +1,14 @@
 package be.kdg.prog6.boundedcontextLandside.adapters.in.web;
 
-import be.kdg.prog6.boundedcontextLandside.domain.dto.TruckArrivedDto;
+import be.kdg.prog6.boundedcontextLandside.domain.dto.TruckDto;
 import be.kdg.prog6.boundedcontextLandside.ports.in.CheckHowManyTrucksThereAreInsideUseCase;
-import be.kdg.prog6.boundedcontextLandside.ports.in.ScanLicensePlateNumberWhenArrivingCommand;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @RestController
 public class LandsideInfoController {
@@ -21,10 +20,10 @@ public class LandsideInfoController {
     }
 
     @GetMapping("trucks-inside/{time}")
-    public ResponseEntity<String> howManyTrucksThereAreInside(@PathVariable LocalDateTime time){
+    public ResponseEntity<List<TruckDto>> howManyTrucksThereAreInside(@PathVariable LocalDateTime time){
 
-        int amountOfTrucksInside = checkHowManyTrucksThereAreInsideUseCase.checkHowManyTrucksThereAreInside(time);
-        return ResponseEntity.ok("There are " + amountOfTrucksInside + " trucks inside");
+        List<TruckDto> truckDtoList= checkHowManyTrucksThereAreInsideUseCase.checkHowManyTrucksThereAreInside(time);
+        return ResponseEntity.ok(truckDtoList);
     }
 
 }
