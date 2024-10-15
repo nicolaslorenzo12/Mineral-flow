@@ -12,10 +12,9 @@ import be.kdg.prog6.common.exception.CustomException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 @Service
 public class DefaultCheckHowManyTrucksThereAreInsideUseCase implements CheckHowManyTrucksThereAreInsideUseCase {
@@ -29,10 +28,10 @@ public class DefaultCheckHowManyTrucksThereAreInsideUseCase implements CheckHowM
     }
 
     @Override
-    public List<TruckDto> checkHowManyTrucksThereAreInside(LocalDateTime localDateTime) {
+    public List<TruckDto> checkHowManyTrucksThereAreInside() {
 
-        DailyCalendar dailyCalendar = loadOrCreateDailyCalendarPort.loadOrCreateDailyCalendarByDay(localDateTime.toLocalDate());
-        List<Appointment> appointments= dailyCalendar.getNumberOfAppointmentsAtACertainHourThatAreInside(LocalDateTime.now());
+        DailyCalendar dailyCalendar = loadOrCreateDailyCalendarPort.loadOrCreateDailyCalendarByDay(LocalDate.now());
+        List<Appointment> appointments= dailyCalendar.getTrucksThatAreInside();
         return createTruckDtoList(appointments);
     }
 
@@ -57,7 +56,7 @@ public class DefaultCheckHowManyTrucksThereAreInsideUseCase implements CheckHowM
                 appointment.getLicensePlateNumberOfTruck(),
                 appointment.getTruckStatus(),
                 appointment.getArrivalTime(),
-                material != null ? material.getDescription() : "No description available"
+                material.getDescription()
         ));
     }
 

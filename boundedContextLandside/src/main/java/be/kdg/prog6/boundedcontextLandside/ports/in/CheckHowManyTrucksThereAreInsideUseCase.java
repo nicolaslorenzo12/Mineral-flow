@@ -7,5 +7,5 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public interface CheckHowManyTrucksThereAreInsideUseCase {
-    List<TruckDto> checkHowManyTrucksThereAreInside(LocalDateTime localDateTime);
+    List<TruckDto> checkHowManyTrucksThereAreInside();
 }

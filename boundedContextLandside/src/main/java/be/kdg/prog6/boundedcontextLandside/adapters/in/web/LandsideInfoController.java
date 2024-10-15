@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -19,10 +20,10 @@ public class LandsideInfoController {
         this.checkHowManyTrucksThereAreInsideUseCase = checkHowManyTrucksThereAreInsideUseCase;
     }
 
-    @GetMapping("trucks-inside/{time}")
-    public ResponseEntity<List<TruckDto>> howManyTrucksThereAreInside(@PathVariable LocalDateTime time){
+    @GetMapping("trucks-inside")
+    public ResponseEntity<List<TruckDto>> howManyTrucksThereAreInside(){
 
-        List<TruckDto> truckDtoList= checkHowManyTrucksThereAreInsideUseCase.checkHowManyTrucksThereAreInside(time);
+        List<TruckDto> truckDtoList= checkHowManyTrucksThereAreInsideUseCase.checkHowManyTrucksThereAreInside();
         return ResponseEntity.ok(truckDtoList);
     }
 
