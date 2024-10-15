@@ -3,7 +3,7 @@ package be.kdg.prog6.boundedcontextWarehouse.adapters.out.db;
 import be.kdg.prog6.common.domain.MaterialType;
 import jakarta.persistence.*;
 
-@Entity(name = "MaterialWatersideEntity")
+@Entity(name = "MaterialWarehouseEntity")
 @Table(catalog = "Warehouse", name = "material-warehouse")
 public class MaterialJpaEntity {
 

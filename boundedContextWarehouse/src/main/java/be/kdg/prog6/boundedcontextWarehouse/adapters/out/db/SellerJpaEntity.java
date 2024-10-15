@@ -4,9 +4,9 @@ import jakarta.persistence.*;
 
 import java.util.UUID;
 
-@Entity
+@Entity(name ="SellerWarehouseEntity")
 @Table(catalog = "Warehouse", name = "seller-warehouse")
-public class SellerJpaEntitty {
+public class SellerJpaEntity {
 
     @Id
     @GeneratedValue
@@ -19,13 +19,13 @@ public class SellerJpaEntitty {
     @JoinColumn(name = "addressUUID", referencedColumnName = "addressUUID")
     private AddressJpaEntitiy address;
 
-    public SellerJpaEntitty(UUID sellerUUID, String name, AddressJpaEntitiy address) {
+    public SellerJpaEntity(UUID sellerUUID, String name, AddressJpaEntitiy address) {
         this.sellerUUID = sellerUUID;
         this.name = name;
         this.address = address;
     }
 
-    public SellerJpaEntitty() {
+    public SellerJpaEntity() {
 
     }
 
@@ -45,7 +45,7 @@ public class SellerJpaEntitty {
         this.name = name;
     }
 
-    public AddressJpaEntitiy getAddress() {
+    public AddressJpaEntitiy getAddressJpaEntity() {
         return address;
     }
 

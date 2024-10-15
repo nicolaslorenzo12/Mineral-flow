@@ -1,6 +1,7 @@
 package be.kdg.prog6.common.domain;
 
 import java.util.Objects;
+import java.util.UUID;
 
 public class Address {
 
@@ -8,12 +9,18 @@ public class Address {
     private final int houseNumber;
     private final String city;
     private final String country;
+    private final AddressUUID addressUUID;
 
-    public Address(String street, int houseNumber, String city, String country) {
+    public record AddressUUID(UUID uuid) {
+
+    }
+
+    public Address(String street, int houseNumber, String city, String country, AddressUUID addressUUID) {
         this.street = street;
         this.houseNumber = houseNumber;
         this.city = city;
         this.country = country;
+        this.addressUUID = addressUUID;
     }
 
     public String getStreet() {
@@ -30,6 +37,10 @@ public class Address {
 
     public String getCountry() {
         return country;
+    }
+
+    public AddressUUID getAddressUUID() {
+        return addressUUID;
     }
 
     @Override
