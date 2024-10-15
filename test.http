@@ -12,7 +12,7 @@ GET http://localhost:8090/api/trucks-inside/2024-10-14T18:00:00
 
 ###
 
-POST http://localhost:8090/api/material-truck-appointment/seller/123e4567-e89b-12d3-a456-426614174000/material/PT/licensePlateNumbe/ABCD123/appointment/2024-10-15T09:00:00
+POST http://localhost:8090/api/material-truck-appointment/seller/123e4567-e89b-12d3-a456-426614174000/material/PT/licensePlateNumbe/ABC123/appointment/2024-10-15T09:00:00
 
 ###
 
@@ -20,7 +20,7 @@ POST http://localhost:8090/api/material-truck-appointment/seller/123e4567-e89b-1
 
 ###
 
-POST http://localhost:8090/api/appointment/truck/ABCD123/check
+POST http://localhost:8090/api/appointment/truck/ABC123/check
 
 ###
 

@@ -42,15 +42,20 @@ public class LandsideInfoController {
             Appointment appointment = entry.getKey();
             String materialDescription = entry.getValue();
 
-            TruckDto truckDto = new TruckDto(
-                    appointment.getLicensePlateNumberOfTruck(),
-                    appointment.getTruckStatus(),
-                    appointment.getArrivalTime(),
-                    materialDescription
-            );
-            truckDtoList.add(truckDto);
+         addTruckDtoToTruckDtoList(appointment, truckDtoList, materialDescription);
         });
 
         return truckDtoList;
+    }
+
+    private void addTruckDtoToTruckDtoList(Appointment appointment, List<TruckDto> truckDtoList, String materialDescription) {
+
+        TruckDto truckDto = new TruckDto(
+                appointment.getLicensePlateNumberOfTruck(),
+                appointment.getTruckStatus(),
+                appointment.getArrivalTime(),
+                materialDescription
+        );
+        truckDtoList.add(truckDto);
     }
 }
