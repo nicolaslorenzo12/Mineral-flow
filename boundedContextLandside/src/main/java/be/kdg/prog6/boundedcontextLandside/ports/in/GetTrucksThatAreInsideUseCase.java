@@ -5,6 +5,6 @@ import be.kdg.prog6.boundedcontextLandside.domain.Appointment;
 import java.util.AbstractMap;
 import java.util.List;
 
-public interface CheckHowManyTrucksThereAreInsideUseCase {
-    List<AbstractMap.SimpleEntry<Appointment, String>>checkHowManyTrucksThereAreInside();
+public interface GetTrucksThatAreInsideUseCase {
+    List<AbstractMap.SimpleEntry<Appointment, String>> getTrucksThatAreInside();
 }

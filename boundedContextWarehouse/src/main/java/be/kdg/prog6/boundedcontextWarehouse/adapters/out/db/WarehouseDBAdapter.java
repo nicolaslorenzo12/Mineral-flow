@@ -29,11 +29,8 @@ public class WarehouseDBAdapter implements LoadWarehousePort, UpdateWarehousePor
     public Optional<Warehouse> loadWarehouseByWarehouseNumber(int warehouseNumber) {
         Optional<WarehouseJpaEntity> warehouseJpaEntity = warehouseRepository.findByWarehouseNumber(warehouseNumber);
 
-        if (warehouseJpaEntity.isEmpty()) {
-            return Optional.empty();
-        }
+        return warehouseJpaEntity.flatMap(this::returnWarehouseWithActivitiesAndPdts);
 
-        return returnWarehouseWithActivitiesAndPdts(warehouseJpaEntity);
     }
 
     @Override
@@ -41,19 +38,24 @@ public class WarehouseDBAdapter implements LoadWarehousePort, UpdateWarehousePor
 
         Optional<WarehouseJpaEntity> warehouseJpaEntity = warehouseRepository.findBySellerUUIDAndMaterialType(sellerUUID.uuid(), materialType);
 
-        if (warehouseJpaEntity.isEmpty()) {
-            return Optional.empty();
-        }
+        return warehouseJpaEntity.flatMap(this::returnWarehouseWithActivitiesAndPdts);
 
-        return returnWarehouseWithActivitiesAndPdts(warehouseJpaEntity);
+    }
+
+    @Override
+    public List<Warehouse> loadAllWarehouses() {
+        return warehouseRepository.findAll().stream()
+                .flatMap(warehouseJpaEntity -> returnWarehouseWithActivitiesAndPdts(warehouseJpaEntity).stream())
+                .collect(Collectors.toList());
     }
 
 
-    private Optional<Warehouse> returnWarehouseWithActivitiesAndPdts(Optional<WarehouseJpaEntity> warehouseJpaEntity){
+    private Optional<Warehouse> returnWarehouseWithActivitiesAndPdts(WarehouseJpaEntity warehouseJpaEntity){
 
-        Warehouse warehouse = buildWarehouseObject(warehouseJpaEntity.get());
-        addWarehouseActivitiesToWarehouseObject(warehouseJpaEntity.get().getActivities(), warehouse);
-        addWarehousePdtsToWarehouseObject(warehouseJpaEntity.get().getPdtJpaEntityList(), warehouse);
+
+        Warehouse warehouse = buildWarehouseObject(warehouseJpaEntity);
+        addWarehouseActivitiesToWarehouseObject(warehouseJpaEntity.getActivities(), warehouse);
+        addWarehousePdtsToWarehouseObject(warehouseJpaEntity.getPdtJpaEntityList(), warehouse);
         return Optional.of(warehouse);
     }
 

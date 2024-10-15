@@ -16,6 +16,7 @@ public class Warehouse {
     private final Uom uom = Uom.T;
     private final WarehouseActivityWindow warehouseActivityWindow;
     private List<Pdt> pdtList;
+    private final int maximumCapacity = 500000;
 
     public Warehouse(int wareHouseNumber, Seller.CustomerUUID sellerUUID, MaterialType materialType,final WarehouseActivityWindow warehouseActivityWindow) {
         this.wareHouseNumber = wareHouseNumber;
@@ -46,7 +47,6 @@ public class Warehouse {
 
 
     public int calculateAndGetCurrentStock(){
-
         return warehouseActivityWindow.calculateCurrentStock();
     }
 
@@ -87,22 +87,26 @@ public class Warehouse {
 
             Pdt pdt = filteredAndSortedPdtList.get(x);
 
-            amountOfTonsToDispatch = pdt.getAmountOfTonsDelivered() - amountOfTonsToDispatch;
+            int balance = pdt.getAmountOfTonsConsumed() + amountOfTonsToDispatch;
 
-            if(amountOfTonsToDispatch >= 0){
+            if(balance < pdt.getAmountOfTonsDelivered()){
                 //pdt.setAmountOfTonsDelivered(amountOfTonsToDispatch);
-                pdt.setAmountOfTonsConsumed(pdt.getAmountOfTonsDelivered() - amountOfTonsToDispatch + pdt.getAmountOfTonsConsumed());
+                pdt.setAmountOfTonsConsumed(balance);
                 amountOfTonsToDispatch = 0;
             }
             else{
                 //pdt.setAmountOfTonsDelivered(0);
                 pdt.setAmountOfTonsConsumed(pdt.getAmountOfTonsDelivered());
                 pdt.setAllTonsConsumed(true);
-                amountOfTonsToDispatch = amountOfTonsToDispatch * (-1);
+                amountOfTonsToDispatch = balance - pdt.getAmountOfTonsDelivered();
             }
             x++;
         }
 
         return this;
+    }
+
+    public double getWarehousePercentageUtilization(){
+         return (double) (calculateAndGetCurrentStock() * 100) / maximumCapacity;
     }
 }
