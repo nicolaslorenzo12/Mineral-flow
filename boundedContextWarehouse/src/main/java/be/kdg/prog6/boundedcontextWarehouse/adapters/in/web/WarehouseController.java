@@ -39,28 +39,30 @@ public class WarehouseController {
     }
 
     @GetMapping("warehouses")
-    public ResponseEntity<List<WarehouseDto>> getWarehouses(){
-
-
+    public ResponseEntity<List<WarehouseDto>> getWarehouses() {
         List<Warehouse> warehouses = getWarehousesUseCase.getWarehouses();
         List<WarehouseDto> warehouseDtos = new ArrayList<>();
 
-        warehouses.forEach(warehouse -> {
-            Material material = getMaterialUseCase.getMaterial(new GetMaterialCommand(warehouse.getMaterialType()));
-            Seller seller = getSellerUseCase.getSeller(new GetSellerCommand(warehouse.getSellerUUID())); // Adjust to how you get seller ID
-
-            warehouseDtos.add(new WarehouseDto(
-                    warehouse.getWareHouseNumber(),
-                    warehouse.calculateAndGetCurrentStock(),
-                    warehouse.getWarehousePercentageUtilization(),
-                    material.getDescription(),
-                    seller.getName()
-            ));
-        });
-
+        warehouses.forEach(warehouse -> warehouseDtos.add(createWarehouseDto(warehouse)));
 
         return ResponseEntity.ok(warehouseDtos);
     }
 
+    private WarehouseDto createWarehouseDto(Warehouse warehouse) {
+        Material material = getMaterialUseCase.getMaterial(new GetMaterialCommand(warehouse.getMaterialType()));
+        Seller seller = getSellerUseCase.getSeller(new GetSellerCommand(warehouse.getSellerUUID()));
 
+        return buildWarehouseDto(warehouse, material, seller);
+    }
+
+    private WarehouseDto buildWarehouseDto(Warehouse warehouse, Material material, Seller seller){
+
+        return new WarehouseDto(
+                warehouse.getWareHouseNumber(),
+                warehouse.calculateAndGetCurrentStock(),
+                warehouse.getWarehousePercentageUtilization(),
+                material.getDescription(),
+                seller.getName()
+        );
+    }
 }

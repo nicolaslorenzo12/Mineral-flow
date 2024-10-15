@@ -18,7 +18,7 @@ GET http://localhost:8090/api/trucks-inside
 
 ###
 
-POST http://localhost:8090/api/material-truck-appointment/seller/123e4567-e89b-12d3-a456-426614174000/material/GP/licensePlateNumbe/ABC123/appointment/2024-10-15T15:00:00
+POST http://localhost:8090/api/material-truck-appointment/seller/123e4567-e89b-12d3-a456-426614174000/material/PT/licensePlateNumbe/ABCDEF123/appointment/2024-10-15T17:00:00
 
 ###
 
@@ -26,15 +26,15 @@ POST http://localhost:8090/api/material-truck-appointment/seller/123e4567-e89b-1
 
 ###
 
-POST http://localhost:8090/api/appointment/truck/ABC123/check
+POST http://localhost:8090/api/appointment/truck/ABCDEF123/check
 
 ###
 
-POST http://localhost:8090/api/appointment/de4612ab-3567-4bf2-8280-4f4c0c6b50a6/weight
+POST http://localhost:8090/api/appointment/a6aaef25-51f4-452c-9b93-f2b1dcfa8084/weight
 
 ###
 
-POST http://localhost:8090/api/appointment/de4612ab-3567-4bf2-8280-4f4c0c6b50a6/loadMaterial
+POST http://localhost:8090/api/appointment/a6aaef25-51f4-452c-9b93-f2b1dcfa8084/loadMaterial
 
 
 ### Waterside
