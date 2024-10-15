@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,37 +28,18 @@ public class DefaultCheckHowManyTrucksThereAreInsideUseCase implements CheckHowM
         this.loadMaterialPort = loadMaterialPort;
     }
 
+
     @Override
-    public List<TruckDto> checkHowManyTrucksThereAreInside() {
-
+    public List<AbstractMap.SimpleEntry<Appointment, String>> checkHowManyTrucksThereAreInside() {
         DailyCalendar dailyCalendar = loadOrCreateDailyCalendarPort.loadOrCreateDailyCalendarByDay(LocalDate.now());
-        List<Appointment> appointments= dailyCalendar.getTrucksThatAreInside();
-        return createTruckDtoList(appointments);
-    }
+        List<Appointment> appointments = dailyCalendar.getTrucksThatAreInside();
 
-    private List<TruckDto> createTruckDtoList(List<Appointment> appointments) {
-
-        List<TruckDto> truckDtoList = new ArrayList<>();
-
-        appointments.forEach(appointment -> {
-
-            MaterialType materialType = appointment.getMaterialType();
-            Material material = findMaterialByMaterialType(materialType);
-
-         addTruckDtoToTruckDtoList(truckDtoList, appointment, material);
-        });
-
-        return truckDtoList;
-    }
-
-    private void addTruckDtoToTruckDtoList(List<TruckDto> truckDtoList, Appointment appointment, Material material) {
-
-        truckDtoList.add(new TruckDto(
-                appointment.getLicensePlateNumberOfTruck(),
-                appointment.getTruckStatus(),
-                appointment.getArrivalTime(),
-                material.getDescription()
-        ));
+        return appointments.stream()
+                .map(appointment -> {
+                    MaterialType materialType = appointment.getMaterialType();
+                    Material material = findMaterialByMaterialType(materialType);
+                    return new AbstractMap.SimpleEntry<>(appointment, material.getDescription());
+                }).toList();
     }
 
     private Material findMaterialByMaterialType(MaterialType materialType) {
