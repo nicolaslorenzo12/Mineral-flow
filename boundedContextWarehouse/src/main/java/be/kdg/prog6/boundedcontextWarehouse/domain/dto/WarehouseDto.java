@@ -9,7 +9,7 @@ public class WarehouseDto {
     private final double occupancy;
     private final String materialDescription;
     private final String sellerName;
-    private final List<PdtDto> pdtDtos;
+    private final List<PdtDto> pdtList;
 
     public WarehouseDto(int warehouseNumber, int quantity, double occupancy, String materialDescription, String sellerName, List<PdtDto> pdtDtos) {
         this.warehouseNumber = warehouseNumber;
@@ -17,7 +17,7 @@ public class WarehouseDto {
         this.occupancy = occupancy;
         this.materialDescription = materialDescription;
         this.sellerName = sellerName;
-        this.pdtDtos = pdtDtos;
+        this.pdtList = pdtDtos;
     }
 
     public int getWarehouseNumber() {
@@ -40,7 +40,7 @@ public class WarehouseDto {
         return sellerName;
     }
 
-    public List<PdtDto> getPdtDtos() {
-        return pdtDtos;
+    public List<PdtDto> getPdtList() {
+        return pdtList;
     }
 }

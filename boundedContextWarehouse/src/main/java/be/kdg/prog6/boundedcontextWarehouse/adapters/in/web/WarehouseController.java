@@ -24,12 +24,14 @@ public class WarehouseController {
     private final GetWarehousesUseCase getWarehousesUseCase;
     private final GetMaterialUseCase getMaterialUseCase;
     private final GetSellerUseCase getSellerUseCase;
+    private final GetWarehouseUseCase getWarehouseUseCase;
 
-    public WarehouseController(GetCurrentStockOfAWarehouseUseCase getCurrentStockOfAWarehouseUseCase, GetWarehousesUseCase getWarehousesUseCase, GetMaterialUseCase getMaterialUseCase, GetSellerUseCase getSellerUseCase) {
+    public WarehouseController(GetCurrentStockOfAWarehouseUseCase getCurrentStockOfAWarehouseUseCase, GetWarehousesUseCase getWarehousesUseCase, GetMaterialUseCase getMaterialUseCase, GetSellerUseCase getSellerUseCase, GetWarehouseUseCase getWarehouseUseCase) {
         this.getCurrentStockOfAWarehouseUseCase = getCurrentStockOfAWarehouseUseCase;
         this.getWarehousesUseCase = getWarehousesUseCase;
         this.getMaterialUseCase = getMaterialUseCase;
         this.getSellerUseCase = getSellerUseCase;
+        this.getWarehouseUseCase = getWarehouseUseCase;
     }
 
     @GetMapping("current-stock/warehouse/{warehouseNumber}")
@@ -49,6 +51,16 @@ public class WarehouseController {
         warehouses.forEach(warehouse -> warehouseDtos.add(createWarehouseDto(warehouse)));
 
         return ResponseEntity.ok(warehouseDtos);
+    }
+
+    @GetMapping("warehouse/{warehouseNumber}")
+    public WarehouseDto getWarehouse(@PathVariable int warehouseNumber) {
+
+        Warehouse warehouse = getWarehouseUseCase.getWarehouseByWarehouseNumber(new GetWarehouseCommand(warehouseNumber));
+        Material material = getMaterialUseCase.getMaterial(new GetMaterialCommand(warehouse.getMaterialType()));
+        Seller seller = getSellerUseCase.getSeller(new GetSellerCommand(warehouse.getSellerUUID()));
+
+        return buildWarehouseDto(warehouse, material, seller);
     }
 
     private WarehouseDto createWarehouseDto(Warehouse warehouse) {
