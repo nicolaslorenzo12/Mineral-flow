@@ -1,6 +1,8 @@
 package be.kdg.prog6.boundedcontextWarehouse.adapters.in.web;
 
+import be.kdg.prog6.boundedcontextWarehouse.domain.Pdt;
 import be.kdg.prog6.boundedcontextWarehouse.domain.Warehouse;
+import be.kdg.prog6.boundedcontextWarehouse.domain.dto.PdtDto;
 import be.kdg.prog6.boundedcontextWarehouse.domain.dto.WarehouseDto;
 import be.kdg.prog6.boundedcontextWarehouse.domain.dto.WarehouseStockDto;
 import be.kdg.prog6.boundedcontextWarehouse.ports.in.*;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 public class WarehouseController {
@@ -57,12 +60,20 @@ public class WarehouseController {
 
     private WarehouseDto buildWarehouseDto(Warehouse warehouse, Material material, Seller seller){
 
+        List<PdtDto> pdtDtoList = warehouse.getPdtList().stream()
+                .map(this::createPdtDto).toList();
+
         return new WarehouseDto(
                 warehouse.getWareHouseNumber(),
                 warehouse.calculateAndGetCurrentStock(),
                 warehouse.getWarehousePercentageUtilization(),
                 material.getDescription(),
-                seller.getName()
+                seller.getName(),
+                pdtDtoList
         );
+    }
+
+    private PdtDto createPdtDto(Pdt pdt) {
+        return new PdtDto(pdt.getTimeOfDelivery(), pdt.getAmountOfTonsDelivered());
     }
 }

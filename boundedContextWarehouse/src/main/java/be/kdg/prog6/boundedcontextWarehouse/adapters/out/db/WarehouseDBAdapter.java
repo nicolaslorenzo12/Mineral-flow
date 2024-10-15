@@ -29,7 +29,7 @@ public class WarehouseDBAdapter implements LoadWarehousePort, UpdateWarehousePor
     public Optional<Warehouse> loadWarehouseByWarehouseNumber(int warehouseNumber) {
         Optional<WarehouseJpaEntity> warehouseJpaEntity = warehouseRepository.findByWarehouseNumber(warehouseNumber);
 
-        return warehouseJpaEntity.flatMap(this::returnWarehouseWithActivitiesAndPdts);
+        return warehouseJpaEntity.map(this::returnWarehouseWithActivitiesAndPdts);
 
     }
 
@@ -38,25 +38,25 @@ public class WarehouseDBAdapter implements LoadWarehousePort, UpdateWarehousePor
 
         Optional<WarehouseJpaEntity> warehouseJpaEntity = warehouseRepository.findBySellerUUIDAndMaterialType(sellerUUID.uuid(), materialType);
 
-        return warehouseJpaEntity.flatMap(this::returnWarehouseWithActivitiesAndPdts);
+        return warehouseJpaEntity.map(this::returnWarehouseWithActivitiesAndPdts);
 
     }
 
     @Override
     public List<Warehouse> loadAllWarehouses() {
         return warehouseRepository.findAll().stream()
-                .flatMap(warehouseJpaEntity -> returnWarehouseWithActivitiesAndPdts(warehouseJpaEntity).stream())
+                .map(this::returnWarehouseWithActivitiesAndPdts) // Change to map
                 .collect(Collectors.toList());
     }
 
 
-    private Optional<Warehouse> returnWarehouseWithActivitiesAndPdts(WarehouseJpaEntity warehouseJpaEntity){
+    private Warehouse returnWarehouseWithActivitiesAndPdts(WarehouseJpaEntity warehouseJpaEntity){
 
 
         Warehouse warehouse = buildWarehouseObject(warehouseJpaEntity);
         addWarehouseActivitiesToWarehouseObject(warehouseJpaEntity.getActivities(), warehouse);
-        addWarehousePdtsToWarehouseObject(warehouseJpaEntity.getPdtJpaEntityList(), warehouse);
-        return Optional.of(warehouse);
+        addWarehousePdtsToWarehouseObject(warehouseJpaEntity.getStorageJpaEntityList(), warehouse);
+        return warehouse;
     }
 
     private Warehouse buildWarehouseObject(WarehouseJpaEntity warehouseJpaEntity) {
@@ -95,7 +95,7 @@ public class WarehouseDBAdapter implements LoadWarehousePort, UpdateWarehousePor
         List<StorageJpaEntity> pdtJpaEntities = buildJpaEntityObjects(warehouse);
         //warehouseJpaEntity.getPdtJpaEntityList().clear();
         //warehouseJpaEntity.getPdtJpaEntityList().addAll(pdtJpaEntities);
-        warehouseJpaEntity.setPdtJpaEntityList(pdtJpaEntities);
+        warehouseJpaEntity.setStorageJpaEntityList(pdtJpaEntities);
         addActivityJpaEntityToWarehouseJpaEntityObject(warehouseJpaEntity, updateWarehouseAction, warehouseActivity);
 
         warehouseRepository.save(warehouseJpaEntity);
