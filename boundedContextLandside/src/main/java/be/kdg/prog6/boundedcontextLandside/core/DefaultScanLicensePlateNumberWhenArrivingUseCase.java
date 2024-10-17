@@ -2,6 +2,7 @@ package be.kdg.prog6.boundedcontextLandside.core;
 
 import be.kdg.prog6.boundedcontextLandside.domain.Appointment;
 import be.kdg.prog6.boundedcontextLandside.domain.DailyCalendar;
+import be.kdg.prog6.boundedcontextLandside.domain.TruckStatus;
 import be.kdg.prog6.boundedcontextLandside.domain.dto.TruckDto;
 import be.kdg.prog6.boundedcontextLandside.ports.in.ScanLicensePlateNumberWhenArrivingCommand;
 import be.kdg.prog6.boundedcontextLandside.ports.in.ScanLicensePlateNumberWhenArrivingUseCase;
@@ -29,8 +30,10 @@ public class DefaultScanLicensePlateNumberWhenArrivingUseCase implements ScanLic
         LocalDateTime roundedTime = now.withMinute(0).withSecond(0).withNano(0);
 
         DailyCalendar dailyCalendar = loadDailyCalendarPort.loadOrCreateDailyCalendarByDay(roundedTime.toLocalDate());
-        Appointment appointment = dailyCalendar.setArrivalTimeOfAnAppointment(scanLicensePlateNumberCommand.licensePlateNumber(),
+        Appointment appointment = dailyCalendar.findAppointmentByLicensePlateNumberAndTimeAndDay(scanLicensePlateNumberCommand.licensePlateNumber(),
                 roundedTime);
+
+        appointment.setArrivalTime(now, TruckStatus.ARRIVED);
 
         updateDailyCalendarPorts.forEach(updateDailyCalendarPort -> updateDailyCalendarPort.updateDailyCalendar(dailyCalendar, appointment));
 

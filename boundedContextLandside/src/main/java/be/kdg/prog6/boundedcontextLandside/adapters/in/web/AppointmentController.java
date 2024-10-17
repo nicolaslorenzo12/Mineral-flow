@@ -25,13 +25,15 @@ public class AppointmentController {
     private final WeightTruckUseCase weightTruckUseCase;
     private final DeliverMaterialUseCase deliverMaterialUseCase;
     private final GetMaterialUseCase getMaterialUseCase;
+    private final GetSellerUseCase getSellerUseCase;
 
-    public AppointmentController(MakeAppointmentUseCase makeAppointmentUseCase, ScanLicensePlateNumberWhenArrivingUseCase scanLicensePlateNumberOfATruckUseCase, WeightTruckUseCase weightTruckUseCase, DeliverMaterialUseCase deliverMaterialUseCase, GetMaterialUseCase getMaterialUseCase) {
+    public AppointmentController(MakeAppointmentUseCase makeAppointmentUseCase, ScanLicensePlateNumberWhenArrivingUseCase scanLicensePlateNumberOfATruckUseCase, WeightTruckUseCase weightTruckUseCase, DeliverMaterialUseCase deliverMaterialUseCase, GetMaterialUseCase getMaterialUseCase, GetSellerUseCase getSellerUseCase) {
         this.makeAppointmentUseCase = makeAppointmentUseCase;
         this.scanLicensePlateNumberOfATruckUseCase = scanLicensePlateNumberOfATruckUseCase;
         this.weightTruckUseCase = weightTruckUseCase;
         this.deliverMaterialUseCase = deliverMaterialUseCase;
         this.getMaterialUseCase = getMaterialUseCase;
+        this.getSellerUseCase = getSellerUseCase;
     }
 
 
@@ -50,8 +52,11 @@ public class AppointmentController {
 
         Appointment appointment = scanLicensePlateNumberOfATruckUseCase.scanLicensePlateNumber(new ScanLicensePlateNumberWhenArrivingCommand(licensePlateNumber));
         Material material = getMaterialUseCase.getMaterial(new GetMaterialCommand(appointment.getMaterialType()));
-        TruckDto truckDto = new TruckDto(appointment.getLicensePlateNumberOfTruck(),
+        Seller seller = getSellerUseCase.getSellerBySellerUUID(new GetSellerCommand(appointment.getSellerUUID()));
+
+        TruckDto truckDto = new TruckDto(appointment.getWarehouseNumber(),seller.getName(), appointment.getLicensePlateNumberOfTruck(),
                 appointment.getTruckStatus(), appointment.getArrivalTime(), material.getDescription());
+
         return ResponseEntity.ok(truckDto);
     }
 

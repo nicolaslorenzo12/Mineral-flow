@@ -6,12 +6,16 @@ import java.time.LocalDateTime;
 
 public class TruckDto {
 
+    private final int warehouseNumber;
+    private final String sellerName;
     private final String licensePlateNumber;
     private final TruckStatus truckStatus;
     private final LocalDateTime arrivalTime;
     private final String materialDescription;
 
-    public TruckDto(String licensePlateNumber, TruckStatus truckStatus, LocalDateTime arrivalTime, String materialDescription) {
+    public TruckDto(int warehouseNumber, String sellerName, String licensePlateNumber, TruckStatus truckStatus, LocalDateTime arrivalTime, String materialDescription) {
+        this.warehouseNumber = warehouseNumber;
+        this.sellerName = sellerName;
         this.licensePlateNumber = licensePlateNumber;
         this.truckStatus = truckStatus;
         this.arrivalTime = arrivalTime;
@@ -32,5 +36,13 @@ public class TruckDto {
 
     public String getMaterialDescription() {
         return materialDescription;
+    }
+
+    public int getWarehouseNumber() {
+        return warehouseNumber;
+    }
+
+    public String getSellerName() {
+        return sellerName;
     }
 }
