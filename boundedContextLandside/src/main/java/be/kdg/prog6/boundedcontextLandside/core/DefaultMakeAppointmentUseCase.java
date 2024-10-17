@@ -17,6 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -39,35 +40,23 @@ public class DefaultMakeAppointmentUseCase implements MakeAppointmentUseCase {
 
     @Override
     @Transactional
-    public CreatedAppointmentDto makeAppointment(MakeAppointmentCommand makeAppointmentCommand) {
+    public Appointment makeAppointment(MakeAppointmentCommand makeAppointmentCommand) {
 
-        final UUID sellerUUID = makeAppointmentCommand.sellerUUID().uuid();
-        final MaterialType materialType = makeAppointmentCommand.materialType();
-        final Seller seller = findSellerByUUID(sellerUUID);
-        final Material material = findMaterialByType(materialType);
+        Seller seller = makeAppointmentCommand.seller();
+        Material material  = makeAppointmentCommand.material();
+        LocalDateTime appointmentTime = makeAppointmentCommand.appointmentTime();
         final Warehouse warehouse = findWarehouseForSellerAndMaterial(seller, material);
-        final DailyCalendar dailyCalendar = findDailyCalenderByDay(makeAppointmentCommand.appointmentTime().toLocalDate());
+        final DailyCalendar dailyCalendar = findDailyCalenderByDay(appointmentTime.toLocalDate());
 
         warehouse.checkIfMaximumStockPercentageExceeded();
-        Appointment appointment = dailyCalendar.addAppointment(seller, makeAppointmentCommand.appointmentTime(), material,
-                makeAppointmentCommand.licensePlateNumber(), warehouse);
+        Appointment appointment = dailyCalendar.addAppointment(seller, appointmentTime, material, makeAppointmentCommand.licensePlateNumber(),
+                warehouse);
 
         updateDailyCalendarPorts.forEach(updateDailyCalendarPort -> updateDailyCalendarPort.updateDailyCalendar(dailyCalendar, appointment));
 
-        return new CreatedAppointmentDto(appointment.getAppointmentUUID(), appointment.getSellerUUID(), appointment.getDay(),
-                appointment.getGateNumber(), appointment.getAppointmentTime(), appointment.getMaterialType(),
-                appointment.getLicensePlateNumberOfTruck(), appointment.getWarehouseNumber());
+        return appointment;
     }
 
-
-    private Seller findSellerByUUID(UUID sellerUUID) {
-        return loadSellerPort.loadSellerByUUID(sellerUUID)
-                .orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND, "Seller not found"));
-    }
-    private Material findMaterialByType(MaterialType materialType) {
-        return loadMaterialPort.loadMaterialByMaterialType(materialType)
-                .orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND, "Material not found"));
-    }
 
     private DailyCalendar findDailyCalenderByDay(LocalDate day){
         return loadDailyCalendarPort.loadOrCreateDailyCalendarByDay(day);

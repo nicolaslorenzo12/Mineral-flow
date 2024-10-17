@@ -9,4 +9,5 @@ import java.util.UUID;
 
 public interface LoadSellerPort {
     Optional<Seller> loadSellerByUUID(UUID uuid);
+    Optional<Seller> loadSellerByName(String sellerName);
 }

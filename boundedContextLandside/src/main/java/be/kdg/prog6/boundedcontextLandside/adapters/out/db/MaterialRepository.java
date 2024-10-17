@@ -9,4 +9,5 @@ import java.util.UUID;
 @Repository("landsideMaterialRepository")
 public interface MaterialRepository extends JpaRepository<MaterialJpaEntity, MaterialType> {
     Optional<MaterialJpaEntity> findByMaterialType(MaterialType materialType);
+    Optional<MaterialJpaEntity> findByDescription(String materialDescription);
 }

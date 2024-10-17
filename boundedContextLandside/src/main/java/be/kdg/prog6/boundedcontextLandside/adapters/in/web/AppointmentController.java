@@ -1,17 +1,14 @@
 package be.kdg.prog6.boundedcontextLandside.adapters.in.web;
 
 import be.kdg.prog6.boundedcontextLandside.domain.Appointment;
-import be.kdg.prog6.boundedcontextLandside.domain.dto.CreatedAppointmentDto;
-import be.kdg.prog6.boundedcontextLandside.domain.dto.LoadedMaterialDto;
-import be.kdg.prog6.boundedcontextLandside.domain.dto.TruckDto;
-import be.kdg.prog6.boundedcontextLandside.domain.dto.TruckWeightedDto;
+import be.kdg.prog6.boundedcontextLandside.domain.dto.*;
 import be.kdg.prog6.boundedcontextLandside.ports.in.*;
 import be.kdg.prog6.common.domain.Material;
-import be.kdg.prog6.common.domain.MaterialType;
 import be.kdg.prog6.common.domain.Seller;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDateTime;
@@ -37,22 +34,41 @@ public class AppointmentController {
     }
 
 
-    @PostMapping("material-truck-appointment/seller/{sellerUuid}/material/{materialType}/licensePlateNumbe/{licensePlateNumberOfTruck}/appointment/{appointmentTime}")
-    public ResponseEntity<CreatedAppointmentDto> makeAppointment(@PathVariable UUID sellerUuid, @PathVariable MaterialType materialType,
-                                                  @PathVariable String licensePlateNumberOfTruck, @PathVariable LocalDateTime appointmentTime) {
+    @PostMapping("material-truck-appointment")
+    public ResponseEntity<CreatedAppointmentDto> makeAppointment(@RequestBody AppointmentToCreateDto appointmentToCreateDto) {
 
-            CreatedAppointmentDto createdAppointmentDto = makeAppointmentUseCase.makeAppointment(new MakeAppointmentCommand(new Seller.CustomerUUID(sellerUuid), materialType,
-                    licensePlateNumberOfTruck, appointmentTime));
+        Seller seller = getSellerUseCase.getSellerByName
+                (new GetSellerByNameCommand(appointmentToCreateDto.getSellerName()));
+
+        Material material = getMaterialUseCase.getMaterialByMaterialDescription
+                (new GetMaterialByMaterialDescriptionCommand(appointmentToCreateDto.getMaterialDescription()));
+
+            Appointment appointment = createAppointment(seller, material, appointmentToCreateDto.getLicensePlateNumber(),
+                    appointmentToCreateDto.getAppointmentTime());
+
+
+        CreatedAppointmentDto createdAppointmentDto = createCreatedAppointmentDto(appointment, seller, material);
 
             return ResponseEntity.ok(createdAppointmentDto);
+    }
+
+    private CreatedAppointmentDto createCreatedAppointmentDto(Appointment appointment, Seller seller, Material material) {
+        return new CreatedAppointmentDto(seller.getName(), appointment.getDay(), appointment.getGateNumber(),
+                appointment.getAppointmentTime(), material.getDescription(), appointment.getLicensePlateNumberOfTruck(),
+                appointment.getWarehouseNumber());
+    }
+
+    private Appointment createAppointment(Seller seller, Material material, String licensePlateNumber, LocalDateTime appointmentTime) {
+
+        return  makeAppointmentUseCase.makeAppointment(new MakeAppointmentCommand(seller, material, licensePlateNumber, appointmentTime));
     }
 
     @PostMapping("appointment/truck/{licensePlateNumber}/check")
     public ResponseEntity<TruckDto> scanTruckForAppointment(@PathVariable String licensePlateNumber){
 
         Appointment appointment = scanLicensePlateNumberOfATruckUseCase.scanLicensePlateNumber(new ScanLicensePlateNumberWhenArrivingCommand(licensePlateNumber));
-        Material material = getMaterialUseCase.getMaterial(new GetMaterialCommand(appointment.getMaterialType()));
-        Seller seller = getSellerUseCase.getSellerBySellerUUID(new GetSellerCommand(appointment.getSellerUUID()));
+        Material material = getMaterialUseCase.getMaterialByMaterialType(new GetMaterialByMaterialTypeCommand(appointment.getMaterialType()));
+        Seller seller = getSellerUseCase.getSellerBySellerUUID(new GetSellerByUUIDCommand(appointment.getSellerUUID()));
 
         TruckDto truckDto = new TruckDto(appointment.getWarehouseNumber(),seller.getName(), appointment.getLicensePlateNumberOfTruck(),
                 appointment.getTruckStatus(), appointment.getArrivalTime(), material.getDescription());

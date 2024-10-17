@@ -9,4 +9,5 @@ import java.util.UUID;
 @Repository("landsideSellerRepository")
 public interface SellerRepository extends JpaRepository<SellerJpaEntity, UUID> {
     Optional<SellerJpaEntity> findBySellerUUID(UUID sellerUuid);
+    Optional<SellerJpaEntity> findByName(String name);
 }

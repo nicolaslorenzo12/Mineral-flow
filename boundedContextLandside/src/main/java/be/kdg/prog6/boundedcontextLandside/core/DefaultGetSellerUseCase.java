@@ -1,6 +1,7 @@
 package be.kdg.prog6.boundedcontextLandside.core;
 
-import be.kdg.prog6.boundedcontextLandside.ports.in.GetSellerCommand;
+import be.kdg.prog6.boundedcontextLandside.ports.in.GetSellerByNameCommand;
+import be.kdg.prog6.boundedcontextLandside.ports.in.GetSellerByUUIDCommand;
 import be.kdg.prog6.boundedcontextLandside.ports.in.GetSellerUseCase;
 import be.kdg.prog6.boundedcontextLandside.ports.out.LoadSellerPort;
 import be.kdg.prog6.common.domain.Seller;
@@ -18,8 +19,14 @@ public class DefaultGetSellerUseCase implements GetSellerUseCase {
     }
 
     @Override
-    public Seller getSellerBySellerUUID(GetSellerCommand getSellerCommand) {
+    public Seller getSellerBySellerUUID(GetSellerByUUIDCommand getSellerCommand) {
         return loadSellerPort.loadSellerByUUID(getSellerCommand.sellerUUID().uuid())
+                .orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND, "Seller not found"));
+    }
+
+    @Override
+    public Seller getSellerByName(GetSellerByNameCommand getSellerCommand) {
+        return loadSellerPort.loadSellerByName(getSellerCommand.name())
                 .orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND, "Seller not found"));
     }
 }

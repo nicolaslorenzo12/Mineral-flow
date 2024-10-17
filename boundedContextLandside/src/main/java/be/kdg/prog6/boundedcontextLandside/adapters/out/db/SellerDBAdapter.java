@@ -22,6 +22,13 @@ public class SellerDBAdapter implements LoadSellerPort {
         return sellerJpaEntity.map(this::buildSellerObject);
     }
 
+    @Override
+    public Optional<Seller> loadSellerByName(String sellerName) {
+
+        Optional<SellerJpaEntity> sellerJpaEntity = sellerRepository.findByName(sellerName);
+        return sellerJpaEntity.map(this::buildSellerObject);
+    }
+
     private Seller buildSellerObject(SellerJpaEntity sellerJpaEntity){
         return new Seller(new Seller.CustomerUUID(sellerJpaEntity.getSellerUUID()), sellerJpaEntity.getName());
     }

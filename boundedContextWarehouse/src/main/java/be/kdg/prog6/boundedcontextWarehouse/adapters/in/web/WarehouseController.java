@@ -1,5 +1,6 @@
 package be.kdg.prog6.boundedcontextWarehouse.adapters.in.web;
 
+import be.kdg.prog6.boundedcontextWarehouse.ports.in.GetMaterialByMaterialTypeCommand;
 import be.kdg.prog6.boundedcontextWarehouse.domain.Pdt;
 import be.kdg.prog6.boundedcontextWarehouse.domain.Warehouse;
 import be.kdg.prog6.boundedcontextWarehouse.domain.dto.PdtDto;
@@ -13,10 +14,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 public class WarehouseController {
@@ -57,14 +56,14 @@ public class WarehouseController {
     public WarehouseDto getWarehouse(@PathVariable int warehouseNumber) {
 
         Warehouse warehouse = getWarehouseUseCase.getWarehouseByWarehouseNumber(new GetWarehouseCommand(warehouseNumber));
-        Material material = getMaterialUseCase.getMaterial(new GetMaterialCommand(warehouse.getMaterialType()));
+        Material material = getMaterialUseCase.getMaterialByMaterialType(new GetMaterialByMaterialTypeCommand(warehouse.getMaterialType()));
         Seller seller = getSellerUseCase.getSeller(new GetSellerCommand(warehouse.getSellerUUID()));
 
         return buildWarehouseDto(warehouse, material, seller);
     }
 
     private WarehouseDto createWarehouseDto(Warehouse warehouse) {
-        Material material = getMaterialUseCase.getMaterial(new GetMaterialCommand(warehouse.getMaterialType()));
+        Material material = getMaterialUseCase.getMaterialByMaterialType(new GetMaterialByMaterialTypeCommand(warehouse.getMaterialType()));
         Seller seller = getSellerUseCase.getSeller(new GetSellerCommand(warehouse.getSellerUUID()));
 
         return buildWarehouseDto(warehouse, material, seller);

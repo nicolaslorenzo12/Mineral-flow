@@ -7,4 +7,5 @@ import java.util.Optional;
 
 public interface LoadMaterialPort {
     Optional<Material> loadMaterialByMaterialType(MaterialType materialType);
+    Optional<Material> loadMaterialByMaterialDescription(String description);
 }

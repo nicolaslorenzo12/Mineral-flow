@@ -4,5 +4,6 @@ import be.kdg.prog6.common.domain.Material;
 
 public interface GetMaterialUseCase {
 
-    Material getMaterial(GetMaterialCommand getMaterialCommand);
+    Material getMaterialByMaterialType(GetMaterialByMaterialTypeCommand getMaterialCommand);
+    Material getMaterialByMaterialDescription(GetMaterialByMaterialDescriptionCommand getMaterialDescriptionCommand);
 }

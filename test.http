@@ -25,7 +25,15 @@ GET http://localhost:8090/api/trucks-inside
 
 ###
 
-POST http://localhost:8090/api/material-truck-appointment/seller/123e4567-e89b-12d3-a456-426614174000/material/GP/licensePlateNumbe/ABCDE123/appointment/2024-10-17T11:00:00
+POST http://localhost:8090/api/material-truck-appointment
+Content-Type: application/json
+
+{
+  "sellerName": "John Doe Minerals",
+  "materialDescription": "Petroleum Coke",
+  "licensePlateNumber": "ABCDEFG123",
+  "appointmentTime": "2024-10-17T17:00:00"
+}
 
 ###
 
@@ -33,15 +41,15 @@ POST http://localhost:8090/api/material-truck-appointment/seller/123e4567-e89b-1
 
 ###
 
-POST http://localhost:8090/api/appointment/truck/ABC123/check
+POST http://localhost:8090/api/appointment/truck/ABCDEF123/check
 
 ###
 
-POST http://localhost:8090/api/appointment/1afad31e-5bc8-4e75-9912-3dc20a488bbf/weight
+POST http://localhost:8090/api/appointment/44f75d9b-a9f0-4193-ba0f-02c9a4780cac/weight
 
 ###
 
-POST http://localhost:8090/api/appointment/1afad31e-5bc8-4e75-9912-3dc20a488bbf/loadMaterial
+POST http://localhost:8090/api/appointment/44f75d9b-a9f0-4193-ba0f-02c9a4780cac/loadMaterial
 
 
 ### Waterside

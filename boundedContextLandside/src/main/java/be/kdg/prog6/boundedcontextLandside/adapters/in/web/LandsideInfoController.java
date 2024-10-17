@@ -41,8 +41,8 @@ public class LandsideInfoController {
         return appointments.stream()
                 .map(appointment -> {
 
-                    Material material = getMaterialUseCase.getMaterial(new GetMaterialCommand(appointment.getMaterialType()));
-                    Seller seller = getSellerUseCase.getSellerBySellerUUID(new GetSellerCommand(appointment.getSellerUUID()));
+                    Material material = getMaterialUseCase.getMaterialByMaterialType(new GetMaterialByMaterialTypeCommand(appointment.getMaterialType()));
+                    Seller seller = getSellerUseCase.getSellerBySellerUUID(new GetSellerByUUIDCommand(appointment.getSellerUUID()));
 
                     return buildTruckDto(appointment, seller, material);
                 })
