@@ -23,7 +23,7 @@ public class DefaultScanLicensePlateNumberWhenArrivingUseCase implements ScanLic
     }
 
     @Override
-    public TruckDto scanLicensePlateNumber(ScanLicensePlateNumberWhenArrivingCommand scanLicensePlateNumberCommand) {
+    public Appointment scanLicensePlateNumber(ScanLicensePlateNumberWhenArrivingCommand scanLicensePlateNumberCommand) {
 
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime roundedTime = now.withMinute(0).withSecond(0).withNano(0);
@@ -34,7 +34,7 @@ public class DefaultScanLicensePlateNumberWhenArrivingUseCase implements ScanLic
 
         updateDailyCalendarPorts.forEach(updateDailyCalendarPort -> updateDailyCalendarPort.updateDailyCalendar(dailyCalendar, appointment));
 
-        return new TruckDto(appointment.getLicensePlateNumberOfTruck(), appointment.getTruckStatus(), appointment.getArrivalTime(), "");
+        return appointment;
     }
 }
 

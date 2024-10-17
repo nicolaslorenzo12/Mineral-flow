@@ -85,6 +85,11 @@ public class Appointment {
         this.arrivalTime = arrivalTime;
     }
 
+    public void setArrivalTime(LocalDateTime arrivalTime, TruckStatus truckStatus) {
+        this.checkIfTruckHasAlreadyGottenThisStatus(truckStatus);
+        this.arrivalTime = arrivalTime;
+    }
+
     public LocalDateTime getDepartureTime() {
         return departureTime;
     }
@@ -175,4 +180,5 @@ public class Appointment {
     public int getNetWeight(){
         return initialWeight - finalWeight;
     }
+
 }

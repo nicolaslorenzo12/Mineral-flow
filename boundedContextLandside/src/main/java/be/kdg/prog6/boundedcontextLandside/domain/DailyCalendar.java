@@ -86,8 +86,7 @@ public class DailyCalendar {
     public Appointment setArrivalTimeOfAnAppointment(String licensePlateNumber, LocalDateTime arrivalTime){
 
         Appointment appointment = findAppointmentByLicensePlateNumberAndTimeAndDay(licensePlateNumber, arrivalTime);
-        appointment.checkIfTruckHasAlreadyGottenThisStatus(TruckStatus.ARRIVED);
-        appointment.setArrivalTime(LocalDateTime.now());
+        appointment.setArrivalTime(arrivalTime, TruckStatus.ARRIVED);
         return appointment;
     }
 
