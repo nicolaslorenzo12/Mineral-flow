@@ -1,10 +1,5 @@
 package be.kdg.prog6.boundedcontextLandside.domain.dto;
 
-import be.kdg.prog6.boundedcontextLandside.domain.Appointment;
-import be.kdg.prog6.common.domain.Customer;
-import be.kdg.prog6.common.domain.MaterialType;
-import be.kdg.prog6.common.domain.Seller;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -15,7 +10,7 @@ public class CreatedAppointmentDto {
     private final int gateNumber;
     private final LocalDateTime appointmentTime;
     private final String materialDescription;
-    private final String licensePlateNumberOfTruck;
+    private final String licensePlateNumber;
     private final int warehouseNumber;
 
     public CreatedAppointmentDto(String sellerName, LocalDate day, int gateNumber, LocalDateTime appointmentTime, String materialDescription,
@@ -25,7 +20,7 @@ public class CreatedAppointmentDto {
         this.gateNumber = gateNumber;
         this.appointmentTime = appointmentTime;
         this.materialDescription = materialDescription;
-        this.licensePlateNumberOfTruck = licensePlateNumberOfTruck;
+        this.licensePlateNumber = licensePlateNumberOfTruck;
         this.warehouseNumber = warehouseNumber;
     }
 
@@ -49,8 +44,8 @@ public class CreatedAppointmentDto {
         return materialDescription;
     }
 
-    public String getLicensePlateNumberOfTruck() {
-        return licensePlateNumberOfTruck;
+    public String getLicensePlateNumber() {
+        return licensePlateNumber;
     }
 
     public int getWarehouseNumber() {
