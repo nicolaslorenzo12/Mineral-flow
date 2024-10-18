@@ -83,13 +83,6 @@ public class DailyCalendar {
     }
 
 
-    public Appointment setArrivalTimeOfAnAppointment(String licensePlateNumber, LocalDateTime arrivalTime){
-
-        Appointment appointment = findAppointmentByLicensePlateNumberAndTimeAndDay(licensePlateNumber, arrivalTime);
-        appointment.setArrivalTime(arrivalTime, TruckStatus.ARRIVED);
-        return appointment;
-    }
-
     public Appointment weightTruckOfAnAppointment(Appointment.AppointmentUUID appointmentUUID ){
 
         Appointment appointment = findAppointmentByAppointmentUUID(appointmentUUID);

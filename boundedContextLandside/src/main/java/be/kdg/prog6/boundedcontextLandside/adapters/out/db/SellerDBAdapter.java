@@ -4,6 +4,7 @@ import be.kdg.prog6.boundedcontextLandside.ports.out.LoadSellerPort;
 import be.kdg.prog6.common.domain.Seller;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -27,6 +28,11 @@ public class SellerDBAdapter implements LoadSellerPort {
 
         Optional<SellerJpaEntity> sellerJpaEntity = sellerRepository.findByName(sellerName);
         return sellerJpaEntity.map(this::buildSellerObject);
+    }
+
+    @Override
+    public List<Seller> loadAllSellers() {
+        return sellerRepository.findAll().stream().map(this::buildSellerObject).toList();
     }
 
     private Seller buildSellerObject(SellerJpaEntity sellerJpaEntity){

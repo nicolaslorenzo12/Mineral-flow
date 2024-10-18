@@ -4,6 +4,7 @@ import be.kdg.prog6.boundedcontextWaterside.domain.ShipmentOrder;
 import be.kdg.prog6.boundedcontextWaterside.ports.in.*;
 import be.kdg.prog6.common.facades.MatchShipmentOrderWithPurchaseOrderCommand;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -58,17 +59,32 @@ public class ShipmentOrderController {
     }
 
 
-    @PostMapping("outstanding-po's")
-    public ResponseEntity<List<ShipmentOrder>> outstandingPOS() {
+    @GetMapping("pos/finished")
+    public ResponseEntity<List<ShipmentOrder>> getFinishedPOS() {
 
-        List<ShipmentOrder> shipmentOrders = getOutstandingPOSUseCase.getOutstandingPOS();
+        List<ShipmentOrder> shipmentOrders = getOutstandingPOSUseCase.getFinishedPOS();
         return ResponseEntity.ok(shipmentOrders);
     }
 
-    @PostMapping("outstanding-io's")
-    public ResponseEntity<List<ShipmentOrder>> outstandingIOS() {
+    @GetMapping("ios/outstanding")
+    public ResponseEntity<List<ShipmentOrder>> getOutstandingIOS() {
 
         List<ShipmentOrder> shipmentOrders = getOutstandingPOSUseCase.getOutstandingIOS();
         return ResponseEntity.ok(shipmentOrders);
     }
+
+    @GetMapping("bos/outstanding")
+    public ResponseEntity<List<ShipmentOrder>> getOutstandingBOS() {
+
+        List<ShipmentOrder> shipmentOrders = getOutstandingPOSUseCase.getOutstandingBOS();
+        return ResponseEntity.ok(shipmentOrders);
+    }
+
+    @GetMapping("to-load-pos/outstanding")
+    public ResponseEntity<List<ShipmentOrder>> getOutstandingToLoadPOS() {
+
+        List<ShipmentOrder> shipmentOrders = getOutstandingPOSUseCase.getToLoadPOS();
+        return ResponseEntity.ok(shipmentOrders);
+    }
+
 }

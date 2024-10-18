@@ -6,6 +6,8 @@ import java.util.List;
 
 public interface GetOutstandingOperationsUseCase {
 
-    public List<ShipmentOrder> getOutstandingPOS();
+    List<ShipmentOrder> getFinishedPOS();
     List<ShipmentOrder> getOutstandingIOS();
+    List<ShipmentOrder> getOutstandingBOS();
+    List<ShipmentOrder> getToLoadPOS();
 }

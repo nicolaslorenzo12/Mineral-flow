@@ -9,6 +9,8 @@ import be.kdg.prog6.common.exception.CustomException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service("landsideGetMaterialUseCase")
 public class DefaultGetMaterialUseCase implements GetMaterialUseCase {
 
@@ -28,5 +30,10 @@ public class DefaultGetMaterialUseCase implements GetMaterialUseCase {
     public Material getMaterialByMaterialDescription(GetMaterialByMaterialDescriptionCommand getMaterialDescriptionCommand) {
         return loadMaterialPort.loadMaterialByMaterialDescription(getMaterialDescriptionCommand.materialDescription())
                 .orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND, "Material not found"));
+    }
+
+    @Override
+    public List<Material> getAllMaterials() {
+        return loadMaterialPort.loadAllMaterials();
     }
 }

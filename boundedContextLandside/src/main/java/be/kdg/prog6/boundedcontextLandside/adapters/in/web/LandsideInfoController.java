@@ -3,6 +3,7 @@ package be.kdg.prog6.boundedcontextLandside.adapters.in.web;
 import be.kdg.prog6.boundedcontextLandside.domain.Appointment;
 import be.kdg.prog6.boundedcontextLandside.domain.dto.TruckDto;
 import be.kdg.prog6.boundedcontextLandside.ports.in.*;
+import be.kdg.prog6.common.domain.Customer;
 import be.kdg.prog6.common.domain.Material;
 import be.kdg.prog6.common.domain.Seller;
 import org.springframework.http.ResponseEntity;
@@ -33,6 +34,22 @@ public class LandsideInfoController {
         List<TruckDto> truckDtoList = createTruckDtoList(appointmentsWithMaterial);
 
         return ResponseEntity.ok(truckDtoList);
+    }
+
+    @GetMapping("seller-names")
+    public ResponseEntity<List<String>> getSellerNames(){
+
+        List<Seller> sellers =  getSellerUseCase.getAllSellers();
+        List<String> sellerNames = sellers.stream().map(Customer::getName).toList();
+        return ResponseEntity.ok(sellerNames);
+    }
+
+    @GetMapping("material-descriptions")
+    public ResponseEntity<List<String>> getMaterialDescriptions(){
+
+        List<Material> materials = getMaterialUseCase.getAllMaterials();
+        List<String> materialDescriptions = materials.stream().map(Material::getDescription).toList();
+        return ResponseEntity.ok(materialDescriptions);
     }
 
 

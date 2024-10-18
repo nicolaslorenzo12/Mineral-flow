@@ -9,6 +9,8 @@ import be.kdg.prog6.common.exception.CustomException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service("landsideDefaultGetSellerUseCase")
 public class DefaultGetSellerUseCase implements GetSellerUseCase {
 
@@ -28,5 +30,10 @@ public class DefaultGetSellerUseCase implements GetSellerUseCase {
     public Seller getSellerByName(GetSellerByNameCommand getSellerCommand) {
         return loadSellerPort.loadSellerByName(getSellerCommand.name())
                 .orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND, "Seller not found"));
+    }
+
+    @Override
+    public List<Seller> getAllSellers() {
+        return loadSellerPort.loadAllSellers();
     }
 }

@@ -8,6 +8,7 @@ import be.kdg.prog6.common.domain.Seller;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 

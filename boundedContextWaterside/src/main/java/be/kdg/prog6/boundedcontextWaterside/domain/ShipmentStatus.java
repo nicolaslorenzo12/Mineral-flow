@@ -5,7 +5,7 @@ public enum ShipmentStatus {
     NOTARRIVED(1),
     ARRIVED(2),
     INSPECTED(3),
-    REFUELED(4),
+    BUNKERED(4),
     LOADED(5);
 
     private final int code;

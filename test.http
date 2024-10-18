@@ -18,6 +18,11 @@ GET http://localhost:8090/api/current-stock/warehouse/7
 
 ### Landisde
 
+GET http://localhost:8090/api/seller-names
+
+###
+
+GET http://localhost:8090/api/material-descriptions
 
 ###
 
@@ -95,8 +100,16 @@ POST http://localhost:8090/api/load-ship/shipment-order/564e4567-e89b-12d3-a456-
 
 
 
-POST http://localhost:8090/api/outstanding-po's
+GET http://localhost:8090/api/pos/finished
 
 ###
 
-POST http://localhost:8090/api/outstanding-io's
+GET http://localhost:8090/api/ios/outstanding
+
+###
+
+GET http://localhost:8090/api/bos/outstanding
+
+###
+
+GET http://localhost:8090/api/to-load-pos/outstanding
