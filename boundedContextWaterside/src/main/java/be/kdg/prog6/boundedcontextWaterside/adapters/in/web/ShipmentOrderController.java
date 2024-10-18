@@ -45,19 +45,19 @@ public class ShipmentOrderController {
     }
 
     @PostMapping("inspect/shipment-order/{vesselNumber}")
-    public ResponseEntity<ShipmentOrder> inspect(@PathVariable String vesselNumber) {
+    public ResponseEntity<ShipmentOrderDto> inspect(@PathVariable String vesselNumber) {
 
         ShipmentOrder shipmentOrder = inspectShipUseCase.inspect(new InspectShipCommand(vesselNumber));
 
-        return ResponseEntity.ok(shipmentOrder);
+        return ResponseEntity.ok(buildShipmentOrderDto(shipmentOrder));
     }
 
     @PostMapping("refuel/shipment-order/{vesselNumber}")
-    public ResponseEntity<ShipmentOrder> refuel(@PathVariable String vesselNumber) {
+    public ResponseEntity<ShipmentOrderDto> refuel(@PathVariable String vesselNumber) {
 
         ShipmentOrder shipmentOrder = refuelShipUseCase.refuelShip(new RefuelShipCommand
                 (vesselNumber));
-        return ResponseEntity.ok(shipmentOrder);
+        return ResponseEntity.ok(buildShipmentOrderDto(shipmentOrder));
     }
 
 

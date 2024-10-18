@@ -64,15 +64,15 @@ POST http://localhost:8090/api/match-shipment-and-purchase-order/purchase-order/
 
 ###
 
-POST http://localhost:8090/api/inspect/shipment-order/VS345ht
+POST http://localhost:8090/api/inspect/shipment-order/VS345hg
 
 ###
 
-POST http://localhost:8090/api/refuel/shipment-order/VS345ht
+POST http://localhost:8090/api/refuel/shipment-order/VS345hg
 
 ###
 
-POST http://localhost:8090/api/load-ship/shipment-order/VS345ht
+POST http://localhost:8090/api/load-ship/shipment-order/VS345hg
 
 ###
 
@@ -84,15 +84,15 @@ POST http://localhost:8090/api/match-shipment-and-purchase-order/purchase-order/
 
 ###
 
-POST http://localhost:8090/api/inspect/shipment-order/VS345hg
+POST http://localhost:8090/api/inspect/shipment-order/VS345ht
 
 ###
 
-POST http://localhost:8090/api/refuel/shipment-order/VS345hg
+POST http://localhost:8090/api/refuel/shipment-order/VS345ht
 
 ###
 
-POST http://localhost:8090/api/load-ship/shipment-order/VS345hg
+POST http://localhost:8090/api/load-ship/shipment-order/VS345ht
 ###
 
 
