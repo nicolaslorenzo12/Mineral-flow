@@ -37,7 +37,7 @@ Content-Type: application/json
   "sellerName": "John Doe Minerals",
   "materialDescription": "Petroleum Coke",
   "licensePlateNumber": "ABCDEF123",
-  "appointmentTime": "2024-10-18T13:00:00"
+  "appointmentTime": "2024-10-18T22:00:00"
 }
 
 ###
@@ -50,50 +50,49 @@ POST http://localhost:8090/api/appointment/truck/ABCDEF123/check
 
 ###
 
-POST http://localhost:8090/api/appointment/d865d696-4262-46ed-b54d-b2641ae039ba/weight
+POST http://localhost:8090/api/appointment/dabe2201-40a1-47d1-87c0-82e536103bdd/weight
 
 ###
 
-POST http://localhost:8090/api/appointment/d865d696-4262-46ed-b54d-b2641ae039ba/loadMaterial
+POST http://localhost:8090/api/appointment/dabe2201-40a1-47d1-87c0-82e536103bdd/loadMaterial
 
 
 ### Waterside
-
-
-POST http://localhost:8090/api/match-shipment-and-purchase-order/purchase-order/564e4567-e89b-12d3-a456-426614174333
-
-###
-
-POST http://localhost:8090/api/inspect/shipment-order/564e4567-e89b-12d3-a456-426614174333
-
-###
-
-POST http://localhost:8090/api/refuel/shipment-order/564e4567-e89b-12d3-a456-426614174333
-
-###
-
-POST http://localhost:8090/api/load-ship/shipment-order/564e4567-e89b-12d3-a456-426614174333
-
-###
-
-
-
 
 
 POST http://localhost:8090/api/match-shipment-and-purchase-order/purchase-order/564e4567-e89b-12d3-a456-426614174222
 
 ###
 
-POST http://localhost:8090/api/inspect/shipment-order/564e4567-e89b-12d3-a456-426614174222
+POST http://localhost:8090/api/inspect/shipment-order/VS345ht
 
 ###
 
-POST http://localhost:8090/api/refuel/shipment-order/564e4567-e89b-12d3-a456-426614174222
+POST http://localhost:8090/api/refuel/shipment-order/VS345ht
 
 ###
 
-POST http://localhost:8090/api/load-ship/shipment-order/564e4567-e89b-12d3-a456-426614174222
+POST http://localhost:8090/api/load-ship/shipment-order/VS345ht
 
+###
+
+
+
+
+
+POST http://localhost:8090/api/match-shipment-and-purchase-order/purchase-order/564e4567-e89b-12d3-a456-426614174333
+
+###
+
+POST http://localhost:8090/api/inspect/shipment-order/VS345hg
+
+###
+
+POST http://localhost:8090/api/refuel/shipment-order/VS345hg
+
+###
+
+POST http://localhost:8090/api/load-ship/shipment-order/VS345hg
 ###
 
 

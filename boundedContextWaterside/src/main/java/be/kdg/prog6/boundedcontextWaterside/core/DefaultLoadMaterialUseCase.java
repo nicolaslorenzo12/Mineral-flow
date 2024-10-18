@@ -24,7 +24,7 @@ public class DefaultLoadMaterialUseCase implements LoadMaterialUseCase {
     @Override
     public void loadMaterial(LoadMaterialCommand loadMaterialCommand) {
 
-        ShipmentOrder shipmentOrder = loadOrCreateShipmentOrderPort.loadOrCreateShipmentOrder(loadMaterialCommand.shipmentOrderUUID());
+        ShipmentOrder shipmentOrder = loadOrCreateShipmentOrderPort.loadShipmentOrderByVesselNumber(loadMaterialCommand.vesselNumber());
         shipmentOrder.checkIfShipmentOrderHasAlreadyHadThisStatus(ShipmentStatus.LOADED);
         updateShipmentOrderPorts.forEach(updateShipmentOrderPort -> {updateShipmentOrderPort.updateShipmentOrder(shipmentOrder, true);});
     }

@@ -15,24 +15,27 @@ public class ShipmentOrder {
     private LocalDate actualDepartureDate;
     private ShipmentStatus shipmentStatus;
     private final ShipmentOrderUUID shipmentOrderUUID;
+    private final String vesselNumber;
     public record ShipmentOrderUUID(UUID uuid){
 
     }
 
-    public ShipmentOrder(ShipmentOrderUUID shipmentOrderUUID, LocalDate estimatedArrivalDate, LocalDate estimatedDepartureDate, String poNumber) {
+    public ShipmentOrder(ShipmentOrderUUID shipmentOrderUUID, LocalDate estimatedArrivalDate, LocalDate estimatedDepartureDate, String poNumber, String vesselNumber) {
         this.shipmentOrderUUID = shipmentOrderUUID;
         this.estimatedArrivalDate = estimatedArrivalDate;
         this.estimatedDepartureDate = estimatedDepartureDate;
+        this.vesselNumber = vesselNumber;
     }
 
     public ShipmentOrder(LocalDate estimatedArrivalDate, LocalDate estimatedDepartureDate, LocalDate actualArrivalDate,
-                         LocalDate actualDepartureDate, ShipmentStatus shipmentStatus, ShipmentOrderUUID shipmentOrderUUID) {
+                         LocalDate actualDepartureDate, ShipmentStatus shipmentStatus, ShipmentOrderUUID shipmentOrderUUID, String vesselNumber) {
         this.estimatedArrivalDate = estimatedArrivalDate;
         this.estimatedDepartureDate = estimatedDepartureDate;
         this.actualArrivalDate = actualArrivalDate;
         this.actualDepartureDate = actualDepartureDate;
         this.shipmentStatus = shipmentStatus;
         this.shipmentOrderUUID = shipmentOrderUUID;
+        this.vesselNumber = vesselNumber;
     }
 
     public void setShipmentStatus(ShipmentStatus shipmentStatus) {
@@ -65,6 +68,10 @@ public class ShipmentOrder {
 
     public void setActualArrivalDate(LocalDate actualArrivalDate) {
         this.actualArrivalDate = actualArrivalDate;
+    }
+
+    public String getVesselNumber() {
+        return vesselNumber;
     }
 
     public void setActualDepartureDate(LocalDate actualDepartureDate) {

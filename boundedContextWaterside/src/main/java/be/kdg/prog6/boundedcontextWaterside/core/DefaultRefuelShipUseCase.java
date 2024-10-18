@@ -23,7 +23,7 @@ public class DefaultRefuelShipUseCase implements RefuelShipUseCase {
 
     @Override
     public ShipmentOrder refuelShip(RefuelShipCommand refuelShipCommand) {
-        ShipmentOrder shipmentOrder = loadOrCreateShipmentOrderPort.loadOrCreateShipmentOrder(refuelShipCommand.shipmentOrderUUID());
+        ShipmentOrder shipmentOrder = loadOrCreateShipmentOrderPort.loadShipmentOrderByVesselNumber(refuelShipCommand.vesselNumber());
         shipmentOrder.checkIfShipmentOrderHasAlreadyHadThisStatus(ShipmentStatus.BUNKERED);
         updateShipmentOrderPortList.forEach(updateShipmentOrderPort -> updateShipmentOrderPort.updateShipmentOrder(shipmentOrder, false));
         return shipmentOrder;

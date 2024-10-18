@@ -21,16 +21,19 @@ public class ShipmentOrderJpaEntity {
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private ShipmentStatus shipmentStatus;
+    @Column(nullable = false)
+    private String vesselNumber;
 
 
     public ShipmentOrderJpaEntity(UUID shipmentOrderUUID, LocalDate estimatedArrivalDate, LocalDate estimatedDepartureDate, LocalDate actualArrivalDate,
-                                  LocalDate actualDepartureDate, ShipmentStatus shipmentStatus) {
+                                  LocalDate actualDepartureDate, ShipmentStatus shipmentStatus, String vesselNumber) {
         this.shipmentOrderUUID = shipmentOrderUUID;
         this.estimatedArrivalDate = estimatedArrivalDate;
         this.estimatedDepartureDate = estimatedDepartureDate;
         this.actualArrivalDate = actualArrivalDate;
         this.actualDepartureDate = actualDepartureDate;
         this.shipmentStatus = shipmentStatus;
+        this.vesselNumber = vesselNumber;
     }
 
     public ShipmentOrderJpaEntity() {
@@ -85,4 +88,11 @@ public class ShipmentOrderJpaEntity {
         this.shipmentOrderUUID = shipmentOrderUUID;
     }
 
+    public String getVesselNumber() {
+        return vesselNumber;
+    }
+
+    public void setVesselNumber(String vesselNumber) {
+        this.vesselNumber = vesselNumber;
+    }
 }

@@ -24,7 +24,7 @@ public class DefaultInspectShipUseCase implements InspectShipUseCase {
 
     @Override
     public ShipmentOrder inspect(InspectShipCommand inspectShipCommand) {
-        ShipmentOrder shipmentOrder = loadOrCreateShipmentOrderPort.loadOrCreateShipmentOrder(inspectShipCommand.shipmentOrderUUID());
+        ShipmentOrder shipmentOrder = loadOrCreateShipmentOrderPort.loadShipmentOrderByVesselNumber(inspectShipCommand.vesselNumber());
         shipmentOrder.checkIfShipmentOrderHasAlreadyHadThisStatus(ShipmentStatus.INSPECTED);
         updateShipmentOrderPortList.forEach(updateShipmentOrderPort -> updateShipmentOrderPort.updateShipmentOrder(shipmentOrder, false));
         return shipmentOrder;

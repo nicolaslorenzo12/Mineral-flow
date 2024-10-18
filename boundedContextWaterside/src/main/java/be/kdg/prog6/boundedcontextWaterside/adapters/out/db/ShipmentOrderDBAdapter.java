@@ -26,6 +26,12 @@ public class ShipmentOrderDBAdapter implements LoadOrCreateShipmentOrderPort, Up
     }
 
     @Override
+    public ShipmentOrder loadShipmentOrderByVesselNumber(String vesselNumber) {
+        ShipmentOrderJpaEntity shipmentOrderJpaEntity = shipmentOrderJpaEntityRepository.findShipmentOrderJpaEntityByVesselNumber(vesselNumber);
+        return buildShipmentOrderObject(shipmentOrderJpaEntity);
+    }
+
+    @Override
     public List<ShipmentOrder> getShipmentOrders() {
         List<ShipmentOrderJpaEntity> shipmentOrderJpaEntities = shipmentOrderJpaEntityRepository.findAll();
 
@@ -41,7 +47,8 @@ public class ShipmentOrderDBAdapter implements LoadOrCreateShipmentOrderPort, Up
                 jpaEntity.getActualArrivalDate(),
                 jpaEntity.getActualDepartureDate(),
                 jpaEntity.getShipmentStatus(),
-                new ShipmentOrder.ShipmentOrderUUID(jpaEntity.getShipmentOrderUUID())
+                new ShipmentOrder.ShipmentOrderUUID(jpaEntity.getShipmentOrderUUID()),
+                jpaEntity.getVesselNumber()
         );
     }
 
@@ -58,7 +65,8 @@ public class ShipmentOrderDBAdapter implements LoadOrCreateShipmentOrderPort, Up
                 shipmentOrder.getEstimatedDepartureDate(),
                 shipmentOrder.getActualArrivalDate(),
                 shipmentOrder.getActualDepartureDate(),
-                shipmentOrder.getShipmentStatus()
+                shipmentOrder.getShipmentStatus(),
+                shipmentOrder.getVesselNumber()
         );
     }
 }

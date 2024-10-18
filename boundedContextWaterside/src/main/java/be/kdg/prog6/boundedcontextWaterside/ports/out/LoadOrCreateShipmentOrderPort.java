@@ -8,5 +8,6 @@ import java.util.Optional;
 public interface LoadOrCreateShipmentOrderPort {
 
     ShipmentOrder loadOrCreateShipmentOrder(ShipmentOrder.ShipmentOrderUUID shipmentOrderUUID);
+    ShipmentOrder loadShipmentOrderByVesselNumber(String vesselNumber);
     List<ShipmentOrder> getShipmentOrders();
 }

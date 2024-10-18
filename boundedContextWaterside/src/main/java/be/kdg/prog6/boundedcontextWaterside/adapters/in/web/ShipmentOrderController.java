@@ -39,24 +39,24 @@ public class ShipmentOrderController {
                 (new MatchShipmentOrderWithPurchaseOrderCommand(shipmentOrderUUID));
     }
 
-    @PostMapping("load-ship/shipment-order/{shipmentOrderUUID}")
-    public void loadShip(@PathVariable UUID shipmentOrderUUID) {
-        loadMaterialUseCase.loadMaterial(new LoadMaterialCommand(new ShipmentOrder.ShipmentOrderUUID(shipmentOrderUUID)));
+    @PostMapping("load-ship/shipment-order/{vesselNumber}")
+    public void loadShip(@PathVariable String vesselNumber) {
+        loadMaterialUseCase.loadMaterial(new LoadMaterialCommand(vesselNumber));
     }
 
-    @PostMapping("inspect/shipment-order/{shipmentOrderUUID}")
-    public ResponseEntity<ShipmentOrder> inspect(@PathVariable UUID shipmentOrderUUID) {
+    @PostMapping("inspect/shipment-order/{vesselNumber}")
+    public ResponseEntity<ShipmentOrder> inspect(@PathVariable String vesselNumber) {
 
-        ShipmentOrder shipmentOrder = inspectShipUseCase.inspect(new
-                InspectShipCommand(new ShipmentOrder.ShipmentOrderUUID(shipmentOrderUUID)));
+        ShipmentOrder shipmentOrder = inspectShipUseCase.inspect(new InspectShipCommand(vesselNumber));
+
         return ResponseEntity.ok(shipmentOrder);
     }
 
-    @PostMapping("refuel/shipment-order/{shipmentOrderUUID}")
-    public ResponseEntity<ShipmentOrder> refuel(@PathVariable UUID shipmentOrderUUID) {
+    @PostMapping("refuel/shipment-order/{vesselNumber}")
+    public ResponseEntity<ShipmentOrder> refuel(@PathVariable String vesselNumber) {
 
         ShipmentOrder shipmentOrder = refuelShipUseCase.refuelShip(new RefuelShipCommand
-                (new ShipmentOrder.ShipmentOrderUUID(shipmentOrderUUID)));
+                (vesselNumber));
         return ResponseEntity.ok(shipmentOrder);
     }
 
@@ -98,8 +98,9 @@ public class ShipmentOrderController {
     private ShipmentOrderDto buildShipmentOrderDto(ShipmentOrder shipmentOrder) {
 
         return new ShipmentOrderDto(
-                shipmentOrder.getShipmentOrderUUID().uuid(),
-                shipmentOrder.getShipmentStatus()
+                shipmentOrder.getVesselNumber(),
+                shipmentOrder.getShipmentStatus(),
+                shipmentOrder.getActualArrivalDate()
         );
     }
 
