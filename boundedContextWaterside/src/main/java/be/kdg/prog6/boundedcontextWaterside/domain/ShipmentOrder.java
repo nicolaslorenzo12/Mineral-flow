@@ -15,24 +15,27 @@ public class ShipmentOrder {
     private LocalDate actualDepartureDate;
     private ShipmentStatus shipmentStatus;
     private final ShipmentOrderUUID shipmentOrderUUID;
+    private final String poNumber;
     public record ShipmentOrderUUID(UUID uuid){
 
     }
 
-    public ShipmentOrder(ShipmentOrderUUID shipmentOrderUUID, LocalDate estimatedArrivalDate, LocalDate estimatedDepartureDate) {
+    public ShipmentOrder(ShipmentOrderUUID shipmentOrderUUID, LocalDate estimatedArrivalDate, LocalDate estimatedDepartureDate, String poNumber) {
         this.shipmentOrderUUID = shipmentOrderUUID;
         this.estimatedArrivalDate = estimatedArrivalDate;
         this.estimatedDepartureDate = estimatedDepartureDate;
+        this.poNumber = poNumber;
     }
 
     public ShipmentOrder(LocalDate estimatedArrivalDate, LocalDate estimatedDepartureDate, LocalDate actualArrivalDate,
-                         LocalDate actualDepartureDate, ShipmentStatus shipmentStatus, ShipmentOrderUUID shipmentOrderUUID) {
+                         LocalDate actualDepartureDate, ShipmentStatus shipmentStatus, ShipmentOrderUUID shipmentOrderUUID, String poNumber) {
         this.estimatedArrivalDate = estimatedArrivalDate;
         this.estimatedDepartureDate = estimatedDepartureDate;
         this.actualArrivalDate = actualArrivalDate;
         this.actualDepartureDate = actualDepartureDate;
         this.shipmentStatus = shipmentStatus;
         this.shipmentOrderUUID = shipmentOrderUUID;
+        this.poNumber = poNumber;
     }
 
     public void setShipmentStatus(ShipmentStatus shipmentStatus) {
@@ -80,5 +83,9 @@ public class ShipmentOrder {
         }
 
         this.setShipmentStatus(shipmentStatus);
+    }
+
+    public String getPoNumber() {
+        return poNumber;
     }
 }

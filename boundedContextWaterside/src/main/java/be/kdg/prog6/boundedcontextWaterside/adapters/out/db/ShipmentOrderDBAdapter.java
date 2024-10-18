@@ -41,7 +41,8 @@ public class ShipmentOrderDBAdapter implements LoadOrCreateShipmentOrderPort, Up
                 jpaEntity.getActualArrivalDate(),
                 jpaEntity.getActualDepartureDate(),
                 jpaEntity.getShipmentStatus(),
-                new ShipmentOrder.ShipmentOrderUUID(jpaEntity.getShipmentOrderUUID())
+                new ShipmentOrder.ShipmentOrderUUID(jpaEntity.getShipmentOrderUUID()),
+                jpaEntity.getPoNumber()
         );
     }
 
@@ -58,7 +59,8 @@ public class ShipmentOrderDBAdapter implements LoadOrCreateShipmentOrderPort, Up
                 shipmentOrder.getEstimatedDepartureDate(),
                 shipmentOrder.getActualArrivalDate(),
                 shipmentOrder.getActualDepartureDate(),
-                shipmentOrder.getShipmentStatus()
+                shipmentOrder.getShipmentStatus(),
+                shipmentOrder.getPoNumber()
         );
     }
 }
