@@ -1,6 +1,7 @@
 package be.kdg.prog6.boundedcontextWaterside.adapters.in.web;
 
 import be.kdg.prog6.boundedcontextWaterside.domain.ShipmentOrder;
+import be.kdg.prog6.boundedcontextWaterside.domain.dto.ShipmentOrderDto;
 import be.kdg.prog6.boundedcontextWaterside.ports.in.*;
 import be.kdg.prog6.common.facades.MatchShipmentOrderWithPurchaseOrderCommand;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @RestController
 public class ShipmentOrderController {
@@ -60,31 +62,45 @@ public class ShipmentOrderController {
 
 
     @GetMapping("pos/finished")
-    public ResponseEntity<List<ShipmentOrder>> getFinishedPOS() {
+    public ResponseEntity<List<ShipmentOrderDto>> getFinishedPOS() {
 
         List<ShipmentOrder> shipmentOrders = getOutstandingPOSUseCase.getFinishedPOS();
-        return ResponseEntity.ok(shipmentOrders);
+        return ResponseEntity.ok(createShipmentOrderDtoList(shipmentOrders));
     }
 
     @GetMapping("ios/outstanding")
-    public ResponseEntity<List<ShipmentOrder>> getOutstandingIOS() {
+    public ResponseEntity<List<ShipmentOrderDto>> getOutstandingIOS() {
 
         List<ShipmentOrder> shipmentOrders = getOutstandingPOSUseCase.getOutstandingIOS();
-        return ResponseEntity.ok(shipmentOrders);
+        return ResponseEntity.ok(createShipmentOrderDtoList(shipmentOrders));
     }
 
     @GetMapping("bos/outstanding")
-    public ResponseEntity<List<ShipmentOrder>> getOutstandingBOS() {
+    public ResponseEntity<List<ShipmentOrderDto>> getOutstandingBOS() {
 
         List<ShipmentOrder> shipmentOrders = getOutstandingPOSUseCase.getOutstandingBOS();
-        return ResponseEntity.ok(shipmentOrders);
+        return ResponseEntity.ok(createShipmentOrderDtoList(shipmentOrders));
     }
 
     @GetMapping("to-load-pos/outstanding")
-    public ResponseEntity<List<ShipmentOrder>> getOutstandingToLoadPOS() {
+    public ResponseEntity<List<ShipmentOrderDto>> getOutstandingToLoadPOS() {
 
         List<ShipmentOrder> shipmentOrders = getOutstandingPOSUseCase.getToLoadPOS();
-        return ResponseEntity.ok(shipmentOrders);
+        return ResponseEntity.ok(createShipmentOrderDtoList(shipmentOrders));
+    }
+
+    private List<ShipmentOrderDto> createShipmentOrderDtoList(List<ShipmentOrder> shipmentOrders) {
+        return shipmentOrders.stream()
+                .map(this::buildShipmentOrderDto)
+                .collect(Collectors.toList());
+    }
+
+    private ShipmentOrderDto buildShipmentOrderDto(ShipmentOrder shipmentOrder) {
+
+        return new ShipmentOrderDto(
+                shipmentOrder.getShipmentOrderUUID().uuid(),
+                shipmentOrder.getShipmentStatus()
+        );
     }
 
 }
