@@ -1,10 +1,8 @@
 package be.kdg.prog6.boundedcontextWaterside.domain;
 
-import be.kdg.prog6.common.exception.CustomException;
 import org.springframework.http.HttpStatus;
 
 import java.time.LocalDate;
-import java.util.List;
 import java.util.UUID;
 
 public class ShipmentOrder {
@@ -83,7 +81,7 @@ public class ShipmentOrder {
         int currentStatusCode = this.shipmentStatus.getCode();
 
         if (shipmentStatus.getCode() - currentStatusCode != 1) {
-            throw new CustomException(HttpStatus.CONFLICT, "The ship's status transitions must follow the correct order. Please ensure all necessary processes have been completed before moving to the next status.");
+            throw new IllegalArgumentException("The ship's status transitions must follow the correct order. Please ensure all necessary processes have been completed before moving to the next status.");
         }
 
         this.setShipmentStatus(shipmentStatus);

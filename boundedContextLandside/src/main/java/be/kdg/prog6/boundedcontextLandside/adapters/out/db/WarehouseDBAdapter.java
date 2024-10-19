@@ -6,9 +6,6 @@ import be.kdg.prog6.boundedcontextLandside.ports.out.LoadOrCreateWarehousePort;
 import be.kdg.prog6.boundedcontextLandside.ports.out.UpdateWarehousePort;
 import be.kdg.prog6.common.domain.MaterialType;
 import be.kdg.prog6.common.domain.Seller;
-import be.kdg.prog6.common.domain.WarehouseAction;
-import be.kdg.prog6.common.exception.CustomException;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;

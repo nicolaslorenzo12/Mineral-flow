@@ -2,12 +2,12 @@ package be.kdg.prog6.boundedcontextLandside.domain;
 
 import be.kdg.prog6.common.domain.Material;
 import be.kdg.prog6.common.domain.Seller;
-import be.kdg.prog6.common.exception.CustomException;
 import org.springframework.http.HttpStatus;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -32,7 +32,7 @@ public class DailyCalendar {
 
     public void checkIfThereAreMoreThan40AppointmentsAndIfYesThrowException(List<Appointment> appointmentsAtCertainHour){
         if(appointmentsAtCertainHour.size() == 40){
-            throw new CustomException(HttpStatus.CONFLICT, "The limit of 40 appointments per hour has been reached");
+            throw new IllegalArgumentException("The limit of 40 appointments per hour has been reached");
         }
     }
 
@@ -46,15 +46,14 @@ public class DailyCalendar {
 
     public Appointment findAppointmentByAppointmentUUID(Appointment.AppointmentUUID appointmentUUID){
         return this.getAppointments().stream().filter(appointment -> appointment.getAppointmentUUID().equals(appointmentUUID))
-                .findFirst().orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND, "Appointment was not found"));
+                .findFirst().orElseThrow(() -> new NoSuchElementException("Appointment was not found"));
     }
 
     public Appointment findAppointmentByLicensePlateNumberAndTimeAndDay(String licensePlateNumber,LocalDateTime roundedTime){
 
         return appointments.stream().filter(appointment -> appointment.getLicensePlateNumberOfTruck().equals(licensePlateNumber)
         && appointment.getAppointmentTime().equals(roundedTime)
-        && appointment.getDay().equals(day)).findFirst().orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND,
-                "Appointment was not found"));
+        && appointment.getDay().equals(day)).findFirst().orElseThrow(() -> new NoSuchElementException("Appointment was not found"));
     }
 
 

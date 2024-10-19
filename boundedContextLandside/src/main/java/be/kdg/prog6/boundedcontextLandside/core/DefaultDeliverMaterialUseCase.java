@@ -1,6 +1,5 @@
 package be.kdg.prog6.boundedcontextLandside.core;
 
-import be.kdg.prog6.boundedcontextLandside.adapters.out.db.AppointmentJpaEntity;
 import be.kdg.prog6.boundedcontextLandside.domain.*;
 import be.kdg.prog6.boundedcontextLandside.domain.dto.LoadedMaterialDto;
 import be.kdg.prog6.boundedcontextLandside.ports.in.DeliverMaterialCommand;
@@ -9,18 +8,15 @@ import be.kdg.prog6.boundedcontextLandside.ports.out.LoadOrCreateDailyCalendarPo
 import be.kdg.prog6.boundedcontextLandside.ports.out.LoadOrCreateWarehousePort;
 import be.kdg.prog6.boundedcontextLandside.ports.out.UpdateDailyCalendarPort;
 import be.kdg.prog6.boundedcontextLandside.ports.out.UpdateWarehousePort;
-import be.kdg.prog6.common.domain.Customer;
 import be.kdg.prog6.common.domain.MaterialType;
 import be.kdg.prog6.common.domain.Seller;
-import be.kdg.prog6.common.exception.CustomException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+import java.util.NoSuchElementException;
 
 @Service
 public class DefaultDeliverMaterialUseCase implements DeliverMaterialUseCase {
@@ -54,6 +50,6 @@ public class DefaultDeliverMaterialUseCase implements DeliverMaterialUseCase {
 
     private Warehouse findWarehouseBySellerUUIDAndMaterialType(Seller.CustomerUUID sellerUUID, MaterialType materialType){
         return loadOrCreateWarehousePort.loadWarehouseBySellerUUIDAndMaterialType(sellerUUID.uuid(), materialType)
-                .orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND, "Warehouse was not found"));
+                .orElseThrow(() -> new NoSuchElementException("Warehouse not found"));
     }
 }

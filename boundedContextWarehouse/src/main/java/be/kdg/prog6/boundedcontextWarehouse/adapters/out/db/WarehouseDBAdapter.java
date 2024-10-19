@@ -5,7 +5,6 @@ import be.kdg.prog6.boundedcontextWarehouse.ports.out.LoadWarehousePort;
 import be.kdg.prog6.boundedcontextWarehouse.ports.out.UpdateWarehousePort;
 import be.kdg.prog6.common.domain.MaterialType;
 import be.kdg.prog6.common.domain.Seller;
-import be.kdg.prog6.common.exception.CustomException;
 import jakarta.transaction.Transactional;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
@@ -88,17 +87,16 @@ public class WarehouseDBAdapter implements LoadWarehousePort, UpdateWarehousePor
     @Transactional
     public void updateWarehouse(UpdateWarehouseAction updateWarehouseAction, Warehouse warehouse, WarehouseActivity warehouseActivity, UUID appointmentUUID) {
 
+        Optional<WarehouseJpaEntity> warehouseJpaEntity = warehouseRepository.findByWarehouseNumber(warehouse.getWareHouseNumber());
 
-        WarehouseJpaEntity warehouseJpaEntity = warehouseRepository.findByWarehouseNumber(warehouse.getWareHouseNumber())
-                .orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND, "Warehouse not found"));
+        if(warehouseJpaEntity.isPresent()){
 
-        List<StorageJpaEntity> pdtJpaEntities = buildJpaEntityObjects(warehouse);
-        //warehouseJpaEntity.getPdtJpaEntityList().clear();
-        //warehouseJpaEntity.getPdtJpaEntityList().addAll(pdtJpaEntities);
-        warehouseJpaEntity.setStorageJpaEntityList(pdtJpaEntities);
-        addActivityJpaEntityToWarehouseJpaEntityObject(warehouseJpaEntity, updateWarehouseAction, warehouseActivity);
+            List<StorageJpaEntity> pdtJpaEntities = buildJpaEntityObjects(warehouse);
+            warehouseJpaEntity.get().setStorageJpaEntityList(pdtJpaEntities);
+            addActivityJpaEntityToWarehouseJpaEntityObject(warehouseJpaEntity.get(), updateWarehouseAction, warehouseActivity);
 
-        warehouseRepository.save(warehouseJpaEntity);
+            warehouseRepository.save(warehouseJpaEntity.get());
+        }
     }
 
     public void addActivityJpaEntityToWarehouseJpaEntityObject(WarehouseJpaEntity warehouseJpaEntity, UpdateWarehouseAction updateWarehouseAction,

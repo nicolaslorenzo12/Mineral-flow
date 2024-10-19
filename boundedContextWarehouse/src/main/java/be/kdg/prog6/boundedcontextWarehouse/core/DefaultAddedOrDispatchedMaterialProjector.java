@@ -4,17 +4,12 @@ import be.kdg.prog6.boundedcontextWarehouse.domain.*;
 import be.kdg.prog6.boundedcontextWarehouse.ports.in.AddedOrDispatchedMaterialProjector;
 import be.kdg.prog6.boundedcontextWarehouse.ports.out.*;
 import be.kdg.prog6.common.domain.*;
-import be.kdg.prog6.common.exception.CustomException;
-import be.kdg.prog6.common.facades.CommissionFeeToCalculateCommand;
 import jakarta.transaction.Transactional;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class DefaultAddedOrDispatchedMaterialProjector implements AddedOrDispatchedMaterialProjector {
@@ -52,8 +47,8 @@ public class DefaultAddedOrDispatchedMaterialProjector implements AddedOrDispatc
     }
 
     private void setAmountOfTonsDeliveredToPdt(Warehouse warehouse, UUID pdtUUID, int amountOfTondsDelivered){
-            Optional<Pdt> pdt = Optional.of(warehouse.getPdtList().stream().filter(pdt1 -> pdt1.getPdtUUID().uuid().equals(pdtUUID)).findFirst().orElseThrow());
-            pdt.get().setAmountOfTonsDelivered(amountOfTondsDelivered);
+            Pdt pdt = warehouse.getPdtList().stream().filter(pdt1 -> pdt1.getPdtUUID().uuid().equals(pdtUUID)).findFirst().orElseThrow();
+            pdt.setAmountOfTonsDelivered(amountOfTondsDelivered);
     }
 
     @Override
@@ -75,8 +70,7 @@ public class DefaultAddedOrDispatchedMaterialProjector implements AddedOrDispatc
     }
 
     private void processOrderLine(Seller.CustomerUUID sellerUUID, OrderLine orderLine) {
-        Warehouse warehouse = loadWarehousePort.loadWarehouseBySellerUUIDAndMaterialType(sellerUUID, orderLine.getMaterialType())
-                .orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND, "Warehouse was not found"));
+        Warehouse warehouse = findWarehouseBySellerUUIDAndMaterialType(sellerUUID, orderLine.getMaterialType());
 
         warehouse.removeTonsFromOldestPdts(orderLine.getQuantity());
 
@@ -85,9 +79,13 @@ public class DefaultAddedOrDispatchedMaterialProjector implements AddedOrDispatc
                 UUID.randomUUID()));
     }
 
-
     private Warehouse findWarehouseByWarehouseNumber(int warehouseNumber) {
         return loadWarehousePort.loadWarehouseByWarehouseNumber(warehouseNumber)
-                .orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND, "Warehouse not found"));
+                .orElseThrow(() -> new NoSuchElementException("Warehouse not found"));
+    }
+
+    private Warehouse findWarehouseBySellerUUIDAndMaterialType(Seller.CustomerUUID sellerUUID, MaterialType materialType) {
+        return loadWarehousePort.loadWarehouseBySellerUUIDAndMaterialType(sellerUUID, materialType)
+                .orElseThrow(() -> new NoSuchElementException("Warehouse not found"));
     }
 }

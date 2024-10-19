@@ -2,16 +2,12 @@ package be.kdg.prog6.boundedcontextLandside.core;
 
 import be.kdg.prog6.boundedcontextLandside.domain.Appointment;
 import be.kdg.prog6.boundedcontextLandside.domain.DailyCalendar;
-import be.kdg.prog6.boundedcontextLandside.domain.TruckStatus;
 import be.kdg.prog6.boundedcontextLandside.domain.Warehouse;
-import be.kdg.prog6.boundedcontextLandside.domain.dto.CreatedAppointmentDto;
 import be.kdg.prog6.boundedcontextLandside.ports.in.MakeAppointmentCommand;
 import be.kdg.prog6.boundedcontextLandside.ports.in.MakeAppointmentUseCase;
 import be.kdg.prog6.boundedcontextLandside.ports.out.*;
 import be.kdg.prog6.common.domain.Material;
-import be.kdg.prog6.common.domain.MaterialType;
 import be.kdg.prog6.common.domain.Seller;
-import be.kdg.prog6.common.exception.CustomException;
 import jakarta.transaction.Transactional;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -19,7 +15,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.UUID;
+import java.util.NoSuchElementException;
 
 @Service
 public class DefaultMakeAppointmentUseCase implements MakeAppointmentUseCase {
@@ -66,6 +62,7 @@ public class DefaultMakeAppointmentUseCase implements MakeAppointmentUseCase {
         return loadOrCreateWarehousePort.loadWarehouseBySellerUUIDAndMaterialType(
                 seller.getCustomerUUID().uuid(),
                 material.getMaterialType()
-        ).orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND, "Warehouse not found, it should be created in advance"));
+        ).orElseThrow(() -> new NoSuchElementException("Warehouse not found, it should be created in advance"));
     }
+
 }

@@ -1,7 +1,6 @@
 package be.kdg.prog6.boundedcontextLandside.domain;
 
 import be.kdg.prog6.common.domain.*;
-import be.kdg.prog6.common.exception.CustomException;
 import org.springframework.http.HttpStatus;
 
 public class Warehouse {
@@ -54,17 +53,8 @@ public class Warehouse {
         double currentStockPercentage = (double) this.currentStockStorage / this.maximumCapacity * 100;
 
         if(currentStockPercentage >= 80){
-            throw new CustomException(HttpStatus.CONFLICT, "Warehouse is at or above 80% capacity. Cannot schedule an appointment.");
+            throw new IllegalArgumentException("Warehouse is at or above 80% capacity. Cannot schedule an appointment.");
         }
-    }
-    public int modifyStock(final int amountOfTons, final WarehouseAction warehouseAction){
-
-        switch (warehouseAction){
-            case RECEIVE -> setCurrentStockStorage(this.currentStockStorage + amountOfTons);
-            case DISPATCH -> setCurrentStockStorage(this.currentStockStorage - amountOfTons);
-        }
-
-        return getCurrentStockStorage();
     }
 
 }

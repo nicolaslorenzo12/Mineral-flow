@@ -1,13 +1,13 @@
 package be.kdg.prog6.boundedcontextWarehouse.core;
 
 import be.kdg.prog6.boundedcontextWarehouse.domain.Warehouse;
-import be.kdg.prog6.boundedcontextWarehouse.domain.dto.WarehouseStockDto;
 import be.kdg.prog6.boundedcontextWarehouse.ports.in.GetCurrentStockOfAWarehouseCommand;
 import be.kdg.prog6.boundedcontextWarehouse.ports.in.GetCurrentStockOfAWarehouseUseCase;
 import be.kdg.prog6.boundedcontextWarehouse.ports.out.LoadWarehousePort;
-import be.kdg.prog6.common.exception.CustomException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+
+import java.util.NoSuchElementException;
 
 @Service
 public class DefaultGetCurrentStockOfAWarehouseUseCase implements GetCurrentStockOfAWarehouseUseCase {
@@ -27,6 +27,6 @@ public class DefaultGetCurrentStockOfAWarehouseUseCase implements GetCurrentStoc
 
     private Warehouse findWarehouse(int warehouseNumber) {
         return loadWarehousePort.loadWarehouseByWarehouseNumber(warehouseNumber)
-                .orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND, "Warehouse not found"));
+                .orElseThrow(() -> new NoSuchElementException("Warehouse not found"));
     }
 }

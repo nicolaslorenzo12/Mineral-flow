@@ -5,11 +5,11 @@ import be.kdg.prog6.boundedcontextLandside.ports.in.GetSellerByUUIDCommand;
 import be.kdg.prog6.boundedcontextLandside.ports.in.GetSellerUseCase;
 import be.kdg.prog6.boundedcontextLandside.ports.out.LoadSellerPort;
 import be.kdg.prog6.common.domain.Seller;
-import be.kdg.prog6.common.exception.CustomException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service("landsideDefaultGetSellerUseCase")
 public class DefaultGetSellerUseCase implements GetSellerUseCase {
@@ -23,13 +23,13 @@ public class DefaultGetSellerUseCase implements GetSellerUseCase {
     @Override
     public Seller getSellerBySellerUUID(GetSellerByUUIDCommand getSellerCommand) {
         return loadSellerPort.loadSellerByUUID(getSellerCommand.sellerUUID().uuid())
-                .orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND, "Seller not found"));
+                .orElseThrow(() -> new NoSuchElementException("Seller not found"));
     }
 
     @Override
     public Seller getSellerByName(GetSellerByNameCommand getSellerCommand) {
         return loadSellerPort.loadSellerByName(getSellerCommand.name())
-                .orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND, "Seller not found"));
+                .orElseThrow(() -> new NoSuchElementException("Seller not found"));
     }
 
     @Override

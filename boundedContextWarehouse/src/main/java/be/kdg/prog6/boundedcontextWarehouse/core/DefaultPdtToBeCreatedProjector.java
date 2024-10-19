@@ -6,13 +6,13 @@ import be.kdg.prog6.boundedcontextWarehouse.domain.Warehouse;
 import be.kdg.prog6.boundedcontextWarehouse.ports.in.PdtToBeCreatedProjector;
 import be.kdg.prog6.boundedcontextWarehouse.ports.out.LoadWarehousePort;
 import be.kdg.prog6.boundedcontextWarehouse.ports.out.UpdateWarehousePort;
-import be.kdg.prog6.common.exception.CustomException;
 import jakarta.transaction.Transactional;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.UUID;
 
 @Service
@@ -30,7 +30,7 @@ public class DefaultPdtToBeCreatedProjector implements PdtToBeCreatedProjector {
     public void createPdt(int warehouseNumber, LocalDateTime timeOfDelivery, UUID appointmentUUID) {
 
         Warehouse warehouse = loadWarehousePort.loadWarehouseByWarehouseNumber(warehouseNumber)
-                .orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND, "Warehouse was not found"));
+                .orElseThrow(() -> new NoSuchElementException(("Warehouse not found exception")));
 
         warehouse.addPdt(new Pdt (warehouseNumber, timeOfDelivery, 0, new Pdt.PdtUUID(appointmentUUID), 0, false));
         updateWarehousePorts.forEach(updateWarehousePort -> updateWarehousePort.updateWarehouse(UpdateWarehouseAction.CREATE_PDT, warehouse,
