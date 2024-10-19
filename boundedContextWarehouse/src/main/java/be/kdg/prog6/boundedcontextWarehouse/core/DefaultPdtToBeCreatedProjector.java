@@ -7,7 +7,6 @@ import be.kdg.prog6.boundedcontextWarehouse.ports.in.PdtToBeCreatedProjector;
 import be.kdg.prog6.boundedcontextWarehouse.ports.out.LoadWarehousePort;
 import be.kdg.prog6.boundedcontextWarehouse.ports.out.UpdateWarehousePort;
 import jakarta.transaction.Transactional;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;

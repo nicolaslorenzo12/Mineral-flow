@@ -5,7 +5,6 @@ import be.kdg.prog6.boundedcontextWarehouse.ports.in.AddedOrDispatchedMaterialPr
 import be.kdg.prog6.boundedcontextWarehouse.ports.out.*;
 import be.kdg.prog6.common.domain.*;
 import jakarta.transaction.Transactional;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;

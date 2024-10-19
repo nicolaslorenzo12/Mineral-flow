@@ -6,7 +6,6 @@ import be.kdg.prog6.boundedcontextLandside.ports.in.WarehouseStockChangeProjecto
 import be.kdg.prog6.boundedcontextLandside.ports.out.UpdateWarehousePort;
 import be.kdg.prog6.common.domain.MaterialType;
 import be.kdg.prog6.common.domain.Seller;
-import be.kdg.prog6.common.domain.WarehouseAction;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -16,6 +15,7 @@ import java.util.UUID;
 @Service
 public class DefaultWarehouseStockChangeProjector implements WarehouseStockChangeProjector {
     private final List<UpdateWarehousePort> updateWarehousePorts;
+
     public DefaultWarehouseStockChangeProjector(List<UpdateWarehousePort> updateWarehousePorts) {
         this.updateWarehousePorts = updateWarehousePorts;
     }

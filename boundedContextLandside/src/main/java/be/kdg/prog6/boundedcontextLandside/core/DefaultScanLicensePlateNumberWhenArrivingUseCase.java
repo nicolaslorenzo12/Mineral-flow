@@ -3,7 +3,6 @@ package be.kdg.prog6.boundedcontextLandside.core;
 import be.kdg.prog6.boundedcontextLandside.domain.Appointment;
 import be.kdg.prog6.boundedcontextLandside.domain.DailyCalendar;
 import be.kdg.prog6.boundedcontextLandside.domain.TruckStatus;
-import be.kdg.prog6.boundedcontextLandside.domain.dto.TruckDto;
 import be.kdg.prog6.boundedcontextLandside.ports.in.ScanLicensePlateNumberWhenArrivingCommand;
 import be.kdg.prog6.boundedcontextLandside.ports.in.ScanLicensePlateNumberWhenArrivingUseCase;
 import be.kdg.prog6.boundedcontextLandside.ports.out.LoadOrCreateDailyCalendarPort;

@@ -10,7 +10,6 @@ import be.kdg.prog6.boundedcontextLandside.ports.out.UpdateDailyCalendarPort;
 import be.kdg.prog6.boundedcontextLandside.ports.out.UpdateWarehousePort;
 import be.kdg.prog6.common.domain.MaterialType;
 import be.kdg.prog6.common.domain.Seller;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;

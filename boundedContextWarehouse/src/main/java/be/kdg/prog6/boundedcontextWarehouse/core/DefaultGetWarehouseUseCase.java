@@ -4,7 +4,6 @@ import be.kdg.prog6.boundedcontextWarehouse.domain.Warehouse;
 import be.kdg.prog6.boundedcontextWarehouse.ports.in.GetWarehouseCommand;
 import be.kdg.prog6.boundedcontextWarehouse.ports.in.GetWarehouseUseCase;
 import be.kdg.prog6.boundedcontextWarehouse.ports.out.LoadWarehousePort;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.NoSuchElementException;

@@ -19,16 +19,12 @@ import java.util.NoSuchElementException;
 
 @Service
 public class DefaultMakeAppointmentUseCase implements MakeAppointmentUseCase {
-    private final LoadSellerPort loadSellerPort;
-    private final LoadMaterialPort loadMaterialPort;
+
     private final LoadOrCreateWarehousePort loadOrCreateWarehousePort;
     private final LoadOrCreateDailyCalendarPort loadDailyCalendarPort;
     private final List<UpdateDailyCalendarPort> updateDailyCalendarPorts;
 
-    public DefaultMakeAppointmentUseCase(LoadSellerPort loadSellerPort, LoadMaterialPort loadMaterialPort,
-                                         LoadOrCreateWarehousePort loadOrCreateWarehousePort, LoadOrCreateDailyCalendarPort loadDailyCalendarPort, List<UpdateDailyCalendarPort> updateDailyCalendarPorts) {
-        this.loadSellerPort = loadSellerPort;
-        this.loadMaterialPort = loadMaterialPort;
+    public DefaultMakeAppointmentUseCase(LoadOrCreateWarehousePort loadOrCreateWarehousePort, LoadOrCreateDailyCalendarPort loadDailyCalendarPort, List<UpdateDailyCalendarPort> updateDailyCalendarPorts) {
         this.loadOrCreateWarehousePort = loadOrCreateWarehousePort;
         this.loadDailyCalendarPort = loadDailyCalendarPort;
         this.updateDailyCalendarPorts = updateDailyCalendarPorts;
