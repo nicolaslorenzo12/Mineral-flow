@@ -6,21 +6,16 @@ import java.time.LocalDateTime;
 
 public class LoadedMaterialDto {
 
-    private final Appointment.AppointmentUUID appointmentUUID;
     private final String licensePlateNumber;
     private final LocalDateTime timeOfDelivery;
     private final int warehouseNumber;
 
-    public LoadedMaterialDto(Appointment.AppointmentUUID appointmentUUID, String licensePlateNumber, LocalDateTime timeOfDelivery, int warehouseNumber) {
-        this.appointmentUUID = appointmentUUID;
+    public LoadedMaterialDto(String licensePlateNumber, LocalDateTime timeOfDelivery, int warehouseNumber) {
         this.licensePlateNumber = licensePlateNumber;
         this.timeOfDelivery = timeOfDelivery;
         this.warehouseNumber = warehouseNumber;
     }
 
-    public Appointment.AppointmentUUID getAppointmentUUID() {
-        return appointmentUUID;
-    }
 
     public String getLicensePlateNumber() {
         return licensePlateNumber;

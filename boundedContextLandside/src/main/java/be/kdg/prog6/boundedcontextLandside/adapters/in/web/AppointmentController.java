@@ -60,7 +60,7 @@ public class AppointmentController {
 
     private Appointment createAppointment(Seller seller, Material material, String licensePlateNumber, LocalDateTime appointmentTime) {
 
-        return  makeAppointmentUseCase.makeAppointment(new MakeAppointmentCommand(seller, material, licensePlateNumber, appointmentTime));
+        return makeAppointmentUseCase.makeAppointment(new MakeAppointmentCommand(seller, material, licensePlateNumber, appointmentTime));
     }
 
     @PostMapping("appointment/truck/{licensePlateNumber}/check")

@@ -18,13 +18,11 @@ public class DefaultGetCurrentStockOfAWarehouseUseCase implements GetCurrentStoc
         this.loadWarehousePort = loadWarehousePort;
     }
     @Override
-    public WarehouseStockDto getCurrentStockOfAWarehouse(GetCurrentStockOfAWarehouseCommand getCurrentStockOfAWarehouseCommand) {
+    public Warehouse getCurrentStockOfAWarehouse(GetCurrentStockOfAWarehouseCommand getCurrentStockOfAWarehouseCommand) {
 
         final int warehouseNumber = getCurrentStockOfAWarehouseCommand.warehouseNumber();
-        final Warehouse warehouse = findWarehouse(warehouseNumber);
-        int currentStock = warehouse.calculateAndGetCurrentStock();
+        return findWarehouse(warehouseNumber);
 
-        return new WarehouseStockDto(warehouseNumber, currentStock);
     }
 
     private Warehouse findWarehouse(int warehouseNumber) {

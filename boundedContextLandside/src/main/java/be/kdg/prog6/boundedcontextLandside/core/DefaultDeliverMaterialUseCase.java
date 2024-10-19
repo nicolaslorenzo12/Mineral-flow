@@ -48,7 +48,7 @@ public class DefaultDeliverMaterialUseCase implements DeliverMaterialUseCase {
         updateWarehousePorts.forEach(updateWarehousePort -> updateWarehousePort.updateWarehouse(warehouse,
                 UpdateWarehouseAction.CREATE_PDT, appointment.getAppointmentUUID().uuid(), LocalDateTime.now()));
 
-        return new LoadedMaterialDto(appointment.getAppointmentUUID(), appointment.getLicensePlateNumberOfTruck(),
+        return new LoadedMaterialDto(appointment.getLicensePlateNumberOfTruck(),
                 LocalDateTime.now(), appointment.getWarehouseNumber());
     }
 

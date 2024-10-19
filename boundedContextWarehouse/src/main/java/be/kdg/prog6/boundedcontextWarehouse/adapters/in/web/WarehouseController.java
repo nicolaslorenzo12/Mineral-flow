@@ -36,8 +36,10 @@ public class WarehouseController {
     @GetMapping("current-stock/warehouse/{warehouseNumber}")
     public ResponseEntity<WarehouseStockDto> getCurrentStock(@PathVariable int warehouseNumber) {
 
-        WarehouseStockDto warehouseStockDto = getCurrentStockOfAWarehouseUseCase.
+        Warehouse warehouse = getCurrentStockOfAWarehouseUseCase.
                 getCurrentStockOfAWarehouse(new GetCurrentStockOfAWarehouseCommand(warehouseNumber));
+
+        WarehouseStockDto warehouseStockDto = new WarehouseStockDto(warehouseNumber, warehouse.calculateAndGetCurrentStock());
 
         return ResponseEntity.ok(warehouseStockDto);
     }
