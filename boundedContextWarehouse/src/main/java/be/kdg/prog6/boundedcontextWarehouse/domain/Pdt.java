@@ -64,4 +64,21 @@ public class Pdt {
     public void setAllTonsConsumed(boolean allTonsConsumed) {
         this.allTonsConsumed = allTonsConsumed;
     }
+
+    public int removeTonsFromPdt(int amountNeeded){
+
+        int balanceOfAmountOfTonsToDispatch;
+
+        if(amountNeeded < this.getAmountOfTonsDelivered()){
+            this.setAmountOfTonsConsumed(amountNeeded);
+            balanceOfAmountOfTonsToDispatch = 0;
+        }
+        else{
+            this.setAmountOfTonsConsumed(this.getAmountOfTonsDelivered());
+            this.setAllTonsConsumed(true);
+            balanceOfAmountOfTonsToDispatch = amountNeeded - this.getAmountOfTonsDelivered();
+        }
+
+        return balanceOfAmountOfTonsToDispatch;
+    }
 }

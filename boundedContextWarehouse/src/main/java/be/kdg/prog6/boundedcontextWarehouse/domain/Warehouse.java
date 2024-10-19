@@ -74,37 +74,27 @@ public class Warehouse {
         return warehouseActivityWindow;
     }
 
-    public Warehouse removeTonsFromOldestPdts(int amountOfTonsToDispatch){
+    public Warehouse removeTonsFromOldestPdts(int balanceOfAmountOfTonsToDispatch){
 
         List<Pdt> filteredAndSortedPdtList = pdtList.stream()
                 .filter(pdt -> !pdt.isAllTonsConsumed())
                 .sorted(Comparator.comparing(Pdt::getTimeOfDelivery))
                 .toList();
 
-        int x = 0;
+        int pdtIndexInFilteredAndSortedPdtList = 0;
 
-        while(amountOfTonsToDispatch > 0){
+        while(balanceOfAmountOfTonsToDispatch > 0){
 
-            Pdt pdt = filteredAndSortedPdtList.get(x);
+            Pdt pdt = filteredAndSortedPdtList.get(pdtIndexInFilteredAndSortedPdtList);
+            int amountNeeded = pdt.getAmountOfTonsConsumed() + balanceOfAmountOfTonsToDispatch;
+            balanceOfAmountOfTonsToDispatch = pdt.removeTonsFromPdt(amountNeeded);
 
-            int balance = pdt.getAmountOfTonsConsumed() + amountOfTonsToDispatch;
-
-            if(balance < pdt.getAmountOfTonsDelivered()){
-                //pdt.setAmountOfTonsDelivered(amountOfTonsToDispatch);
-                pdt.setAmountOfTonsConsumed(balance);
-                amountOfTonsToDispatch = 0;
-            }
-            else{
-                //pdt.setAmountOfTonsDelivered(0);
-                pdt.setAmountOfTonsConsumed(pdt.getAmountOfTonsDelivered());
-                pdt.setAllTonsConsumed(true);
-                amountOfTonsToDispatch = balance - pdt.getAmountOfTonsDelivered();
-            }
-            x++;
+            pdtIndexInFilteredAndSortedPdtList++;
         }
 
         return this;
     }
+
 
     public double getWarehousePercentageUtilization(){
          return (double) (calculateAndGetCurrentStock() * 100) / maximumCapacity;
