@@ -17,13 +17,15 @@ public class Accountant extends Customer {
 
     public static void calculateCommissionFee(List<OrderLine> orderLines, List<Material> materials) {
 
-        int commissionFee = 0;
+        double commissionFee = 0;
 
         for(OrderLine orderLine : orderLines) {
 
             int priceOfMaterial = findPriceOfMaterialByMaterialType(orderLine.getMaterialType(), materials);
             commissionFee += (orderLine.getQuantity() * priceOfMaterial);
         }
+
+        commissionFee = commissionFee * 0.01;
 
         System.out.println("The commission fee is " + commissionFee + "$");
     }
