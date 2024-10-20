@@ -66,20 +66,20 @@ public class WarehouseEventPublisher implements UpdateWarehousePort, UpdatePurch
     }
 
     @Override
-    public void sendDataForCommissionFeeCalculationInInvoice(UUID sellerUUID, List<OrderLine> orderLines, List<Material> materials) {
+    public void sendDataForCommissionFeeCalculationInInvoice(UUID sellerUUID, List<OrderLine> orderLines) {
 
         final String routingKey = "warehouse. " + sellerUUID.toString() + " .commission_fee";
         final String exchangeName = "warehouseExchange";
-        final CommissionFeeToCalculateCommand body = new CommissionFeeToCalculateCommand(sellerUUID, orderLines, materials);
+        final CommissionFeeToCalculateCommand body = new CommissionFeeToCalculateCommand(sellerUUID, orderLines);
         rabbitTemplate.convertAndSend(exchangeName, routingKey, body);
     }
 
     @Override
-    public void sendAllPdtForBillingInInvoice(List<Pdt> allPdt, List<Material> materials) {
+    public void sendAllPdtForBillingInInvoice(List<Pdt> allPdt) {
 
         final String routingKey = "warehouse. " + allPdt.size() + " .pdts_to_be_sent_for_invoice";
         final String exchangeName = "warehouseExchange";
-        final AllPdtToSendForInvoiceCommand body = new AllPdtToSendForInvoiceCommand(allPdt, materials);
+        final AllPdtToSendForInvoiceCommand body = new AllPdtToSendForInvoiceCommand(allPdt);
         rabbitTemplate.convertAndSend(exchangeName, routingKey, body);
 
     }

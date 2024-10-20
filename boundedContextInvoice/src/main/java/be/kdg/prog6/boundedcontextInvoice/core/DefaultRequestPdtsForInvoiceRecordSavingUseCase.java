@@ -10,16 +10,16 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-public class DefaultRequestPdtsForInvoiceCalculationUseCase {
+public class DefaultRequestPdtsForInvoiceRecordSavingUseCase {
 
     private final List<UpdateInvoiceRecordPort> updateInvoicePorts;
 
-    public DefaultRequestPdtsForInvoiceCalculationUseCase(List<UpdateInvoiceRecordPort> updateInvoicePorts) {
+    public DefaultRequestPdtsForInvoiceRecordSavingUseCase(List<UpdateInvoiceRecordPort> updateInvoicePorts) {
         this.updateInvoicePorts = updateInvoicePorts;
     }
 
     //@Scheduled(cron = "0 0 9 * * ?")
-    @Scheduled(cron = "0 58 19 * * ?")
+    @Scheduled(cron = "0 40 20 * * ?")
     public void requestPdtForInvoiceCalculation() {
 
         updateInvoicePorts.forEach(updateInvoiceRecordPort -> updateInvoiceRecordPort.updateInvoiceRecord

@@ -3,8 +3,8 @@ package be.kdg.prog6.boundedcontextInvoice.core;
 import be.kdg.prog6.boundedcontextInvoice.domain.InvoiceAction;
 import be.kdg.prog6.boundedcontextInvoice.domain.InvoiceRecord;
 import be.kdg.prog6.boundedcontextInvoice.domain.Warehouse;
-import be.kdg.prog6.boundedcontextInvoice.ports.in.CalculateAndSaveInvoiceRecordsCommand;
-import be.kdg.prog6.boundedcontextInvoice.ports.in.CalculateAndSaveInvoiceRecordsUseCase;
+import be.kdg.prog6.boundedcontextInvoice.ports.in.SaveInvoiceRecordsCommand;
+import be.kdg.prog6.boundedcontextInvoice.ports.in.SaveInvoiceRecordsUseCase;
 import be.kdg.prog6.boundedcontextInvoice.ports.out.LoadSellerPort;
 import be.kdg.prog6.boundedcontextInvoice.ports.out.LoadWarehousePort;
 import be.kdg.prog6.boundedcontextInvoice.ports.out.UpdateInvoiceRecordPort;
@@ -17,7 +17,7 @@ import java.util.NoSuchElementException;
 import java.util.UUID;
 
 @Service
-public class DefaultSaveInvoiceRecordsUseCase implements CalculateAndSaveInvoiceRecordsUseCase {
+public class DefaultSaveInvoiceRecordsUseCase implements SaveInvoiceRecordsUseCase {
 
     private final List<UpdateInvoiceRecordPort> updateInvoicePorts;
     private final LoadSellerPort loadSellerPort;
@@ -31,7 +31,7 @@ public class DefaultSaveInvoiceRecordsUseCase implements CalculateAndSaveInvoice
 
 
     @Override
-    public void saveInvoiceRecords(CalculateAndSaveInvoiceRecordsCommand calculateAndSaveInvoiceRecordsCommand) {
+    public void saveInvoiceRecords(SaveInvoiceRecordsCommand calculateAndSaveInvoiceRecordsCommand) {
 
         List<Pdt> allPdt = calculateAndSaveInvoiceRecordsCommand.allPdt();
 

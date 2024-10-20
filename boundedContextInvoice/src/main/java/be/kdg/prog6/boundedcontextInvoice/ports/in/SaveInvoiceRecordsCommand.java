@@ -5,5 +5,5 @@ import be.kdg.prog6.common.domain.Pdt;
 
 import java.util.List;
 
-public record CalculateAndSaveInvoiceRecordsCommand(List<Pdt> allPdt, List<Material> materials) {
+public record SaveInvoiceRecordsCommand(List<Pdt> allPdt) {
 }

@@ -9,6 +9,6 @@ import java.util.UUID;
 
 public interface UpdateInvoicePort {
 
-    void sendDataForCommissionFeeCalculationInInvoice(UUID sellerUUID, List<OrderLine> orderLines, List<Material> materials);
-    void sendAllPdtForBillingInInvoice(List<Pdt> allPdt, List<Material> materials);
+    void sendDataForCommissionFeeCalculationInInvoice(UUID sellerUUID, List<OrderLine> orderLines);
+    void sendAllPdtForBillingInInvoice(List<Pdt> allPdt);
 }

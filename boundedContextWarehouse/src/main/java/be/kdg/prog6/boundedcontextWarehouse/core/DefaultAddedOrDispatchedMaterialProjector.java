@@ -64,7 +64,7 @@ public class DefaultAddedOrDispatchedMaterialProjector implements AddedOrDispatc
         }
 
         updatePurchaseOrderPort.materialLoaded(shipmentOrderUUID, LocalDate.now());
-        updateInvoicePort.sendDataForCommissionFeeCalculationInInvoice(purchaseOrder.getSellerUuid().uuid(), purchaseOrder.getOrderLineList(), materials);
+        updateInvoicePort.sendDataForCommissionFeeCalculationInInvoice(purchaseOrder.getSellerUuid().uuid(), purchaseOrder.getOrderLineList());
     }
 
     private void processOrderLine(Seller.CustomerUUID sellerUUID, OrderLine orderLine) {

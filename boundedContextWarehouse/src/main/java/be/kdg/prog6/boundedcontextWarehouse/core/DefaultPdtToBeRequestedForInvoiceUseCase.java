@@ -32,11 +32,10 @@ public class DefaultPdtToBeRequestedForInvoiceUseCase implements PdtToBeRequeste
 
         List<Warehouse> allWarehouses = loadWarehousePort.loadAllWarehouses();
         List<Pdt> allPdt = new ArrayList<>();
-        List<Material> materials = loadMaterialPort.loadAllMaterials();
 
         allWarehouses.forEach(warehouse -> allPdt.addAll(warehouse.getPdtList()));
 
-        updateInvoicePort.sendAllPdtForBillingInInvoice(allPdt, materials);
+        updateInvoicePort.sendAllPdtForBillingInInvoice(allPdt);
 
     }
 
