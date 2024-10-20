@@ -45,6 +45,12 @@ public class RabbitMQTopology {
     Queue commissionFeeQueue(){return new Queue("warehouse.commission_fee", false);}
 
     @Bean
+    Queue requestPdtsForInvoiceQueue(){return new Queue("request.pdts_for_invoice", false);}
+
+    @Bean
+    Queue pdtsToBeSentForInvoiceQueue(){return new Queue("pdts_to_be_sent_for_invoice", false);}
+
+    @Bean
     TopicExchange warehouseExchange() {
         return new TopicExchange("warehouseExchange");
     }
@@ -54,6 +60,8 @@ public class RabbitMQTopology {
     }
     @Bean
     TopicExchange watersideExchange() { return new TopicExchange("watersideExchange");}
+    @Bean
+    TopicExchange invoiceExchange() {return new TopicExchange("invoiceExchange");}
 
     @Bean
     Binding bindWarehouseExchangeToActivityCreatedQueue(
@@ -142,6 +150,30 @@ public class RabbitMQTopology {
                 .bind(commissionFeeQueue)
                 .to(warehouseExchange)
                 .with("warehouse.#.commission_fee");
+    }
+
+    @Bean
+    Binding bindInvoiceExchangeToPdtsToBeSentForInvoiceQueue(
+            Queue requestPdtsForInvoiceQueue,
+            TopicExchange invoiceExchange
+    ){
+        return BindingBuilder
+                .bind(requestPdtsForInvoiceQueue)
+                .to(invoiceExchange)
+                .with("invoice.#.request.pdts_for_invoice");
+    }
+
+
+
+    @Bean
+    Binding bindWarehouseExchangeToRequestPdtsForInvoiceQueue(
+            Queue pdtsToBeSentForInvoiceQueue,
+            TopicExchange warehouseExchange
+    ){
+        return BindingBuilder
+                .bind(pdtsToBeSentForInvoiceQueue)
+                .to(warehouseExchange)
+                .with("warehouse.#.pdts_to_be_sent_for_invoice");
     }
 
 

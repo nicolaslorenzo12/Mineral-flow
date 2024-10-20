@@ -3,7 +3,7 @@ package be.kdg.prog6.boundedcontextWaterside.core;
 import be.kdg.prog6.boundedcontextWaterside.domain.ShipmentOrder;
 import be.kdg.prog6.boundedcontextWaterside.domain.ShipmentStatus;
 import be.kdg.prog6.boundedcontextWaterside.ports.in.GetOutstandingOperationsUseCase;
-import be.kdg.prog6.boundedcontextWaterside.ports.out.LoadOrCreateShipmentOrderPort;
+import be.kdg.prog6.boundedcontextWaterside.ports.out.LoadShipmentOrderPort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,9 +11,9 @@ import java.util.List;
 @Service
 public class DefaultGetOutstandingOperationsUseCase implements GetOutstandingOperationsUseCase {
 
-    private final LoadOrCreateShipmentOrderPort loadOrCreateShipmentOrderPort;
+    private final LoadShipmentOrderPort loadOrCreateShipmentOrderPort;
 
-    public DefaultGetOutstandingOperationsUseCase(LoadOrCreateShipmentOrderPort loadOrCreateShipmentOrderPort) {
+    public DefaultGetOutstandingOperationsUseCase(LoadShipmentOrderPort loadOrCreateShipmentOrderPort) {
         this.loadOrCreateShipmentOrderPort = loadOrCreateShipmentOrderPort;
     }
 

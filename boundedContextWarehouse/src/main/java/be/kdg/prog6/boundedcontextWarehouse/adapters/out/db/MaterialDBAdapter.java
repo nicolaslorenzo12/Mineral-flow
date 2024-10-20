@@ -5,6 +5,9 @@ import be.kdg.prog6.common.domain.Material;
 import be.kdg.prog6.common.domain.MaterialType;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Component
 public class MaterialDBAdapter implements LoadMaterialPort {
 
@@ -19,6 +22,16 @@ public class MaterialDBAdapter implements LoadMaterialPort {
 
         MaterialJpaEntity materialJpaEntity = materialJpaEntityRepository.findByMaterialType(materialType);
         return buildMaterialObject(materialJpaEntity);
+    }
+
+    @Override
+    public List<Material> loadAllMaterials() {
+
+        List<MaterialJpaEntity> materialJpaEntities = materialJpaEntityRepository.findAll();
+
+        return materialJpaEntities.stream()
+                .map(this::buildMaterialObject)
+                .collect(Collectors.toList());
     }
 
     public Material buildMaterialObject(MaterialJpaEntity materialJpaEntity) {

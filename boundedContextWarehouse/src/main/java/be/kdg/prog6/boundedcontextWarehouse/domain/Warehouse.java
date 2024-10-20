@@ -10,7 +10,7 @@ public class Warehouse {
     private final int wareHouseNumber;
     private final Seller.CustomerUUID sellerUUID;
     private final MaterialType materialType;
-    private final Uom uom = Uom.T;
+    private final UnitOfMeasurement uom = UnitOfMeasurement.T;
     private final WarehouseActivityWindow warehouseActivityWindow;
     private List<Pdt> pdtList;
     private final int maximumCapacity = 500000;

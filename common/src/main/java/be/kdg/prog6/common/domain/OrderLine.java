@@ -7,7 +7,7 @@ public class OrderLine {
     private int lineNumber;
     private MaterialType materialType;
     private int quantity;
-    private Uom uom = Uom.T;
+    private UnitOfMeasurement uom = UnitOfMeasurement.T;
 
     private OrderLineUUID orderLineUUID;
 
@@ -43,7 +43,7 @@ public class OrderLine {
         return quantity;
     }
 
-    public Uom getUom() {
+    public UnitOfMeasurement getUom() {
         return uom;
     }
 }

@@ -4,16 +4,8 @@ import be.kdg.prog6.common.domain.*;
 
 import java.util.List;
 
-public class Accountant extends Customer {
+public class Accountant{
 
-
-    public Accountant(CustomerUUID customerUUID, String name, Address address) {
-        super(customerUUID, name, address);
-    }
-
-    public Accountant(CustomerUUID customerUUID, String name) {
-        super(customerUUID, name);
-    }
 
     public static void calculateCommissionFee(List<OrderLine> orderLines, List<Material> materials) {
 
@@ -33,19 +25,19 @@ public class Accountant extends Customer {
     private static int findPriceOfMaterialByMaterialType(MaterialType materialType, List<Material> materials) {
 
         boolean materialNotFound = true;
-        int x = 0;
+        int indexInMaterialsList = 0;
         int priceOfMaterial = 0;
 
-        while(materialNotFound && x < materials.size()) {
+        while(materialNotFound && indexInMaterialsList < materials.size()) {
 
-            Material material = materials.get(x);
+            Material material = materials.get(indexInMaterialsList);
 
             if(material.getMaterialType().equals(materialType)){
                 priceOfMaterial = material.getPricePerTon();
                 materialNotFound = false;
             }
 
-            x++;
+            indexInMaterialsList++;
         }
 
         return priceOfMaterial;

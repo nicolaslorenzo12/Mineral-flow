@@ -4,9 +4,9 @@ import be.kdg.prog6.boundedcontextWarehouse.domain.*;
 import be.kdg.prog6.boundedcontextWarehouse.ports.out.LoadWarehousePort;
 import be.kdg.prog6.boundedcontextWarehouse.ports.out.UpdateWarehousePort;
 import be.kdg.prog6.common.domain.MaterialType;
+import be.kdg.prog6.common.domain.Pdt;
 import be.kdg.prog6.common.domain.Seller;
 import jakarta.transaction.Transactional;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -44,8 +44,7 @@ public class WarehouseDBAdapter implements LoadWarehousePort, UpdateWarehousePor
     @Override
     public List<Warehouse> loadAllWarehouses() {
         return warehouseRepository.findAll().stream()
-                .map(this::returnWarehouseWithActivitiesAndPdts) // Change to map
-                .collect(Collectors.toList());
+                .map(this::returnWarehouseWithActivitiesAndPdts).toList();
     }
 
 

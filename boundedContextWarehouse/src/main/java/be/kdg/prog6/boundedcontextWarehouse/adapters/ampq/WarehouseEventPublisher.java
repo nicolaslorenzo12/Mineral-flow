@@ -8,10 +8,12 @@ import be.kdg.prog6.boundedcontextWarehouse.ports.out.UpdatePurchaseOrderPort;
 import be.kdg.prog6.boundedcontextWarehouse.ports.out.UpdateWarehousePort;
 import be.kdg.prog6.common.domain.Material;
 import be.kdg.prog6.common.domain.OrderLine;
+import be.kdg.prog6.common.domain.Pdt;
 import be.kdg.prog6.common.domain.PurchaseOrder;
 import be.kdg.prog6.common.events.ActivityCreatedEvent;
 import be.kdg.prog6.common.events.MaterialLoadedEvent;
 import be.kdg.prog6.common.events.ShipmentOrderAndPurchaseOrderMatchedEvent;
+import be.kdg.prog6.common.facades.AllPdtToSendForInvoiceCommand;
 import be.kdg.prog6.common.facades.CommissionFeeToCalculateCommand;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Component;
@@ -64,11 +66,21 @@ public class WarehouseEventPublisher implements UpdateWarehousePort, UpdatePurch
     }
 
     @Override
-    public void updateInvoice(UUID sellerUUID, UUID buyerUUID, List<OrderLine> orderLines, List<Material> materials) {
+    public void sendDataForCommissionFeeCalculationInInvoice(UUID sellerUUID, List<OrderLine> orderLines, List<Material> materials) {
 
         final String routingKey = "warehouse. " + sellerUUID.toString() + " .commission_fee";
         final String exchangeName = "warehouseExchange";
-        final CommissionFeeToCalculateCommand body = new CommissionFeeToCalculateCommand(sellerUUID, buyerUUID, orderLines, materials);
+        final CommissionFeeToCalculateCommand body = new CommissionFeeToCalculateCommand(sellerUUID, orderLines, materials);
         rabbitTemplate.convertAndSend(exchangeName, routingKey, body);
+    }
+
+    @Override
+    public void sendAllPdtForBillingInInvoice(List<Pdt> allPdt, List<Material> materials) {
+
+        final String routingKey = "warehouse. " + allPdt.size() + " .pdts_to_be_sent_for_invoice";
+        final String exchangeName = "warehouseExchange";
+        final AllPdtToSendForInvoiceCommand body = new AllPdtToSendForInvoiceCommand(allPdt, materials);
+        rabbitTemplate.convertAndSend(exchangeName, routingKey, body);
+
     }
 }

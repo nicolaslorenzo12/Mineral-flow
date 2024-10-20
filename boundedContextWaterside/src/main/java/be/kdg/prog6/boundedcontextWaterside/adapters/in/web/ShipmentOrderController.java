@@ -23,13 +23,15 @@ public class ShipmentOrderController {
     private final InspectShipUseCase inspectShipUseCase;
     private final RefuelShipUseCase refuelShipUseCase;
     private final GetOutstandingOperationsUseCase getOutstandingPOSUseCase;
+    private final GetShipmentOrderUseCase getShipmentOrderUseCase;
 
-    public ShipmentOrderController(MatchShipmentOrderAndPurchaseOrderUseCase matchPurchaseAndShipmentOrderUseCase, LoadMaterialUseCase loadMaterialUseCase, InspectShipUseCase inspectShipUseCase, RefuelShipUseCase refuelShipUseCase, GetOutstandingOperationsUseCase getOutstandingPOSUseCase) {
+    public ShipmentOrderController(MatchShipmentOrderAndPurchaseOrderUseCase matchPurchaseAndShipmentOrderUseCase, LoadMaterialUseCase loadMaterialUseCase, InspectShipUseCase inspectShipUseCase, RefuelShipUseCase refuelShipUseCase, GetOutstandingOperationsUseCase getOutstandingPOSUseCase, GetShipmentOrderUseCase getShipmentOrderUseCase) {
         this.matchPurchaseAndShipmentOrderUseCase = matchPurchaseAndShipmentOrderUseCase;
         this.loadMaterialUseCase = loadMaterialUseCase;
         this.inspectShipUseCase = inspectShipUseCase;
         this.refuelShipUseCase = refuelShipUseCase;
         this.getOutstandingPOSUseCase = getOutstandingPOSUseCase;
+        this.getShipmentOrderUseCase = getShipmentOrderUseCase;
     }
 
     @PostMapping("match-shipment-and-purchase-order/purchase-order/{shipmentOrderUUID}")
@@ -37,6 +39,14 @@ public class ShipmentOrderController {
 
         matchPurchaseAndShipmentOrderUseCase.matchPurchaseAndShipmentOrderWhenArriving
                 (new MatchShipmentOrderWithPurchaseOrderCommand(shipmentOrderUUID));
+    }
+
+    @GetMapping("status-shipment-order/{shipmentOrderUUID}")
+    public ResponseEntity<ShipmentOrderDto> getShipmentOrder(@PathVariable UUID shipmentOrderUUID) {
+
+        ShipmentOrder shipmentOrder = getShipmentOrderUseCase.getShipmentOrder(new GetShipmentOrderCommand(shipmentOrderUUID));
+
+        return ResponseEntity.ok(buildShipmentOrderDto(shipmentOrder));
     }
 
     @PostMapping("load-ship/shipment-order/{vesselNumber}")

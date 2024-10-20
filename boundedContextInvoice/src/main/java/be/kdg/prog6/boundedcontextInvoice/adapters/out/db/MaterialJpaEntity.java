@@ -1,0 +1,67 @@
+package be.kdg.prog6.boundedcontextInvoice.adapters.out.db;
+
+
+import be.kdg.prog6.common.domain.MaterialType;
+import jakarta.persistence.*;
+
+@Entity
+@Table(catalog="Invoice", name="material-invoice")
+public class MaterialJpaEntity {
+
+    @Id
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private MaterialType materialType;
+
+    @Column(nullable = false)
+    private String description;
+
+    @Column(nullable = false)
+    private int storagePricePerTonPerDay;
+    @Column(nullable = false)
+    private int pricePerTon;
+
+    public MaterialJpaEntity(MaterialType materialType, String description,
+                             int storagePricePerTonPerDay, int pricePerTon) {
+        this.materialType = materialType;
+        this.description = description;
+        this.storagePricePerTonPerDay = storagePricePerTonPerDay;
+        this.pricePerTon = pricePerTon;
+    }
+
+    public MaterialJpaEntity() {
+
+    }
+
+    public MaterialType getMaterialType() {
+        return materialType;
+    }
+
+    public void setMaterialType(MaterialType materialType) {
+        this.materialType = materialType;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public int getStoragePricePerTonPerDay() {
+        return storagePricePerTonPerDay;
+    }
+
+    public void setStoragePricePerTonPerDay(int storagePricePerTonPerDay) {
+        this.storagePricePerTonPerDay = storagePricePerTonPerDay;
+    }
+
+    public int getPricePerTon() {
+        return pricePerTon;
+    }
+
+    public void setPricePerTon(int pricePerTon) {
+        this.pricePerTon = pricePerTon;
+    }
+}

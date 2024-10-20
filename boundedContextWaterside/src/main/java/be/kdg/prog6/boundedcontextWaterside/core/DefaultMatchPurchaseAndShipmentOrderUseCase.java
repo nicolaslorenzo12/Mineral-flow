@@ -3,7 +3,7 @@ package be.kdg.prog6.boundedcontextWaterside.core;
 import be.kdg.prog6.boundedcontextWaterside.domain.ShipmentOrder;
 import be.kdg.prog6.boundedcontextWaterside.domain.ShipmentStatus;
 import be.kdg.prog6.boundedcontextWaterside.ports.in.MatchShipmentOrderAndPurchaseOrderUseCase;
-import be.kdg.prog6.boundedcontextWaterside.ports.out.LoadOrCreateShipmentOrderPort;
+import be.kdg.prog6.boundedcontextWaterside.ports.out.LoadShipmentOrderPort;
 import be.kdg.prog6.boundedcontextWaterside.ports.out.UpdateShipmentOrderPort;
 import be.kdg.prog6.common.facades.MatchShipmentOrderWithPurchaseOrderCommand;
 import org.springframework.stereotype.Service;
@@ -14,10 +14,10 @@ import java.util.UUID;
 @Service
 public class DefaultMatchPurchaseAndShipmentOrderUseCase implements MatchShipmentOrderAndPurchaseOrderUseCase {
 
-    private final LoadOrCreateShipmentOrderPort loadOrCreateShipmentOrderPort;
+    private final LoadShipmentOrderPort loadOrCreateShipmentOrderPort;
     private final List<UpdateShipmentOrderPort> updateShipmentOrderPorts;
 
-    public DefaultMatchPurchaseAndShipmentOrderUseCase(LoadOrCreateShipmentOrderPort loadOrCreateShipmentOrderPort,
+    public DefaultMatchPurchaseAndShipmentOrderUseCase(LoadShipmentOrderPort loadOrCreateShipmentOrderPort,
                                                        List<UpdateShipmentOrderPort> updateShipmentOrderPorts) {
         this.loadOrCreateShipmentOrderPort = loadOrCreateShipmentOrderPort;
         this.updateShipmentOrderPorts = updateShipmentOrderPorts;
@@ -28,7 +28,7 @@ public class DefaultMatchPurchaseAndShipmentOrderUseCase implements MatchShipmen
             (MatchShipmentOrderWithPurchaseOrderCommand matchShipmentOrderWithPurchaseOrderCommand) {
 
         UUID shipmentOrderUUID = matchShipmentOrderWithPurchaseOrderCommand.shipmentOrderUUID();
-       ShipmentOrder shipmentOrder = loadOrCreateShipmentOrderPort.loadOrCreateShipmentOrder
+       ShipmentOrder shipmentOrder = loadOrCreateShipmentOrderPort.loadShipmentOrder
                (new ShipmentOrder.ShipmentOrderUUID(shipmentOrderUUID));
 
        shipmentOrder.checkIfShipmentOrderHasAlreadyHadThisStatus(ShipmentStatus.ARRIVED);

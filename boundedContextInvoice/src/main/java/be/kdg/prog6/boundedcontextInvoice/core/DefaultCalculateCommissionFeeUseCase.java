@@ -1,7 +1,7 @@
 package be.kdg.prog6.boundedcontextInvoice.core;
 
 import be.kdg.prog6.boundedcontextInvoice.domain.Accountant;
-import be.kdg.prog6.boundedcontextInvoice.ports.out.CalculateCommissionFeeUseCase;
+import be.kdg.prog6.boundedcontextInvoice.ports.in.CalculateCommissionFeeUseCase;
 import be.kdg.prog6.common.facades.CommissionFeeToCalculateCommand;
 import org.springframework.stereotype.Service;
 

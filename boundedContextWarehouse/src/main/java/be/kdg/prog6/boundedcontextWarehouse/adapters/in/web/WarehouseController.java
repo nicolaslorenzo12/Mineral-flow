@@ -1,7 +1,7 @@
 package be.kdg.prog6.boundedcontextWarehouse.adapters.in.web;
 
 import be.kdg.prog6.boundedcontextWarehouse.ports.in.GetMaterialByMaterialTypeCommand;
-import be.kdg.prog6.boundedcontextWarehouse.domain.Pdt;
+import be.kdg.prog6.common.domain.Pdt;
 import be.kdg.prog6.boundedcontextWarehouse.domain.Warehouse;
 import be.kdg.prog6.boundedcontextWarehouse.domain.dto.PdtDto;
 import be.kdg.prog6.boundedcontextWarehouse.domain.dto.WarehouseDto;

@@ -1,6 +1,6 @@
 package be.kdg.prog6.boundedcontextWarehouse.core;
 
-import be.kdg.prog6.boundedcontextWarehouse.domain.Pdt;
+import be.kdg.prog6.common.domain.Pdt;
 import be.kdg.prog6.boundedcontextWarehouse.domain.UpdateWarehouseAction;
 import be.kdg.prog6.boundedcontextWarehouse.domain.Warehouse;
 import be.kdg.prog6.boundedcontextWarehouse.ports.in.PdtToBeCreatedProjector;

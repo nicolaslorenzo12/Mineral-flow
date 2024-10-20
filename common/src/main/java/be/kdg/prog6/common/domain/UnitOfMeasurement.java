@@ -1,6 +1,6 @@
 package be.kdg.prog6.common.domain;
 
-public enum Uom {
+public enum UnitOfMeasurement {
 
     T,
     KT;
