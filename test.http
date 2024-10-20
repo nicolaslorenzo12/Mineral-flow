@@ -35,23 +35,23 @@ Content-Type: application/json
 
 {
   "sellerName": "John Doe Minerals",
-  "materialDescription": "Petroleum Coke",
-  "licensePlateNumber": "ABCDE123",
-  "appointmentTime": "2024-10-20T20:00:00"
+  "materialDescription": "Gypsum",
+  "licensePlateNumber": "ABCD123",
+  "appointmentTime": "2024-10-20T22:00:00"
 }
 
 
 ###
 
-POST http://localhost:8090/api/appointment/truck/ABCDE123/check
+POST http://localhost:8090/api/appointment/truck/ABCD123/check
 
 ###
 
-POST http://localhost:8090/api/appointment/8015aace-e504-40a9-bb13-c2dcc202128e/weight
+POST http://localhost:8090/api/appointment/d6980d94-4449-409c-9b2f-7cafa397350e/weight
 
 ###
 
-POST http://localhost:8090/api/appointment/8015aace-e504-40a9-bb13-c2dcc202128e/loadMaterial
+POST http://localhost:8090/api/appointment/d6980d94-4449-409c-9b2f-7cafa397350e/loadMaterial
 
 
 ### Waterside
@@ -114,3 +114,14 @@ GET http://localhost:8090/api/to-load-pos/outstanding
 
 
 GET http://localhost:8090/api/status-shipment-order/564e4567-e89b-12d3-a456-426614174333
+
+
+
+
+
+
+
+
+### Invoice
+
+POST http://localhost:8090/api/invoice/seller/123e4567-e89b-12d3-a456-426614174000
