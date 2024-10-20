@@ -22,6 +22,7 @@ public class InvoiceRecordJpaEntity {
     @Column(nullable = false)
     private LocalDate invoiceDate;
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private MaterialType materialType;
 
     public InvoiceRecordJpaEntity(UUID invoiceUUID, UUID sellerUUID, LocalDate pdtCreationDate,
