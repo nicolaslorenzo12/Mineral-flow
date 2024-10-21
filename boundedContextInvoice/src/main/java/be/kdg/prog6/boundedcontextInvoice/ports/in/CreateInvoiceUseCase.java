@@ -1,6 +1,6 @@
 package be.kdg.prog6.boundedcontextInvoice.ports.in;
 
-import be.kdg.prog6.boundedcontextInvoice.domain.dto.Invoice;
+import be.kdg.prog6.boundedcontextInvoice.domain.Invoice;
 
 public interface CreateInvoiceUseCase {
 

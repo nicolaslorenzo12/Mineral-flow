@@ -2,7 +2,7 @@ package be.kdg.prog6.boundedcontextInvoice.core;
 
 import be.kdg.prog6.boundedcontextInvoice.domain.Accountant;
 import be.kdg.prog6.boundedcontextInvoice.domain.InvoiceRecord;
-import be.kdg.prog6.boundedcontextInvoice.domain.dto.Invoice;
+import be.kdg.prog6.boundedcontextInvoice.domain.Invoice;
 import be.kdg.prog6.boundedcontextInvoice.ports.in.CreateInvoiceCommand;
 import be.kdg.prog6.boundedcontextInvoice.ports.in.CreateInvoiceUseCase;
 import be.kdg.prog6.boundedcontextInvoice.ports.out.LoadInvoiceRecordPort;
@@ -22,12 +22,10 @@ public class DefaultCreateInvoiceUseCase implements CreateInvoiceUseCase {
 
     private final LoadInvoiceRecordPort loadInvoiceRecordPort;
     private final LoadMaterialPort loadMaterialPort;
-    private final LoadSellerPort loadSellerPort;
 
-    public DefaultCreateInvoiceUseCase(LoadInvoiceRecordPort loadInvoiceRecordPort, LoadMaterialPort loadMaterialPort, LoadSellerPort loadSellerPort) {
+    public DefaultCreateInvoiceUseCase(LoadInvoiceRecordPort loadInvoiceRecordPort, LoadMaterialPort loadMaterialPort) {
         this.loadInvoiceRecordPort = loadInvoiceRecordPort;
         this.loadMaterialPort = loadMaterialPort;
-        this.loadSellerPort = loadSellerPort;
     }
 
 
@@ -35,15 +33,13 @@ public class DefaultCreateInvoiceUseCase implements CreateInvoiceUseCase {
     public Invoice createInvoice(CreateInvoiceCommand createInvoiceCommand) {
 
         Seller.CustomerUUID sellerUUID = new Seller.CustomerUUID(createInvoiceCommand.sellerUUID());
-        Seller seller = loadSellerPort.loadSellerBySellerUUID(sellerUUID)
-                .orElseThrow( () -> new NoSuchElementException("Seller was not found"));
 
         List<InvoiceRecord> invoiceRecords = loadInvoiceRecordPort.loadInvoiceRecordsBySellerUUIDAndDate(sellerUUID, LocalDate.now());
         // I use a set to enforce uniqueness of material type
         Set<MaterialType> uniqueMaterialTypes = createAndReturnASetOfMaterialType(invoiceRecords);
         List<Material> uniqueMaterials = createAndReturnAListOfMaterials(uniqueMaterialTypes);
 
-        return Accountant.calculateAndCreateInvoice(invoiceRecords, seller.getName(), uniqueMaterials);
+        return Accountant.calculateAndCreateInvoice(invoiceRecords, sellerUUID, uniqueMaterials);
     }
 
     private Material findMaterialByMaterialType(MaterialType materialType) {
