@@ -40,6 +40,8 @@ Authorization: Bearer {{warehouse_admin_token}}
 ### Landisde
 
 GET http://localhost:8090/api/seller-names
+Content-Type: application/json
+Authorization: Bearer {{warehouse_admin_token}}
 
 ###
 
