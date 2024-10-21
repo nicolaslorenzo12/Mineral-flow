@@ -1,4 +1,4 @@
-package be.kdg.prog6.config;
+package be.kdg.prog6.boundedcontextWarehouse.config;
 
 
 import org.springframework.context.annotation.Bean;
@@ -22,13 +22,13 @@ import java.util.stream.Collectors;
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity(prePostEnabled = true)
-public class SecurityConfig {
+public class WarehouseSecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests((authorize) -> authorize
-                        .requestMatchers("/unsecured").permitAll()
+                        .requestMatchers("/warehouse").permitAll()
                         .anyRequest().authenticated()
                 ).sessionManagement(mgmt -> mgmt.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .oauth2ResourceServer(rs -> rs.jwt(jwt -> jwtAuthenticationConverter()));
