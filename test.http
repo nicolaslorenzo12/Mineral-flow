@@ -64,14 +64,14 @@ Authorization: Bearer {{access_token}}
 {
   "sellerName": "John Doe Minerals",
   "materialDescription": "Gypsum",
-  "licensePlateNumber": "ABCD123",
-  "appointmentTime": "2024-10-22T08:00:00"
+  "licensePlateNumber": "ABC123",
+  "appointmentTime": "2024-10-22T10:00:00"
 }
 
 
 ###
 
-POST http://localhost:8090/api/truck/ABCD123/check
+POST http://localhost:8090/api/truck/ABC123/check
 Content-Type: application/json
 Authorization: Bearer {{access_token}}
 
@@ -173,8 +173,6 @@ Authorization: Bearer {{access_token}}
 GET http://localhost:8090/api/status-shipment-order/564e4567-e89b-12d3-a456-426614174333
 Content-Type: application/json
 Authorization: Bearer {{access_token}}
-
-
 
 
 ### Invoice
