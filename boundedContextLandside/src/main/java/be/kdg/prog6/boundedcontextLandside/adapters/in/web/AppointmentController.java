@@ -6,10 +6,7 @@ import be.kdg.prog6.boundedcontextLandside.ports.in.*;
 import be.kdg.prog6.common.domain.Material;
 import be.kdg.prog6.common.domain.Seller;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -63,7 +60,7 @@ public class AppointmentController {
         return makeAppointmentUseCase.makeAppointment(new MakeAppointmentCommand(seller, material, licensePlateNumber, appointmentTime));
     }
 
-    @PostMapping("appointment/truck/{licensePlateNumber}/check")
+    @PostMapping("truck/{licensePlateNumber}/check")
     public ResponseEntity<TruckDto> scanTruckForAppointment(@PathVariable String licensePlateNumber){
 
         Appointment appointment = scanLicensePlateNumberOfATruckUseCase.scanLicensePlateNumber(new ScanLicensePlateNumberWhenArrivingCommand(licensePlateNumber));
@@ -76,7 +73,7 @@ public class AppointmentController {
         return ResponseEntity.ok(truckDto);
     }
 
-    @PostMapping("appointment/{appointmentUuid}/weight")
+    @PostMapping("{appointmentUuid}/weight")
     public ResponseEntity<TruckWeightedDto> weightTruckDuringAppointment(@PathVariable UUID appointmentUuid){
 
         TruckWeightedDto truckWeightedDto = weightTruckUseCase.
@@ -85,7 +82,7 @@ public class AppointmentController {
         return ResponseEntity.ok(truckWeightedDto);
     }
 
-    @PostMapping("appointment/{appointmentUuid}/loadMaterial")
+    @PostMapping("{appointmentUuid}/loadMaterial")
     public ResponseEntity<LoadedMaterialDto> loadMaterial(@PathVariable UUID appointmentUuid){
         LoadedMaterialDto loadedMaterialDto = deliverMaterialUseCase.deliverMaterial(new DeliverMaterialCommand(new Appointment.AppointmentUUID(appointmentUuid)));
         return ResponseEntity.ok(loadedMaterialDto);

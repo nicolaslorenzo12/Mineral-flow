@@ -1,39 +1,41 @@
-### Get access token with normal user
+### Get access token with warehouse_admin user
 
 POST http://localhost:8180/realms/mineral_flow/protocol/openid-connect/token HTTP/1.1
 Content-Type: application/x-www-form-urlencoded
 
-client_id=warehouse_client&client_secret=9aWvoqo4sStpZGZ27K3SgGJiuPOXXj0u&username=warehouse_admin&password=password&grant_type=password&scope=openid
+client_id=client&client_secret=cZyt3Uq4AMUutf4Yx37Y2SYFwSFsjlis&username=user&password=password&grant_type=password&scope=openid
 
 //saving the access token
 > {%
-    client.global.set("warehouse_admin_token", response.body.access_token);
+    client.global.set("access_token", response.body.access_token);
 %}
+
+
 
 ### Warehouse
 
-GET http://localhost:8090/api/warehouse/warehouses
+GET http://localhost:8090/api/warehouses
 Content-Type: application/json
-Authorization: Bearer {{warehouse_admin_token}}
+Authorization: Bearer {{access_token}}
 
 
 ###
 
-GET http://localhost:8090/api/warehouse/warehouse/5
+GET http://localhost:8090/api/warehouse/5
 Content-Type: application/json
-Authorization: Bearer {{warehouse_admin_token}}
+Authorization: Bearer {{access_token}}
 
 ###
 
-GET http://localhost:8090/api/warehouse/current-stock/warehouse/5
+GET http://localhost:8090/api/current-stock/warehouse/5
 Content-Type: application/json
-Authorization: Bearer {{warehouse_admin_token}}
+Authorization: Bearer {{access_token}}
 
 ###
 
-GET http://localhost:8090/api/warehouse/current-stock/warehouse/7
+GET http://localhost:8090/api/current-stock/warehouse/7
 Content-Type: application/json
-Authorization: Bearer {{warehouse_admin_token}}
+Authorization: Bearer {{access_token}}
 
 
 
@@ -41,55 +43,76 @@ Authorization: Bearer {{warehouse_admin_token}}
 
 GET http://localhost:8090/api/seller-names
 Content-Type: application/json
-Authorization: Bearer {{warehouse_admin_token}}
+Authorization: Bearer {{access_token}}
 
 ###
 
 GET http://localhost:8090/api/material-descriptions
+Content-Type: application/json
+Authorization: Bearer {{access_token}}
 ###
 
 GET http://localhost:8090/api/trucks-inside
-
+Content-Type: application/json
+Authorization: Bearer {{access_token}}
 ###
 
 POST http://localhost:8090/api/material-truck-appointment
+Content-Type: application/json
+Authorization: Bearer {{access_token}}
 
 {
   "sellerName": "John Doe Minerals",
-  "materialDescription": "Petroleum Coke",
-  "licensePlateNumber": "ABC123",
-  "appointmentTime": "2024-10-21T19:00:00"
+  "materialDescription": "Gypsum",
+  "licensePlateNumber": "ABCD123",
+  "appointmentTime": "2024-10-22T08:00:00"
 }
 
 
 ###
 
-POST http://localhost:8090/api/appointment/truck/ABC123/check
+POST http://localhost:8090/api/truck/ABCD123/check
+Content-Type: application/json
+Authorization: Bearer {{access_token}}
+
 
 ###
 
-POST http://localhost:8090/api/appointment/f4e57929-9927-4af2-858c-9b78bd9a5c80/weight
+POST http://localhost:8090/api/e2e59c4a-0193-4196-bc93-2b0afe1e8b7f/weight
+Content-Type: application/json
+Authorization: Bearer {{access_token}}
+
 
 ###
 
-POST http://localhost:8090/api/appointment/f4e57929-9927-4af2-858c-9b78bd9a5c80/loadMaterial
+POST http://localhost:8090/api/e2e59c4a-0193-4196-bc93-2b0afe1e8b7f/loadMaterial
+Content-Type: application/json
+Authorization: Bearer {{access_token}}
 
 ### Waterside
 
 
 POST http://localhost:8090/api/match-shipment-and-purchase-order/purchase-order/564e4567-e89b-12d3-a456-426614174222
+Content-Type: application/json
+Authorization: Bearer {{access_token}}
 
 ###
 
 POST http://localhost:8090/api/inspect/shipment-order/VS345hg
+Content-Type: application/json
+Authorization: Bearer {{access_token}}
 
 ###
 
 POST http://localhost:8090/api/refuel/shipment-order/VS345hg
+Content-Type: application/json
+Authorization: Bearer {{access_token}}
 
 ###
 
 POST http://localhost:8090/api/load-ship/shipment-order/VS345hg
+Content-Type: application/json
+Authorization: Bearer {{access_token}}
 
 ###
 
@@ -98,42 +121,58 @@ POST http://localhost:8090/api/load-ship/shipment-order/VS345hg
 
 
 POST http://localhost:8090/api/match-shipment-and-purchase-order/purchase-order/564e4567-e89b-12d3-a456-426614174333
+Content-Type: application/json
+Authorization: Bearer {{access_token}}
 
 ###
 
 POST http://localhost:8090/api/inspect/shipment-order/VS345ht
-
+Content-Type: application/json
+Authorization: Bearer {{access_token}}
 ###
 
 POST http://localhost:8090/api/refuel/shipment-order/VS345ht
+Content-Type: application/json
+Authorization: Bearer {{access_token}}
 ###
 
 POST http://localhost:8090/api/load-ship/shipment-order/VS345ht
+Content-Type: application/json
+Authorization: Bearer {{access_token}}
 ###
+
 
 
 
 
 
 GET http://localhost:8090/api/pos/finished
+Content-Type: application/json
+Authorization: Bearer {{access_token}}
 
 ###
 
 GET http://localhost:8090/api/ios/outstanding
+Content-Type: application/json
+Authorization: Bearer {{access_token}}
 
 ###
 
 GET http://localhost:8090/api/bos/outstanding
+Content-Type: application/json
+Authorization: Bearer {{access_token}}
+
 ###
 
 GET http://localhost:8090/api/to-load-pos/outstanding
+Content-Type: application/json
+Authorization: Bearer {{access_token}}
+
 ###
 
-
 GET http://localhost:8090/api/status-shipment-order/564e4567-e89b-12d3-a456-426614174333
-
-
-
+Content-Type: application/json
+Authorization: Bearer {{access_token}}
 
 
 
@@ -141,3 +180,5 @@ GET http://localhost:8090/api/status-shipment-order/564e4567-e89b-12d3-a456-4266
 ### Invoice
 
 POST http://localhost:8090/api/invoice/seller/123e4567-e89b-12d3-a456-426614174000
+Content-Type: application/json
+Authorization: Bearer {{access_token}}

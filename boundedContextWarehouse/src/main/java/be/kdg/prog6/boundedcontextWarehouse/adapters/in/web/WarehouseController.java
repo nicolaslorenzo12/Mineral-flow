@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.List;
-@RequestMapping("/warehouse")
 @RestController
 public class WarehouseController {
     private final GetCurrentStockOfAWarehouseUseCase getCurrentStockOfAWarehouseUseCase;
@@ -37,7 +36,6 @@ public class WarehouseController {
 
 
     @GetMapping("current-stock/warehouse/{warehouseNumber}")
-    @PreAuthorize("hasAuthority('admin')")
     public ResponseEntity<WarehouseStockDto> getCurrentStock(@PathVariable int warehouseNumber) {
 
         Warehouse warehouse = getCurrentStockOfAWarehouseUseCase.
@@ -49,7 +47,6 @@ public class WarehouseController {
     }
 
     @GetMapping("/warehouses")
-    @PreAuthorize("hasAuthority('admin')")
     public ResponseEntity<List<WarehouseDto>> getWarehouses() {
         List<Warehouse> warehouses = getWarehousesUseCase.getWarehouses();
         List<WarehouseDto> warehouseDtos = new ArrayList<>();
@@ -60,7 +57,6 @@ public class WarehouseController {
     }
 
     @GetMapping("warehouse/{warehouseNumber}")
-    @PreAuthorize("hasAuthority('admin')")
     public WarehouseDto getWarehouse(@PathVariable int warehouseNumber) {
 
         Warehouse warehouse = getWarehouseUseCase.getWarehouseByWarehouseNumber(new GetWarehouseCommand(warehouseNumber));

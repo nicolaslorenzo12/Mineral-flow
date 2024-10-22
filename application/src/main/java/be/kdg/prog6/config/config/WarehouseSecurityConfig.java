@@ -1,4 +1,4 @@
-package be.kdg.prog6.boundedcontextWarehouse.config;
+package be.kdg.prog6.config.config;
 
 
 import org.springframework.context.annotation.Bean;
@@ -28,15 +28,15 @@ public class WarehouseSecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests((authorize) -> authorize
-                        .requestMatchers("/warehouse").permitAll()
+                        .requestMatchers("/").permitAll()
                         .anyRequest().authenticated()
                 ).sessionManagement(mgmt -> mgmt.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .oauth2ResourceServer(rs -> rs.jwt(jwt -> jwtAuthenticationConverter()));
+                .oauth2ResourceServer(rs -> rs.jwt(jwt -> warehouseJwtAuthenticationConverter()));
         return http.build();
     }
 
     @Bean
-    JwtAuthenticationConverter jwtAuthenticationConverter() {
+    JwtAuthenticationConverter warehouseJwtAuthenticationConverter() {
         JwtAuthenticationConverter jwtConverter = new JwtAuthenticationConverter();
         jwtConverter.setJwtGrantedAuthoritiesConverter(new KeycloakRealmRoleConverter());
         return jwtConverter;
