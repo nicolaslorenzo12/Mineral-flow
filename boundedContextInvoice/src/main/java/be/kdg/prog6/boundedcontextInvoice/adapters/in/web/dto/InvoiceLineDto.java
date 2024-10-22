@@ -1,4 +1,4 @@
-package be.kdg.prog6.boundedcontextInvoice.domain.dto;
+package be.kdg.prog6.boundedcontextInvoice.adapters.in.web.dto;
 
 
 public class InvoiceLineDto {

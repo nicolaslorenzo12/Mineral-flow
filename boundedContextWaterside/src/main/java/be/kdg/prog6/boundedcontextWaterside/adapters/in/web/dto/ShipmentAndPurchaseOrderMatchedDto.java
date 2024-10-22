@@ -1,4 +1,4 @@
-package be.kdg.prog6.boundedcontextWaterside.domain.dto;
+package be.kdg.prog6.boundedcontextWaterside.adapters.in.web.dto;
 
 import be.kdg.prog6.boundedcontextWaterside.domain.ShipmentOrder;
 import be.kdg.prog6.boundedcontextWaterside.domain.ShipmentStatus;

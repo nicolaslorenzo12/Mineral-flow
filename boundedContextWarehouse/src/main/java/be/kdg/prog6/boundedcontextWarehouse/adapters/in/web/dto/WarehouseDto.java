@@ -1,4 +1,4 @@
-package be.kdg.prog6.boundedcontextWarehouse.domain.dto;
+package be.kdg.prog6.boundedcontextWarehouse.adapters.in.web.dto;
 
 import java.util.List;
 

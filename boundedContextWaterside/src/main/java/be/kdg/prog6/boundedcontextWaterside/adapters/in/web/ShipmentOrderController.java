@@ -1,7 +1,7 @@
 package be.kdg.prog6.boundedcontextWaterside.adapters.in.web;
 
 import be.kdg.prog6.boundedcontextWaterside.domain.ShipmentOrder;
-import be.kdg.prog6.boundedcontextWaterside.domain.dto.ShipmentOrderDto;
+import be.kdg.prog6.boundedcontextWaterside.adapters.in.web.dto.ShipmentOrderDto;
 import be.kdg.prog6.boundedcontextWaterside.ports.in.*;
 import be.kdg.prog6.common.facades.MatchShipmentOrderWithPurchaseOrderCommand;
 import org.springframework.http.ResponseEntity;

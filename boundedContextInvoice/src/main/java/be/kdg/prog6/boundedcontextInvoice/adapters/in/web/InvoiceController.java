@@ -1,8 +1,8 @@
 package be.kdg.prog6.boundedcontextInvoice.adapters.in.web;
 
 import be.kdg.prog6.boundedcontextInvoice.domain.Invoice;
-import be.kdg.prog6.boundedcontextInvoice.domain.dto.InvoiceDto;
-import be.kdg.prog6.boundedcontextInvoice.domain.dto.InvoiceLineDto;
+import be.kdg.prog6.boundedcontextInvoice.adapters.in.web.dto.InvoiceDto;
+import be.kdg.prog6.boundedcontextInvoice.adapters.in.web.dto.InvoiceLineDto;
 import be.kdg.prog6.boundedcontextInvoice.ports.in.*;
 import be.kdg.prog6.common.domain.Material;
 import be.kdg.prog6.common.domain.Seller;
@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @RestController
 public class InvoiceController {

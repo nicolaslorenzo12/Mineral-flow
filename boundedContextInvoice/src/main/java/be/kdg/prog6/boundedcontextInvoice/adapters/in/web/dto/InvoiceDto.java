@@ -1,7 +1,4 @@
-package be.kdg.prog6.boundedcontextInvoice.domain.dto;
-
-import be.kdg.prog6.boundedcontextInvoice.domain.InvoiceLine;
-import be.kdg.prog6.common.domain.Seller;
+package be.kdg.prog6.boundedcontextInvoice.adapters.in.web.dto;
 
 import java.util.List;
 

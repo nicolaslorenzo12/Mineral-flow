@@ -2,7 +2,7 @@ package be.kdg.prog6.boundedcontextLandside.core;
 
 import be.kdg.prog6.boundedcontextLandside.domain.Appointment;
 import be.kdg.prog6.boundedcontextLandside.domain.DailyCalendar;
-import be.kdg.prog6.boundedcontextLandside.domain.dto.TruckWeightedDto;
+import be.kdg.prog6.boundedcontextLandside.adapters.in.web.dto.TruckWeightedDto;
 import be.kdg.prog6.boundedcontextLandside.ports.in.WeightTruckCommand;
 import be.kdg.prog6.boundedcontextLandside.ports.in.WeightTruckUseCase;
 import be.kdg.prog6.boundedcontextLandside.ports.out.LoadOrCreateDailyCalendarPort;

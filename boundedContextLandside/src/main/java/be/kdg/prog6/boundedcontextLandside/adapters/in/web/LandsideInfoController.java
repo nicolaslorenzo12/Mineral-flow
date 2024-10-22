@@ -1,7 +1,7 @@
 package be.kdg.prog6.boundedcontextLandside.adapters.in.web;
 
 import be.kdg.prog6.boundedcontextLandside.domain.Appointment;
-import be.kdg.prog6.boundedcontextLandside.domain.dto.TruckDto;
+import be.kdg.prog6.boundedcontextLandside.adapters.in.web.dto.TruckDto;
 import be.kdg.prog6.boundedcontextLandside.ports.in.*;
 import be.kdg.prog6.common.domain.Customer;
 import be.kdg.prog6.common.domain.Material;

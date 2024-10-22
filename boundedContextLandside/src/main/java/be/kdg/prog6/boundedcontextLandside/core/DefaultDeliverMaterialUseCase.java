@@ -1,7 +1,7 @@
 package be.kdg.prog6.boundedcontextLandside.core;
 
 import be.kdg.prog6.boundedcontextLandside.domain.*;
-import be.kdg.prog6.boundedcontextLandside.domain.dto.LoadedMaterialDto;
+import be.kdg.prog6.boundedcontextLandside.adapters.in.web.dto.LoadedMaterialDto;
 import be.kdg.prog6.boundedcontextLandside.ports.in.DeliverMaterialCommand;
 import be.kdg.prog6.boundedcontextLandside.ports.in.DeliverMaterialUseCase;
 import be.kdg.prog6.boundedcontextLandside.ports.out.LoadOrCreateDailyCalendarPort;

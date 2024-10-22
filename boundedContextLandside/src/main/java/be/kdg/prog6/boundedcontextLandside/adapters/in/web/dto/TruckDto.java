@@ -1,4 +1,4 @@
-package be.kdg.prog6.boundedcontextLandside.domain.dto;
+package be.kdg.prog6.boundedcontextLandside.adapters.in.web.dto;
 
 import be.kdg.prog6.boundedcontextLandside.domain.TruckStatus;
 
