@@ -48,6 +48,7 @@ public class WarehouseDBAdapter implements LoadWarehousePort, UpdateWarehousePor
     }
 
 
+
     private Warehouse returnWarehouseWithActivitiesAndPdts(WarehouseJpaEntity warehouseJpaEntity){
 
 

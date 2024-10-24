@@ -56,11 +56,9 @@ public class DefaultAddedOrDispatchedMaterialProjector implements AddedOrDispatc
 
         PurchaseOrder purchaseOrder = loadPurchaseOrderPort.loadPurchaseOrderByShipmentOrderUUID(shipmentOrderUUID);
         Seller.CustomerUUID sellerUUID = purchaseOrder.getSellerUuid();
-        List<Material> materials = new ArrayList<>();
 
         for (OrderLine orderLine : purchaseOrder.getOrderLineList()) {
             processOrderLine(sellerUUID, orderLine);
-            materials.add(loadMaterialPort.loadMaterialPort(orderLine.getMaterialType()));
         }
 
         updatePurchaseOrderPort.materialLoaded(shipmentOrderUUID, LocalDate.now());

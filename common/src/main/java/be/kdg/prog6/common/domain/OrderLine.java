@@ -19,7 +19,8 @@ public class OrderLine {
     public OrderLine(){
 
     }
-    public OrderLine(MaterialType materialType, int quantity) {
+    public OrderLine(int lineNumber, MaterialType materialType, int quantity) {
+        this.lineNumber = lineNumber;
         this.materialType = materialType;
         this.quantity = quantity;
     }

@@ -1,14 +1,10 @@
 package be.kdg.prog6.boundedcontextWarehouse.adapters.out.db;
 
-import be.kdg.prog6.common.domain.OrderLine;
-import be.kdg.prog6.common.domain.PurchaseOrder;
+import be.kdg.prog6.common.domain.*;
 import be.kdg.prog6.boundedcontextWarehouse.ports.out.LoadPurchaseOrderPort;
-import be.kdg.prog6.common.domain.Buyer;
-import be.kdg.prog6.common.domain.Seller;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -28,6 +24,7 @@ public class PurchaseOrderDBAdapter implements LoadPurchaseOrderPort {
         return buildPurchaseOrderObject(purchaseOrderJpaEntity);
     }
 
+
     private PurchaseOrder buildPurchaseOrderObject(PurchaseOrderJpaEntity jpaEntity) {
 
         return new PurchaseOrder(
@@ -38,12 +35,12 @@ public class PurchaseOrderDBAdapter implements LoadPurchaseOrderPort {
                 jpaEntity.getVesselNumber(),
                 jpaEntity.getPurchaseOrderDate(),
                 jpaEntity.getOrderLines().stream()
-                        .map(this::mapOrderLine)
+                        .map(this::buildOrderLineObject)
                         .collect(Collectors.toList())
         );
     }
 
-    private OrderLine mapOrderLine(OrderLineJpaEntity orderLineJpaEntity) {
+    private OrderLine buildOrderLineObject(OrderLineJpaEntity orderLineJpaEntity) {
 
         return new OrderLine(
                 new OrderLine.OrderLineUUID(orderLineJpaEntity.getOrderLineUUID()),
@@ -52,4 +49,6 @@ public class PurchaseOrderDBAdapter implements LoadPurchaseOrderPort {
                 orderLineJpaEntity.getQuantity()
         );
     }
+    
+
 }

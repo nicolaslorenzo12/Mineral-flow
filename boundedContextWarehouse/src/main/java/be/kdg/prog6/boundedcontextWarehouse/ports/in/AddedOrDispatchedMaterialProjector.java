@@ -1,9 +1,6 @@
 package be.kdg.prog6.boundedcontextWarehouse.ports.in;
 
-import be.kdg.prog6.common.domain.Customer;
-import be.kdg.prog6.common.domain.MaterialType;
-import be.kdg.prog6.common.domain.Seller;
-import be.kdg.prog6.common.domain.WarehouseAction;
+import be.kdg.prog6.boundedcontextWarehouse.domain.WarehouseAction;
 
 import java.util.UUID;
 

@@ -1,4 +1,4 @@
-package be.kdg.prog6.common.domain;
+package be.kdg.prog6.boundedcontextWarehouse.domain;
 
 public enum WarehouseAction {
 

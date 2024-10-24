@@ -83,6 +83,11 @@ public class PurchaseOrderJpaEntity {
         this.purchaseOrderDate = purchaseOrderDate;
     }
 
+    public void addOrderLineJpaEntity(OrderLineJpaEntity orderLineJpaEntity) {
+
+        orderLines.add(orderLineJpaEntity);
+    }
+
     public List<OrderLineJpaEntity> getOrderLines() {
         return orderLines;
     }
