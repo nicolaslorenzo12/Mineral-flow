@@ -23,10 +23,10 @@ public class Warehouse {
         this.pdtList = new ArrayList<>();
     }
 
-    public Warehouse(){
+    public Warehouse(WarehouseActivityWindow warehouseActivityWindow) {
+        this.warehouseActivityWindow = warehouseActivityWindow;
 
     }
-
 
     public int getWareHouseNumber() {
         return wareHouseNumber;
@@ -75,13 +75,15 @@ public class Warehouse {
     }
 
 
-
+    public void setPdtList(List<Pdt> pdtList) {
+        this.pdtList = pdtList;
+    }
 
     public WarehouseActivityWindow getWarehouseActivityWindow() {
         return warehouseActivityWindow;
     }
 
-    public void removeTonsFromOldestPdts(int balanceOfAmountOfTonsToDispatch){
+    private void removeTonsFromOldestPdts(int balanceOfAmountOfTonsToDispatch){
 
         List<Pdt> filteredAndSortedPdtList = pdtList.stream()
                 .filter(pdt -> !pdt.isAllTonsConsumed())

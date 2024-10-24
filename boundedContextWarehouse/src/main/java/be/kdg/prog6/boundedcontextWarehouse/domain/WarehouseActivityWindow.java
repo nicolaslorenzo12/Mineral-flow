@@ -7,18 +7,18 @@ import java.util.List;
 
 public class WarehouseActivityWindow {
 
-    private final int warehouseNumber;
     private final List<WarehouseActivity> warehouseActivityList = new ArrayList<>();
 
-    public WarehouseActivityWindow(int warehouseNumber) {
-        this.warehouseNumber = warehouseNumber;
+    public WarehouseActivityWindow() {
     }
+
     public WarehouseActivity addWarehouseActivity(int amountOfTons, int warehouseNumber, WarehouseAction action){
 
         WarehouseActivity warehouseActivity = new WarehouseActivity(amountOfTons, warehouseNumber, action);
         warehouseActivityList.add(warehouseActivity);
         return warehouseActivity;
     }
+
     public int calculateCurrentStock() {
         int totalTons = 0;
         for (WarehouseActivity activity : warehouseActivityList) {

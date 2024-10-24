@@ -62,7 +62,7 @@ public class WarehouseDBAdapter implements LoadWarehousePort, UpdateWarehousePor
                 warehouseJpaEntity.getWarehouseNumber(),
                 new Seller.CustomerUUID(warehouseJpaEntity.getSellerUUID()),
                 warehouseJpaEntity.getMaterialType(),
-                new WarehouseActivityWindow(warehouseJpaEntity.getWarehouseNumber())
+                new WarehouseActivityWindow()
         );
     }
 
