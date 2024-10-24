@@ -2,8 +2,7 @@ package be.kdg.prog6.boundedcontextWarehouse.core;
 
 import be.kdg.prog6.boundedcontextWarehouse.ports.out.LoadMaterialPort;
 import be.kdg.prog6.boundedcontextWarehouse.ports.out.UpdateInvoicePort;
-import be.kdg.prog6.common.domain.Material;
-import be.kdg.prog6.common.domain.Pdt;
+import be.kdg.prog6.common.domain.Storage;
 import be.kdg.prog6.boundedcontextWarehouse.domain.Warehouse;
 import be.kdg.prog6.boundedcontextWarehouse.ports.in.PdtToBeRequestedForInvoiceUseCase;
 import be.kdg.prog6.boundedcontextWarehouse.ports.out.LoadWarehousePort;
@@ -31,9 +30,9 @@ public class DefaultPdtToBeRequestedForInvoiceUseCase implements PdtToBeRequeste
     public void requestAllPdt() {
 
         List<Warehouse> allWarehouses = loadWarehousePort.loadAllWarehouses();
-        List<Pdt> allPdt = new ArrayList<>();
+        List<Storage> allPdt = new ArrayList<>();
 
-        allWarehouses.forEach(warehouse -> allPdt.addAll(warehouse.getPdtList()));
+        allWarehouses.forEach(warehouse -> allPdt.addAll(warehouse.getStorageList()));
 
         updateInvoicePort.sendAllPdtForBillingInInvoice(allPdt);
 

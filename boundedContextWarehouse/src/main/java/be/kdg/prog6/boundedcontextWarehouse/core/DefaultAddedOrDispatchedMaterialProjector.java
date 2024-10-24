@@ -46,7 +46,7 @@ public class DefaultAddedOrDispatchedMaterialProjector implements AddedOrDispatc
     }
 
     private void setAmountOfTonsDeliveredToPdt(Warehouse warehouse, UUID pdtUUID, int amountOfTondsDelivered){
-            Pdt pdt = warehouse.getPdtList().stream().filter(pdt1 -> pdt1.getPdtUUID().uuid().equals(pdtUUID)).findFirst().orElseThrow();
+            Storage pdt = warehouse.getStorageList().stream().filter(pdt1 -> pdt1.getPdtUUID().uuid().equals(pdtUUID)).findFirst().orElseThrow();
             pdt.setAmountOfTonsDelivered(amountOfTondsDelivered);
     }
 

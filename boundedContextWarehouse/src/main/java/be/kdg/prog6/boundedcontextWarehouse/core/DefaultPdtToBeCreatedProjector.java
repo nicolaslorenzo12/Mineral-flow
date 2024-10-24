@@ -1,6 +1,6 @@
 package be.kdg.prog6.boundedcontextWarehouse.core;
 
-import be.kdg.prog6.common.domain.Pdt;
+import be.kdg.prog6.common.domain.Storage;
 import be.kdg.prog6.boundedcontextWarehouse.domain.UpdateWarehouseAction;
 import be.kdg.prog6.boundedcontextWarehouse.domain.Warehouse;
 import be.kdg.prog6.boundedcontextWarehouse.ports.in.PdtToBeCreatedProjector;
@@ -31,7 +31,7 @@ public class DefaultPdtToBeCreatedProjector implements PdtToBeCreatedProjector {
         Warehouse warehouse = loadWarehousePort.loadWarehouseByWarehouseNumber(warehouseNumber)
                 .orElseThrow(() -> new NoSuchElementException(("Warehouse not found exception")));
 
-        warehouse.addPdt(new Pdt (warehouseNumber, timeOfDelivery, 0, new Pdt.PdtUUID(appointmentUUID), 0, false));
+        warehouse.addPdt(new Storage(warehouseNumber, timeOfDelivery, 0, new Storage.PdtUUID(appointmentUUID), 0, false));
         updateWarehousePorts.forEach(updateWarehousePort -> updateWarehousePort.updateWarehouse(UpdateWarehouseAction.CREATE_PDT, warehouse,
                 null, null));
     }

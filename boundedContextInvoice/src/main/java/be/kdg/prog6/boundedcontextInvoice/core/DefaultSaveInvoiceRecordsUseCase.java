@@ -8,7 +8,7 @@ import be.kdg.prog6.boundedcontextInvoice.ports.in.SaveInvoiceRecordsUseCase;
 import be.kdg.prog6.boundedcontextInvoice.ports.out.LoadSellerPort;
 import be.kdg.prog6.boundedcontextInvoice.ports.out.LoadWarehousePort;
 import be.kdg.prog6.boundedcontextInvoice.ports.out.UpdateInvoiceRecordPort;
-import be.kdg.prog6.common.domain.Pdt;
+import be.kdg.prog6.common.domain.Storage;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -33,7 +33,7 @@ public class DefaultSaveInvoiceRecordsUseCase implements SaveInvoiceRecordsUseCa
     @Override
     public void saveInvoiceRecords(SaveInvoiceRecordsCommand calculateAndSaveInvoiceRecordsCommand) {
 
-        List<Pdt> allPdt = calculateAndSaveInvoiceRecordsCommand.allPdt();
+        List<Storage> allPdt = calculateAndSaveInvoiceRecordsCommand.allPdt();
 
         allPdt.forEach(pdt -> {
 

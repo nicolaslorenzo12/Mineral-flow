@@ -3,7 +3,7 @@ package be.kdg.prog6.common.domain;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-public class Pdt {
+public class Storage {
 
     private int warehouseNumber;
     private LocalDateTime timeOfDelivery;
@@ -17,7 +17,7 @@ public class Pdt {
 
     }
 
-    public Pdt(int warehouseNumber, LocalDateTime timeOfDelivery, int amountOfTonsDelivered, PdtUUID pdtUUID, int amountOfTonsConsumed, boolean allTonsConsumed) {
+    public Storage(int warehouseNumber, LocalDateTime timeOfDelivery, int amountOfTonsDelivered, PdtUUID pdtUUID, int amountOfTonsConsumed, boolean allTonsConsumed) {
         this.warehouseNumber = warehouseNumber;
         this.timeOfDelivery = timeOfDelivery;
         this.amountOfTonsDelivered = amountOfTonsDelivered;
@@ -27,13 +27,13 @@ public class Pdt {
     }
 
 
-    public Pdt(int amountOfTonsDelivered, LocalDateTime timeOfDelivery) {
+    public Storage(int amountOfTonsDelivered, LocalDateTime timeOfDelivery) {
 
         this.amountOfTonsDelivered = amountOfTonsDelivered;
         this.timeOfDelivery = timeOfDelivery;
     }
 
-    public Pdt() {
+    public Storage() {
     }
 
     public LocalDateTime getTimeOfDelivery() {

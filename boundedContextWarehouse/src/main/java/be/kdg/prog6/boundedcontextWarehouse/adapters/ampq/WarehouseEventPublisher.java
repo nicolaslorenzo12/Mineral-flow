@@ -7,7 +7,7 @@ import be.kdg.prog6.boundedcontextWarehouse.ports.out.UpdateInvoicePort;
 import be.kdg.prog6.boundedcontextWarehouse.ports.out.UpdatePurchaseOrderPort;
 import be.kdg.prog6.boundedcontextWarehouse.ports.out.UpdateWarehousePort;
 import be.kdg.prog6.common.domain.OrderLine;
-import be.kdg.prog6.common.domain.Pdt;
+import be.kdg.prog6.common.domain.Storage;
 import be.kdg.prog6.common.events.ActivityCreatedEvent;
 import be.kdg.prog6.common.events.MaterialLoadedEvent;
 import be.kdg.prog6.common.events.ShipmentOrderAndPurchaseOrderMatchedEvent;
@@ -73,7 +73,7 @@ public class WarehouseEventPublisher implements UpdateWarehousePort, UpdatePurch
     }
 
     @Override
-    public void sendAllPdtForBillingInInvoice(List<Pdt> allPdt) {
+    public void sendAllPdtForBillingInInvoice(List<Storage> allPdt) {
 
         final String routingKey = "warehouse. " + allPdt.size() + " .pdts_to_be_sent_for_invoice";
         final String exchangeName = "warehouseExchange";

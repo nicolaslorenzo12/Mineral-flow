@@ -12,7 +12,7 @@ public class Warehouse {
     private MaterialType materialType;
     private final UnitOfMeasurement uom = UnitOfMeasurement.T;
     private WarehouseActivityWindow warehouseActivityWindow;
-    private List<Pdt> pdtList;
+    private List<Storage> storageList;
     private final int maximumCapacity = 500000;
 
     public Warehouse(int wareHouseNumber, Seller.CustomerUUID sellerUUID, MaterialType materialType,final WarehouseActivityWindow warehouseActivityWindow) {
@@ -20,7 +20,7 @@ public class Warehouse {
         this.sellerUUID = sellerUUID;
         this.materialType = materialType;
         this.warehouseActivityWindow = warehouseActivityWindow;
-        this.pdtList = new ArrayList<>();
+        this.storageList = new ArrayList<>();
     }
 
     public Warehouse(WarehouseActivityWindow warehouseActivityWindow) {
@@ -38,7 +38,18 @@ public class Warehouse {
 
     public WarehouseActivity addWarehouseActivity(int amountOfTons, WarehouseAction action){
 
+        checkIfThereAreProblemsWithPossibleNewActivityForWarehouse(amountOfTons, action);
+        return warehouseActivityWindow.addWarehouseActivity(amountOfTons, this.wareHouseNumber, action);
+    }
+
+
+    private void checkIfThereAreProblemsWithPossibleNewActivityForWarehouse(int amountOfTons, WarehouseAction action){
+
         int currentStock = calculateAndGetCurrentStock();
+
+        if(amountOfTons < 0){
+            throw new IllegalArgumentException("Amount of tons cannot be negative");
+        }
 
         if(action == WarehouseAction.DISPATCH && amountOfTons > currentStock){
             throw new IllegalArgumentException("Not enough stock to dispatch " + amountOfTons + " tons.");
@@ -46,7 +57,6 @@ public class Warehouse {
         else if(action == WarehouseAction.DISPATCH){
             this.removeTonsFromOldestPdts(amountOfTons);
         }
-        return warehouseActivityWindow.addWarehouseActivity(amountOfTons, this.wareHouseNumber, action);
     }
 
 
@@ -66,17 +76,17 @@ public class Warehouse {
         return inititialWeight - finalWeight;
     }
 
-    public List<Pdt> getPdtList(){
-        return pdtList;
+    public List<Storage> getStorageList(){
+        return storageList;
     }
 
-    public void addPdt(Pdt pdt){
-        pdtList.add(pdt);
+    public void addPdt(Storage pdt){
+        storageList.add(pdt);
     }
 
 
-    public void setPdtList(List<Pdt> pdtList) {
-        this.pdtList = pdtList;
+    public void setStorageList(List<Storage> storageList) {
+        this.storageList = storageList;
     }
 
     public WarehouseActivityWindow getWarehouseActivityWindow() {
@@ -85,16 +95,16 @@ public class Warehouse {
 
     private void removeTonsFromOldestPdts(int balanceOfAmountOfTonsToDispatch){
 
-        List<Pdt> filteredAndSortedPdtList = pdtList.stream()
+        List<Storage> filteredAndSortedPdtList = storageList.stream()
                 .filter(pdt -> !pdt.isAllTonsConsumed())
-                .sorted(Comparator.comparing(Pdt::getTimeOfDelivery))
+                .sorted(Comparator.comparing(Storage::getTimeOfDelivery))
                 .toList();
 
         int pdtIndexInFilteredAndSortedPdtList = 0;
 
         while(balanceOfAmountOfTonsToDispatch > 0){
 
-            Pdt pdt = filteredAndSortedPdtList.get(pdtIndexInFilteredAndSortedPdtList);
+            Storage pdt = filteredAndSortedPdtList.get(pdtIndexInFilteredAndSortedPdtList);
             int amountNeeded = pdt.getAmountOfTonsConsumed() + balanceOfAmountOfTonsToDispatch;
             balanceOfAmountOfTonsToDispatch = pdt.removeTonsFromPdt(amountNeeded);
 

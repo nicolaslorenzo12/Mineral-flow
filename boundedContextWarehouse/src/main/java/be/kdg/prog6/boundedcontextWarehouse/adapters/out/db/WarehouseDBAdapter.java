@@ -4,7 +4,7 @@ import be.kdg.prog6.boundedcontextWarehouse.domain.*;
 import be.kdg.prog6.boundedcontextWarehouse.ports.out.LoadWarehousePort;
 import be.kdg.prog6.boundedcontextWarehouse.ports.out.UpdateWarehousePort;
 import be.kdg.prog6.common.domain.MaterialType;
-import be.kdg.prog6.common.domain.Pdt;
+import be.kdg.prog6.common.domain.Storage;
 import be.kdg.prog6.common.domain.Seller;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Component;
@@ -78,8 +78,8 @@ public class WarehouseDBAdapter implements LoadWarehousePort, UpdateWarehousePor
     private void addWarehousePdtsToWarehouseObject(List<StorageJpaEntity> storageJpaEntityList, Warehouse warehouse){
 
         for(StorageJpaEntity storageJpaEntity : storageJpaEntityList){
-            warehouse.addPdt(new Pdt(storageJpaEntity.getWarehouseNumber(), storageJpaEntity.getTimeOfDelivery(), storageJpaEntity.getAmountOfTonsDelivered(),
-                    new Pdt.PdtUUID(storageJpaEntity.getPdtUUID()), storageJpaEntity.getAmountOfTonsConsumed(), storageJpaEntity.isAllTonsConsumed()));
+            warehouse.addPdt(new Storage(storageJpaEntity.getWarehouseNumber(), storageJpaEntity.getTimeOfDelivery(), storageJpaEntity.getAmountOfTonsDelivered(),
+                    new Storage.PdtUUID(storageJpaEntity.getPdtUUID()), storageJpaEntity.getAmountOfTonsConsumed(), storageJpaEntity.isAllTonsConsumed()));
         }
     }
     @Override
@@ -109,12 +109,12 @@ public class WarehouseDBAdapter implements LoadWarehousePort, UpdateWarehousePor
 
 
     private List<StorageJpaEntity> buildJpaEntityObjects(Warehouse warehouse) {
-        return warehouse.getPdtList().stream()
+        return warehouse.getStorageList().stream()
                 .map(pdt -> buildPdtJpaEntity(pdt, warehouse))
                 .collect(Collectors.toList());
     }
 
-    private StorageJpaEntity buildPdtJpaEntity(Pdt pdt, Warehouse warehouse) {
+    private StorageJpaEntity buildPdtJpaEntity(Storage pdt, Warehouse warehouse) {
         return new StorageJpaEntity(
                 pdt.getPdtUUID().uuid(),
                 pdt.getTimeOfDelivery(),

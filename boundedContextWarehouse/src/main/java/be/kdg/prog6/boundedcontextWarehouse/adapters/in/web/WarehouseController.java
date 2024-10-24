@@ -1,7 +1,7 @@
 package be.kdg.prog6.boundedcontextWarehouse.adapters.in.web;
 
 import be.kdg.prog6.boundedcontextWarehouse.ports.in.GetMaterialByMaterialTypeCommand;
-import be.kdg.prog6.common.domain.Pdt;
+import be.kdg.prog6.common.domain.Storage;
 import be.kdg.prog6.boundedcontextWarehouse.domain.Warehouse;
 import be.kdg.prog6.boundedcontextWarehouse.adapters.in.web.dto.PdtDto;
 import be.kdg.prog6.boundedcontextWarehouse.adapters.in.web.dto.WarehouseDto;
@@ -73,7 +73,7 @@ public class WarehouseController {
 
     private WarehouseDto buildWarehouseDto(Warehouse warehouse, Material material, Seller seller){
 
-        List<PdtDto> pdtDtoList = warehouse.getPdtList().stream()
+        List<PdtDto> pdtDtoList = warehouse.getStorageList().stream()
                 .map(this::createPdtDto).toList();
 
         return new WarehouseDto(
@@ -86,7 +86,7 @@ public class WarehouseController {
         );
     }
 
-    private PdtDto createPdtDto(Pdt pdt) {
+    private PdtDto createPdtDto(Storage pdt) {
         return new PdtDto(pdt.getTimeOfDelivery(), pdt.getAmountOfTonsDelivered());
     }
 }
