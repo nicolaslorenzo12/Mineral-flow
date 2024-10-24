@@ -1,4 +1,4 @@
-package be.kdg.prog6.common.facades;
+package be.kdg.prog6.common.commands;
 
 import be.kdg.prog6.common.domain.Pdt;
 

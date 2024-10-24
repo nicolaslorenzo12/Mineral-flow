@@ -1,6 +1,6 @@
 package be.kdg.prog6.boundedcontextInvoice.ports.in;
 
-import be.kdg.prog6.common.facades.CommissionFeeToCalculateCommand;
+import be.kdg.prog6.common.commands.CommissionFeeToCalculateCommand;
 
 public interface CalculateCommissionFeeUseCase{
 

@@ -5,7 +5,7 @@ import be.kdg.prog6.boundedcontextWaterside.domain.ShipmentStatus;
 import be.kdg.prog6.boundedcontextWaterside.ports.in.MatchShipmentOrderAndPurchaseOrderUseCase;
 import be.kdg.prog6.boundedcontextWaterside.ports.out.LoadShipmentOrderPort;
 import be.kdg.prog6.boundedcontextWaterside.ports.out.UpdateShipmentOrderPort;
-import be.kdg.prog6.common.facades.MatchShipmentOrderWithPurchaseOrderCommand;
+import be.kdg.prog6.common.commands.MatchShipmentOrderWithPurchaseOrderCommand;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

@@ -1,7 +1,7 @@
 package be.kdg.prog6.boundedcontextWarehouse.adapters.in.web;
 
 import be.kdg.prog6.boundedcontextWarehouse.ports.in.MatchShipmentOrderWithPurchaseOrderUseCase;
-import be.kdg.prog6.common.facades.MatchShipmentOrderWithPurchaseOrderCommand;
+import be.kdg.prog6.common.commands.MatchShipmentOrderWithPurchaseOrderCommand;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
 

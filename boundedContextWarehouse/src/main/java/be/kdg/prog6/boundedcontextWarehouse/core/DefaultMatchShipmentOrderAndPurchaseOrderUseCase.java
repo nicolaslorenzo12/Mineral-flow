@@ -4,7 +4,7 @@ import be.kdg.prog6.common.domain.PurchaseOrder;
 import be.kdg.prog6.boundedcontextWarehouse.ports.in.MatchShipmentOrderWithPurchaseOrderUseCase;
 import be.kdg.prog6.boundedcontextWarehouse.ports.out.LoadPurchaseOrderPort;
 import be.kdg.prog6.boundedcontextWarehouse.ports.out.UpdatePurchaseOrderPort;
-import be.kdg.prog6.common.facades.MatchShipmentOrderWithPurchaseOrderCommand;
+import be.kdg.prog6.common.commands.MatchShipmentOrderWithPurchaseOrderCommand;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;

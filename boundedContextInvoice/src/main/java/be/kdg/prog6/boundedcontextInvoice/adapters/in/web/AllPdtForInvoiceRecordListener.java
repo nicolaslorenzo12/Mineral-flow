@@ -2,7 +2,7 @@ package be.kdg.prog6.boundedcontextInvoice.adapters.in.web;
 
 import be.kdg.prog6.boundedcontextInvoice.ports.in.SaveInvoiceRecordsCommand;
 import be.kdg.prog6.boundedcontextInvoice.ports.in.SaveInvoiceRecordsUseCase;
-import be.kdg.prog6.common.facades.AllPdtToSendForInvoiceCommand;
+import be.kdg.prog6.common.commands.AllPdtToSendForInvoiceCommand;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
 

@@ -1,7 +1,7 @@
 package be.kdg.prog6.boundedcontextInvoice.adapters.in.web;
 
 import be.kdg.prog6.boundedcontextInvoice.ports.in.CalculateCommissionFeeUseCase;
-import be.kdg.prog6.common.facades.CommissionFeeToCalculateCommand;
+import be.kdg.prog6.common.commands.CommissionFeeToCalculateCommand;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
 

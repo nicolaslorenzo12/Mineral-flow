@@ -7,11 +7,11 @@ import java.util.List;
 
 public class Warehouse {
 
-    private final int wareHouseNumber;
-    private final Seller.CustomerUUID sellerUUID;
-    private final MaterialType materialType;
+    private int wareHouseNumber;
+    private Seller.CustomerUUID sellerUUID;
+    private MaterialType materialType;
     private final UnitOfMeasurement uom = UnitOfMeasurement.T;
-    private final WarehouseActivityWindow warehouseActivityWindow;
+    private WarehouseActivityWindow warehouseActivityWindow;
     private List<Pdt> pdtList;
     private final int maximumCapacity = 500000;
 
@@ -21,6 +21,10 @@ public class Warehouse {
         this.materialType = materialType;
         this.warehouseActivityWindow = warehouseActivityWindow;
         this.pdtList = new ArrayList<>();
+    }
+
+    public Warehouse(){
+
     }
 
 
@@ -38,6 +42,9 @@ public class Warehouse {
 
         if(action == WarehouseAction.DISPATCH && amountOfTons > currentStock){
             throw new IllegalArgumentException("Not enough stock to dispatch " + amountOfTons + " tons.");
+        }
+        else if(action == WarehouseAction.DISPATCH){
+            this.removeTonsFromOldestPdts(amountOfTons);
         }
         return warehouseActivityWindow.addWarehouseActivity(amountOfTons, this.wareHouseNumber, action);
     }
@@ -67,11 +74,14 @@ public class Warehouse {
         pdtList.add(pdt);
     }
 
+
+
+
     public WarehouseActivityWindow getWarehouseActivityWindow() {
         return warehouseActivityWindow;
     }
 
-    public Warehouse removeTonsFromOldestPdts(int balanceOfAmountOfTonsToDispatch){
+    public void removeTonsFromOldestPdts(int balanceOfAmountOfTonsToDispatch){
 
         List<Pdt> filteredAndSortedPdtList = pdtList.stream()
                 .filter(pdt -> !pdt.isAllTonsConsumed())
@@ -88,9 +98,8 @@ public class Warehouse {
 
             pdtIndexInFilteredAndSortedPdtList++;
         }
-
-        return this;
     }
+
 
 
     public double getWarehousePercentageUtilization(){

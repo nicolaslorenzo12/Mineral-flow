@@ -26,6 +26,13 @@ public class Pdt {
         this.allTonsConsumed = allTonsConsumed;
     }
 
+
+    public Pdt(int amountOfTonsDelivered, LocalDateTime timeOfDelivery) {
+
+        this.amountOfTonsDelivered = amountOfTonsDelivered;
+        this.timeOfDelivery = timeOfDelivery;
+    }
+
     public Pdt() {
     }
 
@@ -65,18 +72,18 @@ public class Pdt {
         this.allTonsConsumed = allTonsConsumed;
     }
 
-    public int removeTonsFromPdt(int amountNeeded){
+    public int removeTonsFromPdt(int remainingTonsToDispatch){
 
         int balanceOfAmountOfTonsToDispatch;
 
-        if(amountNeeded < this.getAmountOfTonsDelivered()){
-            this.setAmountOfTonsConsumed(amountNeeded);
+        if(remainingTonsToDispatch < this.getAmountOfTonsDelivered()){
+            this.setAmountOfTonsConsumed(remainingTonsToDispatch);
             balanceOfAmountOfTonsToDispatch = 0;
         }
         else{
             this.setAmountOfTonsConsumed(this.getAmountOfTonsDelivered());
             this.setAllTonsConsumed(true);
-            balanceOfAmountOfTonsToDispatch = amountNeeded - this.getAmountOfTonsDelivered();
+            balanceOfAmountOfTonsToDispatch = remainingTonsToDispatch - this.getAmountOfTonsDelivered();
         }
 
         return balanceOfAmountOfTonsToDispatch;

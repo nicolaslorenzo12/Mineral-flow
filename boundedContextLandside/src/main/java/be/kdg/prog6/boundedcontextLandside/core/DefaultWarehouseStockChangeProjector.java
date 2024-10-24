@@ -25,7 +25,8 @@ public class DefaultWarehouseStockChangeProjector implements WarehouseStockChang
 
         Warehouse warehouse = new Warehouse(warehouseNumber, sellerUuid, amountOfTons, materialType);
 
-        updateWarehousePorts.forEach(updateWarehousePort -> updateWarehousePort.updateWarehouse(warehouse,UpdateWarehouseAction.CHANGE_WAREHOUSE_STOCK
+        updateWarehousePorts.forEach(updateWarehousePort -> updateWarehousePort.updateWarehouse(warehouse,
+                UpdateWarehouseAction.CHANGE_WAREHOUSE_STOCK
         , UUID.randomUUID(), LocalDateTime.now()));
     }
 }

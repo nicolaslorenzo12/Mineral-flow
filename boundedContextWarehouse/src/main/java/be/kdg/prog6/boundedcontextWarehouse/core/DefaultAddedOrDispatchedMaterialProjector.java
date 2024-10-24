@@ -70,9 +70,10 @@ public class DefaultAddedOrDispatchedMaterialProjector implements AddedOrDispatc
     private void processOrderLine(Seller.CustomerUUID sellerUUID, OrderLine orderLine) {
         Warehouse warehouse = findWarehouseBySellerUUIDAndMaterialType(sellerUUID, orderLine.getMaterialType());
 
-        warehouse.removeTonsFromOldestPdts(orderLine.getQuantity());
-
         WarehouseActivity warehouseActivity = warehouse.addWarehouseActivity(orderLine.getQuantity(),WarehouseAction.DISPATCH);
+//        warehouse.removeTonsFromOldestPdts(orderLine.getQuantity());
+
+//        WarehouseActivity warehouseActivity = warehouse.addWarehouseActivity(orderLine.getQuantity(),WarehouseAction.DISPATCH);
         updateWarehousePort.forEach(port -> port.updateWarehouse(UpdateWarehouseAction.CREATE_ACTIVIY, warehouse, warehouseActivity,
                 UUID.randomUUID()));
     }

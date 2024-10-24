@@ -4,7 +4,7 @@ import be.kdg.prog6.boundedcontextWaterside.domain.ShipmentOrder;
 import be.kdg.prog6.boundedcontextWaterside.domain.ShipmentStatus;
 import be.kdg.prog6.boundedcontextWaterside.ports.out.UpdateShipmentOrderPort;
 import be.kdg.prog6.common.events.MaterialToBeDispatchedEvent;
-import be.kdg.prog6.common.facades.MatchShipmentOrderWithPurchaseOrderCommand;
+import be.kdg.prog6.common.commands.MatchShipmentOrderWithPurchaseOrderCommand;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Component;
 

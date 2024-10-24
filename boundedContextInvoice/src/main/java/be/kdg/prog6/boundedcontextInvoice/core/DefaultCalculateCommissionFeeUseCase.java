@@ -5,7 +5,7 @@ import be.kdg.prog6.boundedcontextInvoice.domain.QuantityOfTonsInOrderLineAndPri
 import be.kdg.prog6.boundedcontextInvoice.ports.in.CalculateCommissionFeeUseCase;
 import be.kdg.prog6.boundedcontextInvoice.ports.out.LoadMaterialPort;
 import be.kdg.prog6.common.domain.Material;
-import be.kdg.prog6.common.facades.CommissionFeeToCalculateCommand;
+import be.kdg.prog6.common.commands.CommissionFeeToCalculateCommand;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.NoSuchElementException;
