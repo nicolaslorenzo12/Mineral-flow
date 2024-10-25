@@ -3,77 +3,105 @@ import com.tngtech.archunit.junit.AnalyzeClasses;
 import com.tngtech.archunit.junit.ArchTest;
 import com.tngtech.archunit.lang.ArchRule;
 import com.tngtech.archunit.lang.syntax.ArchRuleDefinition;
-import com.tngtech.archunit.library.Architectures;
-
-import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.noClasses;
 
 @AnalyzeClasses(packages = "be.kdg.prog6.boundedcontextWarehouse", importOptions = ImportOption.DoNotIncludeTests.class)
 class ArquitectureTestInWarehouseBoundedContext {
 
-    private static final String COMMON_COMMANDS = "be.kdg.prog6.common.commands..";
-    private static final String COMMON_EVENTS = "be.kdg.prog6.common.events..";
-    private static final String LISTENERS = "be.kdg.prog6.adapters.in.web..";
-    private static final String DB_ADAPTERS_PACKAGE = "be.kdg.prog6.boundedcontextWarehouse.adapters.out.db..";
-    private static final String DTOS_PACKAGE = "be.kdg.prog6.boundedcontextWarehouse.adapters.in.web.dto..";
-    private static final String IN_WEB_PACKAGE = "be.kdg.prog6.boundedcontextWarehouse.adapters.in.web..";
+    private static final String DTOS_PACKAGE = "be.kdg.prog6.boundedcontextWarehouse.adapters.in.web.dto";
+    private static final String IN_WEB_PACKAGE_AND_SUB_PACKAGES_OF_IT = "be.kdg.prog6.boundedcontextWarehouse.adapters.in.web..";
+    private static final String IN_WEB_PACKAGE = "be.kdg.prog6.boundedcontextWarehouse.adapters.in.web";
     private static final String PORTS_IN_PACKAGE = "be.kdg.prog6.boundedcontextWarehouse.ports.in..";
+    private static final String CORE_PACKAGE = "be.kdg.prog6.boundedcontextWarehouse.core";
+    private static final String AMPQ_PACKAGE = "be.kdg.prog6.boundedcontextWarehouse.adapters.ampq";
+    private static final String OUT_ADAPTER_PACKAGE = "be.kdg.prog6.boundedcontextWarehouse.adapters.out.db";
+    private static final String PORTS_OUT_PACKAGE = "be.kdg.prog6.boundedcontextWarehouse.adapters.ports.out";
+    private static final String DOMAIN_PACKAGE = "be.kdg.prog6.boundedcontextWarehouse.domain";
 
 
     @ArchTest
-    static final ArchRule repositoriesShouldOnlyBeUsedInDbAdaptersAndDBAdapters =
-            noClasses()
+    static final ArchRule repositoriesShouldOnlyBeUsedInDBAdapters =
+            ArchRuleDefinition.classes()
                     .that()
-                    .resideOutsideOfPackage(DB_ADAPTERS_PACKAGE)
+                    .haveSimpleNameContaining("DBAdapter")
                     .should()
                     .dependOnClassesThat()
-                    .resideInAPackage(DB_ADAPTERS_PACKAGE)
-                    .andShould()
-                    .dependOnClassesThat()
-                    .haveSimpleNameEndingWith("DBAdapter")
-                    .because("Repositories should only be used inside DB adapters or classes ending with 'DBAdapter' to maintain separation of concerns.");
-
+                    .haveSimpleNameContaining("Repository")
+                    .because("Classes named 'Repository' should only be used in classes named 'DBAdapter'");
 
     @ArchTest
-    static final ArchRule dtosShouldOnlyBeUsedInWebClasses =
+    static final ArchRule nonDBAdaptersShouldNotDependOnRepositories =
             ArchRuleDefinition.noClasses()
                     .that()
-                    .resideOutsideOfPackage(IN_WEB_PACKAGE) // Classes outside in.web
+                    .haveSimpleNameNotContaining("DBAdapter")
+                    .and()
+                    .haveSimpleNameNotContaining("Repository")
                     .should()
                     .dependOnClassesThat()
-                    .resideInAnyPackage(DTOS_PACKAGE) // Depend on DTOs
-                    .because("DTOs should only be used in classes within the in.web package to ensure proper separation of concerns.");
+                    .haveSimpleNameContaining("Repository")
+                    .because("Classes not named 'DBAdapter' should not depend on 'Repository'");
+
+
+    // Just one path, dtos might not be used in a web package controller
+    @ArchTest
+    static final ArchRule dtosShouldOnlyBeUsedInWebPackage =
+            ArchRuleDefinition.noClasses()
+                    .that()
+                    .resideOutsideOfPackage(IN_WEB_PACKAGE_AND_SUB_PACKAGES_OF_IT)
+                    .should()
+                    .dependOnClassesThat()
+                    .resideInAnyPackage(DTOS_PACKAGE)
+                    .as("DTOs should only be used within the in.web package")
+                    .because("DTOs are meant to be used to show really specific data to users outside the businnes");
+
+    @ArchTest
+    static final ArchRule domainShouldNotDependOnAnyOtherLayerRule =
+            ArchRuleDefinition.noClasses()
+                    .that()
+                    .resideInAPackage(DOMAIN_PACKAGE)
+                    .should().dependOnClassesThat().resideInAnyPackage(IN_WEB_PACKAGE,PORTS_OUT_PACKAGE, PORTS_IN_PACKAGE, CORE_PACKAGE)
+                    .because("Domain should not depend on other layers.");
 
 
     @ArchTest
-    static final ArchRule webAdaptersShouldOnlyDependOnUseCases =
-            ArchRuleDefinition.noClasses()
+    static final ArchRule controllersShouldOnlyDependOnUseCases =
+            ArchRuleDefinition.classes()
                     .that()
-                    .resideInAPackage(IN_WEB_PACKAGE) // Classes in adapters.in.web
+                    .resideInAPackage(IN_WEB_PACKAGE)
                     .should()
                     .dependOnClassesThat()
-                    .resideInAnyPackage(PORTS_IN_PACKAGE) // Classes in ports.in
-                    .andShould()
-                    .haveSimpleNameEndingWith("UseCase") // Must end with UseCase
-                    .because("Classes in the web adapter should only depend on UseCase classes in the ports.in package to maintain separation of concerns.");
+                    .resideInAnyPackage(PORTS_IN_PACKAGE)
+                    .because("Controller and listeners should only depend on use cases");
 
-//    @ArchTest
-//    static final ArchRule commandsShouldNotDependOnEventsOrListeners =
-//            noClasses().that().resideInAPackage(COMMON_COMMANDS)
-//                    .should().dependOnClassesThat().resideInAnyPackage(
-//                            COMMON_EVENTS,
-//                            LISTENERS
-//                    )
-//                    .because("Commands should be independent and not rely on events or listeners to maintain separation of concerns.");
-//
-//    @ArchTest
-//    static final ArchRule eventsShouldNotDependOnCommandsOrListeners =
-//            noClasses().that().resideInAPackage(COMMON_EVENTS)
-//                    .should().dependOnClassesThat().resideInAnyPackage(
-//                            COMMON_COMMANDS,
-//                            LISTENERS
-//                    )
-//                    .because("Events should be pure data carriers, not dependent on commands or listeners.");
+    @ArchTest
+    static final ArchRule defaultUseCasesShouldNotImplementSomethingElseThanUseCasePorts =
+            ArchRuleDefinition.noClasses()
+                    .that()
+                    .resideOutsideOfPackage(PORTS_IN_PACKAGE)
+                    .should()
+                    .dependOnClassesThat()
+                    .resideInAnyPackage(CORE_PACKAGE, IN_WEB_PACKAGE)
+                    .because("Classes in the web adapter should only depend on UseCase classes in the ports.in package");
 
 
+    @ArchTest
+    static final ArchRule defaultUseCasesShouldAlwaysImplementAUseCasePort =
+            ArchRuleDefinition.classes()
+                    .that()
+                    .resideInAPackage(CORE_PACKAGE)
+                    .should()
+                    .dependOnClassesThat()
+                    .resideInAnyPackage(PORTS_IN_PACKAGE, PORTS_OUT_PACKAGE, DOMAIN_PACKAGE)
+                    .because("Classes in the web adapter should only depend on UseCase classes in the ports.in package");
+
+
+    @ArchTest
+    static final ArchRule nonAdaptersShouldNotDependOnPortsOut =
+            ArchRuleDefinition.noClasses()
+                    .that()
+                    .resideOutsideOfPackages(AMPQ_PACKAGE, OUT_ADAPTER_PACKAGE)
+                    .should()
+                    .dependOnClassesThat()
+                    .resideInAnyPackage(PORTS_OUT_PACKAGE) // Classes in ports.out package
+                    .because("Classes outside 'adapters.ampq' and 'adapters.out.db' should not depend on 'ports.out'");
 
 }

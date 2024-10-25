@@ -25,6 +25,7 @@ public class DefaultGetCurrentStockOfAWarehouseUseCase implements GetCurrentStoc
     }
 
     private Warehouse findWarehouse(int warehouseNumber) {
+
         return loadWarehousePort.loadWarehouseByWarehouseNumber(warehouseNumber)
                 .orElseThrow(() -> new NoSuchElementException("Warehouse not found"));
     }
