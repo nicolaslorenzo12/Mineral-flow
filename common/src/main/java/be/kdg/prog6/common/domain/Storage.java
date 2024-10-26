@@ -72,18 +72,19 @@ public class Storage {
         this.allTonsConsumed = allTonsConsumed;
     }
 
-    public int removeTonsFromPdt(int remainingTonsToDispatch){
+    public int removeTonsFromPdt(int amountOfTonsToDispatch){
 
         int balanceOfAmountOfTonsToDispatch;
+        int availableAmountOfTonsToDispatch = this.getAmountOfTonsDelivered() - this.getAmountOfTonsConsumed();
 
-        if(remainingTonsToDispatch < this.getAmountOfTonsDelivered()){
-            this.setAmountOfTonsConsumed(remainingTonsToDispatch);
+        if(amountOfTonsToDispatch < availableAmountOfTonsToDispatch){
+            this.setAmountOfTonsConsumed(amountOfTonsToDispatch + this.getAmountOfTonsConsumed());
             balanceOfAmountOfTonsToDispatch = 0;
         }
         else{
+            balanceOfAmountOfTonsToDispatch = amountOfTonsToDispatch - availableAmountOfTonsToDispatch;
             this.setAmountOfTonsConsumed(this.getAmountOfTonsDelivered());
             this.setAllTonsConsumed(true);
-            balanceOfAmountOfTonsToDispatch = remainingTonsToDispatch - this.getAmountOfTonsDelivered();
         }
 
         return balanceOfAmountOfTonsToDispatch;

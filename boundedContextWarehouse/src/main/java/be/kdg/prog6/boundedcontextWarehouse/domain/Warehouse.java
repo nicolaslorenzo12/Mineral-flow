@@ -23,6 +23,10 @@ public class Warehouse {
         this.storageList = new ArrayList<>();
     }
 
+    public Warehouse (WarehouseActivityWindow warehouseActivityWindow) {
+        this.warehouseActivityWindow = warehouseActivityWindow;
+    }
+
     public int getWareHouseNumber() {
         return wareHouseNumber;
     }
@@ -34,6 +38,11 @@ public class Warehouse {
     public WarehouseActivity addWarehouseActivity(int amountOfTons, WarehouseAction action){
 
         checkIfThereAreProblemsWithPossibleNewActivityForWarehouse(amountOfTons, action);
+
+        if(action == WarehouseAction.DISPATCH){
+            this.removeTonsFromOldestPdts(amountOfTons);
+        }
+
         return warehouseActivityWindow.addWarehouseActivity(amountOfTons, this.wareHouseNumber, action);
     }
 
@@ -48,9 +57,6 @@ public class Warehouse {
 
         if(action == WarehouseAction.DISPATCH && amountOfTons > currentStock){
             throw new IllegalArgumentException("Not enough stock to dispatch " + amountOfTons + " tons.");
-        }
-        else if(action == WarehouseAction.DISPATCH){
-            this.removeTonsFromOldestPdts(amountOfTons);
         }
     }
 
@@ -91,7 +97,7 @@ public class Warehouse {
     private void removeTonsFromOldestPdts(int balanceOfAmountOfTonsToDispatch){
 
         List<Storage> filteredAndSortedPdtList = storageList.stream()
-                .filter(pdt -> !pdt.isAllTonsConsumed())
+                .filter(storage -> !storage.isAllTonsConsumed())
                 .sorted(Comparator.comparing(Storage::getTimeOfDelivery))
                 .toList();
 
@@ -100,8 +106,7 @@ public class Warehouse {
         while(balanceOfAmountOfTonsToDispatch > 0){
 
             Storage pdt = filteredAndSortedPdtList.get(pdtIndexInFilteredAndSortedPdtList);
-            int amountNeeded = pdt.getAmountOfTonsConsumed() + balanceOfAmountOfTonsToDispatch;
-            balanceOfAmountOfTonsToDispatch = pdt.removeTonsFromPdt(amountNeeded);
+            balanceOfAmountOfTonsToDispatch = pdt.removeTonsFromPdt(balanceOfAmountOfTonsToDispatch);
 
             pdtIndexInFilteredAndSortedPdtList++;
         }
