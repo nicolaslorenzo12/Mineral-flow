@@ -23,73 +23,6 @@ public class Accountant{
         System.out.println("The commission fee is " + commissionFee + "$");
     }
 
-//    public static Invoice calculateAncCreateInvoice(List<InvoiceRecord> invoiceRecords, String sellerName, List<Material> materials){
-//
-//        // Step 1: Group the invoice records by MaterialType
-//        Map<MaterialType, List<InvoiceRecord>> invoiceRecordsByMaterialType = invoiceRecords.stream()
-//                .collect(Collectors.groupingBy(InvoiceRecord::getMaterialType));
-//
-//        // Step 2: For each material type, calculate the amountToPayForMaterial and sum the tons
-//        List<InvoiceMaterialAndAmountToPayForMaterial> invoiceMaterialAndAmounts = new ArrayList<>();
-//        int totalAmountToPayForInvoice = 0;
-//
-//        for (Map.Entry<MaterialType, List<InvoiceRecord>> entry : invoiceRecordsByMaterialType.entrySet()) {
-//            MaterialType materialType = entry.getKey();
-//            List<InvoiceRecord> recordsForMaterial = entry.getValue();
-//            Material material = findMaterialByMaterialType(materialType, materials);
-//
-//            int totalAmountToPayForMaterial = 0;  // Reset per material type
-//
-//            // Calculate the amount to pay for each record based on the number of days in storage
-//            for (InvoiceRecord invoiceRecord : recordsForMaterial) {
-//                int amountOfTons = invoiceRecord.getAmountOfTons();
-//
-//                // Calculate the number of days the material has been in storage
-//                LocalDate pdtCreationDate = invoiceRecord.getPdtCreationDate();
-//                LocalDate invoiceDate = invoiceRecord.getInvoiceDate();  // Use the invoice date for the calculation
-//                int daysInStorage = (int) ChronoUnit.DAYS.between(pdtCreationDate, invoiceDate);
-//
-//                // Get material info and calculate the price
-//                int pricePerTonPerDay = material.getStoragePricePerTonPerDay();
-//
-//                // Calculate the amount to pay for this record (tons * price per ton * days in storage)
-//                int amountToPayForRecord = amountOfTons * pricePerTonPerDay * daysInStorage;
-//
-//                // Add to the total for this material type
-//                totalAmountToPayForMaterial += amountToPayForRecord;
-//            }
-//
-//            // Step 3: Calculate the total amount to pay for this material type and add to the list
-//            String materialDescription = material.getDescription();  // Or any way to describe the material
-//            invoiceMaterialAndAmounts.add(new InvoiceMaterialAndAmountToPayForMaterial(materialDescription, totalAmountToPayForMaterial));
-//
-//            // Add the total amount for this material type to the overall invoice total
-//            totalAmountToPayForInvoice += totalAmountToPayForMaterial;
-//        }
-//
-//        // Step 4: Create and return the Invoice object with the details
-//        return new Invoice(sellerName,  invoiceMaterialAndAmounts, totalAmountToPayForInvoice);
-//
-//    }
-//
-//
-//    private static Material findMaterialByMaterialType(MaterialType materialType, List<Material> materials) {
-//
-//
-//        return materials.stream()
-//                .filter(material -> material.getMaterialType().equals(materialType))
-//                .findFirst()
-//                .orElseThrow(() -> new NoSuchElementException("Material with type " + materialType + " was not found"));
-//    }
-
-
-
-
-
-
-
-
-
 
     public static Invoice calculateAndCreateInvoice(List<InvoiceRecord> invoiceRecords, Seller.CustomerUUID sellerUUID, List<Material> materials) {
 
@@ -113,7 +46,6 @@ public class Accountant{
 
             // Third step part two. I add the total amount of the material to the total amount to pay for the invoice
             totalAmountToPayForInvoice += totalAmountToPayForMaterial;
-            System.out.println(totalAmountToPayForMaterial + "sdfadsfsadfadsfadsf");
         }
 
         //Fourth and last step, I create and return the Invoice object

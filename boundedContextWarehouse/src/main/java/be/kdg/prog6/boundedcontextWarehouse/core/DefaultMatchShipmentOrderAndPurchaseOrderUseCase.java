@@ -30,11 +30,10 @@ public class DefaultMatchShipmentOrderAndPurchaseOrderUseCase implements MatchSh
 
         if(shipmentOrderUUID.equals(purchaseOrder.getShipmentOrderUUID())){
             System.out.println("Shipment order and purchase order match");
+            updatePurchaseOrderPort.shipmentOrderAndPurchaseOrderMatched(shipmentOrderUUID, LocalDate.now());
         }
         else{
             System.out.println("do not match");
         }
-
-        updatePurchaseOrderPort.shipmentOrderAndPurchaseOrderMatched(shipmentOrderUUID, LocalDate.now());
     }
 }

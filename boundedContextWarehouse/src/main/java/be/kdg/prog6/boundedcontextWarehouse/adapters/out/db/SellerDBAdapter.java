@@ -27,14 +27,7 @@ public class SellerDBAdapter implements LoadSellerPort {
 
         // Assuming address is already loaded due to the relationship
         AddressJpaEntitiy addressJpaEntity = sellerJpaEntity.getAddressJpaEntity();
-        Address address = new Address(
-                addressJpaEntity.getStreet(),
-                addressJpaEntity.getHouseNumber(),
-                addressJpaEntity.getCity(),
-                addressJpaEntity.getCountry(),
-                new Address.AddressUUID(addressJpaEntity.getAddressUUID())
-        );
-
-        return new Seller(customerUUID, name, address);
+        Address.AddressUUID addressUUID = new Address.AddressUUID(addressJpaEntity.getAddressUUID());
+        return new Seller(customerUUID, name, addressUUID);
     }
 }

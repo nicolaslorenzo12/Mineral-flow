@@ -5,16 +5,16 @@ public class Customer {
 
     private final CustomerUUID customerUUID;
     private final String name;
-    private Address address;
+    private Address.AddressUUID addressUUID;
 
     public record CustomerUUID(UUID uuid){
 
     }
 
-    public Customer(CustomerUUID customerUUID, String name, Address address) {
+    public Customer(CustomerUUID customerUUID, String name, Address.AddressUUID addressUUID) {
         this.customerUUID = customerUUID;
         this.name = name;
-        this.address = address;
+        this.addressUUID = addressUUID;
     }
 
     public Customer(CustomerUUID customerUUID, String name) {
@@ -30,7 +30,7 @@ public class Customer {
         return name;
     }
 
-    public Address getAddress() {
-        return address;
+    public Address.AddressUUID getAddress() {
+        return addressUUID;
     }
 }

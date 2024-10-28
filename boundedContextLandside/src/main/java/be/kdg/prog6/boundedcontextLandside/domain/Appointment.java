@@ -4,24 +4,25 @@ import org.springframework.http.HttpStatus;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.Random;
 import java.util.UUID;
 
 public class Appointment {
 
     private final Seller.CustomerUUID sellerUUID;
-    private final LocalDate day;
-    private final int gateNumber;
+    private LocalDate day;
+    private int gateNumber;
     private final LocalDateTime appointmentTime;
     private final MaterialType materialType;
-    private final String licensePlateNumberOfTruck;
+    private String licensePlateNumberOfTruck;
     private TruckStatus status;
     private final int warehouseNumber;
     private LocalDateTime arrivalTime;
     private LocalDateTime departureTime;
     private int initialWeight;
     private int finalWeight;
-    private final AppointmentUUID appointmentUUID;
+    private AppointmentUUID appointmentUUID;
     public record AppointmentUUID(UUID uuid) {
 
     }
@@ -43,6 +44,15 @@ public class Appointment {
         this.finalWeight = finalWeight;
         this.arrivalTime = arrivalTime;
         this.departureTime = departureTime;
+    }
+
+    public Appointment(Seller.CustomerUUID sellerUUID, LocalDateTime appointmentTime, MaterialType materialType, String licensePlateNumber,int warehouseNumber){
+
+        this.sellerUUID = sellerUUID;
+        this.appointmentTime = appointmentTime;
+        this.materialType = materialType;
+        this.licensePlateNumberOfTruck = licensePlateNumber;
+        this.warehouseNumber = warehouseNumber;
     }
 
     public LocalDate getDay() {
@@ -179,5 +189,34 @@ public class Appointment {
     public int getNetWeight(){
         return initialWeight - finalWeight;
     }
+
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Appointment that = (Appointment) o;
+        return gateNumber == that.gateNumber &&
+                warehouseNumber == that.warehouseNumber &&
+                initialWeight == that.initialWeight &&
+                finalWeight == that.finalWeight &&
+                sellerUUID.equals(that.sellerUUID) &&
+                appointmentTime.equals(that.appointmentTime) &&
+                materialType == that.materialType &&
+                Objects.equals(licensePlateNumberOfTruck, that.licensePlateNumberOfTruck) &&
+                Objects.equals(status, that.status) &&
+                Objects.equals(arrivalTime, that.arrivalTime) &&
+                Objects.equals(departureTime, that.departureTime) &&
+                Objects.equals(appointmentUUID, that.appointmentUUID);
+    }
+
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(sellerUUID, gateNumber, appointmentTime, materialType, licensePlateNumberOfTruck, status,
+                warehouseNumber, initialWeight, finalWeight, arrivalTime, departureTime, appointmentUUID);
+    }
+
 
 }

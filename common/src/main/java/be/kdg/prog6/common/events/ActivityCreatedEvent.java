@@ -2,7 +2,6 @@ package be.kdg.prog6.common.events;
 
 import be.kdg.prog6.common.domain.MaterialType;
 import be.kdg.prog6.common.domain.Seller;
-import be.kdg.prog6.common.domain.WarehouseAction;
 
 import java.util.UUID;
 
