@@ -10,12 +10,10 @@ class ArquitectureTestInWarehouseBoundedContext {
 
     private static final String DTOS_PACKAGE = "be.kdg.prog6.boundedcontextWarehouse.adapters.in.web.dto";
     private static final String IN_WEB_PACKAGE_AND_SUB_PACKAGES_OF_IT = "be.kdg.prog6.boundedcontextWarehouse.adapters.in.web..";
-    private static final String IN_WEB_PACKAGE = "be.kdg.prog6.boundedcontextWarehouse.adapters.in.web";
     private static final String IN_ADAPTER_PACKAGE = "be.kdg.prog6.boundedcontextWarehouse.adapters.in";
     private static final String OUT_ADAPTER_PACKAGE = "be.kdg.prog6.boundedcontextWarehouse.adapters.out";
     private static final String PORTS_IN_PACKAGE = "be.kdg.prog6.boundedcontextWarehouse.ports.in..";
     private static final String CORE_PACKAGE = "be.kdg.prog6.boundedcontextWarehouse.core";
-    private static final String IN_ADAPTER_AMPQ_PACKAGE = "be.kdg.prog6.boundedcontextWarehouse.adapters.in.ampq";
     private static final String OUT_ADAPTER_AMPQ_PACKAGE = "be.kdg.prog6.boundedcontextWarehouse.adapters.out.ampq";
     private static final String DB_OUT_ADAPTER_PACKAGE = "be.kdg.prog6.boundedcontextWarehouse.adapters.out.db";
     private static final String PORTS_OUT_PACKAGE = "be.kdg.prog6.boundedcontextWarehouse.ports.out";
@@ -91,7 +89,7 @@ class ArquitectureTestInWarehouseBoundedContext {
                     .resideOutsideOfPackages(OUT_ADAPTER_AMPQ_PACKAGE, DB_OUT_ADAPTER_PACKAGE, CORE_PACKAGE)
                     .should()
                     .dependOnClassesThat()
-                    .resideInAPackage(PORTS_OUT_PACKAGE) // Classes in ports.out package
+                    .resideInAPackage(PORTS_OUT_PACKAGE)
                     .because("Classes outside ampq out, db adapters and core should not depend on 'ports.out'");
 
 }

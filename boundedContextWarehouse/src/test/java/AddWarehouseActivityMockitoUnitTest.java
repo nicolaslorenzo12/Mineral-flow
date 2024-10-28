@@ -35,7 +35,7 @@ class AddWarehouseActivityMockitoUnitTest {
     }
 
     @Test
-    void testAddWarehouseActivity_Dispatch_WithSufficientStock() {
+    void testAddWarehouseActivityDispatchWithSufficientStock() {
         // Arrange
         int amountOfTonsToDispatch = 100;
         when(warehouse.calculateAndGetCurrentStock()).thenReturn(150);
@@ -68,7 +68,7 @@ class AddWarehouseActivityMockitoUnitTest {
     }
 
     @Test
-    void testAddWarehouseActivity_Dispatch_WithInsufficientStock() {
+    void testAddWarehouseActivityDispatchWithInsufficientStock() {
         // Arrange
         int amountOfTonsToDispatch = 200;
         when(warehouse.calculateAndGetCurrentStock()).thenReturn(150); // Insufficient stock
@@ -83,7 +83,7 @@ class AddWarehouseActivityMockitoUnitTest {
     }
 
     @Test
-    void testAddWarehouseActivity_Dispatch_WithNegativeAmount() {
+    void testAddWarehouseActivityDispatchWithNegativeAmount() {
         // Arrange
         int amountOfTonsToDispatch = -50;
 
@@ -97,7 +97,7 @@ class AddWarehouseActivityMockitoUnitTest {
     }
 
     @Test
-    void testAddWarehouseActivity_NoDispatch() {
+    void testAddWarehouseActivityNoDispatch() {
         // Arrange
         int amountOfTonsToReceive = 100;
         when(warehouse.calculateAndGetCurrentStock()).thenReturn(150);
@@ -113,7 +113,7 @@ class AddWarehouseActivityMockitoUnitTest {
         assertEquals(expectedActivity, result);
         verify(warehouseActivityWindow, times(1)).addWarehouseActivity(amountOfTonsToReceive, warehouse.getWareHouseNumber(),
                 WarehouseAction.RECEIVE);
-        
+
         for (Storage storage : storageMocks) {
             verify(storage, never()).removeTonsFromPdt(anyInt());
         }
