@@ -23,7 +23,8 @@ public class Warehouse {
         this.storageList = new ArrayList<>();
     }
 
-    public Warehouse (WarehouseActivityWindow warehouseActivityWindow) {
+    public Warehouse (int wareHouseNumber, WarehouseActivityWindow warehouseActivityWindow) {
+        this.wareHouseNumber = wareHouseNumber;
         this.warehouseActivityWindow = warehouseActivityWindow;
     }
 

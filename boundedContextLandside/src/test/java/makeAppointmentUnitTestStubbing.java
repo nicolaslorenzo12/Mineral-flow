@@ -7,9 +7,7 @@ import be.kdg.prog6.common.domain.Seller;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -90,7 +88,12 @@ class DefaultMakeAppointmentUseCaseTest {
 
         MakeAppointmentCommand command = new MakeAppointmentCommand(seller, material,"ABC123", appointmentTime);
 
-        // Act & Assert
-        assertThrows(NoSuchElementException.class, () -> makeAppointmentUseCase.makeAppointment(command));
+
+        // Act & assert
+        NoSuchElementException exception = assertThrows(NoSuchElementException.class, () -> {
+            makeAppointmentUseCase.makeAppointment(command);
+        });
+
+        assertEquals("Warehouse not found, it should be created in advance", exception.getMessage());
     }
 }

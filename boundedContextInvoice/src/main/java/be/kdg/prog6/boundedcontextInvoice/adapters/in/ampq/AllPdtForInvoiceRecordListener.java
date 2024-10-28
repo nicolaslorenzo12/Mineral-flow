@@ -1,4 +1,4 @@
-package be.kdg.prog6.boundedcontextInvoice.adapters.in.web;
+package be.kdg.prog6.boundedcontextInvoice.adapters.in.ampq;
 
 import be.kdg.prog6.boundedcontextInvoice.ports.in.SaveInvoiceRecordsCommand;
 import be.kdg.prog6.boundedcontextInvoice.ports.in.SaveInvoiceRecordsUseCase;

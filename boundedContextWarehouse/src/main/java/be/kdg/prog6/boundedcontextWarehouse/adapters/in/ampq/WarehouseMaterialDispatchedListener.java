@@ -1,4 +1,4 @@
-package be.kdg.prog6.boundedcontextWarehouse.adapters.in.web;
+package be.kdg.prog6.boundedcontextWarehouse.adapters.in.ampq;
 
 import be.kdg.prog6.boundedcontextWarehouse.ports.in.AddedOrDispatchedMaterialProjector;
 import be.kdg.prog6.common.events.MaterialToBeDispatchedEvent;

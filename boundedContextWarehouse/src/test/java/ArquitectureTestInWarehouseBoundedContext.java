@@ -50,15 +50,32 @@ class ArquitectureTestInWarehouseBoundedContext {
                     .should()
                     .dependOnClassesThat()
                     .resideInAnyPackage(DTOS_PACKAGE)
-                    .as("DTOs should only be used within the in.web package")
-                    .because("DTOs are meant to be used to show really specific data to users outside the businnes");
+                    .as("DTOs should only be used within the in.web package and in classes named Controller")
+                    .because("DTOs are meant to be used to show really specific data to users outside the business");
+
+    @ArchTest
+    static final ArchRule dtosShouldOnlyByControllers =
+            ArchRuleDefinition.noClasses()
+                    .that()
+                    .resideInAPackage(IN_WEB_PACKAGE_AND_SUB_PACKAGES_OF_IT)
+                    .and()
+                    .haveSimpleNameNotContaining("Controller")
+                    .and()
+                    .haveSimpleNameNotContaining("Dto")
+                    .should()
+                    .dependOnClassesThat()
+                    .resideInAnyPackage(DTOS_PACKAGE)
+                    .as("DTOs should only be used within the in.web package and in classes named Controller")
+                    .because("DTOs are meant to be used to show really specific data to users outside the business");
 
     @ArchTest
     static final ArchRule domainShouldNotDependOnAnyOtherLayerRule =
             ArchRuleDefinition.noClasses()
                     .that()
                     .resideInAPackage(DOMAIN_PACKAGE)
-                    .should().dependOnClassesThat().resideInAnyPackage(IN_WEB_PACKAGE,PORTS_OUT_PACKAGE, PORTS_IN_PACKAGE, CORE_PACKAGE)
+                    .should()
+                    .dependOnClassesThat()
+                    .resideInAnyPackage(IN_WEB_PACKAGE,PORTS_OUT_PACKAGE, PORTS_IN_PACKAGE, CORE_PACKAGE)
                     .because("Domain should not depend on other layers.");
 
 

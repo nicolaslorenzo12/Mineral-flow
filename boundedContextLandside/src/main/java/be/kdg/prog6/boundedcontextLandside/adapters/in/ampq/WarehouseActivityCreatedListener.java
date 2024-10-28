@@ -1,4 +1,4 @@
-package be.kdg.prog6.boundedcontextLandside.adapters.in.web;
+package be.kdg.prog6.boundedcontextLandside.adapters.in.ampq;
 
 import be.kdg.prog6.boundedcontextLandside.ports.in.WarehouseStockChangeProjector;
 import be.kdg.prog6.common.events.ActivityCreatedEvent;

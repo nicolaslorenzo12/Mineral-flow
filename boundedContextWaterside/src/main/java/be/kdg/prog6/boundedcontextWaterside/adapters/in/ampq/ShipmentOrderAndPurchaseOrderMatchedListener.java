@@ -1,4 +1,4 @@
-package be.kdg.prog6.boundedcontextWaterside.adapters.in.web;
+package be.kdg.prog6.boundedcontextWaterside.adapters.in.ampq;
 
 import be.kdg.prog6.boundedcontextWaterside.domain.ShipmentOrder;
 import be.kdg.prog6.boundedcontextWaterside.ports.in.ShipmentOrderAndPurchaseOrderMatched;
