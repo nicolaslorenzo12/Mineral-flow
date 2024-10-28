@@ -16,6 +16,7 @@ public class DefaultGetCurrentStockOfAWarehouseUseCase implements GetCurrentStoc
     public DefaultGetCurrentStockOfAWarehouseUseCase(LoadWarehousePort loadWarehousePort) {
         this.loadWarehousePort = loadWarehousePort;
     }
+
     @Override
     public Warehouse getCurrentStockOfAWarehouse(GetCurrentStockOfAWarehouseCommand getCurrentStockOfAWarehouseCommand) {
 

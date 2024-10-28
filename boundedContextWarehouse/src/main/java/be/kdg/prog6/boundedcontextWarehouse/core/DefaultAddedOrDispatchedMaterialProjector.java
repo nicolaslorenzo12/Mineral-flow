@@ -18,19 +18,16 @@ public class DefaultAddedOrDispatchedMaterialProjector implements AddedOrDispatc
     private final LoadPurchaseOrderPort loadPurchaseOrderPort;
     private final UpdatePurchaseOrderPort updatePurchaseOrderPort;
     private final UpdateInvoicePort updateInvoicePort;
-    private final LoadMaterialPort loadMaterialPort;
 
     public DefaultAddedOrDispatchedMaterialProjector(LoadWarehousePort loadWarehousePort,
                                                      final List<UpdateWarehousePort> updateWarehousePort, LoadPurchaseOrderPort loadPurchaseOrderPort,
-                                                     UpdatePurchaseOrderPort updatePurchaseOrderPort, UpdateInvoicePort updateInvoicePort,
-                                                     LoadMaterialPort loadMaterialPort)
+                                                     UpdatePurchaseOrderPort updatePurchaseOrderPort, UpdateInvoicePort updateInvoicePort)
     {
         this.loadWarehousePort = loadWarehousePort;
         this.updateWarehousePort = updateWarehousePort;
         this.loadPurchaseOrderPort = loadPurchaseOrderPort;
         this.updatePurchaseOrderPort = updatePurchaseOrderPort;
         this.updateInvoicePort = updateInvoicePort;
-        this.loadMaterialPort = loadMaterialPort;
     }
 
     @Override

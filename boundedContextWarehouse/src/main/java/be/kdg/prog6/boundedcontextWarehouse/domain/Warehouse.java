@@ -82,7 +82,7 @@ public class Warehouse {
         return storageList;
     }
 
-    public void addPdt(Storage pdt){
+    public void addStorage(Storage pdt){
         storageList.add(pdt);
     }
 

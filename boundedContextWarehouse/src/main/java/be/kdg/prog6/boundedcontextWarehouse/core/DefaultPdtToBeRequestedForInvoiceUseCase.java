@@ -16,12 +16,10 @@ import java.util.List;
 public class DefaultPdtToBeRequestedForInvoiceUseCase implements PdtToBeRequestedForInvoiceUseCase {
 
     private final LoadWarehousePort loadWarehousePort;
-    private final LoadMaterialPort loadMaterialPort;
     private final UpdateInvoicePort updateInvoicePort;
 
-    public DefaultPdtToBeRequestedForInvoiceUseCase(LoadWarehousePort loadWarehousePort, LoadMaterialPort loadMaterialPort, UpdateInvoicePort updateInvoicePort) {
+    public DefaultPdtToBeRequestedForInvoiceUseCase(LoadWarehousePort loadWarehousePort, UpdateInvoicePort updateInvoicePort) {
         this.loadWarehousePort = loadWarehousePort;
-        this.loadMaterialPort = loadMaterialPort;
         this.updateInvoicePort = updateInvoicePort;
     }
 
