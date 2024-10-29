@@ -17,7 +17,8 @@ public class DefaultWeightTruckUseCase implements WeightTruckUseCase {
     private final LoadOrCreateDailyCalendarPort loadDailyCalendarPort;
     private final List<UpdateDailyCalendarPort> updateDailyCalendarPorts;
 
-    public DefaultWeightTruckUseCase(LoadOrCreateDailyCalendarPort loadDailyCalendarPort, List<UpdateDailyCalendarPort> updateDailyCalendarPorts) {
+    public DefaultWeightTruckUseCase(LoadOrCreateDailyCalendarPort loadDailyCalendarPort,
+                                     List<UpdateDailyCalendarPort> updateDailyCalendarPorts) {
         this.loadDailyCalendarPort = loadDailyCalendarPort;
         this.updateDailyCalendarPorts = updateDailyCalendarPorts;
     }

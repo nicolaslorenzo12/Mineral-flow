@@ -17,7 +17,8 @@ public class DefaultScanLicensePlateNumberWhenArrivingUseCase implements ScanLic
     private final LoadOrCreateDailyCalendarPort loadDailyCalendarPort;
     private final List<UpdateDailyCalendarPort> updateDailyCalendarPorts;
 
-    public DefaultScanLicensePlateNumberWhenArrivingUseCase(LoadOrCreateDailyCalendarPort loadDailyCalendarPort, List<UpdateDailyCalendarPort> updateDailyCalendarPorts) {
+    public DefaultScanLicensePlateNumberWhenArrivingUseCase(LoadOrCreateDailyCalendarPort loadDailyCalendarPort,
+                                                            List<UpdateDailyCalendarPort> updateDailyCalendarPorts) {
         this.loadDailyCalendarPort = loadDailyCalendarPort;
         this.updateDailyCalendarPorts = updateDailyCalendarPorts;
     }

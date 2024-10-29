@@ -1,7 +1,6 @@
 package be.kdg.prog6.boundedcontextLandside.domain;
 
 import be.kdg.prog6.common.domain.*;
-import org.springframework.http.HttpStatus;
 
 public class Warehouse {
 
@@ -36,16 +35,8 @@ public class Warehouse {
         return materialType;
     }
 
-    public int getMaximumCapacity() {
-        return maximumCapacity;
-    }
-
     public int getCurrentStockStorage() {
         return currentStockStorage;
-    }
-
-    public void setCurrentStockStorage(int currentStockStorage) {
-        this.currentStockStorage = currentStockStorage;
     }
 
     public void checkIfMaximumStockPercentageExceeded() {

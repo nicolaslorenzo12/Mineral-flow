@@ -65,14 +65,6 @@
             return activities;
         }
 
-        public void setActivities(List<WarehouseJpaActivityEntity> activities) {
-            this.activities = activities;
-        }
-
-        public void addActivity(WarehouseJpaActivityEntity warehouseJpaActivityEntity){
-            activities.add(warehouseJpaActivityEntity);
-        }
-
         public MaterialType getMaterialType() {
             return materialType;
         }

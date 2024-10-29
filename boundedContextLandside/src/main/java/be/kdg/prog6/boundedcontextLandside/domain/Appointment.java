@@ -1,6 +1,5 @@
 package be.kdg.prog6.boundedcontextLandside.domain;
 import be.kdg.prog6.common.domain.*;
-import org.springframework.http.HttpStatus;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -59,10 +58,6 @@ public class Appointment {
         return day;
     }
 
-    public TruckStatus getStatus() {
-        return status;
-    }
-
     public Seller.CustomerUUID getSellerUUID() {
         return sellerUUID;
     }
@@ -88,10 +83,6 @@ public class Appointment {
 
     public LocalDateTime getArrivalTime() {
         return arrivalTime;
-    }
-
-    public void setArrivalTime(LocalDateTime arrivalTime) {
-        this.arrivalTime = arrivalTime;
     }
 
     public void setArrivalTime(LocalDateTime arrivalTime, TruckStatus truckStatus) {
@@ -185,12 +176,6 @@ public class Appointment {
     public void updateAppointmentStatus(TruckStatus truckStatus) {
        this.setStatus(truckStatus);
     }
-
-    public int getNetWeight(){
-        return initialWeight - finalWeight;
-    }
-
-
 
     @Override
     public boolean equals(Object o) {

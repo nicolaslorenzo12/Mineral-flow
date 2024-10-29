@@ -7,7 +7,6 @@ import be.kdg.prog6.boundedcontextInvoice.ports.in.CreateInvoiceCommand;
 import be.kdg.prog6.boundedcontextInvoice.ports.in.CreateInvoiceUseCase;
 import be.kdg.prog6.boundedcontextInvoice.ports.out.LoadInvoiceRecordPort;
 import be.kdg.prog6.boundedcontextInvoice.ports.out.LoadMaterialPort;
-import be.kdg.prog6.boundedcontextInvoice.ports.out.LoadSellerPort;
 import be.kdg.prog6.common.domain.Material;
 import be.kdg.prog6.common.domain.MaterialType;
 import be.kdg.prog6.common.domain.Seller;

@@ -59,25 +59,15 @@ public class InvoiceRecordJpaEntity {
         return amountOfTons;
     }
 
-    public void setAmountOfTons(int amountOfTons) {
-        this.amountOfTons = amountOfTons;
-    }
-
     public LocalDate getPdtCreationDate() {
         return pdtCreationDate;
     }
 
-    public void setPdtCreationDate(LocalDate pdtCreationDate) {
-        this.pdtCreationDate = pdtCreationDate;
-    }
 
     public LocalDate getInvoiceDate() {
         return invoiceDate;
     }
 
-    public void setInvoiceDate(LocalDate invoiceDate) {
-        this.invoiceDate = invoiceDate;
-    }
 
     public MaterialType getMaterialType() {
         return materialType;

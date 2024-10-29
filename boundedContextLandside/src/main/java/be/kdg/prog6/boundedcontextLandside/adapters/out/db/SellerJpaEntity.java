@@ -1,10 +1,6 @@
 package be.kdg.prog6.boundedcontextLandside.adapters.out.db;
 
 import jakarta.persistence.*;
-import org.hibernate.annotations.JdbcTypeCode;
-import org.springframework.stereotype.Component;
-
-import java.sql.Types;
 import java.util.UUID;
 
 @Entity
@@ -29,13 +25,7 @@ public class SellerJpaEntity {
     public UUID getSellerUUID() {
         return sellerUUID;
     }
-    public void setSellerUUID(UUID sellerUUID) {
-        this.sellerUUID = sellerUUID;
-    }
     public String getName() {
         return name;
-    }
-    public void setName(String name) {
-        this.name = name;
     }
 }

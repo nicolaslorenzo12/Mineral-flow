@@ -41,20 +41,8 @@ public class OrderLineJpaEntity {
 
     }
 
-    public String getPoNumber() {
-        return poNumber;
-    }
-
-    public void setPoNumber(String poNumber) {
-        this.poNumber = poNumber;
-    }
-
     public int getLineNumber() {
         return lineNumber;
-    }
-
-    public void setLineNumber(int lineNumber) {
-        this.lineNumber = lineNumber;
     }
 
     public MaterialType getMaterialType() {
@@ -69,15 +57,7 @@ public class OrderLineJpaEntity {
         return quantity;
     }
 
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-
     public UUID getOrderLineUUID() {
         return orderLineUUID;
-    }
-
-    public void setOrderLineUUID(UUID orderLineUUID) {
-        this.orderLineUUID = orderLineUUID;
     }
 }

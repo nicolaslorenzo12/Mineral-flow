@@ -37,10 +37,6 @@ public class WarehouseJpaEntity {
         return warehouseNumber;
     }
 
-    public void setWarehouseNumber(int warehouseNumber) {
-        this.warehouseNumber = warehouseNumber;
-    }
-
     public UUID getSellerUUID() {
         return sellerUUID;
     }

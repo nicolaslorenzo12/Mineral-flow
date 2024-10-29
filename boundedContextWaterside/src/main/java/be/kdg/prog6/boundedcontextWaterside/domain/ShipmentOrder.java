@@ -1,7 +1,5 @@
 package be.kdg.prog6.boundedcontextWaterside.domain;
 
-import org.springframework.http.HttpStatus;
-
 import java.time.LocalDate;
 import java.util.UUID;
 

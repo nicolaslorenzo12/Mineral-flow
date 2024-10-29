@@ -45,23 +45,13 @@ public class MaterialJpaEntity {
         return description;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     public int getStoragePricePerTonPerDay() {
         return storagePricePerTonPerDay;
     }
 
-    public void setStoragePricePerTonPerDay(int storagePricePerTonPerDay) {
-        this.storagePricePerTonPerDay = storagePricePerTonPerDay;
-    }
 
     public int getPricePerTon() {
         return pricePerTon;
     }
 
-    public void setPricePerTon(int pricePerTon) {
-        this.pricePerTon = pricePerTon;
-    }
 }

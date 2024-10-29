@@ -41,15 +41,7 @@ public class SellerJpaEntity {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public AddressJpaEntitiy getAddressJpaEntity() {
         return address;
-    }
-
-    public void setAddress(AddressJpaEntitiy address) {
-        this.address = address;
     }
 }

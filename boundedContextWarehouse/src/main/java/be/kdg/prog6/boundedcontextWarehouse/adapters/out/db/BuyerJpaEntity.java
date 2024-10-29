@@ -28,28 +28,4 @@ public class BuyerJpaEntity {
     public BuyerJpaEntity() {
 
     }
-
-    public UUID getBuyerUUID() {
-        return buyerUUID;
-    }
-
-    public void setBuyerUUID(UUID buyerUUID) {
-        this.buyerUUID = buyerUUID;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public AddressJpaEntitiy getAddress() {
-        return address;
-    }
-
-    public void setAddress(AddressJpaEntitiy address) {
-        this.address = address;
-    }
 }

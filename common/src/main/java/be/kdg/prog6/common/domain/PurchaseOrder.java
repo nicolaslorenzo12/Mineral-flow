@@ -1,8 +1,5 @@
 package be.kdg.prog6.common.domain;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
@@ -28,24 +25,12 @@ public class PurchaseOrder {
         this.orderLineList = orderLineList;
     }
 
-    public String getPoNumber() {
-        return poNumber;
-    }
-
     public Seller.CustomerUUID getSellerUuid() {
         return sellerUuid;
     }
 
-    public Buyer.CustomerUUID getBuyerUuid() {
-        return buyerUuid;
-    }
-
     public String getVesselNumber() {
         return vesselNumber;
-    }
-
-    public LocalDate getDate() {
-        return date;
     }
 
     public List<OrderLine> getOrderLineList() {

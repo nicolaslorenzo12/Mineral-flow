@@ -63,29 +63,29 @@ Authorization: Bearer {{access_token}}
 
 {
   "sellerName": "John Doe Minerals",
-  "materialDescription": "Petroleum Coke",
-  "licensePlateNumber": "ABCDEF123",
-  "appointmentTime": "2024-10-28T16:00:00"
+  "materialDescription": "Gypsum",
+  "licensePlateNumber": "ABCDEFGH123",
+  "appointmentTime": "2024-10-29T11:00:00"
 }
 
 
 ###
 
-POST http://localhost:8090/api/truck/AAA123/check
+POST http://localhost:8090/api/truck/ABCDEFGH123/check
 Content-Type: application/json
 Authorization: Bearer {{access_token}}
 
 
 ###
 
-POST http://localhost:8090/api/2568f3c7-f186-4036-b3d1-9bb7d1ae5646/weight
+POST http://localhost:8090/api/f5f361cd-1aba-4ae2-9383-ddbac6492525/weight
 Content-Type: application/json
 Authorization: Bearer {{access_token}}
 
 
 ###
 
-POST http://localhost:8090/api/2568f3c7-f186-4036-b3d1-9bb7d1ae5646/loadMaterial
+POST http://localhost:8090/api/f5f361cd-1aba-4ae2-9383-ddbac6492525/loadMaterial
 Content-Type: application/json
 Authorization: Bearer {{access_token}}
 

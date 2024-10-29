@@ -41,16 +41,8 @@ public class StorageJpaEntity {
         return pdtUUID;
     }
 
-    public void setPdtUUID(UUID pdtUUID) {
-        this.pdtUUID = pdtUUID;
-    }
-
     public LocalDateTime getTimeOfDelivery() {
         return timeOfDelivery;
-    }
-
-    public void setTimeOfDelivery(LocalDateTime timeOfDelivery) {
-        this.timeOfDelivery = timeOfDelivery;
     }
 
     public int getWarehouseNumber() {
@@ -65,23 +57,11 @@ public class StorageJpaEntity {
         return amountOfTonsDelivered;
     }
 
-    public void setAmountOfTonsDelivered(int amountOfTonsDelivered) {
-        this.amountOfTonsDelivered = amountOfTonsDelivered;
-    }
-
     public int getAmountOfTonsConsumed() {
         return amountOfTonsConsumed;
     }
 
-    public void setAmountOfTonsConsumed(int amountOfTonsConsumed) {
-        this.amountOfTonsConsumed = amountOfTonsConsumed;
-    }
-
     public boolean isAllTonsConsumed() {
         return allTonsConsumed;
-    }
-
-    public void setAllTonsConsumed(boolean allTonsConsumed) {
-        this.allTonsConsumed = allTonsConsumed;
     }
 }

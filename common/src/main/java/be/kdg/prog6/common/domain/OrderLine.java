@@ -15,25 +15,14 @@ public class OrderLine {
 
     }
 
-
     public OrderLine(){
 
     }
-    public OrderLine(int lineNumber, MaterialType materialType, int quantity) {
-        this.lineNumber = lineNumber;
-        this.materialType = materialType;
-        this.quantity = quantity;
-    }
-
     public OrderLine(OrderLineUUID orderLineUUID, int lineNumber,MaterialType materialType, int quantity) {
         this.orderLineUUID = orderLineUUID;
         this.lineNumber = lineNumber;
         this.materialType = materialType;
         this.quantity = quantity;
-    }
-
-    public int getLineNumber() {
-        return lineNumber;
     }
 
     public MaterialType getMaterialType() {
@@ -42,9 +31,5 @@ public class OrderLine {
 
     public int getQuantity() {
         return quantity;
-    }
-
-    public UnitOfMeasurement getUom() {
-        return uom;
     }
 }

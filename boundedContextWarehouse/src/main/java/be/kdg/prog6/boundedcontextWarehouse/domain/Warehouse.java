@@ -91,10 +91,6 @@ public class Warehouse {
         this.storageList = storageList;
     }
 
-    public WarehouseActivityWindow getWarehouseActivityWindow() {
-        return warehouseActivityWindow;
-    }
-
     private void removeTonsFromOldestPdts(int balanceOfAmountOfTonsToDispatch){
 
         List<Storage> filteredAndSortedPdtList = storageList.stream()
@@ -112,7 +108,6 @@ public class Warehouse {
             pdtIndexInFilteredAndSortedPdtList++;
         }
     }
-
 
 
     public double getWarehousePercentageUtilization(){

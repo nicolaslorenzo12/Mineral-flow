@@ -1,5 +1,4 @@
 package be.kdg.prog6.boundedcontextInvoice.domain;
-;
 import be.kdg.prog6.common.domain.MaterialType;
 import be.kdg.prog6.common.domain.Seller;
 

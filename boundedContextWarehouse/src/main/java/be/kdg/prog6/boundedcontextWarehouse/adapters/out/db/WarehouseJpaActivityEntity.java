@@ -72,7 +72,6 @@ public class WarehouseJpaActivityEntity {
     public void setWarehouseNumber(int warehouseNumber) {
         this.warehouseNumber = warehouseNumber;
     }
-
     public void setAmountOfTons(int amountOfTons) {
         this.amountOfTons = amountOfTons;
     }
@@ -87,8 +86,5 @@ public class WarehouseJpaActivityEntity {
     }
     public void setTime(LocalDateTime time) {
         this.time = time;
-    }
-    public WarehouseJpaEntity getWarehouseJpaEntity() {
-        return warehouseJpaEntity;
     }
 }

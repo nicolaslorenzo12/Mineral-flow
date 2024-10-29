@@ -3,7 +3,6 @@ package be.kdg.prog6.boundedcontextLandside.adapters.out.db;
 import be.kdg.prog6.boundedcontextLandside.ports.out.LoadMaterialPort;
 import be.kdg.prog6.common.domain.Material;
 import be.kdg.prog6.common.domain.MaterialType;
-import be.kdg.prog6.common.domain.Seller;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

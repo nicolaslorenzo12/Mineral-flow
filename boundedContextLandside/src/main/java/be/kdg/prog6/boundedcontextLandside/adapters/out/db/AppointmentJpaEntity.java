@@ -70,33 +70,16 @@ public class AppointmentJpaEntity {
     public UUID getAppointmentUUID() {
         return appointmentUUID;
     }
-
-    public void setAppointmentUUID(UUID appointmentUUID) {
-        this.appointmentUUID = appointmentUUID;
-    }
-
     public UUID getSellerUuid() {
         return sellerUuid;
-    }
-
-    public void setSellerUuid(UUID sellerUuid) {
-        this.sellerUuid = sellerUuid;
     }
 
     public int getGateNumber() {
         return gateNumber;
     }
 
-    public void setGateNumber(int gateNumber) {
-        this.gateNumber = gateNumber;
-    }
-
     public LocalDateTime getAppointmentTime() {
         return appointmentTime;
-    }
-
-    public void setAppointmentTime(LocalDateTime appointmentTime) {
-        this.appointmentTime = appointmentTime;
     }
 
     public MaterialType getMaterialType() {
@@ -111,72 +94,32 @@ public class AppointmentJpaEntity {
         return licensePlateNumberOfTruck;
     }
 
-    public void setLicensePlateNumberOfTruck(String licensePlateNumberOfTruck) {
-        this.licensePlateNumberOfTruck = licensePlateNumberOfTruck;
-    }
-
     public TruckStatus getTruckStatus() {
         return status;
-    }
-
-    public void setStatus(TruckStatus status) {
-        this.status = status;
     }
 
     public int getWarehouseNumber() {
         return warehouseNumber;
     }
 
-    public void setWarehouseNumber(int warehouseNumber) {
-        this.warehouseNumber = warehouseNumber;
-    }
-
     public LocalDateTime getArrivalTime() {
         return arrivalTime;
-    }
-
-    public void setArrivalTime(LocalDateTime arrivalTime) {
-        this.arrivalTime = arrivalTime;
     }
 
     public LocalDateTime getDepartureTime() {
         return departureTime;
     }
 
-    public void setDepartureTime(LocalDateTime departureTime) {
-        this.departureTime = departureTime;
-    }
-
     public int getInitialWeight() {
         return initialWeight;
-    }
-
-    public void setInitialWeight(int initialWeight) {
-        this.initialWeight = initialWeight;
     }
 
     public int getFinalWeight() {
         return finalWeight;
     }
 
-    public void setFinalWeight(int finalWeight) {
-        this.finalWeight = finalWeight;
-    }
-
     public DailyCalendarJpaEntity getDailyCalendarJpaEntity() {
         return dailyCalendarJpaEntity;
-    }
-
-    public void setDailyCalendarJpaEntity(DailyCalendarJpaEntity dailyCalendarJpaEntity) {
-        this.dailyCalendarJpaEntity = dailyCalendarJpaEntity;
-    }
-
-    public LocalDate getDay() {
-        return day;
-    }
-
-    public void setDay(LocalDate day) {
-        this.day = day;
     }
 }
 

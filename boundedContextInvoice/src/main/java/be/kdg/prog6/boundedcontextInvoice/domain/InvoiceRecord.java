@@ -1,6 +1,5 @@
 package be.kdg.prog6.boundedcontextInvoice.domain;
 
-import be.kdg.prog6.common.domain.Customer;
 import be.kdg.prog6.common.domain.MaterialType;
 import be.kdg.prog6.common.domain.Seller;
 
@@ -46,16 +45,8 @@ public class InvoiceRecord {
         return amountOfTons;
     }
 
-    public void setAmountOfTons(int amountOfTons) {
-        this.amountOfTons = amountOfTons;
-    }
-
     public LocalDate getPdtCreationDate() {
         return pdtCreationDate;
-    }
-
-    public void setPdtCreationDate(LocalDate pdtCreationDate) {
-        this.pdtCreationDate = pdtCreationDate;
     }
 
     public LocalDate getInvoiceDate() {
@@ -76,9 +67,5 @@ public class InvoiceRecord {
 
     public InvoiceUUID getInvoiceUUID() {
         return invoiceUUID;
-    }
-
-    public void setInvoiceUUID(InvoiceUUID invoiceUUID) {
-        this.invoiceUUID = invoiceUUID;
     }
 }

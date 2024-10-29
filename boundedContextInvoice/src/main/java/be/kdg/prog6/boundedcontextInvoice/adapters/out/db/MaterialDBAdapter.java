@@ -23,16 +23,6 @@ public class MaterialDBAdapter implements LoadMaterialPort {
         return materialJpaEntity.map(this::buildMaterialObject);
     }
 
-    @Override
-    public List<Material> findAllMaterials() {
-
-        List<MaterialJpaEntity> materialJpaEntities = materialJpaEntityRepository.findAll();
-
-        return materialJpaEntities.stream()
-                .map(this::buildMaterialObject)
-                .toList();
-    }
-
     private Material buildMaterialObject(MaterialJpaEntity materialJpaEntity) {
         return new Material(materialJpaEntity.getMaterialType(), materialJpaEntity.getDescription(),materialJpaEntity.getStoragePricePerTonPerDay(),
                 materialJpaEntity.getPricePerTon());

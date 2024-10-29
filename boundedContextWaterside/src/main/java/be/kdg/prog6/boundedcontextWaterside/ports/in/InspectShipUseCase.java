@@ -4,5 +4,5 @@ import be.kdg.prog6.boundedcontextWaterside.domain.ShipmentOrder;
 
 public interface InspectShipUseCase {
 
-    public ShipmentOrder inspect(InspectShipCommand inspectShipCommand);
+    ShipmentOrder inspect(InspectShipCommand inspectShipCommand);
 }

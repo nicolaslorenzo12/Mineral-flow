@@ -44,40 +44,20 @@ public class ShipmentOrderJpaEntity {
         return estimatedArrivalDate;
     }
 
-    public void setEstimatedArrivalDate(LocalDate estimatedArrivalDate) {
-        this.estimatedArrivalDate = estimatedArrivalDate;
-    }
-
     public LocalDate getEstimatedDepartureDate() {
         return estimatedDepartureDate;
-    }
-
-    public void setEstimatedDepartureDate(LocalDate estimatedDepartureDate) {
-        this.estimatedDepartureDate = estimatedDepartureDate;
     }
 
     public LocalDate getActualArrivalDate() {
         return actualArrivalDate;
     }
 
-    public void setActualArrivalDate(LocalDate actualArrivalDate) {
-        this.actualArrivalDate = actualArrivalDate;
-    }
-
     public LocalDate getActualDepartureDate() {
         return actualDepartureDate;
     }
 
-    public void setActualDepartureDate(LocalDate actualDepartureDate) {
-        this.actualDepartureDate = actualDepartureDate;
-    }
-
     public ShipmentStatus getShipmentStatus() {
         return shipmentStatus;
-    }
-
-    public void setShipmentStatus(ShipmentStatus shipmentStatus) {
-        this.shipmentStatus = shipmentStatus;
     }
 
     public UUID getShipmentOrderUUID() {

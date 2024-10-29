@@ -36,21 +36,4 @@ public class AddressJpaEntitiy {
     public UUID getAddressUUID() {
         return addressUUID;
     }
-
-
-    public String getStreet() {
-        return street;
-    }
-
-    public int getHouseNumber() {
-        return houseNumber;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public String getCountry() {
-        return country;
-    }
 }

@@ -1,6 +1,5 @@
 package be.kdg.prog6.boundedcontextWarehouse.core;
 
-import be.kdg.prog6.boundedcontextWarehouse.ports.out.LoadMaterialPort;
 import be.kdg.prog6.boundedcontextWarehouse.ports.out.UpdateInvoicePort;
 import be.kdg.prog6.common.domain.Storage;
 import be.kdg.prog6.boundedcontextWarehouse.domain.Warehouse;

@@ -5,7 +5,6 @@ import be.kdg.prog6.boundedcontextLandside.ports.in.GetMaterialByMaterialTypeCom
 import be.kdg.prog6.boundedcontextLandside.ports.in.GetMaterialUseCase;
 import be.kdg.prog6.boundedcontextLandside.ports.out.LoadMaterialPort;
 import be.kdg.prog6.common.domain.Material;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

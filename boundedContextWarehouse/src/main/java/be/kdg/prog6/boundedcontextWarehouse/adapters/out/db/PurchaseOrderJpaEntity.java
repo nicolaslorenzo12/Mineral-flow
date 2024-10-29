@@ -47,10 +47,6 @@ public class PurchaseOrderJpaEntity {
         return poNumber;
     }
 
-    public void setPoNumber(String poNumber) {
-        this.poNumber = poNumber;
-    }
-
     public UUID getSellerUUID() {
         return sellerUUID;
     }
@@ -63,52 +59,19 @@ public class PurchaseOrderJpaEntity {
         return buyerUUID;
     }
 
-    public void setBuyerUuid(UUID buyerUuid) {
-        this.buyerUUID = buyerUuid;
-    }
-
     public String getVesselNumber() {
         return vesselNumber;
-    }
-
-    public void setVesselNumber(String vesselNumber) {
-        this.vesselNumber = vesselNumber;
     }
 
     public LocalDate getPurchaseOrderDate() {
         return purchaseOrderDate;
     }
 
-    public void setPurchaseOrderDate(LocalDate purchaseOrderDate) {
-        this.purchaseOrderDate = purchaseOrderDate;
-    }
-
-    public void addOrderLineJpaEntity(OrderLineJpaEntity orderLineJpaEntity) {
-
-        orderLines.add(orderLineJpaEntity);
-    }
-
     public List<OrderLineJpaEntity> getOrderLines() {
         return orderLines;
     }
 
-    public void setOrderLines(List<OrderLineJpaEntity> orderLines) {
-        this.orderLines = orderLines;
-    }
-
     public UUID getShipmentOrderUUID() {
         return shipmentOrderUUID;
-    }
-
-    public void setShipmentOrderUUID(UUID purchaseOrderUUID) {
-        this.shipmentOrderUUID = purchaseOrderUUID;
-    }
-
-    public UUID getBuyerUUID() {
-        return buyerUUID;
-    }
-
-    public void setBuyerUUID(UUID buyerUUID) {
-        this.buyerUUID = buyerUUID;
     }
 }

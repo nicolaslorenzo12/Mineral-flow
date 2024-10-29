@@ -9,6 +9,5 @@ import java.util.UUID;
 
 @Repository("landsideWarehouseRepository")
 public interface WarehouseRepository  extends JpaRepository<WarehouseJpaEntity, Integer> {
-    Optional<WarehouseJpaEntity> findByWareHouseNumber(int warehouseNumber);
     Optional<WarehouseJpaEntity> findBySellerUUIDAndMaterialType(UUID sellerUuid, MaterialType materialType);
 }

@@ -34,16 +34,8 @@ public class WarehouseJpaEntity {
         return wareHouseNumber;
     }
 
-    public void setWareHouseNumber(int wareHouseNumber) {
-        this.wareHouseNumber = wareHouseNumber;
-    }
-
     public UUID getSellerUUID() {
         return sellerUUID;
-    }
-
-    public void setSellerUUID(UUID sellerUUID) {
-        this.sellerUUID = sellerUUID;
     }
 
     public MaterialType getMaterialType() {
@@ -56,9 +48,5 @@ public class WarehouseJpaEntity {
 
     public int getUtilizationCapacity() {
         return utilizationCapacity;
-    }
-
-    public void setUtilizationCapacity(int utilizationCapacity) {
-        this.utilizationCapacity = utilizationCapacity;
     }
 }
