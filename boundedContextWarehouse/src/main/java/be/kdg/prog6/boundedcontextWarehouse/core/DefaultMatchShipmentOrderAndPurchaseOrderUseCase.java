@@ -1,6 +1,6 @@
 package be.kdg.prog6.boundedcontextWarehouse.core;
 
-import be.kdg.prog6.common.domain.PurchaseOrder;
+import be.kdg.prog6.boundedcontextWarehouse.domain.PurchaseOrder;
 import be.kdg.prog6.boundedcontextWarehouse.ports.in.MatchShipmentOrderWithPurchaseOrderUseCase;
 import be.kdg.prog6.boundedcontextWarehouse.ports.out.LoadPurchaseOrderPort;
 import be.kdg.prog6.boundedcontextWarehouse.ports.out.UpdatePurchaseOrderPort;

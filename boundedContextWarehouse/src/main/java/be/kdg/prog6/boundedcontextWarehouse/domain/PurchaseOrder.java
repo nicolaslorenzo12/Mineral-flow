@@ -1,4 +1,7 @@
-package be.kdg.prog6.common.domain;
+package be.kdg.prog6.boundedcontextWarehouse.domain;
+
+import be.kdg.prog6.common.domain.Customer;
+import be.kdg.prog6.common.domain.OrderLine;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -8,8 +11,8 @@ public class PurchaseOrder {
 
     private final String poNumber;
     private final UUID shipmentOrderUUID;
-    private final Seller.CustomerUUID sellerUuid;
-    private final Buyer.CustomerUUID buyerUuid;
+    private final Customer.CustomerUUID sellerUuid;
+    private final Customer.CustomerUUID buyerUuid;
     private final String vesselNumber;
     private final LocalDate date;
     private final List<OrderLine> orderLineList;
@@ -25,7 +28,7 @@ public class PurchaseOrder {
         this.orderLineList = orderLineList;
     }
 
-    public Seller.CustomerUUID getSellerUuid() {
+    public Customer.CustomerUUID getSellerUuid() {
         return sellerUuid;
     }
 

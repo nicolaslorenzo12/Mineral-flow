@@ -1,5 +1,6 @@
 package be.kdg.prog6.boundedcontextWarehouse.adapters.out.db;
 
+import be.kdg.prog6.boundedcontextWarehouse.domain.PurchaseOrder;
 import be.kdg.prog6.common.domain.*;
 import be.kdg.prog6.boundedcontextWarehouse.ports.out.LoadPurchaseOrderPort;
 import jakarta.transaction.Transactional;
