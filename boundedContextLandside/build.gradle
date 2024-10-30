@@ -15,6 +15,8 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-security'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
+    implementation 'mysql:mysql-connector-java:8.0.33'
+
 
     //MAJOR VULNERABILITY
     //CVE-2021-44228 -> Base Score: CRITICAL (10.0)

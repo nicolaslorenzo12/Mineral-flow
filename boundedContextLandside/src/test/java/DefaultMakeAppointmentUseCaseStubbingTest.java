@@ -14,8 +14,9 @@ import java.util.NoSuchElementException;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
-class DefaultMakeAppointmentUseCaseTest {
+class DefaultMakeAppointmentUseCaseStubbingTest {
 
     private DefaultMakeAppointmentUseCase makeAppointmentUseCase;
     private StubLoadOrCreateWarehousePort loadOrCreateWarehousePort;
@@ -27,10 +28,10 @@ class DefaultMakeAppointmentUseCaseTest {
 
     @BeforeEach
     void setUp() {
-        loadOrCreateWarehousePort = new StubLoadOrCreateWarehousePort();
-        loadDailyCalendarPort = new StubLoadOrCreateDailyCalendarPort();
-        updateDailyCalendarPort1 = new StubUpdateDailyCalendarPort();
-        updateDailyCalendarPort2 = new StubUpdateDailyCalendarPort();
+        loadOrCreateWarehousePort = spy(new StubLoadOrCreateWarehousePort());
+        loadDailyCalendarPort = spy(new StubLoadOrCreateDailyCalendarPort());
+        updateDailyCalendarPort1 = spy(new StubUpdateDailyCalendarPort());
+        updateDailyCalendarPort2 = spy(new StubUpdateDailyCalendarPort());
         makeAppointmentUseCase = new DefaultMakeAppointmentUseCase(
                 loadOrCreateWarehousePort, loadDailyCalendarPort, List.of(updateDailyCalendarPort1, updateDailyCalendarPort2)
         );
@@ -66,8 +67,11 @@ class DefaultMakeAppointmentUseCaseTest {
         assertEquals(material.getMaterialType(), appointment.getMaterialType());
         assertEquals(warehouse.getWareHouseNumber(), appointment.getWarehouseNumber());
         assertEquals(dailyCalendar.getAppointmentList().size(), initialAppointmentsOfDailyCalendarSize + 1);
-        assertEquals(StubUpdateDailyCalendarPort.callCounter, 2);
-        assertEquals(StubWarehouse.callCounter, 1);
+
+        // Verify
+        verify(updateDailyCalendarPort1, times(1)).updateDailyCalendar(dailyCalendar, appointment);
+        verify(updateDailyCalendarPort2, times(1)).updateDailyCalendar(dailyCalendar, appointment);
+        verify(loadOrCreateWarehousePort, times(1)).loadWarehouseBySellerUUIDAndMaterialType(sellerUUID.uuid(), material.getMaterialType());
     }
 
     @Test
@@ -89,11 +93,12 @@ class DefaultMakeAppointmentUseCaseTest {
         MakeAppointmentCommand command = new MakeAppointmentCommand(seller, material,"ABC123", appointmentTime);
 
 
-        // Act & assert
+        // Act & Assert
         NoSuchElementException exception = assertThrows(NoSuchElementException.class, () -> {
             makeAppointmentUseCase.makeAppointment(command);
         });
 
+        // Assert
         assertEquals("Warehouse not found, it should be created in advance", exception.getMessage());
     }
 }

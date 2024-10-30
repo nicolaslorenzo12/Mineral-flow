@@ -85,7 +85,7 @@ public class Appointment {
         return arrivalTime;
     }
 
-    public void setArrivalTime(LocalDateTime arrivalTime, TruckStatus truckStatus) {
+    public void setArrivalTimeIfArrivingForFirstTime(LocalDateTime arrivalTime, TruckStatus truckStatus) {
         this.checkIfTruckHasAlreadyGottenThisStatus(truckStatus);
         this.arrivalTime = arrivalTime;
     }

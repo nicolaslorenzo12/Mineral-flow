@@ -121,5 +121,14 @@ public class AppointmentJpaEntity {
     public DailyCalendarJpaEntity getDailyCalendarJpaEntity() {
         return dailyCalendarJpaEntity;
     }
+
+    public void setDailyCalendarJpaEntity(DailyCalendarJpaEntity dailyCalendarJpaEntity) {
+
+        this.dailyCalendarJpaEntity = dailyCalendarJpaEntity;
+    }
+
+    public void setTruckStatus(TruckStatus status) {
+        this.status = status;
+    }
 }
 

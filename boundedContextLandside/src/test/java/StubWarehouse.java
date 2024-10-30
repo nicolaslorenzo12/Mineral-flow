@@ -7,10 +7,7 @@ public class StubWarehouse extends Warehouse {
         super(wareHouseNumber, sellerUUID, materialType);
     }
 
-    public static int callCounter;
-
     @Override
     public void checkIfMaximumStockPercentageExceeded() {
-        callCounter++;
     }
 }
