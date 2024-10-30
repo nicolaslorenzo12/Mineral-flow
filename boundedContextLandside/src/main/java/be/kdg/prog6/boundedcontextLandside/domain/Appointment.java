@@ -3,7 +3,6 @@ import be.kdg.prog6.common.domain.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Objects;
 import java.util.Random;
 import java.util.UUID;
 
@@ -150,6 +149,7 @@ public class Appointment {
         updateAppointmentStatus(truckStatus);
     }
 
+
     public void proccessWeighting(){
         if(this.getInitialWeight() == 0){
             checkIfTruckHasAlreadyGottenThisStatus(TruckStatus.WEIGHTINGFIRSTTIME);
@@ -162,6 +162,7 @@ public class Appointment {
             setDepartureTime(LocalDateTime.now());
         }
     }
+
 
     private int generateRandomWeight() {
         Random random = new Random();
@@ -176,32 +177,5 @@ public class Appointment {
     public void updateAppointmentStatus(TruckStatus truckStatus) {
        this.setStatus(truckStatus);
     }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Appointment that = (Appointment) o;
-        return gateNumber == that.gateNumber &&
-                warehouseNumber == that.warehouseNumber &&
-                initialWeight == that.initialWeight &&
-                finalWeight == that.finalWeight &&
-                sellerUUID.equals(that.sellerUUID) &&
-                appointmentTime.equals(that.appointmentTime) &&
-                materialType == that.materialType &&
-                Objects.equals(licensePlateNumberOfTruck, that.licensePlateNumberOfTruck) &&
-                Objects.equals(status, that.status) &&
-                Objects.equals(arrivalTime, that.arrivalTime) &&
-                Objects.equals(departureTime, that.departureTime) &&
-                Objects.equals(appointmentUUID, that.appointmentUUID);
-    }
-
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(sellerUUID, gateNumber, appointmentTime, materialType, licensePlateNumberOfTruck, status,
-                warehouseNumber, initialWeight, finalWeight, arrivalTime, departureTime, appointmentUUID);
-    }
-
 
 }

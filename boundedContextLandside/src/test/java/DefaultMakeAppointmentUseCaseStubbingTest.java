@@ -56,6 +56,7 @@ class DefaultMakeAppointmentUseCaseStubbingTest {
         MakeAppointmentCommand command = new MakeAppointmentCommand(seller, material,"ABC123", appointmentTime);
 
         int initialAppointmentsOfDailyCalendarSize = dailyCalendar.getAppointmentList().size();
+
         // Act
         Appointment appointment = makeAppointmentUseCase.makeAppointment(command);
 
