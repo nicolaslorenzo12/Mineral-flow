@@ -6,6 +6,8 @@ import be.kdg.prog6.boundedcontextWarehouse.ports.out.LoadPurchaseOrderPort;
 import be.kdg.prog6.boundedcontextWarehouse.ports.out.UpdatePurchaseOrderPort;
 import be.kdg.prog6.common.commands.MatchShipmentOrderWithPurchaseOrderCommand;
 import org.springframework.stereotype.Service;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.time.LocalDate;
 import java.util.UUID;
@@ -15,6 +17,7 @@ public class DefaultMatchShipmentOrderAndPurchaseOrderUseCase implements MatchSh
 
     private final LoadPurchaseOrderPort loadPurchaseOrderPort;
     private final UpdatePurchaseOrderPort updatePurchaseOrderPort;
+    private static final Logger logger = LoggerFactory.getLogger(DefaultMatchShipmentOrderAndPurchaseOrderUseCase.class);
 
     public DefaultMatchShipmentOrderAndPurchaseOrderUseCase(LoadPurchaseOrderPort loadPurchaseOrderPort, UpdatePurchaseOrderPort updatePurchaseOrderPort) {
         this.loadPurchaseOrderPort = loadPurchaseOrderPort;
@@ -29,11 +32,11 @@ public class DefaultMatchShipmentOrderAndPurchaseOrderUseCase implements MatchSh
                 (matchShipmentOrderWithPurchaseOrderCommand.shipmentOrderUUID());
 
         if(shipmentOrderUUID.equals(purchaseOrder.getShipmentOrderUUID())){
-            System.out.println("Shipment order and purchase order match");
+            logger.info("Shipment order and purchase order match");
             updatePurchaseOrderPort.shipmentOrderAndPurchaseOrderMatched(shipmentOrderUUID, LocalDate.now());
         }
         else{
-            System.out.println("do not match");
+            logger.warn("Shipment order and purchase order do not match");
         }
     }
 }
