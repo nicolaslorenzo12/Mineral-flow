@@ -19,7 +19,7 @@ public class DefaultRequestPdtsForInvoiceRecordSavingUseCase {
     }
 
     //@Scheduled(cron = "0 0 9 * * ?")
-    @Scheduled(cron = "0 18 15 * * ?")
+    @Scheduled(cron = "0 33 18 * * ?")
     public void requestPdtForInvoiceCalculation() {
 
         updateInvoicePorts.forEach(updateInvoiceRecordPort -> updateInvoiceRecordPort.updateInvoiceRecord
