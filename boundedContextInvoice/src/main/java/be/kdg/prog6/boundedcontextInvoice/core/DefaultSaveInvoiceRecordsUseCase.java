@@ -20,12 +20,10 @@ import java.util.UUID;
 public class DefaultSaveInvoiceRecordsUseCase implements SaveInvoiceRecordsUseCase {
 
     private final List<UpdateInvoiceRecordPort> updateInvoicePorts;
-    private final LoadSellerPort loadSellerPort;
     private final LoadWarehousePort loadWarehousePort;
 
-    public DefaultSaveInvoiceRecordsUseCase(List<UpdateInvoiceRecordPort> updateInvoicePorts, LoadSellerPort loadSellerPort, LoadWarehousePort loadWarehousePort) {
+    public DefaultSaveInvoiceRecordsUseCase(List<UpdateInvoiceRecordPort> updateInvoicePorts, LoadWarehousePort loadWarehousePort) {
         this.updateInvoicePorts = updateInvoicePorts;
-        this.loadSellerPort = loadSellerPort;
         this.loadWarehousePort = loadWarehousePort;
     }
 

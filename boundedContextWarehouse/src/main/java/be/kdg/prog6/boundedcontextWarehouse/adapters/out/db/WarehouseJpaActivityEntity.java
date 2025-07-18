@@ -13,7 +13,6 @@ import java.util.UUID;
 public class WarehouseJpaActivityEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @JdbcTypeCode(Types.VARCHAR)
     private UUID uuid;
 
     @Column(nullable = false)
